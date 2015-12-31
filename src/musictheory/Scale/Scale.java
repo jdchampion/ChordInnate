@@ -11,7 +11,7 @@ public class Scale {
     private static String rootName;
     private static int root;
     private static ScaleType scaleType;
-    private ArrayList<Note> notes;
+    private ArrayList<Note> notes = new ArrayList<>();
     private static int octaveRange;
     private static int currentOctave;
 
