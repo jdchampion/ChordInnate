@@ -4,16 +4,15 @@ package musictheory.Note;
  * Created by Joseph on 12/30/15.
  */
 public class RegularNote extends Note {
-    RegularNote(String s, int relativePitch, int octave, int midiValue) {
+    RegularNote(String s, int relativePitch, int octaveRange) {
         super(NoteType.NON_ACCIDENTAL);
-        construct(s, relativePitch, octave, midiValue);
+        construct(s, relativePitch, octaveRange);
     }
 
     @Override
-    protected void construct(String s, int relativePitch, int octave, int midiValue) {
+    protected void construct(String s, int relativePitch, int octaveRange) {
         this.name = s;
         this.relativePitch = relativePitch;
-        this.octave = octave;
-        this.midiValue = midiValue;
+        this.octaveRange = octaveRange;
     }
 }

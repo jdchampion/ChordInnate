@@ -8,7 +8,6 @@ import musictheory.Note.NoteFactory;
  */
 public class TESTMUSICTHEORY {
     public static void main(String[] args) {
-        NoteFactory nf = new NoteFactory();
-        Note c5 = nf.buildNote("C", 5);
+        Note c5 = NoteFactory.buildNote("C");
     }
 }

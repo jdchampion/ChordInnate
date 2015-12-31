@@ -5,22 +5,22 @@ package musictheory.Note;
  */
 
 public class NoteFactory {
-    private static final int[][] OCTAVES = {
-            {0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120},
-            {1, 13, 25, 37, 49, 61, 73, 85, 97, 109, 121},
-            {2, 14, 26, 38, 50, 62, 74, 86, 98, 110, 122},
-            {3, 15, 27, 39, 51, 63, 75, 87, 99, 111, 123},
-            {4, 16, 28, 40, 52, 64, 76, 88, 100, 112, 124},
-            {5, 17, 29, 41, 53, 65, 77, 89, 101, 113, 125},
-            {6, 18, 30, 42, 54, 66, 78, 90, 102, 114, 126},
-            {7, 19, 31, 43, 55, 67, 79, 91, 103, 115, 127},
-            {8, 20, 32, 44, 56, 68, 80, 92, 104, 116},
-            {9, 21, 33, 45, 57, 69, 81, 93, 105, 117},
-            {10, 22, 34, 46, 58, 70, 82, 94, 106, 118},
-            {11, 23, 35, 47, 59, 71, 83, 95, 107, 119}
-    };
+//    private static final int[][] OCTAVES = {
+//            {0, 12, 24, 36, 48, 60, 72, 84, 96, 108, 120},
+//            {1, 13, 25, 37, 49, 61, 73, 85, 97, 109, 121},
+//            {2, 14, 26, 38, 50, 62, 74, 86, 98, 110, 122},
+//            {3, 15, 27, 39, 51, 63, 75, 87, 99, 111, 123},
+//            {4, 16, 28, 40, 52, 64, 76, 88, 100, 112, 124},
+//            {5, 17, 29, 41, 53, 65, 77, 89, 101, 113, 125},
+//            {6, 18, 30, 42, 54, 66, 78, 90, 102, 114, 126},
+//            {7, 19, 31, 43, 55, 67, 79, 91, 103, 115, 127},
+//            {8, 20, 32, 44, 56, 68, 80, 92, 104, 116},
+//            {9, 21, 33, 45, 57, 69, 81, 93, 105, 117},
+//            {10, 22, 34, 46, 58, 70, 82, 94, 106, 118},
+//            {11, 23, 35, 47, 59, 71, 83, 95, 107, 119}
+//    };
 
-    public static Note buildNote(String noteName, int octave) {
+    public static Note buildNote(String noteName) {
         int relativePitch = -1;
         int nameLength = noteName.length();
         NoteType noteType = null;
@@ -66,14 +66,12 @@ public class NoteFactory {
                 if (noteType.isAccidental()) {
                     return new AccidentalNote(noteName,
                             relativePitch,
-                            octave,
-                            OCTAVES[relativePitch][octave]);
+                            getNumOctavesFor(noteName));
                 }
                 else {
                     return new RegularNote(noteName,
                             relativePitch,
-                            octave,
-                            OCTAVES[relativePitch][octave]);
+                            getNumOctavesFor(noteName));
                 }
             }
         }
@@ -92,42 +90,42 @@ public class NoteFactory {
         }
     }
 
-    protected int getNumOctavesFor(String s) {
+    protected static int getNumOctavesFor(String s) {
         switch(s) {
             case "B#":
             case "C":
-            case "Dbb": return OCTAVES[0].length;
+            case "Dbb": // return OCTAVES[0].length;
             case "C#":
-            case "Db":  return OCTAVES[1].length;
+            case "Db":  // return OCTAVES[1].length;
             case "Cx":
             case "D":
-            case "Ebb": return OCTAVES[2].length;
+            case "Ebb": // return OCTAVES[2].length;
             case "D#":
             case "Eb":
-            case "Fbb": return OCTAVES[3].length;
+            case "Fbb": // return OCTAVES[3].length;
             case "Dx":
             case "E":
-            case "Fb":  return OCTAVES[4].length;
+            case "Fb":  // return OCTAVES[4].length;
             case "E#":
             case "F":
-            case "Gbb": return OCTAVES[5].length;
+            case "Gbb": // return OCTAVES[5].length;
             case "Ex":
             case "F#":
-            case "Gb":  return OCTAVES[6].length;
+            case "Gb":  // return OCTAVES[6].length;
             case "Fx":
             case "G":
-            case "Abb": return OCTAVES[7].length;
+            case "Abb": return 11; // OCTAVES[7].length;
             case "G#":
-            case "Ab":  return OCTAVES[8].length;
+            case "Ab":  // return OCTAVES[8].length;
             case "Gx":
             case "A":
-            case "Bbb": return OCTAVES[9].length;
+            case "Bbb": // return OCTAVES[9].length;
             case "A#":
             case "Bb":
-            case "Cbb": return OCTAVES[10].length;
+            case "Cbb": // return OCTAVES[10].length;
             case "Ax":
             case "B":
-            case "Cb":  return OCTAVES[11].length;
+            case "Cb":  return 10; // OCTAVES[11].length;
             default: return -1;
         }
     }
