@@ -29,6 +29,8 @@ public class TESTNOTE {
 
             testDescendingNotes(PLAYBACK);
 
+            testIntervalNotes(PLAYBACK);
+
             synthesizer.close();
         }
         catch (Exception ex) {}
@@ -73,6 +75,17 @@ public class TESTNOTE {
                 System.out.println(" \t(isAccidental: " + ALL_NOTES[i].hasAccidentalSymbol() + ")");
             }
             System.out.println("\n==========================================\n");
+        }
+    }
+
+    private static void testIntervalNotes(boolean soundNotes) {
+        for(Interval interval: Interval.values()) {
+            System.out.println(interval.toString());
+            System.out.println("Short Name: " + interval.quality.identifier + interval.intervalNumber);
+            System.out.println("RomanNumeral: " + interval.romanNumeral.identifier);
+            System.out.println("=======================================");
+            soundNote(60 ,127);
+            soundNote(60 + interval.relativePitchDistance, 127);
         }
     }
 }
