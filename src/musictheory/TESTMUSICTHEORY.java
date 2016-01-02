@@ -3,7 +3,6 @@ package musictheory;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Synthesizer;
-import javax.xml.bind.ValidationException;
 
 /**
  * Created by Joseph on 12/29/15.
@@ -36,7 +35,7 @@ public class TESTMUSICTHEORY {
 //
 //            testDescendingNotes(PLAYBACK);
 //
-            testIntervalNotes(PLAYBACK);
+//            testIntervalNotes(PLAYBACK);
 
             synthesizer.close();
         }
@@ -111,29 +110,37 @@ public class TESTMUSICTHEORY {
 
                     System.out.println(root.getName() + " " + root.name());
 
+                    System.out.println("Key Signature: " + scale.getKeySignature());
+
                     // TODO print the scale notes out, and sound them
                     for (int i = 0; i < scaleType.sequence.length; i++) {
                         System.out.print(scaleType.sequence[i] + ": ");
 
-                        for (Note n : Note.values()) {
-                            if (scaleType.sequence[i] == n.getRelativePitch()) {
+//                        Note[] notes = scale.getNotes();
+//                        for (Note n : notes) {
+//                            System.out.print(n.getName() + " ");
+//                            if (soundNotes) soundNote(n.getRelativePitch(), 127);
+//                        }
 
-                                // FIXME need to create KeySignature class to get matching Note names and pitches for the scale
-
-                                System.out.print(n.getName() + " ");
-
-                                if (soundNotes) {
-                                    soundNote((60 + scale.getRoot().getRelativePitch() + n.getRelativePitch()), 127);
-                                }
-                            }
-                        }
+//                        for (Note n : Note.values()) {
+//                            if (scaleType.sequence[i] == n.getRelativePitch()) {
+//
+//                                // FIXME need to create KeySignature class to get matching Note names and pitches for the scale
+//
+//                                System.out.print(n.getName() + " ");
+//
+//                                if (soundNotes) {
+//                                    soundNote((60 + scale.getRoot().getRelativePitch() + n.getRelativePitch()), 127);
+//                                }
+//                            }
+//                        }
 
                         System.out.println();
                     }
 
                     System.out.println("\n==========================================");
 
-                } catch (ValidationException e) {
+                } catch (Exception e) {
                     // Skip the natural notes (don't generate scales from them)
                 }
             }
