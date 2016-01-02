@@ -3,6 +3,7 @@ package musictheory;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Synthesizer;
+import javax.xml.bind.ValidationException;
 
 /**
  * Created by Joseph on 12/29/15.
@@ -35,7 +36,7 @@ public class TESTMUSICTHEORY {
 //
 //            testDescendingNotes(PLAYBACK);
 //
-//            testIntervalNotes(PLAYBACK);
+            testIntervalNotes(PLAYBACK);
 
             synthesizer.close();
         }
@@ -101,15 +102,40 @@ public class TESTMUSICTHEORY {
     private static void testScale(boolean soundNotes) {
         for (ScaleType scaleType: ScaleType.values()) {
             for (Note note : Note.values()) {
-                scale = new Scale(note, scaleType);
-                System.out.print(scale.getName() + ": ");
+                try {
+                    scale = new Scale(note, scaleType);
 
-                Note root = scale.getRoot();
+                    System.out.print(scale.getName() + ": ");
 
-                System.out.print(root.getName() + " " + root.name());
+                    Note root = scale.getRoot();
 
-                // TODO print the scale notes out
-                System.out.println();
+                    System.out.println(root.getName() + " " + root.name());
+
+                    // TODO print the scale notes out, and sound them
+                    for (int i = 0; i < scaleType.sequence.length; i++) {
+                        System.out.print(scaleType.sequence[i] + ": ");
+
+                        for (Note n : Note.values()) {
+                            if (scaleType.sequence[i] == n.getRelativePitch()) {
+
+                                // FIXME need to create KeySignature class to get matching Note names and pitches for the scale
+
+                                System.out.print(n.getName() + " ");
+
+                                if (soundNotes) {
+                                    soundNote((60 + scale.getRoot().getRelativePitch() + n.getRelativePitch()), 127);
+                                }
+                            }
+                        }
+
+                        System.out.println();
+                    }
+
+                    System.out.println("\n==========================================");
+
+                } catch (ValidationException e) {
+                    // Skip the natural notes (don't generate scales from them)
+                }
             }
         }
     }
