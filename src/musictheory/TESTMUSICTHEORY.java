@@ -18,6 +18,8 @@ public class TESTMUSICTHEORY {
     // Variable for testing scales
     static Scale scale;
 
+    static KeySignature keySignature;
+
     static MidiChannel[] channels;
 
     public static void main(String[] args) {
@@ -110,33 +112,23 @@ public class TESTMUSICTHEORY {
 
                     System.out.println(root.getName() + " " + root.name());
 
-                    System.out.println("Key Signature: " + scale.getKeySignature());
+                    keySignature = scale.getKeySignature();
+
+                    System.out.print("Key Signature: " + keySignature + "( ");
+                    for (Note n : keySignature.notes) {
+                        System.out.print(n.getName() + " ");
+                    }
+
+                    System.out.println(")");
 
                     // TODO print the scale notes out, and sound them
-                    for (int i = 0; i < scaleType.sequence.length; i++) {
-                        System.out.print(scaleType.sequence[i] + ": ");
-
-//                        Note[] notes = scale.getNotes();
-//                        for (Note n : notes) {
-//                            System.out.print(n.getName() + " ");
-//                            if (soundNotes) soundNote(n.getRelativePitch(), 127);
-//                        }
-
-//                        for (Note n : Note.values()) {
-//                            if (scaleType.sequence[i] == n.getRelativePitch()) {
-//
-//                                // FIXME need to create KeySignature class to get matching Note names and pitches for the scale
-//
-//                                System.out.print(n.getName() + " ");
-//
-//                                if (soundNotes) {
-//                                    soundNote((60 + scale.getRoot().getRelativePitch() + n.getRelativePitch()), 127);
-//                                }
-//                            }
-//                        }
-
-                        System.out.println();
+                    System.out.print("Notes: ");
+                    Note[] notes = scale.getAscendingNotes();
+                    for (Note n : notes) {
+                        System.out.print(n + " ");
                     }
+
+                    System.out.println();
 
                     System.out.println("\n==========================================");
 

@@ -101,50 +101,57 @@ public class Scale {
         Note[] notes = new Note[scaleLength];
         notes[0] = root;
 
-        for (int i = 1; i < scaleLength; i++) {
-            switch(scaleType.sequence[i]) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                default:
+        // Fill in the notes from the key signature
+        for (int i = 0; i < scaleLength; i++) {
+            for (int j = 0; j < keySignature.notes.length; j++) {
+                if ((scaleType.sequence[i] + root.getRelativePitch()) % 12 == keySignature.notes[j].getRelativePitch()) {
+                    notes[i] = keySignature.notes[j];
+                    break;
+                }
             }
         }
+
+        // TODO Fill in any non-accidentals
+        Note[] nonAccidentals = {Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B};
+
+        for (int i = 1; i < scaleLength && notes[i] == null; i++) {
+            for (Note n : nonAccidentals) {
+                if ((scaleType.sequence[i] + root.getRelativePitch()) % 12 == n.getRelativePitch()) {
+                    notes[i] = n;
+                    break;
+                }
+            }
+        }
+
+        // TODO Fill in any extreme accidentals
+
 
         return notes;
     }
 
-
-
-    public Note[] getDescendingNotes() {
-        int scaleLength = scaleType.sequence.length;
-        Note[] notes = new Note[scaleLength];
-        notes[scaleLength-1] = root;
-
-        for (int i = scaleLength-2; i >= 0; i--) {
-            switch(scaleType.sequence[i]) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                case 11:
-                default:
+    private Degree getDegreeFromRoot(int lowRelativePitch, int highRelativePitch, boolean flag) {
+        int relativePitchDistance = highRelativePitch - lowRelativePitch;
+        if (flag) {
+            return getDegreeFromRoot(root.getRelativePitch(), relativePitchDistance, false);
+        }
+        else {
+            int tmp = -1;
+            for (int i = 0; i < scaleType.sequence.length; i++) {
+                if (relativePitchDistance == scaleType.sequence[i])
+                    tmp = i;
+                break;
+            }
+            switch (tmp) {
+                // NOTE: There should only be eight possible degrees within a given scale
+                case 0: return Degree.ROOT;
+                case 1: return Degree.SECOND;
+                case 2: return Degree.THIRD;
+                case 3: return Degree.FOURTH;
+                case 4: return Degree.FIFTH;
+                case 5: return Degree.SIXTH;
+                case 6: return Degree.SEVENTH;
+                default: return null;
             }
         }
-
-        return notes;
     }
 }

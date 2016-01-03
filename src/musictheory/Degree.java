@@ -3,7 +3,7 @@ package musictheory;
 /**
  * Created by Joseph on 1/2/16.
  */
-enum ScaleDegree {
+enum Degree {
     ROOT,
     SECOND,
     THIRD,
