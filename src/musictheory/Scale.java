@@ -2,6 +2,9 @@ package musictheory;
 
 /**
  * Created by Joseph on 1/1/16.
+ *
+ * References: https://en.wikibooks.org/wiki/Music_Theory/Scales_and_Intervals
+ *             http://study.com/academy/lesson/understanding-and-building-musical-scales-definitions-types-of-scales.html
  */
 public class Scale {
     private Note root;

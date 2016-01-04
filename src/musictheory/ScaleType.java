@@ -2,6 +2,9 @@ package musictheory;
 
 /**
  * Created by Joseph on 1/1/16.
+ *
+ * References: http://pianoencyclopedia.com/scales/
+ *             http://www.earmaster.com/music-theory-online/ch04/chapter-4-8.html
  */
 public enum ScaleType {
     MAJOR("Major",

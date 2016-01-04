@@ -2,6 +2,13 @@ package musictheory;
 
 /**
  * Created by Joseph on 1/1/16.
+ *
+ * References: https://en.wikibooks.org/wiki/Music_Theory/Scales_and_Intervals
+ *             http://musictheoryblog.blogspot.com/2007/02/roman-numeral-chord-notation.html
+ *             https://en.wikipedia.org/wiki/Interval_(music)
+ *             http://method-behind-the-music.com/theory/intervals/
+ *             http://www.musictheory.net/lessons/31
+ *             http://musictheory.alcorn.edu/Version2/theory1/interval.htm
  */
 public enum Interval {
     PERFECT_UNISON(0, Quality.PERFECT, 1, RomanNumeral.PERFECT_UNISON),

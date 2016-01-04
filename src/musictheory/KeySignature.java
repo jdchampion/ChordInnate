@@ -2,6 +2,8 @@ package musictheory;
 
 /**
  * Created by Joseph on 1/2/16.
+ *
+ * Reference: https://en.wikipedia.org/wiki/Relative_key
  */
 public enum KeySignature {
 
