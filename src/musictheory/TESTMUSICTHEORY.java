@@ -1,9 +1,12 @@
 package musictheory;
 
+import org.jgrapht.graph.*;
+
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
+import javax.sql.rowset.serial.SerialStruct;
 
 /**
  * Created by Joseph on 12/29/15.
@@ -26,6 +29,23 @@ public class TESTMUSICTHEORY {
 
     public static void main(String[] args) {
 
+
+//        SimpleDirectedGraph<Note, DefaultEdge> directedGraph =
+//                new SimpleDirectedGraph<>(DefaultEdge.class);
+//
+//        Note[] notes = {Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B};
+//        directedGraph.addVertex(notes[0]);
+//        for (int i = 1; i < notes.length; i++) {
+//            directedGraph.addVertex(notes[i]);
+//            directedGraph.addEdge(notes[i-1], notes[i]);
+//        }
+//        System.out.println(directedGraph.toString());
+//
+//        Note n = directedGraph.getEdgeSource(directedGraph.getEdge(Note.C, Note.D));
+//        System.out.println(n);
+//        n = directedGraph.getEdgeTarget(directedGraph.getEdge(Note.C, Note.D));
+//        System.out.println(n);
+
         try {
             Synthesizer synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
@@ -33,7 +53,7 @@ public class TESTMUSICTHEORY {
 
             // TODO: Tests performed here
 
-            testScale(PLAYBACK);
+//            testScale(PLAYBACK);
 
 //            testAscendingNotes(PLAYBACK);
 //
