@@ -18,5 +18,19 @@ enum Degree {
     TENTH,
     ELEVENTH,
     TWELFTH,
-    THIRTEENTH
+    THIRTEENTH;
+
+    Degree getNext() {
+        return this.ordinal() < Degree.values().length - 1
+                ? Degree.values()[this.ordinal() + 1]
+                : null;
+    }
+
+    Degree getPrevious() {
+        return this.ordinal() > 0
+                ? Degree.values()[this.ordinal() - 1]
+                : null;
+    }
+
+
 }

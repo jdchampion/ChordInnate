@@ -11,6 +11,7 @@ public class Scale {
     private ScaleType scaleType;
     private KeySignature keySignature;
     private Step[] steps;
+    private Interval[] intervals;
 
     Scale(Note root, ScaleType scaleType) throws Exception {
         /*
@@ -27,10 +28,12 @@ public class Scale {
             throw new Exception("Scale is not Enharmonically correct.");
         }
         setSteps();
+        setIntervals();
     }
 
     private void setSteps() {
         steps = new Step[scaleType.sequence.length-1];
+
         for (int i = 1; i < scaleType.sequence.length; i++) {
             int intervalDistance = scaleType.sequence[i] - scaleType.sequence[i-1];
             switch(intervalDistance) {
@@ -41,6 +44,24 @@ public class Scale {
                 default: steps[i-1] = null;
             }
         }
+    }
+
+    private void setIntervals() {
+        // TODO assuming we already have the steps for this scale
+        intervals = new Interval[steps.length];
+
+        for (int i = 1; i < scaleType.sequence.length; i++) {
+            intervals[i-1] = getIntervalForDegreeAndStep(steps[i-1], scaleType.sequence[i]);
+        }
+    }
+
+    private Interval getIntervalForDegreeAndStep(Step step, int toDegree) {
+        int rootRelativePitch = root.getRelativePitch();
+
+        int relativePitchDistance = (toDegree - rootRelativePitch) % 12;
+
+        // TODO finish
+        return null;
     }
 
     private void setKeySignature(Note note) {
@@ -103,6 +124,11 @@ public class Scale {
         }
     }
 
+    // TODO
+    private Note getNextNoteFromInterval(Interval interval) {
+        return null;
+    }
+
     public Step[] getSteps() {
         return steps;
     }
@@ -125,6 +151,10 @@ public class Scale {
 
         // First note in the scale is the scale's root.
         notes[0] = root;
+
+
+
+
 
         // TODO Other cases will be needed here for scales with tonalities that are not MAJOR or MINOR.
 

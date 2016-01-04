@@ -6,7 +6,6 @@ import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
-import javax.sql.rowset.serial.SerialStruct;
 
 /**
  * Created by Joseph on 12/29/15.
@@ -28,8 +27,6 @@ public class TESTMUSICTHEORY {
     static MidiChannel[] channels;
 
     public static void main(String[] args) {
-
-
 //        SimpleDirectedGraph<Note, DefaultEdge> directedGraph =
 //                new SimpleDirectedGraph<>(DefaultEdge.class);
 //
@@ -117,8 +114,8 @@ public class TESTMUSICTHEORY {
     private static void testIntervalNotes(boolean playback) {
         for (Interval interval: Interval.values()) {
             System.out.println(interval.toString());
-            System.out.println("Short Name: " + interval.quality.identifier + interval.intervalNumber);
-            System.out.println("RomanNumeral: " + interval.romanNumeral.identifier);
+            System.out.println("Short Name: " + interval.getShortName());
+            System.out.println("RomanNumeral: " + interval.getRomanNumeralName());
             System.out.println("=======================================");
 
             soundNote(playback, 60, 127, 0);
@@ -221,7 +218,7 @@ public class TESTMUSICTHEORY {
     private static void testEnharmonicNotes(boolean playback) {
         for (Note note : Note.values()) {
             System.out.println("Note: " + note);
-            soundNote(playback, 60 + note.getRelativePitch(), 127, 0);
+            soundNote(playback, 60 + note.getRelativePitch(), 127, 200);
 
             for (Note n : note.getEnharmonicEquivalents(true, true)) {
                 System.out.print(n.getName() + " ");

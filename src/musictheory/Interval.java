@@ -11,108 +11,82 @@ package musictheory;
  *             http://musictheory.alcorn.edu/Version2/theory1/interval.htm
  */
 public enum Interval {
-    PERFECT_UNISON(0, Quality.PERFECT, 1, RomanNumeral.PERFECT_UNISON),
-    DIMINISHED_SECOND(0, Quality.DIMINISHED, 2, RomanNumeral.DIMINISHED_SECOND),
+    PERFECT_UNISON(0, IntervalQuality.PERFECT, 1),
+    DIMINISHED_SECOND(0, IntervalQuality.DIMINISHED, 2),
 
-    MINOR_SECOND(1, Quality.MINOR, 2, RomanNumeral.MINOR_SECOND),
-    AUGMENTED_UNISON(1, Quality.AUGMENTED, 1, RomanNumeral.AUGMENTED_UNISON),
+    MINOR_SECOND(1, IntervalQuality.MINOR, 2),
+    AUGMENTED_UNISON(1, IntervalQuality.AUGMENTED, 1),
 
-    MAJOR_SECOND(2, Quality.MAJOR, 2, RomanNumeral.MAJOR_SECOND),
-    DIMINISHED_THIRD(2, Quality.DIMINISHED, 3, RomanNumeral.DIMINISHED_THIRD),
+    MAJOR_SECOND(2, IntervalQuality.MAJOR, 2),
+    DIMINISHED_THIRD(2, IntervalQuality.DIMINISHED, 3),
 
-    MINOR_THIRD(3, Quality.MINOR, 3, RomanNumeral.MINOR_THIRD),
-    AUGMENTED_SECOND(3, Quality.AUGMENTED, 2, RomanNumeral.AUGMENTED_SECOND),
+    MINOR_THIRD(3, IntervalQuality.MINOR, 3),
+    AUGMENTED_SECOND(3, IntervalQuality.AUGMENTED, 2),
 
-    MAJOR_THIRD(4, Quality.MAJOR, 3, RomanNumeral.MAJOR_THIRD),
-    DIMINISHED_FOURTH(4, Quality.DIMINISHED, 4, RomanNumeral.DIMINISHED_FOURTH),
+    MAJOR_THIRD(4, IntervalQuality.MAJOR, 3),
+    DIMINISHED_FOURTH(4, IntervalQuality.DIMINISHED, 4),
 
-    PERFECT_FOURTH(5, Quality.PERFECT, 4, RomanNumeral.PERFECT_FOURTH),
-    AUGMENTED_THIRD(5, Quality.AUGMENTED, 3, RomanNumeral.AUGMENTED_THIRD),
+    PERFECT_FOURTH(5, IntervalQuality.PERFECT, 4),
+    AUGMENTED_THIRD(5, IntervalQuality.AUGMENTED, 3),
 
-    DIMINISHED_FIFTH(6, Quality.DIMINISHED, 5, RomanNumeral.DIMINISHED_FIFTH),
-    AUGMENTED_FOURTH(6, Quality.AUGMENTED, 4, RomanNumeral.AUGMENTED_FOURTH),
+    DIMINISHED_FIFTH(6, IntervalQuality.DIMINISHED, 5),
+    AUGMENTED_FOURTH(6, IntervalQuality.AUGMENTED, 4),
 
-    PERFECT_FIFTH(7, Quality.PERFECT, 5, RomanNumeral.PERFECT_FIFTH),
-    DIMINISHED_SIXTH(7, Quality.DIMINISHED, 6, RomanNumeral.DIMINISHED_SIXTH),
+    PERFECT_FIFTH(7, IntervalQuality.PERFECT, 5),
+    DIMINISHED_SIXTH(7, IntervalQuality.DIMINISHED, 6),
 
-    MINOR_SIXTH(8, Quality.MINOR, 6, RomanNumeral.MINOR_SIXTH),
-    AUGMENTED_FIFTH(8, Quality.AUGMENTED, 5, RomanNumeral.AUGMENTED_FIFTH),
+    MINOR_SIXTH(8, IntervalQuality.MINOR, 6),
+    AUGMENTED_FIFTH(8, IntervalQuality.AUGMENTED, 5),
 
-    MAJOR_SIXTH(9, Quality.MAJOR, 6, RomanNumeral.MAJOR_SIXTH),
-    DIMINISHED_SEVENTH(9, Quality.DIMINISHED, 7, RomanNumeral.DIMINISHED_SEVENTH),
+    MAJOR_SIXTH(9, IntervalQuality.MAJOR, 6),
+    DIMINISHED_SEVENTH(9, IntervalQuality.DIMINISHED, 7),
 
-    MINOR_SEVENTH(10, Quality.MINOR, 7, RomanNumeral.MINOR_SEVENTH),
-    AUGMENTED_SIXTH(10, Quality.MINOR, 6, RomanNumeral.AUGMENTED_SIXTH),
+    MINOR_SEVENTH(10, IntervalQuality.MINOR, 7),
+    AUGMENTED_SIXTH(10, IntervalQuality.AUGMENTED, 6),
 
-    MAJOR_SEVENTH(11, Quality.MAJOR, 7, RomanNumeral.MAJOR_SEVENTH),
-    DIMINISHED_OCTAVE(11, Quality.DIMINISHED, 8, RomanNumeral.DIMINISHED_OCTAVE),
+    MAJOR_SEVENTH(11, IntervalQuality.MAJOR, 7),
+    DIMINISHED_OCTAVE(11, IntervalQuality.DIMINISHED, 8),
 
-    PERFECT_OCTAVE(12, Quality.PERFECT, 8, RomanNumeral.PERFECT_OCTAVE),
-    AUGMENTED_SEVENTH(12, Quality.AUGMENTED, 7, RomanNumeral.AUGMENTED_SEVENTH);
+    PERFECT_OCTAVE(12, IntervalQuality.PERFECT, 8),
+    AUGMENTED_SEVENTH(12, IntervalQuality.AUGMENTED, 7);
 
     int relativePitchDistance;
-    Quality quality;
+    IntervalQuality quality;
     int intervalNumber;
-    RomanNumeral romanNumeral;
+    String romanNumeral;
 
-    Interval(int relativePitchDistance, Quality quality, int intervalNumber,
-             RomanNumeral romanNumeral) {
+    Interval(int relativePitchDistance, IntervalQuality quality, int intervalNumber) {
+        String[] bigRomanNumerals = {"I", "II", "III", "IV", "V", "VI", "VII"};
+        String[] smallRomanNumerals = {"i", "ii", "iii", "iv", "v", "vi", "vii"};
         this.relativePitchDistance = relativePitchDistance;
         this.quality = quality;
         this.intervalNumber = intervalNumber;
-        this.romanNumeral = romanNumeral;
+        this.romanNumeral = (quality.equals(IntervalQuality.MINOR) || quality.equals(IntervalQuality.DIMINISHED))
+                ? smallRomanNumerals[(intervalNumber-1)%7]
+                : bigRomanNumerals[(intervalNumber-1)%7];
     }
-}
 
-enum Quality {
-    MAJOR("M"),
-    MINOR("m"),
-    PERFECT("P"),
-    AUGMENTED("A"),
-    DIMINISHED("d");
-
-    String identifier;
-
-    Quality(String identifier) {
-        this.identifier = identifier;
+    String getRomanNumeralName() {
+        return romanNumeral + quality.romanNumeralIdentifier;
     }
-}
 
-enum RomanNumeral {
-    // Uppercase letters for Major, Perfect, and Augmented
-    PERFECT_UNISON("I"),
-    AUGMENTED_UNISON("I+"),
-    MAJOR_SECOND("II"),
-    AUGMENTED_SECOND("II+"),
-    MAJOR_THIRD("III"),
-    PERFECT_FOURTH("IV"),
-    AUGMENTED_THIRD("III+"),
-    AUGMENTED_FOURTH("IV+"),
-    PERFECT_FIFTH("V"),
-    AUGMENTED_FIFTH("V+"),
-    MAJOR_SIXTH("VI"),
-    AUGMENTED_SIXTH("VI+"),
-    MAJOR_SEVENTH("VII"),
-    PERFECT_OCTAVE("I"),
-    AUGMENTED_SEVENTH("VII+"),
+    String getShortName() {
+        return quality.shortNameIdentifier + intervalNumber;
+    }
 
-    // Lowercase letters for Minor and Diminished
-    DIMINISHED_SECOND("ii*"),
-    MINOR_SECOND("ii"),
-    DIMINISHED_THIRD("iii*"),
-    MINOR_THIRD("iii"),
-    DIMINISHED_FOURTH("iv*"),
-    DIMINISHED_FIFTH("v*"),
-    DIMINISHED_SIXTH("vi*"),
-    MINOR_SIXTH("vi"),
-    DIMINISHED_SEVENTH("vii*"),
-    MINOR_SEVENTH("vii"),
-    DIMINISHED_OCTAVE("i*");
+    private enum IntervalQuality {
+        MAJOR("M", ""),
+        MINOR("m", ""),
+        PERFECT("P", ""),
+        AUGMENTED("A", "+"),
+        DIMINISHED("d", "˚");
 
-    String identifier;
+        String shortNameIdentifier, romanNumeralIdentifier;
 
-    RomanNumeral(String identifier) {
-        this.identifier = identifier;
+        IntervalQuality(String shortNameIdentifier, String romanNumeralIdentifier) {
+            this.shortNameIdentifier = shortNameIdentifier;
+            this.romanNumeralIdentifier = romanNumeralIdentifier;
+        }
     }
 }
 
