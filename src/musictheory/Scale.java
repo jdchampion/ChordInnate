@@ -123,6 +123,8 @@ public class Scale {
         // First note in the scale is the scale's root.
         notes[0] = root;
 
+        // TODO Other cases will be needed here for scales with tonalities that are not MAJOR or MINOR.
+
         // Choose a set of chromatic notes based on key signature.
         Note[] chromatic;
         if (keySignature.isSharpKeySignature()) {
