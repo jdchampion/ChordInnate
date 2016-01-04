@@ -7,6 +7,7 @@ public class Scale {
     private Note root;
     private ScaleType scaleType;
     private KeySignature keySignature;
+    private Step[] steps;
 
     Scale(Note root, ScaleType scaleType) throws Exception {
         /*
@@ -21,6 +22,21 @@ public class Scale {
         setKeySignature(root);
         if (keySignature == null) {
             throw new Exception("Scale is not Enharmonically correct.");
+        }
+        setSteps();
+    }
+
+    private void setSteps() {
+        steps = new Step[scaleType.sequence.length-1];
+        for (int i = 1; i < scaleType.sequence.length; i++) {
+            int intervalDistance = scaleType.sequence[i] - scaleType.sequence[i-1];
+            switch(intervalDistance) {
+                case 1: steps[i-1] = Step.H; break;
+                case 2: steps[i-1] = Step.W; break;
+                case 3: steps[i-1] = Step.WH; break;
+                case 4: steps[i-1] = Step.WW; break;
+                default: steps[i-1] = null;
+            }
         }
     }
 
@@ -84,6 +100,10 @@ public class Scale {
         }
     }
 
+    public Step[] getSteps() {
+        return steps;
+    }
+
     public String getName() {
         return root.getName() + " " + scaleType.name;
     }
@@ -99,9 +119,54 @@ public class Scale {
     public Note[] getAscendingNotes() {
         int scaleLength = scaleType.sequence.length;
         Note[] notes = new Note[scaleLength];
+
+        // First note in the scale is the scale's root.
         notes[0] = root;
 
-        // Fill in the notes from the key signature
+        // Choose a set of chromatic notes based on key signature.
+        Note[] chromatic;
+        if (keySignature.isSharpKeySignature()) {
+            chromatic = new Note[] {Note.C, Note.C_SHARP, Note.D, Note.D_SHARP,
+                    Note.E, Note.F, Note.F_SHARP, Note.G,
+                    Note.G_SHARP, Note.A, Note.A_SHARP, Note.B};
+        }
+        else {
+            chromatic = new Note[] {Note.C, Note.D_FLAT, Note.D, Note.E_FLAT,
+                    Note.E, Note.F, Note.G_FLAT, Note.G,
+                    Note.A_FLAT, Note.A, Note.B_FLAT, Note.B};
+        }
+
+        // First pass: fill according to relative chromatic pitch.
+        for (int i = 1; i < scaleLength; i++) {
+            notes[i] = chromatic[(root.getRelativePitch() + scaleType.sequence[i]) % 12];
+        }
+
+        // Second pass: fix enharmonic spelling to fit this scale's key signature.
+        for (int i = 1; i < scaleLength-2; i++) {
+            if (notes[i-1].getLetter() == notes[i].getLetter()) {
+                Note[] enharmonics = notes[i].getEnharmonicEquivalents(false, false);
+                for (Note n : enharmonics) {
+                    if (n.getLetter() > notes[i-1].getLetter()) {
+                        notes[i] = n;
+                        break;
+                    }
+                }
+            }
+            else if (notes[i].getLetter() == notes[i+1].getLetter()) {
+                Note[] enharmonics = notes[i].getEnharmonicEquivalents(false, false);
+                for (Note n : enharmonics) {
+                    if (n.getLetter() > notes[i+1].getLetter()) {
+                        notes[i] = n;
+                        break;
+                    }
+                }
+            }
+            else {
+                continue;
+            }
+        }
+
+        // Third pass: fill in the notes from the key signature.
         for (int i = 0; i < scaleLength; i++) {
             for (int j = 0; j < keySignature.notes.length; j++) {
                 if ((scaleType.sequence[i] + root.getRelativePitch()) % 12 == keySignature.notes[j].getRelativePitch()) {
@@ -111,47 +176,6 @@ public class Scale {
             }
         }
 
-        // TODO Fill in any non-accidentals
-        Note[] nonAccidentals = {Note.C, Note.D, Note.E, Note.F, Note.G, Note.A, Note.B};
-
-        for (int i = 1; i < scaleLength && notes[i] == null; i++) {
-            for (Note n : nonAccidentals) {
-                if ((scaleType.sequence[i] + root.getRelativePitch()) % 12 == n.getRelativePitch()) {
-                    notes[i] = n;
-                    break;
-                }
-            }
-        }
-
-        // TODO Fill in any extreme accidentals
-
-
         return notes;
-    }
-
-    private Degree getDegreeFromRoot(int lowRelativePitch, int highRelativePitch, boolean flag) {
-        int relativePitchDistance = highRelativePitch - lowRelativePitch;
-        if (flag) {
-            return getDegreeFromRoot(root.getRelativePitch(), relativePitchDistance, false);
-        }
-        else {
-            int tmp = -1;
-            for (int i = 0; i < scaleType.sequence.length; i++) {
-                if (relativePitchDistance == scaleType.sequence[i])
-                    tmp = i;
-                break;
-            }
-            switch (tmp) {
-                // NOTE: There should only be eight possible degrees within a given scale
-                case 0: return Degree.ROOT;
-                case 1: return Degree.SECOND;
-                case 2: return Degree.THIRD;
-                case 3: return Degree.FOURTH;
-                case 4: return Degree.FIFTH;
-                case 5: return Degree.SIXTH;
-                case 6: return Degree.SEVENTH;
-                default: return null;
-            }
-        }
     }
 }

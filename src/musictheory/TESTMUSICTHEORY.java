@@ -18,6 +18,7 @@ public class TESTMUSICTHEORY {
     // Variable for testing scales
     static Scale scale;
 
+    // Variable for testing key signatures
     static KeySignature keySignature;
 
     static MidiChannel[] channels;
@@ -38,6 +39,10 @@ public class TESTMUSICTHEORY {
 //            testDescendingNotes(PLAYBACK);
 //
 //            testIntervalNotes(PLAYBACK);
+
+//            testNextPreviousNotes(PLAYBACK);
+
+//            testEnharmonicNotes(PLAYBACK);
 
             synthesizer.close();
         }
@@ -125,7 +130,15 @@ public class TESTMUSICTHEORY {
                     System.out.print("Notes: ");
                     Note[] notes = scale.getAscendingNotes();
                     for (Note n : notes) {
-                        System.out.print(n + " ");
+                        if (n != null) System.out.print(n.getName() + " ");
+                        else System.out.print("_ ");
+                    }
+
+                    System.out.println();
+
+                    System.out.print("Steps: ");
+                    for (Step s : scale.getSteps()) {
+                        System.out.print(s + " ");
                     }
 
                     System.out.println();
@@ -136,6 +149,29 @@ public class TESTMUSICTHEORY {
                     // Skip the natural notes (don't generate scales from them)
                 }
             }
+        }
+    }
+
+    private static void testNextPreviousNotes(boolean soundNotes) {
+        for (Note note : Note.values()) {
+            System.out.println("Note: " + note);
+            System.out.println("Next: " + note.getNext());
+            System.out.println("Previous: " + note.getPrevious());
+            System.out.println("\n==========================================");
+        }
+    }
+
+    private static void testEnharmonicNotes(boolean soundNotes) {
+        for (Note note : Note.values()) {
+            System.out.println("Note: " + note);
+            for (Note n : note.getEnharmonicEquivalents(true, true)) {
+                System.out.print(n.getName() + " ");
+            }
+            System.out.println();
+            for (Note n : note.getEnharmonicEquivalents(false, true)) {
+                System.out.print(n.getName() + " ");
+            }
+            System.out.println("\n==========================================");
         }
     }
 }

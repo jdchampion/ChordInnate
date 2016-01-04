@@ -58,4 +58,18 @@ public enum KeySignature {
     KeySignature(Note[] notes) {
         this.notes = notes;
     }
+
+    boolean isFlatKeySignature() {
+        if (this.equals(C_MAJOR) || this.equals(A_MINOR)) {
+            return false;   // C Major and A Minor are neither Flat nor Sharp
+        }
+        return this.notes[0].equals(Note.B_FLAT);
+    }
+
+    boolean isSharpKeySignature() {
+        if (this.equals(C_MAJOR) || this.equals(A_MINOR)) {
+            return false;   // C Major and A Minor are neither Flat nor Sharp
+        }
+        return this.notes[0].equals(Note.F_SHARP);
+    }
 }

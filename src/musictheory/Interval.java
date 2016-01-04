@@ -108,3 +108,7 @@ enum RomanNumeral {
         this.identifier = identifier;
     }
 }
+
+enum Step {
+    W, H, WH, WW
+}

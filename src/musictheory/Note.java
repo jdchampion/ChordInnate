@@ -1,9 +1,13 @@
 package musictheory;
 
+import java.util.Vector;
+
 /**
  * Created by Joseph on 1/1/16.
  */
 public enum Note {
+    // DO NOT RE-ORDER THESE ITEMS!!
+
     B_SHARP('B', Accidental.SHARP, 0, 11),
     C('C', Accidental.NONE, 0, 11),
     C_NATURAL('C', Accidental.NATURAL, 0, 11),
@@ -87,8 +91,8 @@ public enum Note {
 
     char getLetter() { return letter; }
 
-    String getAccidentalSymbol() {
-        return accidental.indicator;
+    Accidental getAccidental() {
+        return accidental;
     }
 
     boolean hasAccidentalSymbol() {
@@ -96,12 +100,56 @@ public enum Note {
     }
 
     boolean isNatural() { return accidental.equals(Accidental.NATURAL); }
+
+    boolean isDoubleAccidental() { return accidental.equals(Accidental.DOUBLE_FLAT)
+            || accidental.equals(Accidental.DOUBLE_SHARP); }
+
+    Note getNext() {
+        return this.ordinal() < Note.values().length - 1
+                ? Note.values()[this.ordinal() + 1]
+                : null;
+    }
+
+    Note getPrevious() {
+        return this.ordinal() > 0
+                ? Note.values()[this.ordinal() - 1]
+                : null;
+    }
+
+    Note[] getEnharmonicEquivalents(boolean wantNatural, boolean wantDoubleAccidentals) {
+        Vector<Note> tmp = new Vector<>();
+        for (Note note: Note.values()) {
+            if (note.getRelativePitch() == this.relativePitch
+                    && !note.equals(this)) {
+                if (!wantNatural && note.isNatural()) {
+                    continue;
+                }
+                if (!wantDoubleAccidentals && note.isDoubleAccidental()) {
+                    continue;
+                }
+
+                tmp.add(note);
+            }
+        }
+
+        // Find the enharmonics and return the set
+        Note[] enharmonics = new Note[tmp.size()];
+        for (int i = 0; i < enharmonics.length; i++) {
+            enharmonics[i] = tmp.get(i);
+        }
+
+        return enharmonics;
+    }
+
+    boolean isEnharmonicallyEquivalentTo(Note comparisonNote) {
+        return this.getRelativePitch() == comparisonNote.getRelativePitch();
+    }
 }
 
 enum Accidental {
     DOUBLE_FLAT("bb"),
     FLAT("b"),
-    NATURAL(""),       // TODO Not sure what to use as an indicator for natural...
+    NATURAL("Nat"),       // TODO Not sure what to use as an indicator for natural...
     SHARP("#"),
     DOUBLE_SHARP("x"),
     NONE("");
