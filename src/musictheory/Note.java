@@ -142,7 +142,7 @@ public enum Note {
     }
 
     boolean isEnharmonicallyEquivalentTo(Note comparisonNote) {
-        return this.getRelativePitch() == comparisonNote.getRelativePitch();
+        return this.relativePitch == comparisonNote.getRelativePitch();
     }
 }
 

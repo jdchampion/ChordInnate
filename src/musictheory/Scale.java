@@ -176,6 +176,8 @@ public class Scale {
             }
         }
 
+        // TODO fix some of the edge case enharmonic spellings (ex: C# Harmonic Minor's 7th degree should be B#, not C)
+
         return notes;
     }
 }
