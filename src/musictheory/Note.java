@@ -115,74 +115,54 @@ public enum Note {
     Note[] getPracticalEnharmonicEquivalents(boolean wantNatural) {
         switch (this.relativePitch) {
             case 0: { // B# | C | CNat | Dbb
-                if (wantNatural) {
-                    return new Note[] {B_SHARP, C, C_NATURAL};
-                }
-                else {
-                    return new Note[] {B_SHARP, C};
-                }
+                return wantNatural
+                        ? new Note[] {B_SHARP, C, C_NATURAL}
+                        : new Note[] {B_SHARP, C};
             }
             case 1: { // Bx | C# | Db
                 return new Note[] {C_SHARP, D_FLAT};
             }
             case 2: { // Cx | D | DNat | Ebb
-                if (wantNatural) {
-                    return new Note[] {D, D_NATURAL};
-                }
-                else {
-                    return new Note[] {D};
-                }
+                return wantNatural
+                        ? new Note[] {D, D_NATURAL}
+                        : new Note[] {D};
             }
             case 3: { // D# | Eb | Fbb
                 return new Note[] {D_SHARP, E_FLAT};
             }
             case 4: { // Dx | E | ENat | Fb
-                if (wantNatural) {
-                    return new Note[] {E, E_NATURAL};
-                }
-
-                return new Note[] {E};
+                return wantNatural
+                        ? new Note[] {E, E_NATURAL}
+                        : new Note[] {E};
             }
             case 5: { // E# | F | FNat | Gbb
-                if (wantNatural) {
-                    return new Note[] {E_SHARP, F, F_NATURAL};
-                }
-                else {
-                    return new Note[] {E_SHARP, F};
-                }
+                return wantNatural
+                        ? new Note[] {E_SHARP, F, F_NATURAL}
+                        : new Note[] {E_SHARP, F};
             }
             case 6: { // Ex | F# | Gb
                 return new Note[] {F_SHARP, G_FLAT};
             }
             case 7: { // Fx | G | GNat | Abb
-                if (wantNatural) {
-                    return new Note[] {G, G_NATURAL};
-                }
-                else {
-                    return new Note[] {G};
-                }
+                return wantNatural
+                        ? new Note[] {G, G_NATURAL}
+                        : new Note[] {G};
             }
             case 8: { // G# | Ab
                 return new Note[] {G_SHARP, A_FLAT};
             }
             case 9: { // Gx | A | ANat | Bbb
-                if (wantNatural) {
-                    return new Note[] {A, A_NATURAL};
-                }
-                else {
-                    return new Note[] {A};
-                }
+                return wantNatural
+                        ? new Note[] {A, A_NATURAL}
+                        : new Note[] {A};
             }
             case 10: { // A# | Bb | Cbb
                 return new Note[] {A_SHARP, B_FLAT};
             }
             case 11: { // Ax | B | BNat | Cb
-                if (wantNatural) {
-                    return new Note[] {B, B_NATURAL, C_FLAT};
-                }
-                else {
-                    return new Note[] {B, C_FLAT};
-                }
+                return wantNatural
+                        ? new Note[] {B, B_NATURAL, C_FLAT}
+                        : new Note[] {B, C_FLAT};
             }
             default: return new Note[] {};
         }
