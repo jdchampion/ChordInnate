@@ -36,6 +36,10 @@ public class Scale {
 //        setIntervals();
     }
 
+    Scale getTransposition(Note note) throws Exception {
+        return new Scale(note, this.scaleType);
+    }
+
     private void setSteps() {
         steps = new Step[scaleType.sequence.length-1];
 
@@ -61,27 +65,27 @@ public class Scale {
         // TODO Shortcut for Chromatic scales (since it's the only type with all 12 notes)
         if (scaleType.equals(ScaleType.CHROMATIC)) {
 
-            Note[] substituteKeySig = keySignature.isFlatKeySignature()
-                    ? Note.getAllFlats(false) : Note.getAllSharps(false);
+            Note[] chromatic = (root.getAccidental().equals(Accidental.FLAT))
+                    ? Note.getFlatChromaticNoteArray()
+                    : Note.getSharpChromaticNoteArray();
 
-            for (int i = 1; i < scaleLength; i++) {
+            // Get the index for the root
+            int index = root.getRelativePitch();
 
+            for (int i = 0; i < chromatic.length; i++, index++) {
+                notes[i] = chromatic[(index+chromatic.length)%chromatic.length];
             }
 
+            this.notes = notes;
             return;
         }
 
-
-        // We're not going to create any scales with naturals or double-accidentals
-        Note[] enharmonics = root.getEnharmonicEquivalents(false, false);
-
-        // The index we want will always either be 0 or 1
-        int index = (enharmonics.length == 1)
-                ? 0
-                : root.equals(enharmonics[0]) ? 0 : 1;
+        Note[] enharmonics;
 
         for (int i = 1; i < scaleLength; i++) {
             int pitch = (root.getRelativePitch() + scaleType.sequence[i]) % 12;
+
+            // We're not going to create any scales with naturals or double-accidentals
             enharmonics = Note.getFirstPracticalEnharmonicToRelativePitch(pitch)
                     .getEnharmonicEquivalents(false, false);
 
@@ -153,6 +157,7 @@ public class Scale {
         switch (scaleType.tonality) {
             case MAJOR: this.keySignature = getMajorKeySignature(note); break;
             case MINOR: this.keySignature = getMinorKeySignature(note); break;
+            case CHROMATIC: this.keySignature = getMajorKeySignature(note); break;
             default:
         }
     }
@@ -181,6 +186,15 @@ public class Scale {
             case C_SHARP: return KeySignature.C_SHARP_MAJOR;
 
             // TODO weird cases
+//            case G_SHARP: return KeySignature.F_MINOR;
+//            case D_SHARP: return KeySignature.C_MINOR;
+//            case A_SHARP: return KeySignature.F_SHARP_MINOR;
+//            case E_SHARP: return KeySignature.D_MINOR;
+//
+//            case B_SHARP: return KeySignature.C_MAJOR;
+//
+//            case F_FLAT: return KeySignature.C_SHARP_MINOR;
+
             default: return null;
         }
     }
@@ -209,13 +223,16 @@ public class Scale {
             case A_SHARP: return KeySignature.A_SHARP_MINOR;
 
             // TODO weird cases
+//            case D_FLAT: return KeySignature.E_MAJOR;
+//            case G_FLAT: return KeySignature.A_MAJOR;
+//            case C_FLAT: return KeySignature.D_MAJOR;
+//            case F_FLAT: return KeySignature.G_MINOR;
+//
+//            case B_SHARP: return KeySignature.E_FLAT_MAJOR;
+//            case E_SHARP: return KeySignature.A_FLAT_MAJOR;
+
             default: return null;
         }
-    }
-
-    // TODO
-    private Note getNextNoteFromInterval(Interval interval) {
-        return null;
     }
 
     public Step[] getSteps() {

@@ -70,7 +70,7 @@ public enum Note {
         this.accidental = accidental;
         this.name = letter + accidental.indicator;
         this.relativePitch = relativePitch;
-        this.octaveRange = (12 - this.relativePitch < 4 || this.relativePitch == 8) ? 11 : 12;
+        this.octaveRange = (relativePitch < 8) ? 11 : 10;
     }
 
     String getName() {
@@ -379,53 +379,61 @@ public enum Note {
                 : new Note[] {A_FLAT, B_FLAT, C_FLAT, D_FLAT, E_FLAT, F_FLAT, G_FLAT};
      }
 
-    static Note[] getAllNotesToFitKeySignature(KeySignature keySignature) {
+    static Note[] getFlatChromaticNoteArray() {
+        return new Note[] {C, D_FLAT, D, E_FLAT, E, F, G_FLAT, G, A_FLAT, A, B_FLAT, C_FLAT};
+    }
+
+    static Note[] getSharpChromaticNoteArray() {
+        return new Note[] {C, C_SHARP, D, D_SHARP, E, F, F_SHARP, G, G_SHARP, A, A_SHARP, B};
+    }
+
+    static Note[] getAllOtherNotesToFitKeySignature(KeySignature keySignature) {
         // TODO finish
         switch (keySignature) {
             // Flat key signatures
             case C_FLAT_MAJOR: case A_FLAT_MINOR:
-                return new Note[] {};
+                return new Note[] {C_FLAT, D_FLAT, E_FLAT, F_FLAT, G_FLAT, A_FLAT, B_FLAT};
 
             case G_FLAT_MAJOR: case E_FLAT_MINOR:
-                return new Note[] {};
+                return new Note[] {G_FLAT, A_FLAT, B_FLAT, C_FLAT, D_FLAT, E_FLAT, F};
 
             case D_FLAT_MAJOR: case B_FLAT_MINOR:
-                return new Note[] {};
+                return new Note[] {D_FLAT, E_FLAT, F, G_FLAT, A_FLAT, B_FLAT, C};
 
             case A_FLAT_MAJOR: case E_FLAT_MAJOR: case C_MINOR:
-                return new Note[] {};
+                return new Note[] {A_FLAT, B_FLAT, C, D_FLAT, E_FLAT, F, G};
 
             case B_FLAT_MAJOR: case G_MINOR:
-                return new Note[] {};
+                return new Note[] {B_FLAT, C, D, E_FLAT, F, G, A};
 
             case F_MAJOR: case D_MINOR:
-                return new Note[] {};
+                return new Note[] {D, E, F, G, A, B_FLAT};
 
                 // Non-accidental key signature
             case C_MAJOR: case A_MINOR:
-                return new Note[] {};
+                return new Note[] {C, D, E, F, G, A, B};
 
                 // Sharp key signatures
             case G_MAJOR: case E_MINOR:
-                return new Note[] {};
+                return new Note[] {G, A, B, C, D, E, F_SHARP};
 
             case D_MAJOR: case B_MINOR:
-                return new Note[] {};
+                return new Note[] {D, E, F_SHARP, G, A, B, C_SHARP};
 
             case A_MAJOR: case F_SHARP_MINOR:
-                return new Note[] {};
+                return new Note[] {A, B, C_SHARP, D, E, F_SHARP, G_SHARP};
 
             case E_MAJOR: case C_SHARP_MINOR:
-                return new Note[] {};
+                return new Note[] {E, F_SHARP, G_SHARP, A, B, C_SHARP, D_SHARP};
 
             case B_MAJOR: case G_SHARP_MINOR:
-                return new Note[] {};
+                return new Note[] {B, C_SHARP, D_SHARP, E, F_SHARP, G_SHARP, A_SHARP};
 
             case F_SHARP_MAJOR: case D_SHARP_MINOR:
-                return new Note[] {};
+                return new Note[] {F_SHARP, G_SHARP, A_SHARP, B, C_SHARP, D_SHARP, E_SHARP};
 
             case C_SHARP_MAJOR: case A_SHARP_MINOR:
-                return new Note[] {};
+                return new Note[] {C_SHARP, D_SHARP, E_SHARP, F_SHARP, G_SHARP, A_SHARP, B_SHARP};
 
             default: return null;
         }

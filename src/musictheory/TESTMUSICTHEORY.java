@@ -13,7 +13,7 @@ import javax.sound.midi.Synthesizer;
 public class TESTMUSICTHEORY {
 
     // Toggle for hearing Midi playback
-    static final boolean PLAYBACK = false;
+    static final boolean PLAYBACK = true;
 
     // All possible note types that this program can play
     static final Note[] ALL_NOTES = Note.values();
@@ -50,9 +50,9 @@ public class TESTMUSICTHEORY {
 
             // TODO: Tests performed here
 
-            testScale(PLAYBACK);
+//            testScale(PLAYBACK, false);
 
-//            testAscendingNotes(PLAYBACK);
+            testAscendingNotes(PLAYBACK);
 //
 //            testDescendingNotes(PLAYBACK);
 //
@@ -123,64 +123,28 @@ public class TESTMUSICTHEORY {
         }
     }
 
-    private static void testScale(boolean playback) {
+    private static void testScale(boolean playback, boolean testTranspose) {
         for (ScaleType scaleType: ScaleType.values()) {
             for (Note note : Note.values()) {
                 try {
                     scale = new Scale(note, scaleType);
 
-                    System.out.print(scale.getName() + ": ");
+                    printScaleAttributes(playback, note);
 
-                    Note root = scale.getRoot();
+                    if (testTranspose)
+                        for (Note n: Note.values()) {
+                            System.out.println("Scale transposition from " + note.getName() + " to " + n.getName());
 
-                    System.out.println(root.getName() + " " + root.name());
-
-                    keySignature = scale.getKeySignature();
-
-                    System.out.print("Key Signature: " + keySignature + "( ");
-                    for (Note n : keySignature.notes) {
-                        System.out.print(n.getName() + " ");
-                    }
-
-                    System.out.println(")");
-
-                    // Print the scale notes out, and sound them
-                    System.out.print("Notes: ");
-                    Note[] notes = scale.getAscendingNotes();
-                    for (Note n : notes) {
-                        if (n != null) {
-                            System.out.print(n.getName() + " ");
-
-                            /*
-                             * FIXME Notes are correct but sound at the incorrect octave.
-                             * Need a modifier variable for the octave.
-                             */
-                            soundNote(playback, 60 + n.getRelativePitch(), 127, 0);
+                            try {
+                                scale = scale.getTransposition(n);
+                                printScaleAttributes(playback, n);
+                            }
+                            catch (Exception e) {
+                                // Skip the natural notes (don't generate scales from them)
+                                System.out.println(e.getMessage());
+                                System.out.println("\n==========================================");
+                            }
                         }
-                        else System.out.print("_ ");
-                    }
-
-                    /*
-                     * FIXME Notes are correct but sound at the incorrect octave.
-                     * Need a modifier variable for the octave.
-                     */
-                    soundNote(playback, 72 + note.getRelativePitch(), 127, 0);
-
-                    System.out.println();
-
-                    System.out.print("Steps: ");
-                    for (Step s : scale.getSteps()) {
-                        System.out.print(s + " ");
-                    }
-
-                    System.out.println();
-
-//                    System.out.print("Intervals: ");
-//                    for (Interval interval : scale.intervals) {
-//                        System.out.print(interval + " ");
-//                    }
-//
-//                    System.out.println();
 
                     System.out.println("\n==========================================");
 
@@ -198,6 +162,62 @@ public class TESTMUSICTHEORY {
                 }
             }
         }
+    }
+
+    private static void printScaleAttributes(boolean playback, Note note) {
+        System.out.print(scale.getName() + ": ");
+
+        Note root = scale.getRoot();
+
+        System.out.println(root.getName() + " " + root.name());
+
+        keySignature = scale.getKeySignature();
+
+        System.out.print("Key Signature: " + keySignature + "( ");
+        for (Note n : keySignature.notes) {
+            System.out.print(n.getName() + " ");
+        }
+
+        System.out.println(")");
+
+        // Print the scale notes out, and sound them
+        System.out.print("Notes: ");
+        Note[] notes = scale.getAscendingNotes();
+        for (Note n : notes) {
+            if (n != null) {
+                System.out.print(n.getName() + " ");
+
+                            /*
+                             * FIXME Notes are correct but sound at the incorrect octave.
+                             * Need a modifier variable for the octave.
+                             */
+                soundNote(playback, 60 + n.getRelativePitch(), 127, 0);
+            }
+            else System.out.print("_ ");
+        }
+
+                    /*
+                     * FIXME Notes are correct but sound at the incorrect octave.
+                     * Need a modifier variable for the octave.
+                     */
+        soundNote(playback, 72 + note.getRelativePitch(), 127, 0);
+
+        System.out.println();
+
+        System.out.print("Steps: ");
+        for (Step s : scale.getSteps()) {
+            System.out.print(s + " ");
+        }
+
+        System.out.println();
+
+//                    System.out.print("Intervals: ");
+//                    for (Interval interval : scale.intervals) {
+//                        System.out.print(interval + " ");
+//                    }
+//
+//                    System.out.println();
+        System.out.println("\n==========================================");
     }
 
     private static void testNextPreviousNotes(boolean playback) {
