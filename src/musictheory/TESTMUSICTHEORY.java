@@ -12,19 +12,28 @@ import javax.sound.midi.Synthesizer;
  */
 public class TESTMUSICTHEORY {
 
+    //===============================================================================================//
+    //  EDITABLE VARIABLES
+    //===============================================================================================//
+
     // Toggle for hearing Midi playback
-    static final boolean PLAYBACK = true;
+    static final boolean PLAYBACK = false;
 
     // All possible note types that this program can play
     static final Note[] ALL_NOTES = Note.values();
 
-    // Variable for testing scales
-    static Scale scale;
+    // Variable for testing notes
+    static final Note note = Note.C;
 
-    // Variable for testing key signatures
-    static KeySignature keySignature;
+    // Variables for testing scales
+    static final ScaleType scaleType = ScaleType.ALGERIAN;
+
+    //===============================================================================================//
 
     static MidiChannel[] channels;
+
+
+
 
     public static void main(String[] args) {
 //        SimpleDirectedGraph<Note, DefaultEdge> directedGraph =
@@ -48,11 +57,13 @@ public class TESTMUSICTHEORY {
             synthesizer.open();
             channels = synthesizer.getChannels();
 
+            Thread.sleep(1000); // To minimize the (annoying) initial sound delay
+
             // TODO: Tests performed here
 
-//            testScale(PLAYBACK, false);
+            testScale(note, scaleType, PLAYBACK, true);
 
-            testAscendingNotes(PLAYBACK);
+//            testAscendingNotes(PLAYBACK);
 //
 //            testDescendingNotes(PLAYBACK);
 //
@@ -65,6 +76,7 @@ public class TESTMUSICTHEORY {
             synthesizer.close();
         }
         catch (MidiUnavailableException ex) {}
+        catch (InterruptedException ex) {}
     }
 
     private static void soundNote(boolean playback, int midiValue, int volume, int wait) {
@@ -123,55 +135,51 @@ public class TESTMUSICTHEORY {
         }
     }
 
-    private static void testScale(boolean playback, boolean testTranspose) {
-        for (ScaleType scaleType: ScaleType.values()) {
-            for (Note note : Note.values()) {
-                try {
-                    scale = new Scale(note, scaleType);
+    private static void testScale(Note note, ScaleType scaleType, boolean playback, boolean testTranspose) {
+        try {
+            Scale scale = new Scale(note, scaleType);
 
-                    printScaleAttributes(playback, note);
+            testScaleAttributes(scale, playback, note);
 
-                    if (testTranspose)
-                        for (Note n: Note.values()) {
-                            System.out.println("Scale transposition from " + note.getName() + " to " + n.getName());
-
-                            try {
-                                scale = scale.getTransposition(n);
-                                printScaleAttributes(playback, n);
-                            }
-                            catch (Exception e) {
-                                // Skip the natural notes (don't generate scales from them)
-                                System.out.println(e.getMessage());
-                                System.out.println("\n==========================================");
-                            }
-                        }
-
+            if (testTranspose) {
+                for (Note n : Note.values()) {
                     System.out.println("\n==========================================");
-
-                    if (playback) {
-                        try {
-                            Thread.sleep(500);
-                        }
-                        catch (InterruptedException ex) {}
+                    try {
+                        scale = scale.getTransposition(n);
+                        System.out.print("Scale transposition from " + note.getName() + " to ");
+                        testScaleAttributes(scale, playback, n);
                     }
-
-                } catch (Exception e) {
-                    // Skip the natural notes (don't generate scales from them)
-                    System.out.println(e.getMessage());
-                    System.out.println("\n==========================================");
+                    catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
                 }
             }
+
+            if (playback) {
+                try {
+                    Thread.sleep(500);
+                }
+                catch (InterruptedException ex) {}
+            }
+
+        } catch (Exception e) {
+            // Skip the natural notes (don't generate scales from them)
+            System.out.println(e.getMessage());
+            System.out.println("\n==========================================");
         }
+
+        System.out.println("\n==========================================");
     }
 
-    private static void printScaleAttributes(boolean playback, Note note) {
+    private static void testScaleAttributes(Scale scale, boolean playback, Note note) {
+
         System.out.print(scale.getName() + ": ");
 
         Note root = scale.getRoot();
 
         System.out.println(root.getName() + " " + root.name());
 
-        keySignature = scale.getKeySignature();
+        KeySignature keySignature = scale.getKeySignature();
 
         System.out.print("Key Signature: " + keySignature + "( ");
         for (Note n : keySignature.notes) {
@@ -187,19 +195,19 @@ public class TESTMUSICTHEORY {
             if (n != null) {
                 System.out.print(n.getName() + " ");
 
-                            /*
-                             * FIXME Notes are correct but sound at the incorrect octave.
-                             * Need a modifier variable for the octave.
-                             */
+                /*
+                 * FIXME Notes are correct but sound at the incorrect octave.
+                 * Need a modifier variable for the octave.
+                 */
                 soundNote(playback, 60 + n.getRelativePitch(), 127, 0);
             }
             else System.out.print("_ ");
         }
 
-                    /*
-                     * FIXME Notes are correct but sound at the incorrect octave.
-                     * Need a modifier variable for the octave.
-                     */
+        /*
+         * FIXME Notes are correct but sound at the incorrect octave.
+         * Need a modifier variable for the octave.
+         */
         soundNote(playback, 72 + note.getRelativePitch(), 127, 0);
 
         System.out.println();
@@ -217,7 +225,6 @@ public class TESTMUSICTHEORY {
 //                    }
 //
 //                    System.out.println();
-        System.out.println("\n==========================================");
     }
 
     private static void testNextPreviousNotes(boolean playback) {
