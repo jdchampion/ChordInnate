@@ -6,71 +6,71 @@ package musictheory;
 public enum Note {
     // DO NOT RE-ORDER THESE ITEMS!!
 
-    B_SHARP('B', Accidental.SHARP, 0, 11),
-    C('C', Accidental.NONE, 0, 11),
-    C_NATURAL('C', Accidental.NATURAL, 0, 11),
-    D_DOUBLE_FLAT('D', Accidental.DOUBLE_FLAT, 0, 11),
+    B_SHARP('B', Accidental.SHARP, 0),
+    C('C', Accidental.NONE, 0),
+    C_NATURAL('C', Accidental.NATURAL, 0),
+    D_DOUBLE_FLAT('D', Accidental.DOUBLE_FLAT, 0),
 
-    B_DOUBLE_SHARP('B', Accidental.DOUBLE_SHARP, 1, 11),
-    C_SHARP('C', Accidental.SHARP, 1, 11),
-    D_FLAT('D', Accidental.FLAT, 1, 11),
+    B_DOUBLE_SHARP('B', Accidental.DOUBLE_SHARP, 1),
+    C_SHARP('C', Accidental.SHARP, 1),
+    D_FLAT('D', Accidental.FLAT, 1),
 
-    C_DOUBLE_SHARP('C', Accidental.DOUBLE_SHARP, 2, 11),
-    D('D', Accidental.NONE, 2, 11),
-    D_NATURAL('D', Accidental.NATURAL, 2, 11),
-    E_DOUBLE_FLAT('E', Accidental.DOUBLE_FLAT, 2, 11),
+    C_DOUBLE_SHARP('C', Accidental.DOUBLE_SHARP, 2),
+    D('D', Accidental.NONE, 2),
+    D_NATURAL('D', Accidental.NATURAL, 2),
+    E_DOUBLE_FLAT('E', Accidental.DOUBLE_FLAT, 2),
 
-    D_SHARP('D', Accidental.SHARP, 3, 11),
-    E_FLAT('E', Accidental.FLAT, 3, 11),
-    F_DOUBLE_FLAT('F', Accidental.DOUBLE_FLAT, 3, 11),
+    D_SHARP('D', Accidental.SHARP, 3),
+    E_FLAT('E', Accidental.FLAT, 3),
+    F_DOUBLE_FLAT('F', Accidental.DOUBLE_FLAT, 3),
 
-    D_DOUBLE_SHARP('D', Accidental.DOUBLE_SHARP, 4, 11),
-    E('E', Accidental.NONE, 4, 11),
-    E_NATURAL('E', Accidental.NATURAL, 4, 11),
-    F_FLAT('F', Accidental.FLAT, 4, 11),
+    D_DOUBLE_SHARP('D', Accidental.DOUBLE_SHARP, 4),
+    E('E', Accidental.NONE, 4),
+    E_NATURAL('E', Accidental.NATURAL, 4),
+    F_FLAT('F', Accidental.FLAT, 4),
 
-    E_SHARP('E', Accidental.SHARP, 5, 11),
-    F('F', Accidental.NONE, 5, 11),
-    F_NATURAL('F', Accidental.NATURAL, 5, 11),
-    G_DOUBLE_FLAT('G', Accidental.DOUBLE_FLAT, 5, 11),
+    E_SHARP('E', Accidental.SHARP, 5),
+    F('F', Accidental.NONE, 5),
+    F_NATURAL('F', Accidental.NATURAL, 5),
+    G_DOUBLE_FLAT('G', Accidental.DOUBLE_FLAT, 5),
 
-    E_DOUBLE_SHARP('E', Accidental.DOUBLE_SHARP, 6, 11),
-    F_SHARP('F', Accidental.SHARP, 6, 11),
-    G_FLAT('G', Accidental.FLAT, 6, 11),
+    E_DOUBLE_SHARP('E', Accidental.DOUBLE_SHARP, 6),
+    F_SHARP('F', Accidental.SHARP, 6),
+    G_FLAT('G', Accidental.FLAT, 6),
 
-    F_DOUBLE_SHARP('F', Accidental.DOUBLE_SHARP, 7, 11),
-    G('G', Accidental.NONE, 7, 11),
-    G_NATURAL('G', Accidental.NATURAL, 7, 11),
-    A_DOUBLE_FLAT('A', Accidental.DOUBLE_FLAT, 7, 11),
+    F_DOUBLE_SHARP('F', Accidental.DOUBLE_SHARP, 7),
+    G('G', Accidental.NONE, 7),
+    G_NATURAL('G', Accidental.NATURAL, 7),
+    A_DOUBLE_FLAT('A', Accidental.DOUBLE_FLAT, 7),
 
-    G_SHARP('G', Accidental.SHARP, 8, 12),
-    A_FLAT('A', Accidental.FLAT, 8, 12),
+    G_SHARP('G', Accidental.SHARP, 8),
+    A_FLAT('A', Accidental.FLAT, 8),
 
-    G_DOUBLE_SHARP('G', Accidental.DOUBLE_SHARP, 9, 12),
-    A('A', Accidental.NONE, 9, 12),
-    A_NATURAL('A', Accidental.NATURAL, 9, 12),
-    B_DOUBLE_FLAT('B', Accidental.DOUBLE_FLAT, 9, 12),
+    G_DOUBLE_SHARP('G', Accidental.DOUBLE_SHARP, 9),
+    A('A', Accidental.NONE, 9),
+    A_NATURAL('A', Accidental.NATURAL, 9),
+    B_DOUBLE_FLAT('B', Accidental.DOUBLE_FLAT, 9),
 
-    A_SHARP('A', Accidental.SHARP, 10, 12),
-    B_FLAT('B', Accidental.FLAT, 10, 12),
-    C_DOUBLE_FLAT('C', Accidental.DOUBLE_FLAT, 10, 12),
+    A_SHARP('A', Accidental.SHARP, 10),
+    B_FLAT('B', Accidental.FLAT, 10),
+    C_DOUBLE_FLAT('C', Accidental.DOUBLE_FLAT, 10),
 
-    A_DOUBLE_SHARP('A', Accidental.DOUBLE_SHARP, 11, 12),
-    B('B', Accidental.NONE, 11, 12),
-    B_NATURAL('B', Accidental.NATURAL, 11, 12),
-    C_FLAT('C', Accidental.FLAT, 11, 12);
+    A_DOUBLE_SHARP('A', Accidental.DOUBLE_SHARP, 11),
+    B('B', Accidental.NONE, 11),
+    B_NATURAL('B', Accidental.NATURAL, 11),
+    C_FLAT('C', Accidental.FLAT, 11);
 
     private char letter;
     private Accidental accidental;
     private String name;
     private int relativePitch, octaveRange;
 
-    Note(char letter, Accidental accidental, int relativePitch, int octaveRange) {
+    Note(char letter, Accidental accidental, int relativePitch) {
         this.letter = letter;
         this.accidental = accidental;
         this.name = letter + accidental.indicator;
         this.relativePitch = relativePitch;
-        this.octaveRange = octaveRange;
+        this.octaveRange = (12 - this.relativePitch < 4 || this.relativePitch == 8) ? 11 : 12;
     }
 
     String getName() {
@@ -110,6 +110,30 @@ public enum Note {
         return this.ordinal() > 0
                 ? Note.values()[this.ordinal() - 1]
                 : null;
+    }
+
+    Note getFromIndex(int index) {
+        return index < Note.values().length - 1
+                ? Note.values()[index]
+                : null;
+    }
+
+    static Note getFirstPracticalEnharmonicToRelativePitch(int relativePitch) {
+        switch (relativePitch) {
+            case 0: return Note.B_SHARP;
+            case 1: return Note.C_SHARP;
+            case 2: return Note.D;
+            case 3: return Note.D_SHARP;
+            case 4: return Note.E;
+            case 5: return Note.F;
+            case 6: return Note.F_SHARP;
+            case 7: return Note.G;
+            case 8: return Note.G_SHARP;
+            case 9: return Note.A;
+            case 10: return Note.A_SHARP;
+            case 11: return Note.B;
+            default: return null;
+        }
     }
 
     Note[] getPracticalEnharmonicEquivalents(boolean wantNatural) {
@@ -337,12 +361,86 @@ public enum Note {
     boolean isEnharmonicallyEquivalentTo(Note comparisonNote) {
         return this.relativePitch == comparisonNote.getRelativePitch();
     }
+
+    static Note[] getAllSharps(boolean wantDoubleSharps) {
+        return wantDoubleSharps
+                ? new Note[] {A_DOUBLE_SHARP, B_DOUBLE_SHARP, C_DOUBLE_SHARP,
+                        D_DOUBLE_SHARP, E_DOUBLE_SHARP, F_DOUBLE_SHARP, G_DOUBLE_SHARP,
+                        A_SHARP, B_SHARP, C_SHARP, D_SHARP, E_SHARP, F_SHARP, G_SHARP}
+
+                : new Note[] {A_SHARP, B_SHARP, C_SHARP, D_SHARP, E_SHARP, F_SHARP, G_SHARP};
+    }
+
+    static Note[] getAllFlats(boolean wantDoubleFlats) {
+        return wantDoubleFlats
+                ? new Note[] {A_DOUBLE_FLAT, B_DOUBLE_FLAT, C_DOUBLE_FLAT,
+                        D_DOUBLE_FLAT, E_DOUBLE_FLAT, F_DOUBLE_FLAT, G_DOUBLE_FLAT,
+                        A_FLAT, B_FLAT, C_FLAT, D_FLAT, E_FLAT, F_FLAT, G_FLAT}
+                : new Note[] {A_FLAT, B_FLAT, C_FLAT, D_FLAT, E_FLAT, F_FLAT, G_FLAT};
+     }
+
+    static Note[] getAllNotesToFitKeySignature(KeySignature keySignature) {
+        // TODO finish
+        switch (keySignature) {
+            // Flat key signatures
+            case C_FLAT_MAJOR: case A_FLAT_MINOR:
+                return new Note[] {};
+
+            case G_FLAT_MAJOR: case E_FLAT_MINOR:
+                return new Note[] {};
+
+            case D_FLAT_MAJOR: case B_FLAT_MINOR:
+                return new Note[] {};
+
+            case A_FLAT_MAJOR: case E_FLAT_MAJOR: case C_MINOR:
+                return new Note[] {};
+
+            case B_FLAT_MAJOR: case G_MINOR:
+                return new Note[] {};
+
+            case F_MAJOR: case D_MINOR:
+                return new Note[] {};
+
+                // Non-accidental key signature
+            case C_MAJOR: case A_MINOR:
+                return new Note[] {};
+
+                // Sharp key signatures
+            case G_MAJOR: case E_MINOR:
+                return new Note[] {};
+
+            case D_MAJOR: case B_MINOR:
+                return new Note[] {};
+
+            case A_MAJOR: case F_SHARP_MINOR:
+                return new Note[] {};
+
+            case E_MAJOR: case C_SHARP_MINOR:
+                return new Note[] {};
+
+            case B_MAJOR: case G_SHARP_MINOR:
+                return new Note[] {};
+
+            case F_SHARP_MAJOR: case D_SHARP_MINOR:
+                return new Note[] {};
+
+            case C_SHARP_MAJOR: case A_SHARP_MINOR:
+                return new Note[] {};
+
+            default: return null;
+        }
+    }
+
+    Interval[] getEnharmonicIntervalsToRelativeDegree(int relativeDegree) {
+        int index = (2*relativeDegree) % 12;
+        return new Interval[] {Interval.values()[index], Interval.values()[index+1]};
+    }
 }
 
 enum Accidental {
     DOUBLE_FLAT("\u266d\u266d"),
     FLAT("\u266d"),
-    NATURAL("\u266e"),       // TODO Not sure what to use as an indicator for natural...
+    NATURAL("\u266e"),
     SHARP("\u266f"),
     DOUBLE_SHARP("x"),
     NONE("");

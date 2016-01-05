@@ -11,7 +11,8 @@ public class Scale {
     private ScaleType scaleType;
     private KeySignature keySignature;
     private Step[] steps;
-    private Interval[] intervals;
+    private Note[] notes;
+    Interval[] intervals;
 
     Scale(Note root, ScaleType scaleType) throws Exception {
         /*
@@ -19,16 +20,20 @@ public class Scale {
          *      instead of throwing an Exception? Would reduce the number of try-catches.
          */
         if (root.isNatural()) {
-            throw new Exception("Scale constructor called with Natural Note root.");
+            throw new Exception("Scale constructor called with Natural Note root. (" + root.getName() + ")");
+        }
+        if (root.isDoubleAccidental()) {
+            throw new Exception("Scale constructor called with Double Accidental Note root. (" + root.getName() + ")");
         }
         this.root = root;
         this.scaleType = scaleType;
         setKeySignature(root);
         if (keySignature == null) {
-            throw new Exception("Scale is not Enharmonically correct.");
+            throw new Exception(this.getName() + " Scale is not Enharmonically correct.");
         }
         setSteps();
-        setIntervals();
+        setNotes();
+//        setIntervals();
     }
 
     private void setSteps() {
@@ -36,7 +41,7 @@ public class Scale {
 
         for (int i = 1; i < scaleType.sequence.length; i++) {
             int intervalDistance = scaleType.sequence[i] - scaleType.sequence[i-1];
-            switch(intervalDistance) {
+            switch (intervalDistance) {
                 case 1: steps[i-1] = Step.H; break;
                 case 2: steps[i-1] = Step.W; break;
                 case 3: steps[i-1] = Step.WH; break;
@@ -46,26 +51,106 @@ public class Scale {
         }
     }
 
-    private void setIntervals() {
-        // TODO assuming we already have the steps for this scale
-        intervals = new Interval[steps.length];
+    private void setNotes() {
+        int scaleLength = scaleType.sequence.length;
+        Note[] notes = new Note[scaleLength];
 
-        for (int i = 1; i < scaleType.sequence.length; i++) {
-            intervals[i-1] = getIntervalForDegreeAndStep(steps[i-1], scaleType.sequence[i]);
+        // First note in the scale is the scale's root.
+        notes[0] = root;
+
+        // TODO Shortcut for Chromatic scales (since it's the only type with all 12 notes)
+        if (scaleType.equals(ScaleType.CHROMATIC)) {
+
+            Note[] substituteKeySig = keySignature.isFlatKeySignature()
+                    ? Note.getAllFlats(false) : Note.getAllSharps(false);
+
+            for (int i = 1; i < scaleLength; i++) {
+
+            }
+
+            return;
         }
+
+
+        // We're not going to create any scales with naturals or double-accidentals
+        Note[] enharmonics = root.getEnharmonicEquivalents(false, false);
+
+        // The index we want will always either be 0 or 1
+        int index = (enharmonics.length == 1)
+                ? 0
+                : root.equals(enharmonics[0]) ? 0 : 1;
+
+        for (int i = 1; i < scaleLength; i++) {
+            int pitch = (root.getRelativePitch() + scaleType.sequence[i]) % 12;
+            enharmonics = Note.getFirstPracticalEnharmonicToRelativePitch(pitch)
+                    .getEnharmonicEquivalents(false, false);
+
+            if (enharmonics.length == 1) {
+                notes[i] = enharmonics[0];
+            }
+            else {
+                notes[i] = notes[i-1].getLetter() == enharmonics[0].getLetter()
+                        ? enharmonics[1]
+                        : enharmonics[0];
+            }
+
+            // Extra check for the first & last indices
+            if (i == scaleLength-1) {
+                if (notes[i].getLetter() == notes[0].getLetter()) {
+
+                    if (notes[i].equals(Note.A)) {
+                        notes[i] = Note.G_DOUBLE_SHARP;
+
+                        if (notes[i-1].equals(Note.G)) {
+                            notes[i-1] = Note.F_DOUBLE_SHARP;
+                        }
+                    }
+                    else {
+                        enharmonics = Note.getFirstPracticalEnharmonicToRelativePitch(pitch)
+                                .getEnharmonicEquivalents(false, true);
+
+                        for (int j = 0; j < enharmonics.length; j++) {
+                            if (enharmonics[j].getLetter() < notes[0].getLetter()) {
+                                notes[i] = enharmonics[j];
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Fit notes to key signature
+            if (keySignature != null) {
+                for (int j = 0; j < keySignature.notes.length; j++) {
+                    if ((scaleType.sequence[i] + root.getRelativePitch()) % 12 == keySignature.notes[j].getRelativePitch()) {
+                        notes[i] = keySignature.notes[j];
+                        break;
+                    }
+                }
+            }
+        }
+
+        this.notes = notes;
     }
 
-    private Interval getIntervalForDegreeAndStep(Step step, int toDegree) {
-        int rootRelativePitch = root.getRelativePitch();
-
-        int relativePitchDistance = (toDegree - rootRelativePitch) % 12;
-
-        // TODO finish
-        return null;
-    }
+//    private void setIntervals() {
+//        // TODO assuming we already know the steps and notes for the scale
+//        intervals = new Interval[steps.length];
+//
+//        for (int i = 1; i < scaleType.sequence.length; i++) {
+//            intervals[i-1] = getIntervalForDegree(scaleType.sequence[i], i);
+//        }
+//    }
+//
+//    private Interval getIntervalForDegree(int toDegreeRelativePitch, int toDegreeIntervalNumber) {
+//        Interval[] toDegreeIntervals = root.getEnharmonicIntervalsToRelativeDegree(toDegreeIntervalNumber);
+//
+//        // FIXME
+//        return toDegreeIntervals[0];
+//    }
 
     private void setKeySignature(Note note) {
-        switch(scaleType.tonality) {
+        switch (scaleType.tonality) {
             case MAJOR: this.keySignature = getMajorKeySignature(note); break;
             case MINOR: this.keySignature = getMinorKeySignature(note); break;
             default:
@@ -83,7 +168,7 @@ public class Scale {
             case B_FLAT: return KeySignature.B_FLAT_MAJOR;
             case F: return KeySignature.F_MAJOR;
 
-            //Non-accidental key signatures
+            // Non-accidental key signatures
             case C: return KeySignature.C_MAJOR;
 
             // Sharp key signatures
@@ -94,6 +179,8 @@ public class Scale {
             case B: return KeySignature.B_MAJOR;
             case F_SHARP: return KeySignature.F_SHARP_MAJOR;
             case C_SHARP: return KeySignature.C_SHARP_MAJOR;
+
+            // TODO weird cases
             default: return null;
         }
     }
@@ -109,7 +196,7 @@ public class Scale {
             case G: return KeySignature.G_MINOR;
             case D: return KeySignature.D_MINOR;
 
-            //Non-accidental key signatures
+            // Non-accidental key signatures
             case A: return KeySignature.A_MINOR;
 
             // Sharp key signatures
@@ -120,6 +207,8 @@ public class Scale {
             case G_SHARP: return KeySignature.G_SHARP_MINOR;
             case D_SHARP: return KeySignature.D_SHARP_MINOR;
             case A_SHARP: return KeySignature.A_SHARP_MINOR;
+
+            // TODO weird cases
             default: return null;
         }
     }
@@ -145,74 +234,5 @@ public class Scale {
         return keySignature;
     }
 
-    public Note[] getAscendingNotes() {
-        int scaleLength = scaleType.sequence.length;
-        Note[] notes = new Note[scaleLength];
-
-        // First note in the scale is the scale's root.
-        notes[0] = root;
-
-
-
-
-
-        // TODO Other cases will be needed here for scales with tonalities that are not MAJOR or MINOR.
-
-        // Choose a set of chromatic notes based on key signature.
-        Note[] chromatic;
-        if (keySignature.isSharpKeySignature()) {
-            chromatic = new Note[] {Note.C, Note.C_SHARP, Note.D, Note.D_SHARP,
-                    Note.E, Note.F, Note.F_SHARP, Note.G,
-                    Note.G_SHARP, Note.A, Note.A_SHARP, Note.B};
-        }
-        else {
-            chromatic = new Note[] {Note.C, Note.D_FLAT, Note.D, Note.E_FLAT,
-                    Note.E, Note.F, Note.G_FLAT, Note.G,
-                    Note.A_FLAT, Note.A, Note.B_FLAT, Note.B};
-        }
-
-        // First pass: fill according to relative chromatic pitch.
-        for (int i = 1; i < scaleLength; i++) {
-            notes[i] = chromatic[(root.getRelativePitch() + scaleType.sequence[i]) % 12];
-        }
-
-        // Second pass: fix enharmonic spelling to fit this scale's key signature.
-        for (int i = 1; i < scaleLength-2; i++) {
-            if (notes[i-1].getLetter() == notes[i].getLetter()) {
-                Note[] enharmonics = notes[i].getEnharmonicEquivalents(false, false);
-                for (Note n : enharmonics) {
-                    if (n.getLetter() > notes[i-1].getLetter()) {
-                        notes[i] = n;
-                        break;
-                    }
-                }
-            }
-            else if (notes[i].getLetter() == notes[i+1].getLetter()) {
-                Note[] enharmonics = notes[i].getEnharmonicEquivalents(false, false);
-                for (Note n : enharmonics) {
-                    if (n.getLetter() > notes[i+1].getLetter()) {
-                        notes[i] = n;
-                        break;
-                    }
-                }
-            }
-            else {
-                continue;
-            }
-        }
-
-        // Third pass: fill in the notes from the key signature.
-        for (int i = 0; i < scaleLength; i++) {
-            for (int j = 0; j < keySignature.notes.length; j++) {
-                if ((scaleType.sequence[i] + root.getRelativePitch()) % 12 == keySignature.notes[j].getRelativePitch()) {
-                    notes[i] = keySignature.notes[j];
-                    break;
-                }
-            }
-        }
-
-        // TODO fix some of the edge case enharmonic spellings (ex: C# Harmonic Minor's 7th degree should be B#, not C)
-
-        return notes;
-    }
+    public Note[] getAscendingNotes() { return notes; }
 }

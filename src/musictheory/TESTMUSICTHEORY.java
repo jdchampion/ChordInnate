@@ -13,7 +13,7 @@ import javax.sound.midi.Synthesizer;
 public class TESTMUSICTHEORY {
 
     // Toggle for hearing Midi playback
-    static final boolean PLAYBACK = true;
+    static final boolean PLAYBACK = false;
 
     // All possible note types that this program can play
     static final Note[] ALL_NOTES = Note.values();
@@ -50,7 +50,7 @@ public class TESTMUSICTHEORY {
 
             // TODO: Tests performed here
 
-//            testScale(PLAYBACK);
+            testScale(PLAYBACK);
 
 //            testAscendingNotes(PLAYBACK);
 //
@@ -175,6 +175,13 @@ public class TESTMUSICTHEORY {
 
                     System.out.println();
 
+//                    System.out.print("Intervals: ");
+//                    for (Interval interval : scale.intervals) {
+//                        System.out.print(interval + " ");
+//                    }
+//
+//                    System.out.println();
+
                     System.out.println("\n==========================================");
 
                     if (playback) {
@@ -186,7 +193,8 @@ public class TESTMUSICTHEORY {
 
                 } catch (Exception e) {
                     // Skip the natural notes (don't generate scales from them)
-                    e.getMessage();
+                    System.out.println(e.getMessage());
+                    System.out.println("\n==========================================");
                 }
             }
         }

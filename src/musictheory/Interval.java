@@ -11,6 +11,8 @@ package musictheory;
  *             http://musictheory.alcorn.edu/Version2/theory1/interval.htm
  */
 public enum Interval {
+    // DO NOT RE-ORDER THESE ITEMS!!
+
     PERFECT_UNISON(0, IntervalQuality.PERFECT, 1),
     DIMINISHED_SECOND(0, IntervalQuality.DIMINISHED, 2),
 
@@ -53,17 +55,27 @@ public enum Interval {
     int relativePitchDistance;
     IntervalQuality quality;
     int intervalNumber;
-    String romanNumeral;
+    RomanNumeral romanNumeral;
 
     Interval(int relativePitchDistance, IntervalQuality quality, int intervalNumber) {
-        String[] bigRomanNumerals = {"I", "II", "III", "IV", "V", "VI", "VII"};
-        String[] smallRomanNumerals = {"i", "ii", "iii", "iv", "v", "vi", "vii"};
+        RomanNumeral[] bigRomanNumerals = {
+                RomanNumeral.I, RomanNumeral.II, RomanNumeral.III, RomanNumeral.IV,
+                RomanNumeral.V, RomanNumeral.VI, RomanNumeral.VII
+        };
+        RomanNumeral[] smallRomanNumerals = {
+                RomanNumeral.i, RomanNumeral.ii, RomanNumeral.iii, RomanNumeral.iv,
+                RomanNumeral.v, RomanNumeral.vi, RomanNumeral.vii
+        };
         this.relativePitchDistance = relativePitchDistance;
         this.quality = quality;
         this.intervalNumber = intervalNumber;
         this.romanNumeral = (quality.equals(IntervalQuality.MINOR) || quality.equals(IntervalQuality.DIMINISHED))
                 ? smallRomanNumerals[(intervalNumber-1)%7]
                 : bigRomanNumerals[(intervalNumber-1)%7];
+    }
+
+    RomanNumeral getRomanNumeral() {
+        return romanNumeral;
     }
 
     String getRomanNumeralName() {
@@ -88,6 +100,11 @@ public enum Interval {
             this.romanNumeralIdentifier = romanNumeralIdentifier;
         }
     }
+}
+
+enum RomanNumeral {
+    I, II, III, IV, V, VI, VII, VIII,
+    i, ii, iii, iv, v, vi, vii, viii
 }
 
 enum Step {
