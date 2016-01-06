@@ -1,74 +1,76 @@
 package musictheory;
 
+import static musictheory.Accidental.*;
+
 /**
  * Created by Joseph on 1/1/16.
  */
 public enum Note {
     // DO NOT RE-ORDER THESE ITEMS!!
 
-    B_SHARP('B', Accidental.SHARP, 0),
-    C('C', Accidental.NONE, 0),
-    C_NATURAL('C', Accidental.NATURAL, 0),
-    D_DOUBLE_FLAT('D', Accidental.DOUBLE_FLAT, 0),
+    B_SHARP('B', SHARP, 0),
+    C('C', NONE, 0),
+    C_NATURAL('C', NATURAL, 0),
+    D_DOUBLE_FLAT('D', DOUBLE_FLAT, 0),
 
-    B_DOUBLE_SHARP('B', Accidental.DOUBLE_SHARP, 1),
-    C_SHARP('C', Accidental.SHARP, 1),
-    D_FLAT('D', Accidental.FLAT, 1),
+    B_DOUBLE_SHARP('B', DOUBLE_SHARP, 1),
+    C_SHARP('C', SHARP, 1),
+    D_FLAT('D', FLAT, 1),
 
-    C_DOUBLE_SHARP('C', Accidental.DOUBLE_SHARP, 2),
-    D('D', Accidental.NONE, 2),
-    D_NATURAL('D', Accidental.NATURAL, 2),
-    E_DOUBLE_FLAT('E', Accidental.DOUBLE_FLAT, 2),
+    C_DOUBLE_SHARP('C', DOUBLE_SHARP, 2),
+    D('D', NONE, 2),
+    D_NATURAL('D', NATURAL, 2),
+    E_DOUBLE_FLAT('E', DOUBLE_FLAT, 2),
 
-    D_SHARP('D', Accidental.SHARP, 3),
-    E_FLAT('E', Accidental.FLAT, 3),
-    F_DOUBLE_FLAT('F', Accidental.DOUBLE_FLAT, 3),
+    D_SHARP('D', SHARP, 3),
+    E_FLAT('E', FLAT, 3),
+    F_DOUBLE_FLAT('F', DOUBLE_FLAT, 3),
 
-    D_DOUBLE_SHARP('D', Accidental.DOUBLE_SHARP, 4),
-    E('E', Accidental.NONE, 4),
-    E_NATURAL('E', Accidental.NATURAL, 4),
-    F_FLAT('F', Accidental.FLAT, 4),
+    D_DOUBLE_SHARP('D', DOUBLE_SHARP, 4),
+    E('E', NONE, 4),
+    E_NATURAL('E', NATURAL, 4),
+    F_FLAT('F', FLAT, 4),
 
-    E_SHARP('E', Accidental.SHARP, 5),
-    F('F', Accidental.NONE, 5),
-    F_NATURAL('F', Accidental.NATURAL, 5),
-    G_DOUBLE_FLAT('G', Accidental.DOUBLE_FLAT, 5),
+    E_SHARP('E', SHARP, 5),
+    F('F', NONE, 5),
+    F_NATURAL('F', NATURAL, 5),
+    G_DOUBLE_FLAT('G', DOUBLE_FLAT, 5),
 
-    E_DOUBLE_SHARP('E', Accidental.DOUBLE_SHARP, 6),
-    F_SHARP('F', Accidental.SHARP, 6),
-    G_FLAT('G', Accidental.FLAT, 6),
+    E_DOUBLE_SHARP('E', DOUBLE_SHARP, 6),
+    F_SHARP('F', SHARP, 6),
+    G_FLAT('G', FLAT, 6),
 
-    F_DOUBLE_SHARP('F', Accidental.DOUBLE_SHARP, 7),
-    G('G', Accidental.NONE, 7),
-    G_NATURAL('G', Accidental.NATURAL, 7),
-    A_DOUBLE_FLAT('A', Accidental.DOUBLE_FLAT, 7),
+    F_DOUBLE_SHARP('F', DOUBLE_SHARP, 7),
+    G('G', NONE, 7),
+    G_NATURAL('G', NATURAL, 7),
+    A_DOUBLE_FLAT('A', DOUBLE_FLAT, 7),
 
-    G_SHARP('G', Accidental.SHARP, 8),
-    A_FLAT('A', Accidental.FLAT, 8),
+    G_SHARP('G', SHARP, 8),
+    A_FLAT('A', FLAT, 8),
 
-    G_DOUBLE_SHARP('G', Accidental.DOUBLE_SHARP, 9),
-    A('A', Accidental.NONE, 9),
-    A_NATURAL('A', Accidental.NATURAL, 9),
-    B_DOUBLE_FLAT('B', Accidental.DOUBLE_FLAT, 9),
+    G_DOUBLE_SHARP('G', DOUBLE_SHARP, 9),
+    A('A', NONE, 9),
+    A_NATURAL('A', NATURAL, 9),
+    B_DOUBLE_FLAT('B', DOUBLE_FLAT, 9),
 
-    A_SHARP('A', Accidental.SHARP, 10),
-    B_FLAT('B', Accidental.FLAT, 10),
-    C_DOUBLE_FLAT('C', Accidental.DOUBLE_FLAT, 10),
+    A_SHARP('A', SHARP, 10),
+    B_FLAT('B', FLAT, 10),
+    C_DOUBLE_FLAT('C', DOUBLE_FLAT, 10),
 
-    A_DOUBLE_SHARP('A', Accidental.DOUBLE_SHARP, 11),
-    B('B', Accidental.NONE, 11),
-    B_NATURAL('B', Accidental.NATURAL, 11),
-    C_FLAT('C', Accidental.FLAT, 11);
+    A_DOUBLE_SHARP('A', DOUBLE_SHARP, 11),
+    B('B', NONE, 11),
+    B_NATURAL('B', NATURAL, 11),
+    C_FLAT('C', FLAT, 11);
 
-    private char letter;
-    private Accidental accidental;
-    private String name;
-    private int relativePitch, octaveRange;
+    private final char letter;
+    private final Accidental accidental;
+    private final String name;
+    private final int relativePitch, octaveRange;
 
     Note(char letter, Accidental accidental, int relativePitch) {
         this.letter = letter;
         this.accidental = accidental;
-        this.name = letter + accidental.indicator;
+        this.name = letter + accidental.getIndicator();
         this.relativePitch = relativePitch;
         this.octaveRange = (relativePitch < 8) ? 11 : 10;
     }
@@ -92,51 +94,51 @@ public enum Note {
     }
 
     boolean hasAccidentalSymbol() {
-        return !accidental.equals(Accidental.NONE);
+        return !accidental.equals(NONE);
     }
 
-    boolean isNatural() { return accidental.equals(Accidental.NATURAL); }
+    boolean isNatural() { return accidental.equals(NATURAL); }
 
-    boolean isDoubleAccidental() { return accidental.equals(Accidental.DOUBLE_FLAT)
-            || accidental.equals(Accidental.DOUBLE_SHARP); }
+    boolean isDoubleAccidental() { return accidental.equals(DOUBLE_FLAT)
+            || accidental.equals(DOUBLE_SHARP); }
 
-    Note getNext() {
+    final Note getNext() {
         return this.ordinal() < Note.values().length - 1
                 ? Note.values()[this.ordinal() + 1]
                 : null;
     }
 
-    Note getPrevious() {
+    final Note getPrevious() {
         return this.ordinal() > 0
                 ? Note.values()[this.ordinal() - 1]
                 : null;
     }
 
-    Note getFromIndex(int index) {
+    final Note getFromIndex(int index) {
         return index < Note.values().length - 1
                 ? Note.values()[index]
                 : null;
     }
 
-    static Note getFirstPracticalEnharmonicToRelativePitch(int relativePitch) {
+    final static Note getFirstPracticalEnharmonicToRelativePitch(int relativePitch) {
         switch (relativePitch) {
-            case 0: return Note.B_SHARP;
-            case 1: return Note.C_SHARP;
-            case 2: return Note.D;
-            case 3: return Note.D_SHARP;
-            case 4: return Note.E;
-            case 5: return Note.F;
-            case 6: return Note.F_SHARP;
-            case 7: return Note.G;
-            case 8: return Note.G_SHARP;
-            case 9: return Note.A;
-            case 10: return Note.A_SHARP;
-            case 11: return Note.B;
+            case 0: return B_SHARP;
+            case 1: return C_SHARP;
+            case 2: return D;
+            case 3: return D_SHARP;
+            case 4: return E;
+            case 5: return F;
+            case 6: return F_SHARP;
+            case 7: return G;
+            case 8: return G_SHARP;
+            case 9: return A;
+            case 10: return A_SHARP;
+            case 11: return B;
             default: return null;
         }
     }
 
-    Note[] getPracticalEnharmonicEquivalents(boolean wantNatural) {
+    final Note[] getPracticalEnharmonicEquivalents(boolean wantNatural) {
         switch (this.relativePitch) {
             case 0: { // B# | C | CNat | Dbb
                 return wantNatural
@@ -192,7 +194,7 @@ public enum Note {
         }
     }
 
-    Note[] getEnharmonicEquivalents(boolean wantNatural, boolean wantDoubleAccidentals) {
+    final Note[] getEnharmonicEquivalents(boolean wantNatural, boolean wantDoubleAccidentals) {
         switch (this.relativePitch) {
             case 0: { // B# | C | CNat | Dbb
                 if (wantNatural && wantDoubleAccidentals) {
@@ -453,9 +455,11 @@ enum Accidental {
     DOUBLE_SHARP("x"),
     NONE("");
 
-    String indicator;
+    private final String indicator;
 
     Accidental(String indicator) {
         this.indicator = indicator;
     }
+
+    final String getIndicator() { return indicator; }
 }

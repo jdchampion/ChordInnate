@@ -17,7 +17,7 @@ public class TESTMUSICTHEORY {
     //===============================================================================================//
 
     // Toggle for hearing Midi playback
-    static final boolean PLAYBACK = false;
+    static final boolean PLAYBACK = true;
 
     // All possible note types that this program can play
     static final Note[] ALL_NOTES = Note.values();
@@ -26,7 +26,7 @@ public class TESTMUSICTHEORY {
     static final Note note = Note.C;
 
     // Variables for testing scales
-    static final ScaleType scaleType = ScaleType.ALGERIAN;
+    static final ScaleType scaleType = ScaleType.MAJOR;
 
     //===============================================================================================//
 

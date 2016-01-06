@@ -1,5 +1,11 @@
 package musictheory;
 
+import static musictheory.ScaleType.*;
+import static musictheory.KeySignature.*;
+import static musictheory.Accidental.*;
+import static musictheory.Note.*;
+import static musictheory.Step.*;
+
 /**
  * Created by Joseph on 1/1/16.
  *
@@ -12,7 +18,7 @@ public class Scale {
     private KeySignature keySignature;
     private Step[] steps;
     private Note[] notes;
-    Interval[] intervals;
+//    Interval[] intervals;
 
     Scale(Note root, ScaleType scaleType) throws Exception {
         /*
@@ -46,10 +52,10 @@ public class Scale {
         for (int i = 1; i < scaleType.sequence.length; i++) {
             int intervalDistance = scaleType.sequence[i] - scaleType.sequence[i-1];
             switch (intervalDistance) {
-                case 1: steps[i-1] = Step.H; break;
-                case 2: steps[i-1] = Step.W; break;
-                case 3: steps[i-1] = Step.WH; break;
-                case 4: steps[i-1] = Step.WW; break;
+                case 1: steps[i-1] = H; break;
+                case 2: steps[i-1] = W; break;
+                case 3: steps[i-1] = WH; break;
+                case 4: steps[i-1] = WW; break;
                 default: steps[i-1] = null;
             }
         }
@@ -63,11 +69,11 @@ public class Scale {
         notes[0] = root;
 
         // TODO Shortcut for Chromatic scales (since it's the only type with all 12 notes)
-        if (scaleType.equals(ScaleType.CHROMATIC)) {
+        if (scaleType.equals(CHROMATIC)) {
 
-            Note[] chromatic = (root.getAccidental().equals(Accidental.FLAT))
-                    ? Note.getFlatChromaticNoteArray()
-                    : Note.getSharpChromaticNoteArray();
+            Note[] chromatic = (root.getAccidental().equals(FLAT))
+                    ? getFlatChromaticNoteArray()
+                    : getSharpChromaticNoteArray();
 
             // Get the index for the root
             int index = root.getRelativePitch();
@@ -86,7 +92,7 @@ public class Scale {
             int pitch = (root.getRelativePitch() + scaleType.sequence[i]) % 12;
 
             // We're not going to create any scales with naturals or double-accidentals
-            enharmonics = Note.getFirstPracticalEnharmonicToRelativePitch(pitch)
+            enharmonics = getFirstPracticalEnharmonicToRelativePitch(pitch)
                     .getEnharmonicEquivalents(false, false);
 
             if (enharmonics.length == 1) {
@@ -103,14 +109,14 @@ public class Scale {
                 if (notes[i].getLetter() == notes[0].getLetter()) {
 
                     if (notes[i].equals(Note.A)) {
-                        notes[i] = Note.G_DOUBLE_SHARP;
+                        notes[i] = G_DOUBLE_SHARP;
 
-                        if (notes[i-1].equals(Note.G)) {
-                            notes[i-1] = Note.F_DOUBLE_SHARP;
+                        if (notes[i-1].equals(G)) {
+                            notes[i-1] = F_DOUBLE_SHARP;
                         }
                     }
                     else {
-                        enharmonics = Note.getFirstPracticalEnharmonicToRelativePitch(pitch)
+                        enharmonics = getFirstPracticalEnharmonicToRelativePitch(pitch)
                                 .getEnharmonicEquivalents(false, true);
 
                         for (int j = 0; j < enharmonics.length; j++) {
@@ -155,83 +161,10 @@ public class Scale {
 
     private void setKeySignature(Note note) {
         switch (scaleType.tonality) {
-            case MAJOR: this.keySignature = getMajorKeySignature(note); break;
-            case MINOR: this.keySignature = getMinorKeySignature(note); break;
-            case CHROMATIC: this.keySignature = getMajorKeySignature(note); break;
+            case MAJOR_TONALITY: this.keySignature = getMajorKeySignature(note); break;
+            case MINOR_TONALITY: this.keySignature = getMinorKeySignature(note); break;
+            case CHROMATIC_TONALITY: this.keySignature = getMajorKeySignature(note); break;
             default:
-        }
-    }
-
-    private KeySignature getMajorKeySignature(Note note) {
-        switch(note) {
-            // Flat key signatures
-            case C_FLAT: return KeySignature.C_FLAT_MAJOR;
-            case G_FLAT: return KeySignature.G_FLAT_MAJOR;
-            case D_FLAT: return KeySignature.D_FLAT_MAJOR;
-            case A_FLAT: return KeySignature.A_FLAT_MAJOR;
-            case E_FLAT: return KeySignature.E_FLAT_MAJOR;
-            case B_FLAT: return KeySignature.B_FLAT_MAJOR;
-            case F: return KeySignature.F_MAJOR;
-
-            // Non-accidental key signatures
-            case C: return KeySignature.C_MAJOR;
-
-            // Sharp key signatures
-            case G: return KeySignature.G_MAJOR;
-            case D: return KeySignature.D_MAJOR;
-            case A: return KeySignature.A_MAJOR;
-            case E: return KeySignature.E_MAJOR;
-            case B: return KeySignature.B_MAJOR;
-            case F_SHARP: return KeySignature.F_SHARP_MAJOR;
-            case C_SHARP: return KeySignature.C_SHARP_MAJOR;
-
-            // TODO weird cases
-//            case G_SHARP: return KeySignature.F_MINOR;
-//            case D_SHARP: return KeySignature.C_MINOR;
-//            case A_SHARP: return KeySignature.F_SHARP_MINOR;
-//            case E_SHARP: return KeySignature.D_MINOR;
-//
-//            case B_SHARP: return KeySignature.C_MAJOR;
-//
-//            case F_FLAT: return KeySignature.C_SHARP_MINOR;
-
-            default: return null;
-        }
-    }
-
-    private KeySignature getMinorKeySignature(Note note) {
-        switch(note) {
-            // Flat key signatures
-            case A_FLAT: return KeySignature.A_FLAT_MINOR;
-            case E_FLAT: return KeySignature.E_FLAT_MINOR;
-            case B_FLAT: return KeySignature.B_FLAT_MINOR;
-            case F: return KeySignature.F_MINOR;
-            case C: return KeySignature.C_MINOR;
-            case G: return KeySignature.G_MINOR;
-            case D: return KeySignature.D_MINOR;
-
-            // Non-accidental key signatures
-            case A: return KeySignature.A_MINOR;
-
-            // Sharp key signatures
-            case E: return KeySignature.E_MINOR;
-            case B: return KeySignature.B_MINOR;
-            case F_SHARP: return KeySignature.F_SHARP_MINOR;
-            case C_SHARP: return KeySignature.C_SHARP_MINOR;
-            case G_SHARP: return KeySignature.G_SHARP_MINOR;
-            case D_SHARP: return KeySignature.D_SHARP_MINOR;
-            case A_SHARP: return KeySignature.A_SHARP_MINOR;
-
-            // TODO weird cases
-//            case D_FLAT: return KeySignature.E_MAJOR;
-//            case G_FLAT: return KeySignature.A_MAJOR;
-//            case C_FLAT: return KeySignature.D_MAJOR;
-//            case F_FLAT: return KeySignature.G_MINOR;
-//
-//            case B_SHARP: return KeySignature.E_FLAT_MAJOR;
-//            case E_SHARP: return KeySignature.A_FLAT_MAJOR;
-
-            default: return null;
         }
     }
 

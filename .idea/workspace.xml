@@ -2,6 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1727481b-bb17-4ae4-b2e7-bcd72d0fe28e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/musictheory/RomanNumeral.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Interval.java" afterPath="$PROJECT_DIR$/src/musictheory/Interval.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/KeySignature.java" afterPath="$PROJECT_DIR$/src/musictheory/KeySignature.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Note.java" afterPath="$PROJECT_DIR$/src/musictheory/Note.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Scale.java" afterPath="$PROJECT_DIR$/src/musictheory/Scale.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/ScaleType.java" afterPath="$PROJECT_DIR$/src/musictheory/ScaleType.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/TESTMUSICTHEORY.java" afterPath="$PROJECT_DIR$/src/musictheory/TESTMUSICTHEORY.java" />
     </list>
     <ignored path="ChordInnate.iws" />
@@ -24,11 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Note.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Note.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/musictheory/Note.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.23917995">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="72" column="54" selection-start-line="72" selection-start-column="54" selection-end-line="72" selection-end-column="54" />
               <folding>
                 <element signature="method#getPracticalEnharmonicEquivalents#0;class#Note#0" expanded="false" />
                 <element signature="method#getEnharmonicEquivalents#0;class#Note#0" expanded="false" />
@@ -38,18 +45,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Interval.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/musictheory/Interval.java">
+      <file leaf-file-name="RomanNumeral.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/musictheory/RomanNumeral.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
+              <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
               <folding>
-                <element signature="e#2958#2959#0" expanded="true" />
-                <element signature="e#2993#2994#0" expanded="true" />
-                <element signature="e#3029#3030#0" expanded="true" />
-                <element signature="e#3097#3098#0" expanded="true" />
-                <element signature="e#3126#3127#0" expanded="true" />
-                <element signature="e#3193#3194#0" expanded="true" />
+                <element signature="e#207#208#0" expanded="true" />
+                <element signature="e#283#284#0" expanded="true" />
+                <element signature="e#336#337#0" expanded="true" />
+                <element signature="e#412#413#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -59,17 +64,17 @@
         <entry file="file://$PROJECT_DIR$/src/musictheory/Degree.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+              <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TESTMUSICTHEORY.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="TESTMUSICTHEORY.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/musictheory/TESTMUSICTHEORY.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.6492027">
+              <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -81,8 +86,10 @@
         <entry file="file://$PROJECT_DIR$/src/musictheory/Scale.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="47" column="39" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
-              <folding />
+              <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -91,7 +98,7 @@
         <entry file="file://$PROJECT_DIR$/src/musictheory/KeySignature.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+              <caret line="59" column="10" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -101,7 +108,7 @@
         <entry file="file://$PROJECT_DIR$/src/musictheory/ScaleType.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
+              <caret line="98" column="28" selection-start-line="98" selection-start-column="28" selection-end-line="98" selection-end-column="28" />
               <folding />
             </state>
           </provider>
@@ -127,7 +134,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/musictheory/Chord.java" />
         <option value="$PROJECT_DIR$/src/musictheory/NoteElement.java" />
         <option value="$PROJECT_DIR$/src/musictheory/FlatNote.java" />
         <option value="$PROJECT_DIR$/src/musictheory/NaturalNote.java" />
@@ -172,11 +178,12 @@
         <option value="$PROJECT_DIR$/src/musictheory/Digraph.java" />
         <option value="$PROJECT_DIR$/src/musictheory/DAG.java" />
         <option value="$PROJECT_DIR$/src/musictheory/Degree.java" />
+        <option value="$PROJECT_DIR$/src/musictheory/RomanNumeral.java" />
         <option value="$PROJECT_DIR$/src/musictheory/Interval.java" />
-        <option value="$PROJECT_DIR$/src/musictheory/KeySignature.java" />
-        <option value="$PROJECT_DIR$/src/musictheory/ScaleType.java" />
         <option value="$PROJECT_DIR$/src/musictheory/Scale.java" />
+        <option value="$PROJECT_DIR$/src/musictheory/KeySignature.java" />
         <option value="$PROJECT_DIR$/src/musictheory/Note.java" />
+        <option value="$PROJECT_DIR$/src/musictheory/ScaleType.java" />
         <option value="$PROJECT_DIR$/src/musictheory/TESTMUSICTHEORY.java" />
       </list>
     </option>
@@ -600,10 +607,10 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39919356" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37146702" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.37146702" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43125" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.43125" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -619,11 +626,11 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32258064" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32166892" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32974428" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39919356" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -679,12 +686,12 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding>
-            <element signature="e#2958#2959#0" expanded="true" />
-            <element signature="e#2993#2994#0" expanded="true" />
-            <element signature="e#3029#3030#0" expanded="true" />
-            <element signature="e#3097#3098#0" expanded="true" />
-            <element signature="e#3126#3127#0" expanded="true" />
-            <element signature="e#3193#3194#0" expanded="true" />
+            <element signature="e#2210#2211#0" expanded="true" />
+            <element signature="e#2245#2246#0" expanded="true" />
+            <element signature="e#2287#2288#0" expanded="true" />
+            <element signature="e#2355#2356#0" expanded="true" />
+            <element signature="e#2390#2391#0" expanded="true" />
+            <element signature="e#2457#2458#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -825,43 +832,58 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/musictheory/Degree.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/musictheory/ScaleType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="30" selection-start-line="10" selection-start-column="30" selection-end-line="10" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/musictheory/Interval.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="13" column="36" selection-start-line="13" selection-start-column="36" selection-end-line="13" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.4191344">
+          <caret line="59" column="10" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
           <folding>
-            <element signature="e#2958#2959#0" expanded="true" />
-            <element signature="e#2993#2994#0" expanded="true" />
-            <element signature="e#3029#3030#0" expanded="true" />
-            <element signature="e#3097#3098#0" expanded="true" />
-            <element signature="e#3126#3127#0" expanded="true" />
-            <element signature="e#3193#3194#0" expanded="true" />
+            <element signature="e#2210#2211#0" expanded="true" />
+            <element signature="e#2245#2246#0" expanded="true" />
+            <element signature="e#2287#2288#0" expanded="true" />
+            <element signature="e#2355#2356#0" expanded="true" />
+            <element signature="e#2390#2391#0" expanded="true" />
+            <element signature="e#2457#2458#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/musictheory/TESTMUSICTHEORY.java">
+    <entry file="file://$PROJECT_DIR$/src/musictheory/KeySignature.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
+          <caret line="59" column="10" selection-start-line="59" selection-start-column="10" selection-end-line="59" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/musictheory/Note.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="72" column="54" selection-start-line="72" selection-start-column="54" selection-end-line="72" selection-end-column="54" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="method#getPracticalEnharmonicEquivalents#0;class#Note#0" expanded="false" />
+            <element signature="method#getEnharmonicEquivalents#0;class#Note#0" expanded="false" />
+            <element signature="method#getAllOtherNotesToFitKeySignature#0;class#Note#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/musictheory/Degree.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="4" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/musictheory/RomanNumeral.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="13" column="11" selection-start-line="13" selection-start-column="11" selection-end-line="13" selection-end-column="11" />
+          <folding>
+            <element signature="e#207#208#0" expanded="true" />
+            <element signature="e#283#284#0" expanded="true" />
+            <element signature="e#336#337#0" expanded="true" />
+            <element signature="e#412#413#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -869,27 +891,27 @@
     <entry file="file://$PROJECT_DIR$/src/musictheory/Scale.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="47" column="39" selection-start-line="47" selection-start-column="39" selection-end-line="47" selection-end-column="39" />
-          <folding />
+          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/musictheory/KeySignature.java">
+    <entry file="file://$PROJECT_DIR$/src/musictheory/ScaleType.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+          <caret line="98" column="28" selection-start-line="98" selection-start-column="28" selection-end-line="98" selection-end-column="28" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/musictheory/Note.java">
+    <entry file="file://$PROJECT_DIR$/src/musictheory/TESTMUSICTHEORY.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.23917995">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6492027">
+          <caret line="19" column="40" selection-start-line="19" selection-start-column="40" selection-end-line="19" selection-end-column="40" />
           <folding>
-            <element signature="method#getPracticalEnharmonicEquivalents#0;class#Note#0" expanded="false" />
-            <element signature="method#getEnharmonicEquivalents#0;class#Note#0" expanded="false" />
-            <element signature="method#getAllOtherNotesToFitKeySignature#0;class#Note#0" expanded="false" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
