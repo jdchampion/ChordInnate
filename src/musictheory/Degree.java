@@ -31,6 +31,4 @@ enum Degree {
                 ? Degree.values()[this.ordinal() - 1]
                 : null;
     }
-
-
 }

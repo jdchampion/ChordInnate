@@ -115,7 +115,7 @@ public enum Note {
     }
 
     final Note getFromIndex(int index) {
-        return index < Note.values().length - 1
+        return (index > 0 || index < Note.values().length - 1)
                 ? Note.values()[index]
                 : null;
     }
@@ -441,10 +441,10 @@ public enum Note {
         }
     }
 
-    Interval[] getEnharmonicIntervalsToRelativeDegree(int relativeDegree) {
-        int index = (2*relativeDegree) % 12;
-        return new Interval[] {Interval.values()[index], Interval.values()[index+1]};
-    }
+//    Interval[] getEnharmonicIntervalsToRelativeDegree(int relativeDegree) {
+//        int index = (2*relativeDegree) % 12;
+//        return new Interval[] {Interval.values()[index], Interval.values()[index+1]};
+//    }
 }
 
 enum Accidental {

@@ -61,13 +61,13 @@ public class TESTMUSICTHEORY {
 
             // TODO: Tests performed here
 
-            testScale(note, scaleType, PLAYBACK, true);
+//            testScale(note, scaleType, PLAYBACK, true);
 
 //            testAscendingNotes(PLAYBACK);
 //
 //            testDescendingNotes(PLAYBACK);
 //
-//            testIntervalNotes(PLAYBACK);
+            testIntervalNotes(PLAYBACK);
 
 //            testNextPreviousNotes(PLAYBACK);
 
@@ -142,7 +142,7 @@ public class TESTMUSICTHEORY {
             testScaleAttributes(scale, playback, note);
 
             if (testTranspose) {
-                for (Note n : Note.values()) {
+                for (Note n : ALL_NOTES) {
                     System.out.println("\n==========================================");
                     try {
                         scale = scale.getTransposition(n);
@@ -228,7 +228,7 @@ public class TESTMUSICTHEORY {
     }
 
     private static void testNextPreviousNotes(boolean playback) {
-        for (Note note : Note.values()) {
+        for (Note note : ALL_NOTES) {
             System.out.println("Note: " + note);
             soundNote(playback, 60 + note.getRelativePitch(), 127, 0);
             System.out.println("Next: " + note.getNext());
@@ -251,7 +251,7 @@ public class TESTMUSICTHEORY {
     }
 
     private static void testEnharmonicNotes(boolean playback) {
-        for (Note note : Note.values()) {
+        for (Note note : ALL_NOTES) {
             System.out.println("Note: " + note);
             soundNote(playback, 60 + note.getRelativePitch(), 127, 200);
 

@@ -108,7 +108,7 @@ public class Scale {
             if (i == scaleLength-1) {
                 if (notes[i].getLetter() == notes[0].getLetter()) {
 
-                    if (notes[i].equals(Note.A)) {
+                    if (notes[i].equals(A)) {
                         notes[i] = G_DOUBLE_SHARP;
 
                         if (notes[i-1].equals(G)) {
