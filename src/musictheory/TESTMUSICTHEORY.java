@@ -61,13 +61,18 @@ public class TESTMUSICTHEORY {
 
             // TODO: Tests performed here
 
-//            testScale(note, scaleType, PLAYBACK, true);
+//            // TODO remove for loop when finished
+            for (Note n: Note.values()) {
+
+                testScale(n, scaleType, PLAYBACK, false);
+
+            }
 
 //            testAscendingNotes(PLAYBACK);
 //
 //            testDescendingNotes(PLAYBACK);
 //
-            testIntervalNotes(PLAYBACK);
+//            testIntervalNotes(PLAYBACK);
 
 //            testNextPreviousNotes(PLAYBACK);
 
@@ -135,9 +140,39 @@ public class TESTMUSICTHEORY {
         }
     }
 
+    private static void testSoundScale(Scale scale, boolean isUpDown) {
+        Note[] upNotes = scale.getAscendingNotes();
+        Note[] downNotes = scale.getDescendingNotes();
+
+        for (Note n : upNotes) {
+            if (n != null) {
+                /*
+                 * FIXME Notes are correct but sound at the incorrect octave.
+                 * Need a modifier variable for the octave.
+                 */
+                soundNote(PLAYBACK, 60 + n.getRelativePitch(), 127, 0);
+            }
+        }
+
+        // Top octave note (root)
+        soundNote(PLAYBACK, 72 + scale.getRoot().getRelativePitch(), 127, 0);
+
+        for (Note n : downNotes) {
+            if (n != null) {
+                /*
+                 * FIXME Notes are correct but sound at the incorrect octave.
+                 * Need a modifier variable for the octave.
+                 */
+                soundNote(PLAYBACK, 60 + n.getRelativePitch(), 127, 0);
+            }
+        }
+    }
+
     private static void testScale(Note note, ScaleType scaleType, boolean playback, boolean testTranspose) {
+        System.out.println(note);
         try {
             Scale scale = new Scale(note, scaleType);
+
 
             testScaleAttributes(scale, playback, note);
 
@@ -150,7 +185,7 @@ public class TESTMUSICTHEORY {
                         testScaleAttributes(scale, playback, n);
                     }
                     catch (Exception e) {
-                        System.out.println(e.getMessage());
+//                        System.out.println(e.getMessage());
                     }
                 }
             }
@@ -164,8 +199,8 @@ public class TESTMUSICTHEORY {
 
         } catch (Exception e) {
             // Skip the natural notes (don't generate scales from them)
-            System.out.println(e.getMessage());
-            System.out.println("\n==========================================");
+//            System.out.println(e.getMessage());
+//            System.out.println("\n==========================================");
         }
 
         System.out.println("\n==========================================");
@@ -194,21 +229,11 @@ public class TESTMUSICTHEORY {
         for (Note n : notes) {
             if (n != null) {
                 System.out.print(n.getName() + " ");
-
-                /*
-                 * FIXME Notes are correct but sound at the incorrect octave.
-                 * Need a modifier variable for the octave.
-                 */
-                soundNote(playback, 60 + n.getRelativePitch(), 127, 0);
             }
             else System.out.print("_ ");
         }
 
-        /*
-         * FIXME Notes are correct but sound at the incorrect octave.
-         * Need a modifier variable for the octave.
-         */
-        soundNote(playback, 72 + note.getRelativePitch(), 127, 0);
+        testSoundScale(scale, true);
 
         System.out.println();
 
@@ -219,12 +244,11 @@ public class TESTMUSICTHEORY {
 
         System.out.println();
 
-//                    System.out.print("Intervals: ");
-//                    for (Interval interval : scale.intervals) {
-//                        System.out.print(interval + " ");
-//                    }
-//
-//                    System.out.println();
+        System.out.print("Intervals: ");
+        for (Interval interval : scaleType.intervals) {
+            System.out.print(interval + " ");
+        }
+        System.out.println();
     }
 
     private static void testNextPreviousNotes(boolean playback) {
