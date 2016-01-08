@@ -183,7 +183,7 @@ public class TESTMUSICTHEORY {
                 for (Note n : ALL_NOTES) {
                     System.out.println("\n==========================================");
                     try {
-                        scale = scale.getTransposition(n);
+                        scale = Theory.transpose(scale, n);
                         System.out.print("Scale transposition from " + note.getName() + " to ");
                         testScaleAttributes(scale);
                     }
@@ -220,8 +220,11 @@ public class TESTMUSICTHEORY {
         KeySignature keySignature = scale.getKeySignature();
 
         System.out.print("Key Signature: " + keySignature + "( ");
-        for (Note n : keySignature.notes) {
-            System.out.print(n.getName() + " ");
+
+        if (keySignature != null) {
+            for (Note n : keySignature.notes) {
+                System.out.print(n.getName() + " ");
+            }
         }
 
         System.out.println(")");

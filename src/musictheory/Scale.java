@@ -26,15 +26,17 @@ public class Scale {
          * TODO Maybe convert the natural Notes into their non-accidental enharmonic equivalent,
          *      instead of throwing an Exception? Would reduce the number of try-catches.
          */
-        if (root.isNatural()) {
-            throw new Exception("Scale constructor called with Natural Note root. (" + root.getName() + ")");
-        }
         if (root.isDoubleAccidental()) {
             throw new Exception("Scale constructor called with Double Accidental Note root. (" + root.getName() + ")");
         }
         this.root = root;
+
+        // If the Scale constructor was called with a Note containing
+        // a natural accidental, just convert the Note to its non-accidental equivalent.
+        if (root.isNatural()) this.root = getNote(root.getLetter(), NONE);
+
         this.scaleType = scaleType;
-        setKeySignature(root);
+        setKeySignature(this.root);
 //        if (keySignature == null) {
 //            throw new Exception(this.getName() + " Scale is not Enharmonically correct.");
 //        }
