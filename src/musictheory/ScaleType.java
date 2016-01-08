@@ -120,7 +120,7 @@ public enum ScaleType {
     ADONAI_MALAKH(
             "Adonai Malakh",
             new NashvilleInterval[] {ONE, FLAT_TWO, TWO, FLAT_THREE, FOUR, FIVE, SIX, FLAT_SEVEN},
-            ENNATONIC_TONALITY
+            ENNEATONIC_TONALITY
     ),
     AEOLIAN_HARMONIC(
             "Aeolian Harmonic",
@@ -145,7 +145,7 @@ public enum ScaleType {
     AHAVA_RABBA(
             "Ahava Rabba",
             new NashvilleInterval[] {ONE, FLAT_TWO, SHARP_TWO, THREE, FOUR, FLAT_FIVE, FLAT_SIX, FLAT_SEVEN},
-            ENNATONIC_TONALITY
+            ENNEATONIC_TONALITY
     ),
     AKEBONO_I(
             "Akebono I",
@@ -160,7 +160,7 @@ public enum ScaleType {
     ALGERIAN(
             "Algerian",
             new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FOUR, SHARP_FOUR, FIVE, FLAT_SIX, SEVEN},
-            ENNATONIC_TONALITY
+            ENNEATONIC_TONALITY
     ),
     ALHIJAZ(
             "Alhijaz",
@@ -185,7 +185,7 @@ public enum ScaleType {
     ALTERED_MIXOLYDIAN_I(
             "Altered Mixolydian I",
             new NashvilleInterval[] {ONE, TWO, THREE, FOUR, FIVE, SHARP_FIVE, SIX, SEVEN},
-            ENNATONIC_TONALITY
+            ENNEATONIC_TONALITY
     ),
     AMBASSEL(
             "Ambassel",
@@ -230,8 +230,169 @@ public enum ScaleType {
     AUXILIARY_DIMINISHED(
             "Auxiliary Diminished",
             new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FOUR, FLAT_FIVE, FLAT_SIX, SIX, SEVEN},
-            ENNATONIC_TONALITY
+            ENNEATONIC_TONALITY
     ),
+    BACOVIA(
+            "Bacovia",
+            new NashvilleInterval[] {ONE, THREE, FOUR, FLAT_SIX, SEVEN},
+            HEPTATONIC_TONALITY
+    ),
+    BALINESE(
+            "Balinese",
+            new NashvilleInterval[] {ONE, FLAT_TWO, FLAT_THREE, FIVE, FLAT_SIX},
+            HEXATONIC_TONALITY
+    ),
+    BANSHIKICHO(
+            "Banshikicho",
+            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FLAT_FOUR, FIVE, SIX, FLAT_SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BARTOK(
+            "Bartok",
+            new NashvilleInterval[] {ONE, TWO, THREE, SHARP_FOUR, FIVE, SIX, FLAT_SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BATI(
+            "Bati",
+            new NashvilleInterval[] {ONE, FLAT_THREE, FOUR, FIVE},
+            HEXATONIC_TONALITY
+    ),
+    BEBOP_DOMINANT(
+            "Bebop Dominant",
+            new NashvilleInterval[] {ONE, TWO, THREE, FOUR, FIVE, SIX, FLAT_SEVEN, SEVEN},
+            ENNEATONIC_TONALITY
+    ),
+    BEBOP_HALF_DIMINISHED(
+            "Bebop Half-Diminished",
+            new NashvilleInterval[] {ONE, FLAT_TWO, FLAT_THREE, FOUR, FLAT_FIVE, FIVE, FLAT_SIX, SEVEN},
+            ENNEATONIC_TONALITY
+    ),
+    BEBOP_MAJOR_I(
+            "Bebop Major I",
+            new NashvilleInterval[] {ONE, TWO, THREE, FOUR, FIVE, SHARP_FIVE, SIX, SEVEN},
+            ENNEATONIC_TONALITY
+    ),
+    BHAIRAVI_THAAT(
+            "Bhairavi Thaat",
+            new NashvilleInterval[] {ONE, FLAT_TWO, FLAT_THREE, FOUR, FIVE, FLAT_SIX, FLAT_SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BHAIRAV_THAAT(
+            "Bhairav Thaat",
+            new NashvilleInterval[] {ONE, FLAT_TWO, THREE, FOUR, FIVE, FLAT_SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BHAIRUBAHAR_THAAT(
+            "Bhairubahar Thaat",
+            new NashvilleInterval[] {ONE, FLAT_TWO, THREE, FOUR, FIVE, SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BILAWAL_THAAT(
+            "Bilawal Thaat",
+            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FOUR, FIVE, SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BI_YU(
+            "Bi Yu",
+            new NashvilleInterval[] {ONE, FLAT_THREE, FIVE, FLAT_SEVEN},
+            PENTATONIC_TONALITY
+    ),
+    BLACK_KEY_PENTATONIC(
+            "\"Black Key\" Pentatonic",
+            new NashvilleInterval[] {ONE, TWO, FOUR, FIVE, SIX},
+            HEXATONIC_TONALITY
+    ),
+    BLUES_NINE_NOTE(
+            "Blues Nine-Note",
+            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, THREE, FOUR, FLAT_FIVE, FIVE, SIX, FLAT_SEVEN},
+            DECATONIC_TONALITY
+    ),
+    BLUES_ENNEATONIC(
+            "Blues Enneatonic",
+            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, THREE, FOUR, FLAT_FIVE, FIVE, SIX, FLAT_SEVEN},
+            DECATONIC_TONALITY
+    ),
+    BLUES_HEPTATONIC(
+            "Blues Heptatonic",
+            new NashvilleInterval[] {ONE, FLAT_THREE, THREE, FOUR, FLAT_FIVE, FIVE, FLAT_SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BLUES_HEXATONIC(
+            "Blues Hexatonic",
+            new NashvilleInterval[] {ONE, FLAT_THREE, FOUR, FIVE, FLAT_FIVE, FIVE, FLAT_SEVEN},
+            HEPTATONIC_TONALITY
+    ),
+    BLUES_PENTATONIC(
+            "Blues Pentatonic",
+            new NashvilleInterval[] {ONE, FLAT_THREE, FOUR, FLAT_FIVE, FLAT_SEVEN},
+            HEXATONIC_TONALITY
+    ),
+    BLUES_I(
+            "Blues I",
+            new NashvilleInterval[] {ONE, FLAT_THREE, FOUR, FLAT_FIVE, FLAT_SEVEN},
+            HEXATONIC_TONALITY
+    ),
+    BLUES_MAJOR_ASCENDING(
+            "Blues Major (Ascending)",
+            new NashvilleInterval[] {ONE, TWO, SHARP_TWO, THREE, FIVE, SIX},
+            HEPTATONIC_TONALITY
+    ),
+    BLUES_MAJOR_DESCENDING(
+            "Blues Major (Descending)",
+            new NashvilleInterval[] {ONE, SIX, FIVE, THREE, FLAT_THREE, TWO},
+            HEPTATONIC_TONALITY
+    ),
+    BLUES_MINOR_ASCENDING(
+            "Blues Minor (Ascending)",
+            new NashvilleInterval[] {OCTAVE, FLAT_THREE, FOUR, FLAT_FIVE, FIVE, FLAT_SEVEN},
+            HEPTATONIC_TONALITY
+    ),
+    BLUES_MINOR_DESCENDING(
+            "Blues Minor (Descending)",
+            new NashvilleInterval[] {OCTAVE, FLAT_SEVEN, FIVE, FLAT_FIVE, FOUR, FLAT_THREE},
+            HEPTATONIC_TONALITY
+    ),
+    BLUES_NONATONIC(
+            "Blues Nonatonic",
+            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, THREE, FOUR, FLAT_FIVE, FIVE, SIX, FLAT_SEVEN},
+            DECATONIC_TONALITY
+    ),
+    BLUES_III(
+            "Blues III",
+            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, THREE, FOUR, FLAT_FIVE, FIVE, SIX, FLAT_SEVEN},
+            DECATONIC_TONALITY
+    ),
+    BLUES_IV(
+            "Blues IV",
+            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FOUR, FLAT_FIVE, FIVE, SIX, FLAT_SEVEN},
+            ENNEATONIC_TONALITY
+    ),
+    BLUES_V(
+            "Blues V",
+            new NashvilleInterval[] {ONE, FLAT_THREE, THREE, FOUR, FLAT_FIVE, FIVE, FLAT_SEVEN, SEVEN},
+            ENNEATONIC_TONALITY
+    ),
+    BLUES_VI(
+            "Blues VI",
+            new NashvilleInterval[] {ONE, FLAT_THREE, THREE, FOUR, FLAT_FIVE, FIVE, SIX, FLAT_SEVEN, SEVEN},
+            DECATONIC_TONALITY
+    ),
+    BLUESY_R_AND_R(
+            "Bluesy R and R",
+            new NashvilleInterval[] {ONE, FLAT_THREE, THREE, FOUR, FIVE, SIX, FLAT_SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BYZANTINE_LITURGICAL_CHROMATIC(
+            "Byzantine Liturgical Chromatic",
+            new NashvilleInterval[] {ONE, FLAT_TWO, THREE, FOUR, FIVE, FLAT_SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    BYZANTINE(
+            "Byzantine",
+            new NashvilleInterval[] {ONE, FLAT_TWO, THREE, FOUR, FIVE, FLAT_SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+
     ;
 
     final String name;
@@ -250,9 +411,11 @@ enum Tonality {
     MINOR_TONALITY,
     NO_TONALITY,
     CHROMATIC_TONALITY,
+    PENTATONIC_TONALITY,
     HEXATONIC_TONALITY,
     HEPTATONIC_TONALITY,
     OCTATONIC_TONALITY,
-    ENNATONIC_TONALITY,
+    ENNEATONIC_TONALITY,
+    DECATONIC_TONALITY,
     MODAL_TONALITY
 }

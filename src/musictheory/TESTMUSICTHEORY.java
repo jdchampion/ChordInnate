@@ -62,7 +62,7 @@ public class TESTMUSICTHEORY {
 
             // TODO: Tests performed here
 
-//            // TODO remove for loop when finished
+            // TODO remove for loop when finished
             for (Note n: ALL_NOTES) {
 
                 testScale(n, scaleType, PLAYBACK, false);
