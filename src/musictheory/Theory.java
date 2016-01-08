@@ -8,7 +8,7 @@ import static musictheory.Accidental.*;
 /**
  * Created by Joseph on 1/7/16.
  */
-public class Theory {
+class Theory {
     static final Note[] getEnharmonicEquivalents(Note note, boolean wantNatural, boolean wantDoubleAccidentals) {
         switch (note.getRelativePitch()) {
             case 0: { // B# | C | CNat | Dbb
