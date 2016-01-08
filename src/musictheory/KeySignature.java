@@ -55,7 +55,9 @@ public enum KeySignature {
     D_SHARP_MINOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP}),
 
     C_SHARP_MAJOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    A_SHARP_MINOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP});
+    A_SHARP_MINOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
+
+    NO_KEY_SIGNATURE(new Note[]{});
 
     final Note[] notes;
 
@@ -77,8 +79,8 @@ public enum KeySignature {
         return this.notes[0].equals(F_SHARP);
     }
 
-    static final KeySignature getMajorKeySignature(Note note) {
-        switch(note) {
+    static final KeySignature getMajorKeySignatureWithRoot(Note root) {
+        switch(root) {
             // Flat key signatures
             case C_FLAT: return C_FLAT_MAJOR;
             case G_FLAT: return G_FLAT_MAJOR;
@@ -101,21 +103,22 @@ public enum KeySignature {
             case C_SHARP: return C_SHARP_MAJOR;
 
             // TODO weird cases
-//            case G_SHARP: return F_MINOR;
-//            case D_SHARP: return C_MINOR;
-//            case A_SHARP: return F_SHARP_MINOR;
-//            case E_SHARP: return D_MINOR;
-//
-//            case B_SHARP: return C_MAJOR;
-//
-//            case F_FLAT: return C_SHARP_MINOR;
+            // Reference: https://en.wikipedia.org/wiki/Theoretical_key
+            case G_SHARP: return A_FLAT_MAJOR;
+            case D_SHARP: return E_FLAT_MAJOR;
+            case A_SHARP: return B_FLAT_MAJOR;
+            case E_SHARP: return F_MAJOR;
+
+            case B_SHARP: return C_MAJOR;
+
+            case F_FLAT: return E_MAJOR;
 
             default: return null;
         }
     }
 
-    static final KeySignature getMinorKeySignature(Note note) {
-        switch(note) {
+    static final KeySignature getMinorKeySignatureWithRoot(Note root) {
+        switch(root) {
             // Flat key signatures
             case A_FLAT: return A_FLAT_MINOR;
             case E_FLAT: return E_FLAT_MINOR;
@@ -138,13 +141,15 @@ public enum KeySignature {
             case A_SHARP: return A_SHARP_MINOR;
 
             // TODO weird cases
-//            case D_FLAT: return E_MAJOR;
-//            case G_FLAT: return A_MAJOR;
-//            case C_FLAT: return D_MAJOR;
-//            case F_FLAT: return G_MINOR;
-//
-//            case B_SHARP: return E_FLAT_MAJOR;
-//            case E_SHARP: return A_FLAT_MAJOR;
+            // Reference: https://en.wikipedia.org/wiki/Theoretical_key
+            case E_SHARP: return F_MINOR;
+
+            case B_SHARP: return C_MINOR;
+
+            case F_FLAT: return E_MINOR;
+            case C_FLAT: return B_MINOR;
+            case G_FLAT: return A_FLAT_MINOR;
+            case D_FLAT: return C_SHARP_MINOR;
 
             default: return null;
         }

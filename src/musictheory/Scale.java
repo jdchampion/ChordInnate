@@ -17,7 +17,7 @@ public class Scale {
     private ScaleType scaleType;
     private KeySignature keySignature;
     private Step[] steps;
-    private Interval[] intervals;
+    private NashvilleInterval[] intervals;
     private Note[] notes;
 
 
@@ -35,9 +35,9 @@ public class Scale {
         this.root = root;
         this.scaleType = scaleType;
         setKeySignature(root);
-        if (keySignature == null) {
-            throw new Exception(this.getName() + " Scale is not Enharmonically correct.");
-        }
+//        if (keySignature == null) {
+//            throw new Exception(this.getName() + " Scale is not Enharmonically correct.");
+//        }
         setSteps();
         setIntervals();
         setNotes();
@@ -48,10 +48,10 @@ public class Scale {
     }
 
     private void setSteps() {
-        steps = new Step[scaleType.sequence.length-1];
+        steps = new Step[scaleType.intervals.length-1];
 
-        for (int i = 1; i < scaleType.sequence.length; i++) {
-            int intervalDistance = scaleType.sequence[i] - scaleType.sequence[i-1];
+        for (int i = 1; i < scaleType.intervals.length; i++) {
+            int intervalDistance = scaleType.intervals[i].relativePitchDistance - scaleType.intervals[i-1].relativePitchDistance;
             switch (intervalDistance) {
                 case 1: steps[i-1] = H; break;
                 case 2: steps[i-1] = W; break;
@@ -62,9 +62,63 @@ public class Scale {
         }
     }
 
-    // TODO Possibly deprecate this method...
+    private void setIntervals() {
+        intervals = new NashvilleInterval[scaleType.intervals.length-1];
+
+        for (int i = 1; i < intervals.length; i++) {
+            intervals[i-1] = scaleType.intervals[i];
+        }
+    }
+
+    private void setNotes() {
+        int scaleLength = scaleType.intervals.length;
+        notes = new Note[scaleLength];
+
+        // First note in the scale is the scale's root.
+        notes[0] = root;
+
+        Accidental a = root.getAccidental();
+        for (int i = 1; i < scaleLength; i++) {
+            char nextNoteLetter = Theory.getNoteLetterForNashvilleInterval(root, scaleType.intervals[i]);
+            Note candidate = getNote(nextNoteLetter, a);
+
+            if (!root.isNatural()) candidate = getNote(nextNoteLetter, a);
+            else candidate = Theory.applyAccidentalTo(candidate, scaleType.intervals[i].quality);
+
+            int candidateRelativePitch = candidate.getRelativePitch();
+            int comparisonRelativePitch = (root.getRelativePitch() + scaleType.intervals[i].relativePitchDistance) % 12;
+            int offset = comparisonRelativePitch - candidateRelativePitch;
+
+            if (offset == 0) {
+                notes[i] = candidate; // they match, so we're done
+            }
+            else {
+                Accidental newAccidental = NONE;
+                switch (offset) {
+                    case -2: newAccidental = DOUBLE_FLAT; break;
+                    case -1: newAccidental = FLAT; break;
+                    case 1: newAccidental = SHARP; break;
+                    case 2: newAccidental = DOUBLE_SHARP; break;
+                    default: /*System.out.println("uncaught value of " + offset + " on " + scaleType.intervals[i]);*/
+                }
+
+                candidate = Theory.applyAccidentalTo(candidate, newAccidental);
+
+                if (candidate.getRelativePitch() == (root.getRelativePitch() + scaleType.intervals[i].relativePitchDistance) % 12) {
+//                    System.out.println(scaleType.intervals[i] + " is caught in IF");
+                    notes[i] = candidate;
+                }
+                else {
+//                    System.out.println(scaleType.intervals[i] + " is caught in ELSE");
+                    notes[i] = getNote(candidate.getLetter(), newAccidental);
+                }
+            }
+        }
+    }
+
+    @Deprecated
     private void setNotes1() {
-        int scaleLength = scaleType.sequence.length;
+        int scaleLength = scaleType.intervals.length;
         Note[] notes = new Note[scaleLength];
 
         // First note in the scale is the scale's root.
@@ -91,11 +145,11 @@ public class Scale {
         Note[] enharmonics;
 
         for (int i = 1; i < scaleLength; i++) {
-            int pitch = (root.getRelativePitch() + scaleType.sequence[i]) % 12;
+            int pitch = (root.getRelativePitch() + scaleType.intervals[i].relativePitchDistance) % 12;
 
             // We're not going to create any scales with naturals or double-accidentals
-            enharmonics = getFirstPracticalEnharmonicToRelativePitch(pitch)
-                    .getEnharmonicEquivalents(false, false);
+            Note tmp = Theory.getFirstPracticalEnharmonicToRelativePitch(pitch);
+            enharmonics = Theory.getEnharmonicEquivalents(tmp, false, false);
 
             if (enharmonics.length == 1) {
                 notes[i] = enharmonics[0];
@@ -118,8 +172,8 @@ public class Scale {
                         }
                     }
                     else {
-                        enharmonics = getFirstPracticalEnharmonicToRelativePitch(pitch)
-                                .getEnharmonicEquivalents(false, true);
+                        tmp = Theory.getFirstPracticalEnharmonicToRelativePitch(pitch);
+                        enharmonics = Theory.getEnharmonicEquivalents(tmp, false, true);
 
                         for (int j = 0; j < enharmonics.length; j++) {
                             if (enharmonics[j].getLetter() < notes[0].getLetter()) {
@@ -134,7 +188,7 @@ public class Scale {
             // Fit notes to key signature
             if (keySignature != null) {
                 for (int j = 0; j < keySignature.notes.length; j++) {
-                    if ((scaleType.sequence[i] + root.getRelativePitch()) % 12 == keySignature.notes[j].getRelativePitch()) {
+                    if ((scaleType.intervals[i].relativePitchDistance + root.getRelativePitch()) % 12 == keySignature.notes[j].getRelativePitch()) {
                         notes[i] = keySignature.notes[j];
                         break;
                     }
@@ -145,16 +199,9 @@ public class Scale {
         this.notes = notes;
     }
 
-    private void setIntervals() {
-        intervals = new Interval[scaleType.intervals.length-1];
-
-        for (int i = 1; i < intervals.length; i++) {
-            intervals[i-1] = scaleType.intervals[i];
-        }
-    }
-
-    private void setNotes() {
-        int scaleLength = scaleType.sequence.length;
+    @Deprecated
+    private void setNotes2() {
+        int scaleLength = scaleType.intervals.length;
         notes = new Note[scaleLength];
 
         // First note in the scale is the scale's root.
@@ -171,7 +218,7 @@ public class Scale {
                 }
                 break;
             }
-            // TODO May add this later, but it will take some adjustments to the indices above.
+            // TODO May add this later, but it will take some adjustments to the other cases.
 //            case NATURAL: enharmonicIndex = 2; break;
             case SHARP: {
                 switch (root) {
@@ -185,78 +232,66 @@ public class Scale {
             default: enharmonicIndex = 1; break;
         }
 
-
         // Fill the scale in with enharmonic notes.
         for (int i = 1; i < scaleLength; i++) {
-            Note[] nextEnharmonics = Note
-                    .getFirstPracticalEnharmonicToRelativePitch((root.getRelativePitch() + scaleType.sequence[i]) % 12)
-                    .getEnharmonicEquivalents(false, true);
+            Note candidate = Theory
+                    .getFirstPracticalEnharmonicToRelativePitch((root.getRelativePitch() + scaleType.intervals[i].relativePitchDistance) % 12);
+            Note[] nextEnharmonics = Theory.getEnharmonicEquivalents(candidate, false, true);
 
-            Note candidate = nextEnharmonics[enharmonicIndex];
+            candidate = nextEnharmonics[enharmonicIndex];
 
-            if (noteLettersFollow(notes[i-1], candidate)) {
+            if (Theory.noteLettersFollow(notes[i-1], candidate)) {
                 notes[i] = candidate;
             }
             else {
                 for (int j = 0; j < nextEnharmonics.length; j++) {
 
-                    // Case where C = C
+                    // Case where comparing C* (previous note with any accidental)
+                    //                   vs C* (candidate note with any accidental)
                     if (notes[i-1].getLetter() == nextEnharmonics[j].getLetter()) {
                         notes[i] = nextEnharmonics[j+1];
                         enharmonicIndex = j;
                         break;
                     }
 
-                    // Cases where C = D | E | F | G | A | B
-                    else if (noteLettersFollow(notes[i-1], nextEnharmonics[j])) {
+                    // Cases where comparing C* (previous note with any accidental)
+                    //                    vs B* (candidate note with any accidental)
+                    else if (Theory.noteLettersFollow(notes[i-1], nextEnharmonics[j])) {
                         notes[i] = nextEnharmonics[j];
                         break;
+                    }
+
+                    // Cases where comparing C* (previous note with any accidental)
+                    //                    vs E* | F* | G* | A* (candidate note with any accidental)
+                    else {
+                        // TODO Final pass: fix any intervals where the relative distance doesn't match the Nashville number
+                        // Example: ScaleType.intervals[2] == FLAT_THREE (b3) (C -> Eb),
+                        //      but notes[2] at this point is SHARP_TWO (#2) (C -> D#)
+
+
+                        int relativePitchDistance = nextEnharmonics[j].getRelativePitch() - root.getRelativePitch();
+
+                        Interval[] candidateIntervals = Theory.getAllIntervalsMatchingRelativePitch(relativePitchDistance);
+                        for (Interval candidateInterval : candidateIntervals) {
+                            if (candidateInterval.equals(scaleType.intervals[i])) {
+                                // WE GOT IT
+                                System.out.println(scaleType.intervals[i]);
+                                notes[i] = nextEnharmonics[j];
+                                break;
+                            }
+                        }
                     }
                 }
             }
         }
-
-        // Final pass
-
-
-    }
-
-    private boolean noteLettersFollow(Note n1, Note n2) {
-        return getNextNoteLetter(n1) == n2.getLetter();
-    }
-
-    private char getNoteLetterForInterval(Interval nashvilleInterval) {
-        char rootNote = root.getLetter();
-
-        // Convert the ASCII value to get the correct char
-        int comparison = (int) rootNote + nashvilleInterval.intervalNumber - 1;
-        if (comparison > 71) comparison = 65 + (comparison - 72);
-
-        return (char) comparison;
-    }
-
-    private char getPreviousNoteLetter(Note currentNote) {
-        char currentChar = currentNote.getLetter();
-
-        if (currentChar == 'A') return 'G';
-
-        return (char) ((int) currentChar - 1);
-    }
-
-    private char getNextNoteLetter(Note currentNote) {
-        char currentChar = currentNote.getLetter();
-
-        if (currentChar == 'G') return 'A';
-
-        return (char) ((int) currentChar + 1);
     }
 
     private void setKeySignature(Note note) {
         switch (scaleType.tonality) {
-            case MAJOR_TONALITY: this.keySignature = getMajorKeySignature(note); break;
-            case MINOR_TONALITY: this.keySignature = getMinorKeySignature(note); break;
-            case CHROMATIC_TONALITY: this.keySignature = getMajorKeySignature(note); break;
-            default:
+            case MAJOR_TONALITY: this.keySignature = getMajorKeySignatureWithRoot(note); break;
+            case MINOR_TONALITY: this.keySignature = getMinorKeySignatureWithRoot(note); break;
+            case NO_TONALITY: this.keySignature = NO_KEY_SIGNATURE; break;
+            default: this.keySignature = NO_KEY_SIGNATURE; break;
         }
     }
 
@@ -288,7 +323,7 @@ public class Scale {
         return descendingNotes;
     }
 
-    public Interval[] getIntervals() {
+    public NashvilleInterval[] getNashvilleIntervals() {
         return intervals;
     }
 }

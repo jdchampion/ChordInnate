@@ -18,6 +18,7 @@ public class TESTMUSICTHEORY {
 
     // Toggle for hearing Midi playback
     static final boolean PLAYBACK = true;
+    static final boolean PLAY_SCALES_UP_DOWN = false;
 
     // All possible note types that this program can play
     static final Note[] ALL_NOTES = Note.values();
@@ -62,7 +63,7 @@ public class TESTMUSICTHEORY {
             // TODO: Tests performed here
 
 //            // TODO remove for loop when finished
-            for (Note n: Note.values()) {
+            for (Note n: ALL_NOTES) {
 
                 testScale(n, scaleType, PLAYBACK, false);
 
@@ -84,8 +85,8 @@ public class TESTMUSICTHEORY {
         catch (InterruptedException ex) {}
     }
 
-    private static void soundNote(boolean playback, int midiValue, int volume, int wait) {
-        if (playback)
+    private static void soundNote(int midiValue, int volume, int wait) {
+        if (PLAYBACK)
         try {
             Thread.sleep(100);
             channels[0].noteOn(midiValue, volume);
@@ -96,7 +97,7 @@ public class TESTMUSICTHEORY {
         catch (InterruptedException ex) {}
     }
 
-    private static void testAscendingNotes(boolean playback) {
+    private static void testAscendingNotes() {
         for (int i = 0; i < ALL_NOTES.length; i++) {
             System.out.print("Playing " + ALL_NOTES[i].getName() + "...\n");
             for (int j = 0; j < ALL_NOTES[i].getOctaveRange(); j++) {
@@ -104,7 +105,7 @@ public class TESTMUSICTHEORY {
                 int midiValue = (12 * j) + ALL_NOTES[i].getRelativePitch();
                 System.out.print(" " + midiValue);
 
-                soundNote(playback, midiValue, 127, 0);
+                soundNote(midiValue, 127, 0);
 
                 System.out.println(" \t(isAccidental: " + ALL_NOTES[i].hasAccidentalSymbol() + ")");
             }
@@ -112,7 +113,7 @@ public class TESTMUSICTHEORY {
         }
     }
 
-    private static void testDescendingNotes(boolean playback) {
+    private static void testDescendingNotes() {
         for (int i = 0; i < ALL_NOTES.length; i++) {
             System.out.print("Playing " + ALL_NOTES[i].getName() + "...\n");
             for (int j = ALL_NOTES[i].getOctaveRange(); j >= 0; j--) {
@@ -120,7 +121,7 @@ public class TESTMUSICTHEORY {
                 int midiValue = (12 * j) + ALL_NOTES[i].getRelativePitch();
                 System.out.print(" " + midiValue);
 
-                soundNote(playback, midiValue, 127, 0);
+                soundNote(midiValue, 127, 0);
 
                 System.out.println(" \t(isAccidental: " + ALL_NOTES[i].hasAccidentalSymbol() + ")");
             }
@@ -128,19 +129,19 @@ public class TESTMUSICTHEORY {
         }
     }
 
-    private static void testIntervalNotes(boolean playback) {
+    private static void testIntervalNotes() {
         for (Interval interval: Interval.values()) {
             System.out.println(interval.toString());
             System.out.println("Short Name: " + interval.getShortName());
             System.out.println("RomanNumeral: " + interval.getRomanNumeralName());
             System.out.println("=======================================");
 
-            soundNote(playback, 60, 127, 0);
-            soundNote(playback, 60 + interval.relativePitchDistance, 127, 500);
+            soundNote(60, 127, 0);
+            soundNote(60 + interval.relativePitchDistance, 127, 500);
         }
     }
 
-    private static void testSoundScale(Scale scale, boolean isUpDown) {
+    private static void testSoundScale(Scale scale) {
         Note[] upNotes = scale.getAscendingNotes();
         Note[] downNotes = scale.getDescendingNotes();
 
@@ -150,20 +151,22 @@ public class TESTMUSICTHEORY {
                  * FIXME Notes are correct but sound at the incorrect octave.
                  * Need a modifier variable for the octave.
                  */
-                soundNote(PLAYBACK, 60 + n.getRelativePitch(), 127, 0);
+                soundNote(60 + n.getRelativePitch(), 127, 0);
             }
         }
 
         // Top octave note (root)
-        soundNote(PLAYBACK, 72 + scale.getRoot().getRelativePitch(), 127, 0);
+        soundNote(72 + scale.getRoot().getRelativePitch(), 127, 0);
 
-        for (Note n : downNotes) {
-            if (n != null) {
-                /*
-                 * FIXME Notes are correct but sound at the incorrect octave.
-                 * Need a modifier variable for the octave.
-                 */
-                soundNote(PLAYBACK, 60 + n.getRelativePitch(), 127, 0);
+        if (PLAY_SCALES_UP_DOWN) {
+            for (Note n : downNotes) {
+                if (n != null) {
+                    /*
+                     * FIXME Notes are correct but sound at the incorrect octave.
+                     * Need a modifier variable for the octave.
+                     */
+                    soundNote(60 + n.getRelativePitch(), 127, 0);
+                }
             }
         }
     }
@@ -174,7 +177,7 @@ public class TESTMUSICTHEORY {
             Scale scale = new Scale(note, scaleType);
 
 
-            testScaleAttributes(scale, playback, note);
+            testScaleAttributes(scale);
 
             if (testTranspose) {
                 for (Note n : ALL_NOTES) {
@@ -182,7 +185,7 @@ public class TESTMUSICTHEORY {
                     try {
                         scale = scale.getTransposition(n);
                         System.out.print("Scale transposition from " + note.getName() + " to ");
-                        testScaleAttributes(scale, playback, n);
+                        testScaleAttributes(scale);
                     }
                     catch (Exception e) {
 //                        System.out.println(e.getMessage());
@@ -206,7 +209,7 @@ public class TESTMUSICTHEORY {
         System.out.println("\n==========================================");
     }
 
-    private static void testScaleAttributes(Scale scale, boolean playback, Note note) {
+    private static void testScaleAttributes(Scale scale) {
 
         System.out.print(scale.getName() + ": ");
 
@@ -233,7 +236,7 @@ public class TESTMUSICTHEORY {
             else System.out.print("_ ");
         }
 
-        testSoundScale(scale, true);
+        testSoundScale(scale);
 
         System.out.println();
 
@@ -245,27 +248,27 @@ public class TESTMUSICTHEORY {
         System.out.println();
 
         System.out.print("Intervals: ");
-        for (Interval interval : scaleType.intervals) {
+        for (NashvilleInterval interval : scaleType.intervals) {
             System.out.print(interval + " ");
         }
         System.out.println();
     }
 
-    private static void testNextPreviousNotes(boolean playback) {
+    private static void testNextPreviousNotes() {
         for (Note note : ALL_NOTES) {
             System.out.println("Note: " + note);
-            soundNote(playback, 60 + note.getRelativePitch(), 127, 0);
+            soundNote(60 + note.getRelativePitch(), 127, 0);
             System.out.println("Next: " + note.getNext());
             if (note.getNext() != null) {
-                soundNote(playback, 60 + note.getNext().getRelativePitch(), 127, 0);
+                soundNote(60 + note.getNext().getRelativePitch(), 127, 0);
             }
             System.out.println("Previous: " + note.getPrevious());
             if (note.getPrevious() != null) {
-                soundNote(playback, 60 + note.getPrevious().getRelativePitch(), 127, 0);
+                soundNote(60 + note.getPrevious().getRelativePitch(), 127, 0);
             }
 
             System.out.println("\n==========================================");
-            if (playback) {
+            if (PLAYBACK) {
                 try {
                     Thread.sleep(500);
                 }
@@ -277,21 +280,21 @@ public class TESTMUSICTHEORY {
     private static void testEnharmonicNotes(boolean playback) {
         for (Note note : ALL_NOTES) {
             System.out.println("Note: " + note);
-            soundNote(playback, 60 + note.getRelativePitch(), 127, 200);
+            soundNote(60 + note.getRelativePitch(), 127, 200);
 
-            for (Note n : note.getEnharmonicEquivalents(true, true)) {
+            for (Note n : Theory.getEnharmonicEquivalents(note, true, true)) {
                 System.out.print(n.getName() + " ");
 
-                soundNote(playback, 60 + n.getRelativePitch(), 127, 0);
+                soundNote(60 + n.getRelativePitch(), 127, 0);
             }
             System.out.println();
-            for (Note n : note.getEnharmonicEquivalents(false, true)) {
+            for (Note n : Theory.getEnharmonicEquivalents(note, false, true)) {
                 System.out.print(n.getName() + " ");
 
-                soundNote(playback, 60 + n.getRelativePitch(), 127, 0);
+                soundNote(60 + n.getRelativePitch(), 127, 0);
             }
             System.out.println("\n==========================================");
-            if (playback) {
+            if (PLAYBACK) {
                 try {
                     Thread.sleep(500);
                 }
