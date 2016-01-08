@@ -43,10 +43,6 @@ public class Scale {
         setNotes();
     }
 
-    Scale getTransposition(Note note) throws Exception {
-        return new Scale(note, this.scaleType);
-    }
-
     private void setSteps() {
         steps = new Step[scaleType.intervals.length-1];
 
@@ -305,6 +301,10 @@ public class Scale {
 
     public Note getRoot() {
         return root;
+    }
+
+    public ScaleType getScaleType() {
+        return scaleType;
     }
 
     public KeySignature getKeySignature() {

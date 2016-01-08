@@ -304,4 +304,8 @@ public class Theory {
         if (comparison > 71) comparison = 65 + (comparison - 72);
         return (char) comparison;
     }
+
+    static final Scale transpose(Scale scale, Note note) throws Exception {
+        return new Scale(note, scale.getScaleType());
+    }
 }
