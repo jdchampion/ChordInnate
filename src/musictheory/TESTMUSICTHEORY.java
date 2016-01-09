@@ -66,11 +66,15 @@ public class TESTMUSICTHEORY {
             // TODO remove for loop when finished
 //            for (Note n: ALL_NOTES) {
 //
-//                testScale(n, scaleType, PLAYBACK, false);
+//                testScale(n, scaleType, false);
 //
 //            }
+            for (ScaleType s : ScaleType.values()) {
 
-            testScaleDiatonicChords(note, scaleType);
+                System.out.println(s);
+                testScaleDiatonicChords(note, s);
+                System.out.println();
+            }
 
 //            testAscendingNotes(PLAYBACK);
 //
@@ -193,7 +197,7 @@ public class TESTMUSICTHEORY {
         }
     }
 
-    private static void testScale(Note note, ScaleType scaleType, boolean playback, boolean testTranspose) {
+    private static void testScale(Note note, ScaleType scaleType, boolean testTranspose) {
         System.out.println(note);
         try {
             Scale scale = new Scale(note, scaleType);
@@ -215,7 +219,7 @@ public class TESTMUSICTHEORY {
                 }
             }
 
-            if (playback) {
+            if (PLAYBACK) {
                 try {
                     Thread.sleep(500);
                 }
@@ -302,7 +306,7 @@ public class TESTMUSICTHEORY {
         }
     }
 
-    private static void testEnharmonicNotes(boolean playback) {
+    private static void testEnharmonicNotes() {
         for (Note note : ALL_NOTES) {
             System.out.println("Note: " + note);
             soundNote(60 + note.getRelativePitch(), 127, 200);
@@ -341,20 +345,7 @@ public class TESTMUSICTHEORY {
     private static void testScaleDiatonicChords(Note note, ScaleType scaleType) {
         try {
             Scale scale = new Scale(note, scaleType);
-            Set m = scale.getDiatonicChords();
-            Map<Integer, Collection<Chord>> hm = new HashMap<>();
-            Note[] notes = scale.getAscendingNotes();
-            for (int i = 0; i < scaleType.intervals.length; i++) {
-                ArrayList<Chord> al = new ArrayList<>();
-                for (Iterator<Chord> it = m.iterator(); it.hasNext(); ) {
-                    Chord c = it.next();
-                    if (notes[i].getLetter() == c.getRoot().getLetter()) {
-                        al.add(c);
-                        it.remove();
-                    }
-                }
-                hm.put(scaleType.intervals[i].relativePitchDistance, al);
-            }
+            Map<Integer, ArrayList<Chord>> hm = scale.getDiatonicChordsByRelativePitch();
 
             for (Integer i : hm.keySet()) {
                 System.out.print(i + ": ");

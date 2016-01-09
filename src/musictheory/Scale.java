@@ -1,6 +1,6 @@
 package musictheory;
 
-import java.util.Set;
+import java.util.*;
 
 import static musictheory.Accidental.*;
 import static musictheory.ScaleType.*;
@@ -21,7 +21,37 @@ public class Scale {
     private Step[] steps;
     private NashvilleInterval[] intervals;
     private Note[] notes;
+
+    /*
+     * Both data structures hold the same items (i.e., chords that are diatonic to this scale).
+     *
+     * The SET is better-suited for comparing diatonics of two scales (which might come in handy later).
+     *
+     * The HASHMAP places all chords with matching roots into the same key value.
+     * The key value is identical to the relative pitch of this Scale's note matching the chord root.
+     *
+     * That sounds confusing, so here's an example:
+     *
+     * If this scale is C Major:        C D E F G A B
+     * Then the relative pitches are:   0 2 4 5 7 9 11
+     *
+     * After finding the diatonic chords (automatically done so in the Scale class constructor),
+     * this is how the HashMap is structured (key: values):
+     *
+     * 0: Csus2 Cadd9 Csus4 Cmaj Csus2sus4 C5 C6 Cmaj7 Cmaj9 C6add9 Cmaj13
+     * 2: Dsus4 Dm6add9 Dsus2sus4 Dm9 Dm D5 D7sus4 Dm7 Dmadd9 Dsus2 Dm11 Dm13 Dm6
+     * 4: Em7 E5 E11♭9 Em7♯5 Em Esus4 E7sus4
+     * 5: Fmaj Fadd9 Fmaj7♭5 F-5 F6add9 Fmaj13♯11 Fsus2 Fmaj9♯11 F5 F6 Fmaj7 Fmaj9
+     * 7: Gsus2 G13 G6 G5 Gadd9 G6add9 G9 Gsus4 G7 G7sus4 G11 Gmaj Gsus2sus4
+     * 9: A5 Am7♯5 Asus2sus4 Asus2 Am Am9 Am11 Asus4 Amadd9 Am7 A7sus4
+     * 11: Bm7♭5 Bdim Bm7♯5 Bø
+     *
+     * The HashMap structure will provide faster lookups for chord progression generation,
+     * in the event that we want to choose a diatonic chord for C, D, E, etc.
+     *
+     */
     private Set<Chord> diatonicChords;
+    private HashMap<Integer, ArrayList<Chord>> diatonicChordsByRelativePitch;
 
 
     Scale(Note root, ScaleType scaleType) throws Exception {
@@ -42,8 +72,7 @@ public class Scale {
         setSteps();
         setIntervals();
         setNotes();
-
-        this.diatonicChords = Theory.getAllDiatonicChordsForScale(this);
+        setDiatonics();
     }
 
     private void setSteps() {
@@ -58,6 +87,24 @@ public class Scale {
                 case 4: steps[i-1] = WW; break;
                 default: steps[i-1] = null;
             }
+        }
+    }
+
+    private void setDiatonics() {
+        this.diatonicChords = Theory.getAllDiatonicChordsForScale(this);
+        this.diatonicChordsByRelativePitch = new HashMap<>();
+
+        for (int i = 0; i < scaleType.intervals.length; i++) {
+            ArrayList<Chord> arrayList = new ArrayList<>();
+            for (Iterator<Chord> it = diatonicChords.iterator(); it.hasNext(); ) {
+                Chord c = it.next();
+                if (notes[i].getLetter() == c.getRoot().getLetter()) {
+                    arrayList.add(c);
+                    it.remove();
+                }
+            }
+            diatonicChordsByRelativePitch
+                    .put(scaleType.intervals[i].relativePitchDistance, arrayList);
         }
     }
 
@@ -330,9 +377,11 @@ public class Scale {
         return intervals;
     }
 
-    public Set<Chord> getDiatonicChords() {
+    public Set<Chord> getDiatonicChordSet() {
         return diatonicChords;
     }
 
-
+    public HashMap<Integer, ArrayList<Chord>> getDiatonicChordsByRelativePitch() {
+        return diatonicChordsByRelativePitch;
+    }
 }
