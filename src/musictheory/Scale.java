@@ -1,5 +1,7 @@
 package musictheory;
 
+import java.util.Set;
+
 import static musictheory.Accidental.*;
 import static musictheory.ScaleType.*;
 import static musictheory.KeySignature.*;
@@ -19,13 +21,10 @@ public class Scale {
     private Step[] steps;
     private NashvilleInterval[] intervals;
     private Note[] notes;
+    private Set<Chord> diatonicChords;
 
 
     Scale(Note root, ScaleType scaleType) throws Exception {
-        /*
-         * TODO Maybe convert the natural Notes into their non-accidental enharmonic equivalent,
-         *      instead of throwing an Exception? Would reduce the number of try-catches.
-         */
         if (root.isDoubleAccidental()) {
             throw new Exception("Scale constructor called with Double Accidental Note root. (" + root.getName() + ")");
         }
@@ -43,6 +42,8 @@ public class Scale {
         setSteps();
         setIntervals();
         setNotes();
+
+        this.diatonicChords = Theory.getAllDiatonicChordsForScale(this);
     }
 
     private void setSteps() {
@@ -328,4 +329,10 @@ public class Scale {
     public NashvilleInterval[] getNashvilleIntervals() {
         return intervals;
     }
+
+    public Set<Chord> getDiatonicChords() {
+        return diatonicChords;
+    }
+
+
 }

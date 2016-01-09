@@ -6,6 +6,7 @@ import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Synthesizer;
+import java.util.*;
 
 /**
  * Created by Joseph on 12/29/15.
@@ -17,7 +18,7 @@ public class TESTMUSICTHEORY {
     //===============================================================================================//
 
     // Toggle for hearing Midi playback
-    static final boolean PLAYBACK = true;
+    static final boolean PLAYBACK = false;
     static final boolean PLAY_SCALES_UP_DOWN = false;
 
     // All possible note types that this program can play
@@ -63,11 +64,13 @@ public class TESTMUSICTHEORY {
             // TODO: Tests performed here
 
             // TODO remove for loop when finished
-            for (Note n: ALL_NOTES) {
+//            for (Note n: ALL_NOTES) {
+//
+//                testScale(n, scaleType, PLAYBACK, false);
+//
+//            }
 
-                testScale(n, scaleType, PLAYBACK, false);
-
-            }
+            testScaleDiatonicChords(note, scaleType);
 
 //            testAscendingNotes(PLAYBACK);
 //
@@ -83,6 +86,9 @@ public class TESTMUSICTHEORY {
         }
         catch (MidiUnavailableException ex) {}
         catch (InterruptedException ex) {}
+        catch (Exception e) {
+//            e.printStackTrace();
+        }
     }
 
     private static void soundNote(int midiValue, int volume, int wait) {
@@ -95,6 +101,22 @@ public class TESTMUSICTHEORY {
             Thread.sleep(wait);
         }
         catch (InterruptedException ex) {}
+    }
+
+    private static void soundChord(Chord chord, int volume, int duration, int wait) {
+        if (PLAYBACK)
+            try {
+                Note[] notes = chord.getNotes();
+                for (Note n : notes) {
+                    channels[0].noteOn(60 + n.getRelativePitch(), volume);
+                }
+                Thread.sleep(duration);
+                for (Note n : notes) {
+                    channels[0].noteOff(60 + n.getRelativePitch(), volume);
+                }
+                Thread.sleep(wait);
+            }
+            catch (InterruptedException ex) {}
     }
 
     private static void testAscendingNotes() {
@@ -303,6 +325,49 @@ public class TESTMUSICTHEORY {
                 }
                 catch (InterruptedException ex) {}
             }
+        }
+    }
+
+    private static void testSoundChord(Chord chord) {
+        if (chord != null) {
+            /*
+             * FIXME Notes are correct but sound at the incorrect octave.
+             * Need a modifier variable for the octave.
+             */
+            soundChord(chord, 127, 1200, 100);
+        }
+    }
+
+    private static void testScaleDiatonicChords(Note note, ScaleType scaleType) {
+        try {
+            Scale scale = new Scale(note, scaleType);
+            Set m = scale.getDiatonicChords();
+            Map<Integer, Collection<Chord>> hm = new HashMap<>();
+            Note[] notes = scale.getAscendingNotes();
+            for (int i = 0; i < scaleType.intervals.length; i++) {
+                ArrayList<Chord> al = new ArrayList<>();
+                for (Iterator<Chord> it = m.iterator(); it.hasNext(); ) {
+                    Chord c = it.next();
+                    if (notes[i].getLetter() == c.getRoot().getLetter()) {
+                        al.add(c);
+                        it.remove();
+                    }
+                }
+                hm.put(scaleType.intervals[i].relativePitchDistance, al);
+            }
+
+            for (Integer i : hm.keySet()) {
+                System.out.print(i + ": ");
+                Collection<Chord> x = hm.get(i);
+                for (Chord c : x) {
+                    System.out.print(c.getName() + " ");
+                    testSoundChord(c);
+                }
+                System.out.println();
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 }

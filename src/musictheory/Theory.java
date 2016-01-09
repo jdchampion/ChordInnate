@@ -1,6 +1,10 @@
 package musictheory;
 
 import java.util.Vector;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 
 import static musictheory.Note.*;
 import static musictheory.Accidental.*;
@@ -289,7 +293,7 @@ class Theory {
         }
 
         else {
-            System.out.println("Debug check: " + note);
+//            System.out.println("Debug check: " + note);
 
             if (note.equals(C_FLAT) || note.equals(B) || note.equals(F_FLAT) || note.equals(G_FLAT)) {
                 return getNote(note.getLetter(), SHARP);
@@ -308,4 +312,61 @@ class Theory {
     static final Scale transpose(Scale scale, Note note) throws Exception {
         return new Scale(note, scale.getScaleType());
     }
+
+    static Set getAllDiatonicChordsForScale(Scale scale) {
+        ScaleType scaleType = scale.getScaleType();
+
+        Map<Integer, Note> relativePitchToNote = new HashMap<>(scaleType.intervals.length);
+        Note[] notes = scale.getAscendingNotes();
+        for (int i = 0; i < notes.length; i++) {
+            relativePitchToNote.put(notes[i].getRelativePitch(), notes[i]);
+        }
+
+        ChordType[] allChordTypes = ChordType.values();
+        Set<Chord> allDiatonicChords = new HashSet<>(allChordTypes.length);
+        for (ChordType ct : allChordTypes) {
+            Map<Integer, ChordType> m = getChordTypeDiatonicsForScaleType(scaleType, ct);
+//            System.out.println(ct + ": " + m.keySet());
+            for (Integer i : m.keySet()) {
+                Chord c = new Chord(relativePitchToNote.get((i+notes[0].getRelativePitch())%12), ct);
+                allDiatonicChords.add(c);
+            }
+        }
+        return allDiatonicChords;
+    }
+
+    private static Map getChordTypeDiatonicsForScaleType(ScaleType scaleType, ChordType chordType) {
+        Map<Integer, ChordType> enharmonicChordTypes = new HashMap<>(scaleType.intervals.length);
+
+        // Get a Set representation of the scale's relative pitches (used for checking subsets later)
+        int scaleLength = scaleType.intervals.length;
+        Set<Integer> scaleSet = new HashSet<>(scaleLength);
+        for (int i = 0; i < scaleLength; i++) {
+            scaleSet.add(scaleType.intervals[i].relativePitchDistance);
+        }
+
+        int numPitchesInChord = chordType.relativePitches.length;
+        for (int i = 0; i < scaleLength; i++) {
+            Set<Integer> candidateChordSet = new HashSet<>(numPitchesInChord);
+            int intervalRelativePitch = scaleType.intervals[i].relativePitchDistance;
+
+            // Get the set of pitches that would be made from the ChordType at scale degree i
+            for (int j = 0; j < numPitchesInChord; j++) {
+                int value = (intervalRelativePitch + chordType.relativePitches[j].relativePitchDistance) % 12;
+                candidateChordSet.add(value);
+            }
+
+            // If all pitches in the above set are also in the scale,
+            // then the chord is diatonic for scale degree i.
+            if (scaleSet.containsAll(candidateChordSet)) {
+                enharmonicChordTypes.put(intervalRelativePitch, chordType);
+            }
+        }
+
+        return enharmonicChordTypes;
+    }
+
+
 }
+
+
