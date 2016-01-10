@@ -1,19 +1,19 @@
 package musictheory;
 
 import static musictheory.Accidental.*;
-import static musictheory.Note.getNote;
+import static musictheory.NoteType.getNoteType;
 
 /**
  * Created by Joseph on 1/8/16.
  */
 public class Chord {
-    private Note root;
+    private NoteType root;
     private ChordType chordType;
     private String name;
-    private Note[] notes;
+    private NoteType[] notes;
     // TODO add support for inversions here
 
-    public Chord(Note root, ChordType chordType) {
+    public Chord(NoteType root, ChordType chordType) {
         this.root = root;
         this.chordType = chordType;
         setName();
@@ -21,7 +21,7 @@ public class Chord {
     }
 
     private void setName() {
-        this.name = root.getName() + chordType.getChordSymbol();
+        this.name = root.name + chordType.getChordSymbol();
 
         // TODO add support for inversions here
     }
@@ -29,20 +29,20 @@ public class Chord {
     // TODO identical method to Scale.setNotes()
     private void setNotes() {
         int numNotes = chordType.relativePitches.length;
-        notes = new Note[numNotes];
+        notes = new NoteType[numNotes];
 
         notes[0] = root;
 
-        Accidental a = root.getAccidental();
+        Accidental a = root.accidental;
         for (int i = 1; i < numNotes; i++) {
             char nextNoteLetter = Theory.getNoteLetterForNashvilleInterval(root, chordType.relativePitches[i]);
-            Note candidate = getNote(nextNoteLetter, a);
+            NoteType candidate = getNoteType(nextNoteLetter, a);
 
-            if (!root.isNatural()) candidate = getNote(nextNoteLetter, a);
+            if (!root.isNatural()) candidate = getNoteType(nextNoteLetter, a);
             else candidate = Theory.applyAccidentalTo(candidate, chordType.relativePitches[i].quality);
 
-            int candidateRelativePitch = candidate.getRelativePitch();
-            int comparisonRelativePitch = (root.getRelativePitch() + chordType.relativePitches[i].relativePitchDistance) % 12;
+            int candidateRelativePitch = candidate.relativePitch;
+            int comparisonRelativePitch = (root.relativePitch + chordType.relativePitches[i].relativePitchDistance) % 12;
             int offset = comparisonRelativePitch - candidateRelativePitch;
 
             if (offset == 0) {
@@ -60,13 +60,13 @@ public class Chord {
 
                 candidate = Theory.applyAccidentalTo(candidate, newAccidental);
 
-                if (candidate.getRelativePitch() == (root.getRelativePitch() + chordType.relativePitches[i].relativePitchDistance) % 12) {
+                if (candidate.relativePitch == (root.relativePitch + chordType.relativePitches[i].relativePitchDistance) % 12) {
 //                    System.out.println(scaleType.intervals[i] + " is caught in IF");
                     notes[i] = candidate;
                 }
                 else {
 //                    System.out.println(scaleType.intervals[i] + " is caught in ELSE");
-                    notes[i] = getNote(candidate.getLetter(), newAccidental);
+                    notes[i] = getNoteType(candidate.letter, newAccidental);
                 }
             }
         }
@@ -77,11 +77,11 @@ public class Chord {
         return name;
     }
 
-    public Note getRoot() {
+    public NoteType getRoot() {
         return root;
     }
 
-    public Note[] getNotes() {
+    public NoteType[] getNotes() {
         return notes;
     }
 }

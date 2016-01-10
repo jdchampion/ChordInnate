@@ -1,6 +1,6 @@
 package musictheory;
 
-import static musictheory.Note.*;
+import static musictheory.NoteType.*;
 
 /**
  * Created by Joseph on 1/2/16.
@@ -10,58 +10,58 @@ import static musictheory.Note.*;
 public enum KeySignature {
 
     // Flat key signatures
-    C_FLAT_MAJOR(new Note[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    A_FLAT_MINOR(new Note[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
+    C_FLAT_MAJOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
+    A_FLAT_MINOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
 
-    G_FLAT_MAJOR(new Note[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT}),
-    E_FLAT_MINOR(new Note[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT}),
+    G_FLAT_MAJOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT}),
+    E_FLAT_MINOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT}),
 
-    D_FLAT_MAJOR(new Note[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT}),
-    B_FLAT_MINOR(new Note[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT}),
+    D_FLAT_MAJOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT}),
+    B_FLAT_MINOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT}),
 
-    A_FLAT_MAJOR(new Note[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT}),
-    F_MINOR(new Note[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT}),
+    A_FLAT_MAJOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT}),
+    F_MINOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT}),
 
-    E_FLAT_MAJOR(new Note[]{B_FLAT, E_FLAT, A_FLAT}),
-    C_MINOR(new Note[]{B_FLAT, E_FLAT, A_FLAT}),
+    E_FLAT_MAJOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT}),
+    C_MINOR(new NoteType[]{B_FLAT, E_FLAT, A_FLAT}),
 
-    B_FLAT_MAJOR(new Note[]{B_FLAT, E_FLAT}),
-    G_MINOR(new Note[]{B_FLAT, E_FLAT}),
+    B_FLAT_MAJOR(new NoteType[]{B_FLAT, E_FLAT}),
+    G_MINOR(new NoteType[]{B_FLAT, E_FLAT}),
 
-    F_MAJOR(new Note[]{B_FLAT}),
-    D_MINOR(new Note[]{B_FLAT}),
+    F_MAJOR(new NoteType[]{B_FLAT}),
+    D_MINOR(new NoteType[]{B_FLAT}),
 
     // Non-accidental key signature
-    C_MAJOR(new Note[]{}),
-    A_MINOR(new Note[]{}),
+    C_MAJOR(new NoteType[]{}),
+    A_MINOR(new NoteType[]{}),
 
     // Sharp key signatures
-    G_MAJOR(new Note[]{F_SHARP}),
-    E_MINOR(new Note[]{F_SHARP}),
+    G_MAJOR(new NoteType[]{F_SHARP}),
+    E_MINOR(new NoteType[]{F_SHARP}),
 
-    D_MAJOR(new Note[]{F_SHARP, C_SHARP}),
-    B_MINOR(new Note[]{F_SHARP, C_SHARP}),
+    D_MAJOR(new NoteType[]{F_SHARP, C_SHARP}),
+    B_MINOR(new NoteType[]{F_SHARP, C_SHARP}),
 
-    A_MAJOR(new Note[]{F_SHARP, C_SHARP, G_SHARP}),
-    F_SHARP_MINOR(new Note[]{F_SHARP, C_SHARP, G_SHARP}),
+    A_MAJOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP}),
+    F_SHARP_MINOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP}),
 
-    E_MAJOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP}),
-    C_SHARP_MINOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP}),
+    E_MAJOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP}),
+    C_SHARP_MINOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP}),
 
-    B_MAJOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP}),
-    G_SHARP_MINOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP}),
+    B_MAJOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP}),
+    G_SHARP_MINOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP}),
 
-    F_SHARP_MAJOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP}),
-    D_SHARP_MINOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP}),
+    F_SHARP_MAJOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP}),
+    D_SHARP_MINOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP}),
 
-    C_SHARP_MAJOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    A_SHARP_MINOR(new Note[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
+    C_SHARP_MAJOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
+    A_SHARP_MINOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
 
-    NO_KEY_SIGNATURE(new Note[]{});
+    NO_KEY_SIGNATURE(new NoteType[]{});
 
-    final Note[] notes;
+    final NoteType[] notes;
 
-    KeySignature(Note[] notes) {
+    KeySignature(NoteType[] notes) {
         this.notes = notes;
     }
 
@@ -79,7 +79,7 @@ public enum KeySignature {
         return this.notes[0].equals(F_SHARP);
     }
 
-    static final KeySignature getMajorKeySignatureWithRoot(Note root) {
+    static final KeySignature getMajorKeySignatureWithRoot(NoteType root) {
         switch(root) {
             // Flat key signatures
             case C_FLAT: return C_FLAT_MAJOR;
@@ -117,7 +117,7 @@ public enum KeySignature {
         }
     }
 
-    static final KeySignature getMinorKeySignatureWithRoot(Note root) {
+    static final KeySignature getMinorKeySignatureWithRoot(NoteType root) {
         switch(root) {
             // Flat key signatures
             case A_FLAT: return A_FLAT_MINOR;
