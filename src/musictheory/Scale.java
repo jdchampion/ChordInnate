@@ -19,7 +19,8 @@ public class Scale {
     private KeySignature keySignature;
     private Step[] steps;
     private NashvilleInterval[] intervals;
-    private NoteType[] notes;
+    private NoteType[] noteTypes;
+    private Note[] notes;
 
     /*
      * Both data structures hold the same items (i.e., chords that are diatonic to this scale).
@@ -70,7 +71,7 @@ public class Scale {
 //        }
         setSteps();
         setIntervals();
-        setNotes();
+        setNoteTypesAndNotes();
         setDiatonics();
     }
 
@@ -97,8 +98,8 @@ public class Scale {
             ArrayList<Chord> arrayList = new ArrayList<>();
             for (Iterator<Chord> it = diatonicChords.iterator(); it.hasNext(); ) {
                 Chord c = it.next();
-                if (notes[i].letter == c.getRoot().letter &&
-                        notes[i].relativePitch == c.getRoot().relativePitch) {
+                if (noteTypes[i].letter == c.getRoot().letter &&
+                        noteTypes[i].relativePitch == c.getRoot().relativePitch) {
                     arrayList.add(c);
                     it.remove();
                 }
@@ -116,12 +117,18 @@ public class Scale {
         }
     }
 
-    private void setNotes() {
+    private void setNoteTypesAndNotes() {
         int scaleLength = scaleType.intervals.length;
-        notes = new NoteType[scaleLength];
+        noteTypes = new NoteType[scaleLength];
+        notes = new Note[scaleLength];
 
         // First note in the scale is the scale's root.
-        notes[0] = root;
+        noteTypes[0] = root;
+
+        // Scales with roots F# - B will begin one octave lower
+        // (to compensate for octave ranges)
+        int octave = root.relativePitch < 6 ? 5 : 4;
+        notes[0] = new Note(root, octave);
 
         Accidental a = root.accidental;
         for (int i = 1; i < scaleLength; i++) {
@@ -136,7 +143,13 @@ public class Scale {
             int offset = comparisonRelativePitch - candidateRelativePitch;
 
             if (offset == 0) {
-                notes[i] = candidate; // they match, so we're done
+                noteTypes[i] = candidate; // they match, so we're done
+                if (candidate.relativePitch < root.relativePitch) {
+                    notes[i] = new Note(candidate, octave+1);
+                }
+                else {
+                    notes[i] = new Note(candidate, octave);
+                }
             }
             else {
                 Accidental newAccidental = NONE;
@@ -150,13 +163,25 @@ public class Scale {
 
                 candidate = Theory.applyAccidentalTo(candidate, newAccidental);
 
-                if (candidate.relativePitch == (root.relativePitch + scaleType.intervals[i].relativePitchDistance) % 12) {
+                if (candidate.relativePitch == comparisonRelativePitch) {
 //                    System.out.println(scaleType.intervals[i] + " is caught in IF");
-                    notes[i] = candidate;
+                    noteTypes[i] = candidate;
+                    if (candidate.relativePitch < root.relativePitch) {
+                        notes[i] = new Note(candidate, octave+1);
+                    }
+                    else {
+                        notes[i] = new Note(candidate, octave);
+                    }
                 }
                 else {
 //                    System.out.println(scaleType.intervals[i] + " is caught in ELSE");
-                    notes[i] = getNoteType(candidate.letter, newAccidental);
+                    noteTypes[i] = getNoteType(candidate.letter, newAccidental);
+                    if (noteTypes[i].relativePitch < root.relativePitch) {
+                        notes[i] = new Note(noteTypes[i], octave+1);
+                    }
+                    else {
+                        notes[i] = new Note(noteTypes[i], octave);
+                    }
                 }
             }
         }
@@ -179,8 +204,12 @@ public class Scale {
         return root.name + " " + scaleType.name;
     }
 
-    public NoteType getRoot() {
+    public NoteType getRootNoteType() {
         return root;
+    }
+
+    public Note getRoot() {
+        return notes[0];
     }
 
     public ScaleType getScaleType() {
@@ -191,10 +220,14 @@ public class Scale {
         return keySignature;
     }
 
-    public NoteType[] getAscendingNotes() { return notes; }
+    protected NoteType[] getNoteTypes() {
+        return noteTypes;
+    }
 
-    public NoteType[] getDescendingNotes() {
-        NoteType[] descendingNotes = new NoteType[notes.length];
+    public Note[] getAscendingNotes() { return notes; }
+
+    public Note[] getDescendingNotes() {
+        Note[] descendingNotes = new Note[notes.length];
 
         for (int i = notes.length-1, j = 0; i >= 0; i--, j++) {
             descendingNotes[j] = notes[i];

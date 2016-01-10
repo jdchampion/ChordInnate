@@ -70,7 +70,7 @@ public enum NoteType {
     NoteType(char letter, Accidental accidental, int relativePitch) {
         this.letter = letter;
         this.accidental = accidental;
-        this.name = letter + accidental.getIndicator();
+        this.name = letter + accidental.indicator;
         this.relativePitch = relativePitch;
         this.octaveRange = (relativePitch < 8) ? 11 : 10;
     }
@@ -152,11 +152,9 @@ enum Accidental {
     SHARP("\u266f"),
     DOUBLE_SHARP("x");
 
-    private final String indicator;
+    String indicator;
 
     Accidental(String indicator) {
         this.indicator = indicator;
     }
-
-    final String getIndicator() { return indicator; }
 }

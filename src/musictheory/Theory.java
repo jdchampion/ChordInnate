@@ -317,7 +317,7 @@ class Theory {
         ScaleType scaleType = scale.getScaleType();
 
         Map<Integer, NoteType> relativePitchToNote = new HashMap<>(scaleType.intervals.length);
-        NoteType[] notes = scale.getAscendingNotes();
+        NoteType[] notes = scale.getNoteTypes();
         for (int i = 0; i < notes.length; i++) {
             relativePitchToNote.put(notes[i].relativePitch, notes[i]);
         }
@@ -365,8 +365,6 @@ class Theory {
 
         return enharmonicChordTypes;
     }
-
-
 }
 
 

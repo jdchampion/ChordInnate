@@ -12,8 +12,12 @@ public class Note {
 
     public Note(NoteType noteType, int octave) {
         this.noteType = noteType;
-        this.octave = octave <= noteType.octaveRange ? octave : noteType.relativePitch;
+        this.octave = octave <= noteType.octaveRange ? octave : noteType.octaveRange/2;
         this.relativePitch = 12 * octave + noteType.relativePitch;
+    }
+
+    public void setOctave(int newOctave) {
+        this.octave = newOctave <= noteType.octaveRange ? newOctave : octave;
     }
 
     public NoteType getNoteType() {

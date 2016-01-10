@@ -63,11 +63,11 @@ public enum ChordType {
             new NashvilleInterval[] {ONE, TWO, THREE, FOUR, FIVE, NashvilleInterval.SIX, NashvilleInterval.SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     MAJOR_NINE_SHARP_ELEVEN(
-            "maj9"+SHARP.getIndicator()+"11",
+            "maj9"+SHARP.indicator+"11",
             new NashvilleInterval[] {ONE, TWO, THREE, SHARP_FOUR, FIVE, NashvilleInterval.SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     MAJOR_THIRTEEN_SHARP_ELEVEN(
-            "maj13"+SHARP.getIndicator()+"11",
+            "maj13"+SHARP.indicator+"11",
             new NashvilleInterval[] {ONE, TWO, THREE, SHARP_FOUR, FIVE, NashvilleInterval.SIX, NashvilleInterval.SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     SIX(
@@ -79,11 +79,11 @@ public enum ChordType {
             new NashvilleInterval[] {ONE, TWO, THREE, FIVE, NashvilleInterval.SIX} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     MAJOR_SEVEN_SHARP_FIVE(
-            "maj7"+SHARP.getIndicator()+"5",
+            "maj7"+SHARP.indicator+"5",
             new NashvilleInterval[] {ONE, THREE, NashvilleInterval.SHARP_FIVE, NashvilleInterval.SEVEN}
     ),
     MAJOR_SEVEN_FLAT_FIVE(
-            "maj7"+FLAT.getIndicator()+"5",
+            "maj7"+FLAT.indicator+"5",
             new NashvilleInterval[] {ONE, THREE, NashvilleInterval.FLAT_FIVE, NashvilleInterval.SEVEN}
     ),
     MINOR_NINE(
@@ -119,7 +119,7 @@ public enum ChordType {
             new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FIVE, NashvilleInterval.SEVEN}
     ),
     MINOR_SEVEN_FLAT_FIVE(
-            "m7"+FLAT.getIndicator()+"5",
+            "m7"+FLAT.indicator+"5",
             new NashvilleInterval[] {ONE, FLAT_THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN}
     ),
     HALF_DIMINISHED(
@@ -127,7 +127,7 @@ public enum ChordType {
             new NashvilleInterval[] {ONE, FLAT_THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN} // TODO identical to m7b5 but has different symbol
     ),
     MINOR_SEVEN_SHARP_FIVE(
-            "m7"+SHARP.getIndicator()+"5",
+            "m7"+SHARP.indicator+"5",
             new NashvilleInterval[] {ONE, FLAT_THREE, SHARP_FIVE, FLAT_SEVEN}
     ),
     NINE(
@@ -147,55 +147,55 @@ public enum ChordType {
             new NashvilleInterval[] {ONE, FOUR, FIVE, FLAT_SEVEN}
     ),
     SEVEN_FLAT_FIVE(
-            "7"+FLAT.getIndicator()+"5",
+            "7"+FLAT.indicator+"5",
             new NashvilleInterval[] {ONE, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN}
     ),
     SEVEN_SHARP_FIVE(
-            "7"+SHARP.getIndicator()+"5",
+            "7"+SHARP.indicator+"5",
             new NashvilleInterval[] {ONE, THREE, SHARP_FIVE, FLAT_SEVEN}
     ),
     SEVEN_FLAT_NINE(
-            "7"+FLAT.getIndicator()+"9",
+            "7"+FLAT.indicator+"9",
             new NashvilleInterval[] {ONE, FLAT_TWO, THREE, FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     SEVEN_SHARP_NINE(
-            "7"+SHARP.getIndicator()+"9",
+            "7"+SHARP.indicator+"9",
             new NashvilleInterval[] {ONE, FLAT_THREE, THREE, FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     SEVEN_FLAT_FIVE_FLAT_NINE(
-            "7"+FLAT.getIndicator()+"5"+FLAT.getIndicator()+"9",
+            "7"+FLAT.indicator+"5"+FLAT.indicator+"9",
             new NashvilleInterval[] {ONE, FLAT_TWO, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     SEVEN_FLAT_FIVE_SHARP_NINE(
-            "7"+FLAT.getIndicator()+"5"+SHARP.getIndicator()+"9",
+            "7"+FLAT.indicator+"5"+SHARP.indicator+"9",
             new NashvilleInterval[] {ONE, FLAT_THREE, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     SEVEN_SHARP_FIVE_FLAT_NINE(
-            "7"+SHARP.getIndicator()+"5"+FLAT.getIndicator()+"9",
+            "7"+SHARP.indicator+"5"+FLAT.indicator+"9",
             new NashvilleInterval[] {ONE, FLAT_TWO, THREE, SHARP_FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     SEVEN_SHARP_FIVE_SHARP_NINE(
-            "7"+SHARP.getIndicator()+"5"+SHARP.getIndicator()+"9",
+            "7"+SHARP.indicator+"5"+SHARP.indicator+"9",
             new NashvilleInterval[] {ONE, FLAT_THREE, THREE, SHARP_FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     NINE_FLAT_FIVE(
-            "9"+FLAT.getIndicator()+"5",
+            "9"+FLAT.indicator+"5",
             new NashvilleInterval[] {ONE, TWO, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN}
     ),
     NINE_SHARP_FIVE(
-            "9"+SHARP.getIndicator()+"5",
+            "9"+SHARP.indicator+"5",
             new NashvilleInterval[] {ONE, TWO, THREE, SHARP_FIVE, FLAT_SEVEN}
     ),
     THIRTEEN_SHARP_ELEVEN(
-            "13"+SHARP.getIndicator()+"11",
+            "13"+SHARP.indicator+"11",
             new NashvilleInterval[] {ONE, TWO, THREE, NashvilleInterval.FLAT_FIVE, FIVE, NashvilleInterval.SIX, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     THIRTEEN_FLAT_NINE(
-            "13"+FLAT.getIndicator()+"9",
+            "13"+FLAT.indicator+"9",
             new NashvilleInterval[] {ONE, FLAT_TWO, THREE, FIVE, NashvilleInterval.SEVEN, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     ELEVEN_FLAT_NINE(
-            "11"+FLAT.getIndicator()+"9",
+            "11"+FLAT.indicator+"9",
             new NashvilleInterval[] {ONE, FLAT_TWO, FOUR, FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
     ),
     POWER_CHORD(
@@ -217,9 +217,5 @@ public enum ChordType {
     ChordType(String chordSymbol, NashvilleInterval[] relativePitches) {
         this.chordSymbol = chordSymbol;
         this.relativePitches = relativePitches;
-    }
-
-    String getChordSymbol() {
-        return chordSymbol;
     }
 }

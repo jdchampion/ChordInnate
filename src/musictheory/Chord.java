@@ -21,7 +21,7 @@ public class Chord {
     }
 
     private void setName() {
-        this.name = root.name + chordType.getChordSymbol();
+        this.name = root.name + chordType.chordSymbol;
 
         // TODO add support for inversions here
     }

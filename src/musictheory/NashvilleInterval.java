@@ -105,9 +105,9 @@ public enum NashvilleInterval {
     SHARP_THIRTEEN(22, SHARP, 13),
     DOUBLE_SHARP_THIRTEEN(23, DOUBLE_SHARP, 13);
 
-    final int relativePitchDistance;
-    final Accidental quality;
-    final int intervalNumber;
+    int relativePitchDistance;
+    Accidental quality;
+    int intervalNumber;
 
     NashvilleInterval(int relativePitchDistance, Accidental quality, int intervalNumber) {
         this.relativePitchDistance = relativePitchDistance;
@@ -116,6 +116,6 @@ public enum NashvilleInterval {
     }
 
     final String getShortName() {
-        return quality.getIndicator() + intervalNumber;
+        return quality.indicator + intervalNumber;
     }
 }
