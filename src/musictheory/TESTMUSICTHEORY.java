@@ -76,15 +76,15 @@ public class TESTMUSICTHEORY {
                 System.out.println();
             }
 
-//            testAscendingNotes(PLAYBACK);
+//            testAscendingNotes();
 //
-//            testDescendingNotes(PLAYBACK);
+//            testDescendingNotes();
 //
-//            testIntervalNotes(PLAYBACK);
-
-//            testNextPreviousNotes(PLAYBACK);
-
-//            testEnharmonicNotes(PLAYBACK);
+//            testIntervalNotes();
+//
+//            testNextPreviousNotes();
+//
+//            testEnharmonicNotes();
 
             synthesizer.close();
         }
