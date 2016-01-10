@@ -98,7 +98,8 @@ public class Scale {
             ArrayList<Chord> arrayList = new ArrayList<>();
             for (Iterator<Chord> it = diatonicChords.iterator(); it.hasNext(); ) {
                 Chord c = it.next();
-                if (notes[i].getLetter() == c.getRoot().getLetter()) {
+                if (notes[i].getLetter() == c.getRoot().getLetter() &&
+                        notes[i].getRelativePitch() == c.getRoot().getRelativePitch()) {
                     arrayList.add(c);
                     it.remove();
                 }
