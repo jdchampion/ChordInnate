@@ -18,7 +18,6 @@ public class Scale {
     private final ScaleType scaleType;
     private final KeySignature keySignature;
     private final Step[] steps;
-    private final NashvilleInterval[] nashvilleIntervals;
 
     // TODO these should also be made final,
     // but will require one method for getting noteTypes
@@ -73,7 +72,6 @@ public class Scale {
         this.scaleType = scaleType;
         this.keySignature = setKeySignature(this.root);
         this.steps = setSteps();
-        this.nashvilleIntervals = scaleType.nashvilleIntervals;
 
         // TODO this.noteTypes = setNoteTypes();
         // TODO this.notes = setNotes();
@@ -259,7 +257,7 @@ public class Scale {
     }
 
     public NashvilleInterval[] getNashvilleIntervals() {
-        return nashvilleIntervals;
+        return scaleType.nashvilleIntervals;
     }
 
     public Set<Chord> getDiatonicChordSet() {
