@@ -14,11 +14,16 @@ import static musictheory.Step.*;
  *             http://study.com/academy/lesson/understanding-and-building-musical-scales-definitions-types-of-scales.html
  */
 public class Scale {
-    private NoteType root;
-    private ScaleType scaleType;
-    private KeySignature keySignature;
-    private Step[] steps;
-    private NashvilleInterval[] intervals;
+    private final NoteType root;
+    private final ScaleType scaleType;
+    private final KeySignature keySignature;
+    private final Step[] steps;
+    private final NashvilleInterval[] nashvilleIntervals;
+
+    // TODO these should also be made final,
+    // but will require one method for getting noteTypes
+    // and another method for getting notes,
+    // rather than the current setNoteTypesAndNotes()
     private NoteType[] noteTypes;
     private Note[] notes;
 
@@ -50,36 +55,57 @@ public class Scale {
      * in the event that we want to choose a diatonic chord for C, D, E, etc.
      *
      */
-    private Set<Chord> diatonicChords;
-    private HashMap<Integer, ArrayList<Chord>> diatonicChordsByRelativePitch;
+    private final Set<Chord> diatonicChords;
+    private final HashMap<Integer, ArrayList<ChordType>> diatonicChordTypesByRelativePitch;
 
 
     Scale(NoteType root, ScaleType scaleType) throws Exception {
+        // TODO Scales beginning with a double accidental are not currently supported.
         if (root.isDoubleAccidental()) {
             throw new Exception("Scale constructor called with Double Accidental NoteType root. (" + root.name + ")");
         }
-        this.root = root;
 
         // If the Scale constructor was called with a NoteType containing
         // a natural accidental, just convert the NoteType to its non-accidental equivalent.
         if (root.isNatural()) this.root = getNoteType(root.letter, NONE);
+        else this.root = root;
 
         this.scaleType = scaleType;
-        setKeySignature(this.root);
-//        if (keySignature == null) {
-//            throw new Exception(this.getName() + " Scale is not Enharmonically correct.");
-//        }
-        setSteps();
-        setIntervals();
+        this.keySignature = setKeySignature(this.root);
+        this.steps = setSteps();
+        this.nashvilleIntervals = scaleType.nashvilleIntervals;
+
+        // TODO this.noteTypes = setNoteTypes();
+        // TODO this.notes = setNotes();
         setNoteTypesAndNotes();
-        setDiatonics();
+
+        this.diatonicChords = Theory.getAllDiatonicChordTypesForScale(this);
+        this.diatonicChordTypesByRelativePitch = setDiatonicHashMap();
+
+        // Default scale octave
+        setNoteOctaves(5);
     }
 
-    private void setSteps() {
-        steps = new Step[scaleType.intervals.length-1];
+    private KeySignature setKeySignature(NoteType note) {
+        KeySignature keySignature;
+        switch (scaleType.tonality) {
+            case MAJOR_TONALITY: keySignature = getMajorKeySignatureWithRoot(note); break;
+            case MINOR_TONALITY: keySignature = getMinorKeySignatureWithRoot(note); break;
+            case NO_TONALITY: keySignature = NO_KEY_SIGNATURE; break;
+            default: keySignature = NO_KEY_SIGNATURE; break;
+        }
 
-        for (int i = 1; i < scaleType.intervals.length; i++) {
-            int intervalDistance = scaleType.intervals[i].relativePitchDistance - scaleType.intervals[i-1].relativePitchDistance;
+        return keySignature;
+    }
+
+    private Step[] setSteps() {
+        Step[] steps = new Step[scaleType.nashvilleIntervals.length-1];
+
+        // TODO Add support for ScaleTypes that were defined in descending order
+
+        for (int i = 1; i < scaleType.nashvilleIntervals.length; i++) {
+            int intervalDistance = scaleType.nashvilleIntervals[i].relativePitchDistance - scaleType.nashvilleIntervals[i-1].relativePitchDistance;
+            if (intervalDistance < 0) intervalDistance = (scaleType.nashvilleIntervals[i-1].relativePitchDistance - scaleType.nashvilleIntervals[i].relativePitchDistance) % 4;
             switch (intervalDistance) {
                 case 1: steps[i-1] = H; break;
                 case 2: steps[i-1] = W; break;
@@ -88,68 +114,56 @@ public class Scale {
                 default: steps[i-1] = null;
             }
         }
+
+        return steps;
     }
 
-    private void setDiatonics() {
-        this.diatonicChords = Theory.getAllDiatonicChordsForScale(this);
-        this.diatonicChordsByRelativePitch = new HashMap<>();
+    private HashMap setDiatonicHashMap() {
+        HashMap hashMap = new HashMap<>();
 
-        for (int i = 0; i < scaleType.intervals.length; i++) {
-            ArrayList<Chord> arrayList = new ArrayList<>();
-            for (Iterator<Chord> it = diatonicChords.iterator(); it.hasNext(); ) {
+        // Operate on a copy of the set (so as not to remove items from the class member set)
+        HashSet<Chord> s = new HashSet<>(diatonicChords);
+
+        for (int i = 0; i < scaleType.nashvilleIntervals.length; i++) {
+            ArrayList<ChordType> arrayList = new ArrayList<>();
+            for (Iterator<Chord> it = s.iterator(); it.hasNext(); ) {
                 Chord c = it.next();
                 if (noteTypes[i].letter == c.getRoot().letter &&
                         noteTypes[i].relativePitch == c.getRoot().relativePitch) {
-                    arrayList.add(c);
+                    arrayList.add(c.getChordType());
                     it.remove();
                 }
             }
-            diatonicChordsByRelativePitch
-                    .put(scaleType.intervals[i].relativePitchDistance, arrayList);
+            hashMap.put((scaleType.nashvilleIntervals[i].relativePitchDistance)%12, arrayList);
         }
-    }
 
-    private void setIntervals() {
-        intervals = new NashvilleInterval[scaleType.intervals.length-1];
-
-        for (int i = 1; i < intervals.length; i++) {
-            intervals[i-1] = scaleType.intervals[i];
-        }
+        return hashMap;
     }
 
     private void setNoteTypesAndNotes() {
-        int scaleLength = scaleType.intervals.length;
+        int scaleLength = scaleType.nashvilleIntervals.length;
         noteTypes = new NoteType[scaleLength];
         notes = new Note[scaleLength];
 
         // First note in the scale is the scale's root.
         noteTypes[0] = root;
-
-        // Scales with roots F# - B will begin one octave lower
-        // (to compensate for octave ranges)
-        int octave = root.relativePitch < 6 ? 5 : 4;
-        notes[0] = new Note(root, octave);
+        notes[0] = new Note(root);
 
         Accidental a = root.accidental;
         for (int i = 1; i < scaleLength; i++) {
-            char nextNoteLetter = Theory.getNoteLetterForNashvilleInterval(root, scaleType.intervals[i]);
+            char nextNoteLetter = Theory.getNoteLetterForNashvilleInterval(root, scaleType.nashvilleIntervals[i]);
             NoteType candidate = getNoteType(nextNoteLetter, a);
 
             if (!root.isNatural()) candidate = getNoteType(nextNoteLetter, a);
-            else candidate = Theory.applyAccidentalTo(candidate, scaleType.intervals[i].quality);
+            else candidate = Theory.applyAccidentalTo(candidate, scaleType.nashvilleIntervals[i].quality);
 
             int candidateRelativePitch = candidate.relativePitch;
-            int comparisonRelativePitch = (root.relativePitch + scaleType.intervals[i].relativePitchDistance) % 12;
+            int comparisonRelativePitch = (root.relativePitch + scaleType.nashvilleIntervals[i].relativePitchDistance) % 12;
             int offset = comparisonRelativePitch - candidateRelativePitch;
 
             if (offset == 0) {
                 noteTypes[i] = candidate; // they match, so we're done
-                if (candidate.relativePitch < root.relativePitch) {
-                    notes[i] = new Note(candidate, octave+1);
-                }
-                else {
-                    notes[i] = new Note(candidate, octave);
-                }
+                notes[i] = new Note(candidate);
             }
             else {
                 Accidental newAccidental = NONE;
@@ -166,33 +180,41 @@ public class Scale {
                 if (candidate.relativePitch == comparisonRelativePitch) {
 //                    System.out.println(scaleType.intervals[i] + " is caught in IF");
                     noteTypes[i] = candidate;
-                    if (candidate.relativePitch < root.relativePitch) {
-                        notes[i] = new Note(candidate, octave+1);
-                    }
-                    else {
-                        notes[i] = new Note(candidate, octave);
-                    }
+                    notes[i] = new Note(candidate);
                 }
                 else {
 //                    System.out.println(scaleType.intervals[i] + " is caught in ELSE");
-                    noteTypes[i] = getNoteType(candidate.letter, newAccidental);
-                    if (noteTypes[i].relativePitch < root.relativePitch) {
-                        notes[i] = new Note(noteTypes[i], octave+1);
+
+                    candidate = getNoteType(candidate.letter, newAccidental);
+
+                    if (candidate.relativePitch == (root.relativePitch + scaleType.nashvilleIntervals[i].relativePitchDistance) % 12) {
+                        noteTypes[i] = candidate;
+                        notes[i] = new Note(candidate);
                     }
                     else {
-                        notes[i] = new Note(noteTypes[i], octave);
+                        // TODO this tends to be the problem case for Double Accidental Scales
+
+                        noteTypes[i] = candidate;
+                        notes[i] = new Note(candidate);
+
                     }
                 }
             }
         }
     }
 
-    private void setKeySignature(NoteType note) {
-        switch (scaleType.tonality) {
-            case MAJOR_TONALITY: this.keySignature = getMajorKeySignatureWithRoot(note); break;
-            case MINOR_TONALITY: this.keySignature = getMinorKeySignatureWithRoot(note); break;
-            case NO_TONALITY: this.keySignature = NO_KEY_SIGNATURE; break;
-            default: this.keySignature = NO_KEY_SIGNATURE; break;
+    private void setNoteOctaves(int octave) {
+        int numNotes = notes.length;
+
+        // Scales with roots F# - B will begin one octave lower
+        // (to compensate for octave ranges)
+        int rootOctave = root.relativePitch < 6 ? octave : octave-1;
+        notes[0].setOctave(rootOctave);
+
+        int currentOctave;
+        for (int i = 1; i < numNotes; i++) {
+            currentOctave = noteTypes[i].relativePitch < root.relativePitch ? rootOctave+1 : rootOctave;
+            notes[i].setOctave(currentOctave);
         }
     }
 
@@ -237,14 +259,14 @@ public class Scale {
     }
 
     public NashvilleInterval[] getNashvilleIntervals() {
-        return intervals;
+        return nashvilleIntervals;
     }
 
     public Set<Chord> getDiatonicChordSet() {
         return diatonicChords;
     }
 
-    public HashMap<Integer, ArrayList<Chord>> getDiatonicChordsByRelativePitch() {
-        return diatonicChordsByRelativePitch;
+    public HashMap<Integer, ArrayList<ChordType>> getDiatonicChordTypesByRelativePitch() {
+        return diatonicChordTypesByRelativePitch;
     }
 }

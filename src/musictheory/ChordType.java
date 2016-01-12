@@ -24,7 +24,7 @@ public enum ChordType {
     ),
     ADD_NINE(
             "add9",
-            new NashvilleInterval[] {ONE, THREE, FIVE, TWO} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, NashvilleInterval.NINE}
     ),
     MINOR(
             "m",
@@ -46,7 +46,7 @@ public enum ChordType {
             "aug",
             new NashvilleInterval[] {ONE, THREE, SHARP_FIVE}
     ),
-    SUSUSPENDED_FOUR(
+    SUSPENDED_FOUR(
             "sus4",
             new NashvilleInterval[] {ONE, FOUR, FIVE}
     ),
@@ -56,19 +56,22 @@ public enum ChordType {
     ),
     MAJOR_NINE(
             "maj9",
-            new NashvilleInterval[] {ONE, TWO, THREE, FIVE, NashvilleInterval.SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, NashvilleInterval.SEVEN, NashvilleInterval.NINE}
     ),
-    MAJ_THIRTEEN(
+    MAJOR_THIRTEEN(
             "maj13",
-            new NashvilleInterval[] {ONE, TWO, THREE, FOUR, FIVE, NashvilleInterval.SIX, NashvilleInterval.SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, NashvilleInterval.SEVEN,
+                    NashvilleInterval.NINE, NashvilleInterval.ELEVEN, NashvilleInterval.THIRTEEN}
     ),
     MAJOR_NINE_SHARP_ELEVEN(
             "maj9"+SHARP.indicator+"11",
-            new NashvilleInterval[] {ONE, TWO, THREE, SHARP_FOUR, FIVE, NashvilleInterval.SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, NashvilleInterval.SEVEN,
+                    NashvilleInterval.NINE, SHARP_ELEVEN}
     ),
     MAJOR_THIRTEEN_SHARP_ELEVEN(
             "maj13"+SHARP.indicator+"11",
-            new NashvilleInterval[] {ONE, TWO, THREE, SHARP_FOUR, FIVE, NashvilleInterval.SIX, NashvilleInterval.SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, NashvilleInterval.SEVEN,
+                    NashvilleInterval.NINE, SHARP_ELEVEN, NashvilleInterval.THIRTEEN}
     ),
     SIX(
             "6",
@@ -76,7 +79,8 @@ public enum ChordType {
     ),
     SIX_ADD_NINE(
             "6add9",
-            new NashvilleInterval[] {ONE, TWO, THREE, FIVE, NashvilleInterval.SIX} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, NashvilleInterval.SIX,
+                    NashvilleInterval.NINE}
     ),
     MAJOR_SEVEN_SHARP_FIVE(
             "maj7"+SHARP.indicator+"5",
@@ -88,15 +92,18 @@ public enum ChordType {
     ),
     MINOR_NINE(
             "m9",
-            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, FLAT_THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE}
     ),
     MINOR_ELEVEN(
             "m11",
-            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FOUR, FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, FLAT_THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE, NashvilleInterval.ELEVEN}
     ),
     MINOR_THIRTEEN(
             "m13",
-            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FOUR, FIVE, NashvilleInterval.SIX, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, FLAT_THREE, FOUR, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE, NashvilleInterval.THIRTEEN}
     ),
     MINOR_SIX(
             "m6",
@@ -104,11 +111,13 @@ public enum ChordType {
     ),
     MINOR_ADD_NINE(
             "madd9",
-            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FIVE} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, FLAT_THREE, FIVE,
+                    NashvilleInterval.NINE}
     ),
     MINOR_SIX_ADD_NINE(
             "m6add9",
-            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FIVE, NashvilleInterval.SIX} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, FLAT_THREE, FIVE, NashvilleInterval.SIX,
+                    NashvilleInterval.NINE}
     ),
     MINOR_MAJOR_SEVEN(
             "mM7",
@@ -116,7 +125,8 @@ public enum ChordType {
     ),
     MINOR_MAJOR_NINE(
             "mM9",
-            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, FIVE, NashvilleInterval.SEVEN}
+            new NashvilleInterval[] {ONE, FLAT_THREE, FIVE, NashvilleInterval.SEVEN,
+                    NashvilleInterval.NINE}
     ),
     MINOR_SEVEN_FLAT_FIVE(
             "m7"+FLAT.indicator+"5",
@@ -132,15 +142,18 @@ public enum ChordType {
     ),
     NINE(
             "9",
-            new NashvilleInterval[] {ONE, TWO, THREE, FIVE, FLAT_SEVEN}
+            new NashvilleInterval[] {ONE, THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE}
     ),
     ELEVEN(
             "11",
-            new NashvilleInterval[] {ONE, TWO, THREE, FOUR, FIVE, FLAT_SEVEN}
+            new NashvilleInterval[] {ONE, THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE, NashvilleInterval.ELEVEN}
     ),
     THIRTEEN(
             "13",
-            new NashvilleInterval[] {ONE, TWO, THREE, FIVE, NashvilleInterval.SIX, FLAT_SEVEN}
+            new NashvilleInterval[] {ONE, THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE, NashvilleInterval.ELEVEN, NashvilleInterval.THIRTEEN}
     ),
     SEVEN_SUSPENDED_FOUR(
             "7sus4",
@@ -156,47 +169,58 @@ public enum ChordType {
     ),
     SEVEN_FLAT_NINE(
             "7"+FLAT.indicator+"9",
-            new NashvilleInterval[] {ONE, FLAT_TWO, THREE, FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.FLAT_NINE}
     ),
     SEVEN_SHARP_NINE(
             "7"+SHARP.indicator+"9",
-            new NashvilleInterval[] {ONE, FLAT_THREE, THREE, FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.SHARP_NINE}
     ),
     SEVEN_FLAT_FIVE_FLAT_NINE(
             "7"+FLAT.indicator+"5"+FLAT.indicator+"9",
-            new NashvilleInterval[] {ONE, FLAT_TWO, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN,
+                    NashvilleInterval.FLAT_NINE}
     ),
     SEVEN_FLAT_FIVE_SHARP_NINE(
             "7"+FLAT.indicator+"5"+SHARP.indicator+"9",
-            new NashvilleInterval[] {ONE, FLAT_THREE, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN,
+                    NashvilleInterval.SHARP_NINE}
     ),
     SEVEN_SHARP_FIVE_FLAT_NINE(
             "7"+SHARP.indicator+"5"+FLAT.indicator+"9",
-            new NashvilleInterval[] {ONE, FLAT_TWO, THREE, SHARP_FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, SHARP_FIVE, FLAT_SEVEN,
+                    NashvilleInterval.FLAT_NINE}
     ),
     SEVEN_SHARP_FIVE_SHARP_NINE(
             "7"+SHARP.indicator+"5"+SHARP.indicator+"9",
-            new NashvilleInterval[] {ONE, FLAT_THREE, THREE, SHARP_FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, SHARP_FIVE, FLAT_SEVEN,
+                    NashvilleInterval.SHARP_NINE}
     ),
     NINE_FLAT_FIVE(
             "9"+FLAT.indicator+"5",
-            new NashvilleInterval[] {ONE, TWO, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN}
+            new NashvilleInterval[] {ONE, THREE, NashvilleInterval.FLAT_FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE}
     ),
     NINE_SHARP_FIVE(
             "9"+SHARP.indicator+"5",
-            new NashvilleInterval[] {ONE, TWO, THREE, SHARP_FIVE, FLAT_SEVEN}
+            new NashvilleInterval[] {ONE, THREE, SHARP_FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE}
     ),
     THIRTEEN_SHARP_ELEVEN(
             "13"+SHARP.indicator+"11",
-            new NashvilleInterval[] {ONE, TWO, THREE, NashvilleInterval.FLAT_FIVE, FIVE, NashvilleInterval.SIX, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.NINE, SHARP_ELEVEN, NashvilleInterval.THIRTEEN}
     ),
     THIRTEEN_FLAT_NINE(
             "13"+FLAT.indicator+"9",
-            new NashvilleInterval[] {ONE, FLAT_TWO, THREE, FIVE, NashvilleInterval.SEVEN, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, THREE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.FLAT_NINE, NashvilleInterval.THIRTEEN}
     ),
     ELEVEN_FLAT_NINE(
             "11"+FLAT.indicator+"9",
-            new NashvilleInterval[] {ONE, FLAT_TWO, FOUR, FIVE, FLAT_SEVEN} // TODO chords with "nine" or above are inverted to fit one octave
+            new NashvilleInterval[] {ONE, FIVE, FLAT_SEVEN,
+                    NashvilleInterval.FLAT_NINE, NashvilleInterval.ELEVEN}
     ),
     POWER_CHORD(
             "5",
@@ -211,11 +235,11 @@ public enum ChordType {
             new NashvilleInterval[] {ONE, THREE, NashvilleInterval.FLAT_FIVE}
     );
 
-    String chordSymbol;
-    NashvilleInterval[] relativePitches;
+    final String chordSymbol;
+    final NashvilleInterval[] nashvilleIntervals;
 
-    ChordType(String chordSymbol, NashvilleInterval[] relativePitches) {
+    ChordType(String chordSymbol, NashvilleInterval[] nashvilleIntervals) {
         this.chordSymbol = chordSymbol;
-        this.relativePitches = relativePitches;
+        this.nashvilleIntervals = nashvilleIntervals;
     }
 }

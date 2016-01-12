@@ -108,11 +108,13 @@ public enum NashvilleInterval {
     int relativePitchDistance;
     Accidental quality;
     int intervalNumber;
+    boolean isNextOctave;
 
     NashvilleInterval(int relativePitchDistance, Accidental quality, int intervalNumber) {
         this.relativePitchDistance = relativePitchDistance;
         this.quality = quality;
         this.intervalNumber = intervalNumber;
+        this.isNextOctave = relativePitchDistance >= 12 ? true : false;
     }
 
     final String getShortName() {

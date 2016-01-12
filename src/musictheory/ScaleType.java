@@ -10,6 +10,8 @@ import static musictheory.NashvilleInterval.*;
  *             http://www.earmaster.com/music-theory-online/ch04/chapter-4-8.html
  */
 public enum ScaleType {
+    // NOTE: SCALE TYPES MUST BE LISTED IN ASCENDING ORDER (EVEN IF THEY ARE CONSIDERED "DESCENDING" SCALES)
+
     MAJOR(
             "Major",
             new NashvilleInterval[] {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN},
@@ -339,7 +341,7 @@ public enum ScaleType {
     ),
     BLUES_MAJOR_DESCENDING(
             "Blues Major (Descending)",
-            new NashvilleInterval[] {ONE, SIX, FIVE, THREE, FLAT_THREE, TWO},
+            new NashvilleInterval[] {ONE, TWO, FLAT_THREE, THREE, FIVE, SIX},
             HEPTATONIC_TONALITY
     ),
     BLUES_MINOR_ASCENDING(
@@ -396,12 +398,12 @@ public enum ScaleType {
     ;
 
     final String name;
-    final NashvilleInterval[] intervals;
+    final NashvilleInterval[] nashvilleIntervals;
     final Tonality tonality;
 
-    ScaleType(String name, NashvilleInterval[] intervals, Tonality tonality) {
+    ScaleType(String name, NashvilleInterval[] nashvilleIntervals, Tonality tonality) {
         this.name = name;
-        this.intervals = intervals;
+        this.nashvilleIntervals = nashvilleIntervals;
         this.tonality = tonality;
     }
 }

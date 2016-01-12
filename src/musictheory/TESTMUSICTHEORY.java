@@ -18,7 +18,7 @@ public class TESTMUSICTHEORY {
     //===============================================================================================//
 
     // Toggle for hearing Midi playback
-    static final boolean PLAYBACK = true;
+    static final boolean PLAYBACK = false;
     static final boolean PLAY_SCALES_UP_DOWN = true;
 
     // All possible note types that this program can play
@@ -38,6 +38,8 @@ public class TESTMUSICTHEORY {
 
 
     public static void main(String[] args) {
+
+        // TODO JGraphT directed graph example
 //        SimpleDirectedGraph<NoteType, DefaultEdge> directedGraph =
 //                new SimpleDirectedGraph<>(DefaultEdge.class);
 //
@@ -63,60 +65,83 @@ public class TESTMUSICTHEORY {
 
             // TODO: Tests performed here
 
-            // TODO remove for loop when finished
-            for (ScaleType s: ScaleType.values()) {
-
-                testScale(note, s, true);
-
-            }
-//            for (ScaleType s : ScaleType.values()) {
-//
-//                System.out.println(s);
-//                testScaleDiatonicChords(note, s);
-//                System.out.println();
-//            }
-
-//            testAscendingNotes();
-//
-//            testDescendingNotes();
-//
-//            testIntervalNotes();
-//
-//            testNextPreviousNotes();
-//
-//            testEnharmonicNotes();
+            // TODO example for accessing diatonic chords of a scale
+//            Scale s = new Scale(note, scaleType);
+//            NoteType[] ns = s.getNoteTypes();
+//            NoteType testNoteType = ns[0];
+//            Chord c = new Chord(testNoteType, s.getDiatonicChordTypesByRelativePitch()  // HashMap
+//                    .get(testNoteType.relativePitch)                                    // HashMap key => ArrayList
+//                    .get(3));                                                           // ArrayList index => ChordType
 
             synthesizer.close();
         }
         catch (MidiUnavailableException ex) {}
         catch (InterruptedException ex) {}
-        catch (Exception e) {
-//            e.printStackTrace();
+        catch (Exception ex) {}
+    }
+
+    private static void testAllChordInversionsforNote() {
+        for (ChordType ct : ChordType.values()) {
+            try {
+                Chord d = new Chord(note, ct);
+                testChordInversions(d);
+                System.out.println();
+            } catch (Exception e) {}
         }
+    }
+
+    private static void testAllChordInversions() {
+        for (NoteType nt : NoteType.values()) {
+            for (ChordType ct : ChordType.values()) {
+                try {
+                    Chord d = new Chord(nt, ct);
+                    testChordInversions(d);
+                    System.out.println();
+                } catch (Exception e) {}
+            }
+        }
+    }
+
+    private static void testChordInversions(Chord c) {
+        for (Note n : c.getNotes()) {
+            System.out.print(c.getName() + " : ");
+            for (Note m : c.getNotes()) {
+                System.out.print(m.getName() + m.getOctave() + " ");
+            }
+            System.out.println();
+            testSoundChord(c);
+            c.invert();
+        }
+        System.out.print(c.getName() + " : ");
+        for (Note m : c.getNotes()) {
+            System.out.print(m.getName() + m.getOctave() + " ");
+        }
+        System.out.println();
+        testSoundChord(c);
     }
 
     private static void soundNote(int midiValue, int volume, int wait) {
         if (PLAYBACK)
-        try {
-            Thread.sleep(50);
-            channels[0].noteOn(midiValue, volume);
-            Thread.sleep(50);
-            channels[0].noteOff(midiValue, volume);
-            Thread.sleep(wait);
-        }
-        catch (InterruptedException ex) {}
+            try {
+                Thread.sleep(50);
+                channels[0].noteOn(midiValue, volume);
+                Thread.sleep(50);
+                channels[0].noteOff(midiValue, volume);
+                Thread.sleep(wait);
+            }
+            catch (InterruptedException ex) {}
     }
 
     private static void soundChord(Chord chord, int volume, int duration, int wait) {
         if (PLAYBACK)
             try {
-                NoteType[] notes = chord.getNotes();
-                for (NoteType n : notes) {
-                    channels[0].noteOn(60 + n.relativePitch, volume);
+                Note[] notes = chord.getNotes();
+                for (Note n : notes) {
+                    channels[0].noteOn(n.getRelativePitch(), volume);
                 }
                 Thread.sleep(duration);
-                for (NoteType n : notes) {
-                    channels[0].noteOff(60 + n.relativePitch, volume);
+                for (Note n : notes) {
+                    channels[0].noteOff(n.getRelativePitch(), volume);
                 }
                 Thread.sleep(wait);
             }
@@ -173,10 +198,6 @@ public class TESTMUSICTHEORY {
 
         for (Note n : upNotes) {
             if (n != null) {
-                /*
-                 * FIXME Notes are correct but sound at the incorrect octave.
-                 * Need a modifier variable for the octave.
-                 */
                 soundNote(n.getRelativePitch(), 127, 0);
             }
         }
@@ -188,10 +209,6 @@ public class TESTMUSICTHEORY {
         if (PLAY_SCALES_UP_DOWN) {
             for (Note n : downNotes) {
                 if (n != null) {
-                    /*
-                     * FIXME Notes are correct but sound at the incorrect octave.
-                     * Need a modifier variable for the octave.
-                     */
                     soundNote(n.getRelativePitch(), 127, 0);
                 }
             }
@@ -278,8 +295,8 @@ public class TESTMUSICTHEORY {
         System.out.println();
 
         System.out.print("Intervals: ");
-        for (NashvilleInterval interval : scaleType.intervals) {
-            System.out.print(interval + " ");
+        for (NashvilleInterval interval : scale.getNashvilleIntervals()) {
+            System.out.print(interval.getShortName() + " ");
         }
         System.out.println();
     }
@@ -335,10 +352,6 @@ public class TESTMUSICTHEORY {
 
     private static void testSoundChord(Chord chord) {
         if (chord != null) {
-            /*
-             * FIXME Notes are correct but sound at the incorrect octave.
-             * Need a modifier variable for the octave.
-             */
             soundChord(chord, 127, 1200, 100);
         }
     }
@@ -346,13 +359,14 @@ public class TESTMUSICTHEORY {
     private static void testScaleDiatonicChords(NoteType note, ScaleType scaleType) {
         try {
             Scale scale = new Scale(note, scaleType);
-            Map<Integer, ArrayList<Chord>> hm = scale.getDiatonicChordsByRelativePitch();
+            Map<Integer, ArrayList<ChordType>> hm = scale.getDiatonicChordTypesByRelativePitch();
 
             for (Integer i : hm.keySet()) {
                 System.out.print(i + ": ");
-                Collection<Chord> x = hm.get(i);
-                for (Chord c : x) {
-                    System.out.print(c.getName() + " ");
+                Collection<ChordType> x = hm.get(i);
+                for (ChordType ct : x) {
+                    System.out.print(ct.chordSymbol + " ");
+                    Chord c = new Chord(note, ct);
                     testSoundChord(c);
                 }
                 System.out.println();
@@ -360,6 +374,52 @@ public class TESTMUSICTHEORY {
         }
         catch (Exception e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    private static void testAllScaleDiatonicChords() {
+        for (NoteType nt : ALL_NOTES) {
+            for (ScaleType s : ScaleType.values()) {
+                System.out.println(s);
+                testScaleDiatonicChords(nt, s);
+                System.out.println();
+            }
+        }
+    }
+
+    private static void testAllScaleDiatonicChordsForNote() {
+        for (ScaleType s : ScaleType.values()) {
+            System.out.println(s);
+            testScaleDiatonicChords(note, s);
+            System.out.println();
+        }
+    }
+
+    private static void testAllScaleAttributes() {
+        for (NoteType nt : ALL_NOTES) {
+            for (ScaleType st : ScaleType.values()) {
+                try {
+                    Scale s = new Scale(nt, st);
+                    testScaleAttributes(s);
+                    System.out.println();
+                }
+                catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void testAllScaleAttributesForNote() {
+        for (ScaleType st : ScaleType.values()) {
+            try {
+                Scale s = new Scale(note, st);
+                testScaleAttributes(s);
+                System.out.println();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

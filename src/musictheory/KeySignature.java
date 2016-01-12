@@ -113,7 +113,7 @@ public enum KeySignature {
 
             case F_FLAT: return E_MAJOR;
 
-            default: return null;
+            default: return NO_KEY_SIGNATURE;
         }
     }
 
@@ -151,7 +151,7 @@ public enum KeySignature {
             case G_FLAT: return A_FLAT_MINOR;
             case D_FLAT: return C_SHARP_MINOR;
 
-            default: return null;
+            default: return NO_KEY_SIGNATURE;
         }
     }
 }

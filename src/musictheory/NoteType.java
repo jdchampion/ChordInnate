@@ -62,10 +62,10 @@ public enum NoteType {
     B_NATURAL('B', NATURAL, 11),
     C_FLAT('C', FLAT, 11);
 
-    char letter;
-    Accidental accidental;
-    String name;
-    int relativePitch, octaveRange;
+    final char letter;
+    final Accidental accidental;
+    final String name;
+    final int relativePitch, octaveRange;
 
     NoteType(char letter, Accidental accidental, int relativePitch) {
         this.letter = letter;
@@ -152,7 +152,7 @@ enum Accidental {
     SHARP("\u266f"),
     DOUBLE_SHARP("x");
 
-    String indicator;
+    final String indicator;
 
     Accidental(String indicator) {
         this.indicator = indicator;

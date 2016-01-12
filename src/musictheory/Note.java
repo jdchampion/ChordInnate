@@ -6,9 +6,15 @@ import static musictheory.Accidental.*;
  * Created by Joseph on 1/9/16.
  */
 public class Note {
-    private NoteType noteType;
+    private final NoteType noteType;
     private int octave;
     private int relativePitch;
+
+    protected Note(NoteType notetype) {
+        this.noteType = notetype;
+        this.octave = 0;
+        this.relativePitch = notetype.relativePitch;
+    }
 
     public Note(NoteType noteType, int octave) {
         this.noteType = noteType;
@@ -18,6 +24,7 @@ public class Note {
 
     public void setOctave(int newOctave) {
         this.octave = newOctave <= noteType.octaveRange ? newOctave : octave;
+        this.relativePitch = 12 * octave + noteType.relativePitch;
     }
 
     public NoteType getNoteType() {
