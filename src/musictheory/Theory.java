@@ -166,7 +166,7 @@ class Theory {
         }
     }
 
-    static Interval[] getAllIntervalsMatchingRelativePitch(int relativePitch) {
+    static final Interval[] getAllIntervalsMatchingRelativePitch(int relativePitch) {
         Vector<Interval> matchingIntervals = new Vector<>(3);
         for (Interval i : Interval.values()) {
             if (i.relativePitchDistance == relativePitch) {
@@ -183,15 +183,15 @@ class Theory {
     }
 
     // TODO identical to Interval...
-    static NashvilleInterval[] getAllNashvilleIntervalsMatchingRelativePitch(int relativePitch) {
-        Vector<NashvilleInterval> matchingIntervals = new Vector<>(3);
-        for (NashvilleInterval i : NashvilleInterval.values()) {
+    static NashvilleNumber[] getAllNashvilleNumbersMatchingRelativePitch(int relativePitch) {
+        Vector<NashvilleNumber> matchingIntervals = new Vector<>(3);
+        for (NashvilleNumber i : NashvilleNumber.values()) {
             if (i.relativePitchDistance == relativePitch) {
                 matchingIntervals.add(i);
             }
         }
 
-        NashvilleInterval[] returnedIntervals = new NashvilleInterval[matchingIntervals.size()];
+        NashvilleNumber[] returnedIntervals = new NashvilleNumber[matchingIntervals.size()];
         for (int i = 0; i < returnedIntervals.length; i++) {
             returnedIntervals[i] = matchingIntervals.get(i);
         }
@@ -199,12 +199,12 @@ class Theory {
         return returnedIntervals;
     }
 
-    static char getNoteLetterForNashvilleInterval(NoteType note, NashvilleInterval nashvilleInterval) {
+    static char getNoteLetterForNashvilleNumber(NoteType note, NashvilleNumber nashvilleNumber) {
 
         // Convert the ASCII value to get the correct char
-        int offset = nashvilleInterval.isNextOctave
-                ? nashvilleInterval.intervalNumber - 7
-                : nashvilleInterval.intervalNumber;
+        int offset = nashvilleNumber.isNextOctave
+                ? nashvilleNumber.intervalNumber - 7
+                : nashvilleNumber.intervalNumber;
 
         int comparison = (int) note.letter + offset - 1;
         if (comparison > 71) comparison = 65 + (comparison - 72);
@@ -315,49 +315,25 @@ class Theory {
         return new Scale(note, scale.getScaleType());
     }
 
-    static Set getAllDiatonicChordTypesForScale(Scale scale) {
-        ScaleType scaleType = scale.getScaleType();
-
-        Map<Integer, NoteType> relativePitchToNote = new HashMap<>(scaleType.nashvilleIntervals.length);
-        NoteType[] notes = scale.getNoteTypes();
-        for (int i = 0; i < notes.length; i++) {
-            relativePitchToNote.put(notes[i].relativePitch, notes[i]);
-        }
-
-        ChordType[] allChordTypes = ChordType.values();
-        Set<Chord> allDiatonicChords = new HashSet<>(allChordTypes.length);
-        for (ChordType ct : allChordTypes) {
-            Map<Integer, ChordType> m = getChordTypeDiatonicsForScaleType(scaleType, ct);
-//            System.out.println(ct + ": " + m.keySet());
-            for (Integer i : m.keySet()) {
-                try {
-                    Chord c = new Chord(relativePitchToNote.get((i+notes[0].relativePitch)%12), ct);
-                    allDiatonicChords.add(c);
-                } catch (Exception e) {}
-            }
-        }
-        return Collections.unmodifiableSet(allDiatonicChords);
-    }
-
-    private static Map getChordTypeDiatonicsForScaleType(ScaleType scaleType, ChordType chordType) {
-        Map<Integer, ChordType> diatonicChordTypes = new HashMap<>(scaleType.nashvilleIntervals.length);
+    static final Map getChordTypeDiatonicsForScaleType(ScaleType scaleType, ChordType chordType) {
+        Map<Integer, ChordType> diatonicChordTypes = new HashMap<>(scaleType.nashvilleNumbers.length);
 
         // Get a Set representation of the scale's relative pitches (used for checking subsets later)
-        int scaleLength = scaleType.nashvilleIntervals.length;
+        int scaleLength = scaleType.nashvilleNumbers.length;
         Set<Integer> scaleSet = new HashSet<>(scaleLength);
         for (int i = 0; i < scaleLength; i++) {
-            scaleSet.add(scaleType.nashvilleIntervals[i].relativePitchDistance);
+            scaleSet.add(scaleType.nashvilleNumbers[i].relativePitchDistance);
         }
 
-        int numPitchesInChord = chordType.nashvilleIntervals.length;
+        int numPitchesInChord = chordType.nashvilleNumbers.length;
         for (int i = 0; i < scaleLength; i++) {
             Set<Integer> candidateChordSet = new HashSet<>(numPitchesInChord);
 
-            int intervalRelativePitch = scaleType.nashvilleIntervals[i].relativePitchDistance;
+            int intervalRelativePitch = scaleType.nashvilleNumbers[i].relativePitchDistance;
 
             // Get the set of pitches that would be made from the ChordType at scale degree i
             for (int j = 0; j < numPitchesInChord; j++) {
-                int value = (intervalRelativePitch + chordType.nashvilleIntervals[j].relativePitchDistance) % 12;
+                int value = (intervalRelativePitch + chordType.nashvilleNumbers[j].relativePitchDistance) % 12;
                 candidateChordSet.add(value);
             }
 

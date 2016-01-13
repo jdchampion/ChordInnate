@@ -57,7 +57,9 @@ public enum KeySignature {
     C_SHARP_MAJOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
     A_SHARP_MINOR(new NoteType[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
 
-    NO_KEY_SIGNATURE(new NoteType[]{});
+    NO_KEY_SIGNATURE(new NoteType[]{}),
+
+    THEORETICAL_KEY_SIGNATURE(new NoteType[]{});
 
     final NoteType[] notes;
 
@@ -104,14 +106,14 @@ public enum KeySignature {
 
             // TODO weird cases
             // Reference: https://en.wikipedia.org/wiki/Theoretical_key
-            case G_SHARP: return A_FLAT_MAJOR;
-            case D_SHARP: return E_FLAT_MAJOR;
-            case A_SHARP: return B_FLAT_MAJOR;
-            case E_SHARP: return F_MAJOR;
+            case G_SHARP: return THEORETICAL_KEY_SIGNATURE; /*A_FLAT_MAJOR;*/
+            case D_SHARP: return THEORETICAL_KEY_SIGNATURE; /*E_FLAT_MAJOR;*/
+            case A_SHARP: return THEORETICAL_KEY_SIGNATURE; /*B_FLAT_MAJOR;*/
+            case E_SHARP: return THEORETICAL_KEY_SIGNATURE; /*F_MAJOR;*/
 
-            case B_SHARP: return C_MAJOR;
+            case B_SHARP: return THEORETICAL_KEY_SIGNATURE; /*C_MAJOR;*/
 
-            case F_FLAT: return E_MAJOR;
+            case F_FLAT: return THEORETICAL_KEY_SIGNATURE; /*E_MAJOR;*/
 
             default: return NO_KEY_SIGNATURE;
         }
@@ -142,14 +144,14 @@ public enum KeySignature {
 
             // TODO weird cases
             // Reference: https://en.wikipedia.org/wiki/Theoretical_key
-            case E_SHARP: return F_MINOR;
+            case E_SHARP: return THEORETICAL_KEY_SIGNATURE; /*F_MINOR;*/
 
-            case B_SHARP: return C_MINOR;
+            case B_SHARP: return THEORETICAL_KEY_SIGNATURE; /*C_MINOR;*/
 
-            case F_FLAT: return E_MINOR;
-            case C_FLAT: return B_MINOR;
-            case G_FLAT: return A_FLAT_MINOR;
-            case D_FLAT: return C_SHARP_MINOR;
+            case F_FLAT: return THEORETICAL_KEY_SIGNATURE; /*E_MINOR;*/
+            case C_FLAT: return THEORETICAL_KEY_SIGNATURE; /*B_MINOR;*/
+            case G_FLAT: return THEORETICAL_KEY_SIGNATURE; /*A_FLAT_MINOR;*/
+            case D_FLAT: return THEORETICAL_KEY_SIGNATURE; /*C_SHARP_MINOR;*/
 
             default: return NO_KEY_SIGNATURE;
         }

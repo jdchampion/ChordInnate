@@ -13,7 +13,7 @@ import static musictheory.Accidental.*;
  *             http://www.musictheory.net/lessons/31
  *             http://musictheory.alcorn.edu/Version2/theory1/interval.htm
  */
-public enum NashvilleInterval {
+public enum NashvilleNumber {
     // Base one relative pitch from Major = 0
     DOUBLE_FLAT_ONE(10, DOUBLE_FLAT, 1),
     FLAT_ONE(11, FLAT, 1),
@@ -106,18 +106,18 @@ public enum NashvilleInterval {
     DOUBLE_SHARP_THIRTEEN(23, DOUBLE_SHARP, 13);
 
     int relativePitchDistance;
-    Accidental quality;
+    Accidental accidental;
     int intervalNumber;
     boolean isNextOctave;
 
-    NashvilleInterval(int relativePitchDistance, Accidental quality, int intervalNumber) {
+    NashvilleNumber(int relativePitchDistance, Accidental quality, int intervalNumber) {
         this.relativePitchDistance = relativePitchDistance;
-        this.quality = quality;
+        this.accidental = quality;
         this.intervalNumber = intervalNumber;
         this.isNextOctave = relativePitchDistance >= 12 ? true : false;
     }
 
     final String getShortName() {
-        return quality.indicator + intervalNumber;
+        return accidental.indicator + intervalNumber;
     }
 }

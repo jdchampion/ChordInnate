@@ -17,7 +17,7 @@ public class Bjorklund {
     private int level;
     private int stepstatus;
 
-    private boolean[] sequence;
+    private static boolean[] sequence;
 
     public boolean[] compute_bitmap(int num_slots,int num_pulses) {
 

@@ -1,5 +1,7 @@
 package musictheory;
 
+import generator.ChordProgression;
+import generator.MajorProgressionGraph1;
 import org.jgrapht.graph.*;
 
 import javax.sound.midi.MidiChannel;
@@ -18,7 +20,7 @@ public class TESTMUSICTHEORY {
     //===============================================================================================//
 
     // Toggle for hearing Midi playback
-    static final boolean PLAYBACK = false;
+    static final boolean PLAYBACK = true;
     static final boolean PLAY_SCALES_UP_DOWN = true;
 
     // All possible note types that this program can play
@@ -38,24 +40,6 @@ public class TESTMUSICTHEORY {
 
 
     public static void main(String[] args) {
-
-        // TODO JGraphT directed graph example
-//        SimpleDirectedGraph<NoteType, DefaultEdge> directedGraph =
-//                new SimpleDirectedGraph<>(DefaultEdge.class);
-//
-//        NoteType[] notes = {NoteType.C, NoteType.D, NoteType.E, NoteType.F, NoteType.G, NoteType.A, NoteType.B};
-//        directedGraph.addVertex(notes[0]);
-//        for (int i = 1; i < notes.length; i++) {
-//            directedGraph.addVertex(notes[i]);
-//            directedGraph.addEdge(notes[i-1], notes[i]);
-//        }
-//        System.out.println(directedGraph.toString());
-//
-//        NoteType n = directedGraph.getEdgeSource(directedGraph.getEdge(NoteType.C, NoteType.D));
-//        System.out.println(n);
-//        n = directedGraph.getEdgeTarget(directedGraph.getEdge(NoteType.C, NoteType.D));
-//        System.out.println(n);
-
         try {
             Synthesizer synthesizer = MidiSystem.getSynthesizer();
             synthesizer.open();
@@ -65,13 +49,27 @@ public class TESTMUSICTHEORY {
 
             // TODO: Tests performed here
 
-            // TODO example for accessing diatonic chords of a scale
-//            Scale s = new Scale(note, scaleType);
-//            NoteType[] ns = s.getNoteTypes();
-//            NoteType testNoteType = ns[0];
-//            Chord c = new Chord(testNoteType, s.getDiatonicChordTypesByRelativePitch()  // HashMap
-//                    .get(testNoteType.relativePitch)                                    // HashMap key => ArrayList
-//                    .get(3));                                                           // ArrayList index => ChordType
+            // TODO JGraphT directed graph example
+//            ChordProgression progressionAutomaton = new MajorProgressionGraph1();
+//            Scale scale = new Scale(note, scaleType);
+//            NashvilleNumber graphVertex = NashvilleNumber.ONE;
+//            Random r = new Random();
+//            for (int i = 0; i < 16; i++) {
+//                int noteTypeIndex = graphVertex.relativePitchDistance;
+//
+//                ArrayList<ChordType> arrayList = scale.getDiatonicChordTypesByRelativePitch().get(noteTypeIndex);
+//
+//                Chord c = new Chord(scale.getNoteTypeWithRelativePitch(noteTypeIndex), arrayList.get(r.nextInt(arrayList.size())));
+//                System.out.println(c.getName());
+//                testSoundChord(c);
+//
+//                r.setSeed(System.currentTimeMillis());
+//
+//                Object[] possiblePaths = progressionAutomaton.edgesOf(graphVertex).toArray();
+//                int nextVertex = r.nextInt(possiblePaths.length);
+//                graphVertex = progressionAutomaton.getEdgeTarget((DefaultEdge)possiblePaths[nextVertex]);
+//                r.setSeed(System.currentTimeMillis());
+//            }
 
             synthesizer.close();
         }
@@ -294,9 +292,9 @@ public class TESTMUSICTHEORY {
 
         System.out.println();
 
-        System.out.print("Intervals: ");
-        for (NashvilleInterval interval : scale.getNashvilleIntervals()) {
-            System.out.print(interval.getShortName() + " ");
+        System.out.print("Nashville Numbers: ");
+        for (NashvilleNumber nn : scale.getNashvilleNumbers()) {
+            System.out.print(nn.getShortName() + " ");
         }
         System.out.println();
     }

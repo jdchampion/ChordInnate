@@ -54,30 +54,26 @@ public enum Interval {
     PERFECT_OCTAVE(12, PERFECT, 8),
     AUGMENTED_SEVENTH(12, AUGMENTED, 7);
 
-    int relativePitchDistance;
-    IntervalQuality quality;
-    int intervalNumber;
-    RomanNumeral romanNumeral;
+    final int relativePitchDistance;
+    final IntervalQuality intervalQuality;
+    final int intervalNumber;
+    final RomanNumeral romanNumeral;
 
     Interval(int relativePitchDistance, IntervalQuality quality, int intervalNumber) {
         this.relativePitchDistance = relativePitchDistance;
-        this.quality = quality;
+        this.intervalQuality = quality;
         this.intervalNumber = intervalNumber;
         this.romanNumeral = (quality.equals(MINOR) || quality.equals(DIMINISHED))
                 ? RomanNumeral.getSmallRomanNumerals()[(intervalNumber-1)%7]
                 : RomanNumeral.getBigRomanNumerals()[(intervalNumber-1)%7];
     }
 
-    RomanNumeral getRomanNumeral() {
-        return romanNumeral;
-    }
-
     String getRomanNumeralName() {
-        return romanNumeral + quality.romanNumeralIdentifier;
+        return romanNumeral + intervalQuality.romanNumeralIdentifier;
     }
 
     String getShortName() {
-        return quality.shortNameIdentifier + intervalNumber;
+        return intervalQuality.shortNameIdentifier + intervalNumber;
     }
 }
 
@@ -88,7 +84,7 @@ enum IntervalQuality {
     AUGMENTED("A", "+"),
     DIMINISHED("d", "˚");
 
-    String shortNameIdentifier, romanNumeralIdentifier;
+    final String shortNameIdentifier, romanNumeralIdentifier;
 
     IntervalQuality(String shortNameIdentifier, String romanNumeralIdentifier) {
         this.shortNameIdentifier = shortNameIdentifier;
