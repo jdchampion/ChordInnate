@@ -15,10 +15,10 @@ abstract class IntervalSet {
     protected int maxOctave;
 
     IntervalSet(NoteType root, NashvilleNumber[] nashvilleNumbers) throws Exception {
-        // TODO IntervalSets beginning with a double accidental are not currently supported.
-        if (root.isDoubleAccidental()) {
-            throw new Exception("Constructor called with Double Accidental NoteType root. (" + root.name + ")");
-        }
+//        // TODO IntervalSets beginning with a double accidental are not currently supported.
+//        if (root.isDoubleAccidental() && this.equals(Scale.class)) {
+//            throw new Exception("Constructor called with Double Accidental NoteType root. (" + root.name + ")");
+//        }
 
         // If the IntervalSet constructor was called with a NoteType containing
         // a natural accidental, just convert the NoteType to its non-accidental equivalent.
@@ -65,24 +65,83 @@ abstract class IntervalSet {
                     case -1: newAccidental = FLAT; break;
                     case 1: newAccidental = SHARP; break;
                     case 2: newAccidental = DOUBLE_SHARP; break;
-                    default: /*System.out.println("uncaught value of " + offset + " on " + relativePitches[i]);*/
+                    default: /*System.out.println("uncaught value of " + offset + " on " + nashvilleNumbers[i]);*/
                 }
 
                 candidate = Theory.applyAccidentalTo(candidate, newAccidental);
 
-                if (candidate.relativePitch == (root.relativePitch + nashvilleNumbers[i].relativePitchDistance) % 12) {
-//                    System.out.println(relativePitches[i] + " is caught in IF");
+                if (candidate.relativePitch == comparisonRelativePitch) {
+//                    System.out.println(nashvilleNumbers[i] + " is caught in IF");
                     returnedNoteTypes[i] = candidate;
                 }
                 else {
 //                    System.out.println(nashvilleNumbers[i] + " is caught in ELSE");
                     candidate = getNoteType(candidate.letter, newAccidental);
 
-                    if (candidate.relativePitch == (root.relativePitch + nashvilleNumbers[i].relativePitchDistance) % 12) {
+                    if (candidate.relativePitch == comparisonRelativePitch) {
                         returnedNoteTypes[i] = candidate;
                     }
                     else {
                         // TODO this tends to be the problem case for Double Accidental Scales / Chords
+//                        System.out.println("                                DEBUG **********************************");
+//                        System.out.println("Root: " + root);
+//                        System.out.println("Candidate: " + candidate);
+//                        System.out.println("NashvilleNumber: " + nashvilleNumbers[i]);
+
+                        candidateRelativePitch = candidate.relativePitch;
+                        offset = comparisonRelativePitch - candidateRelativePitch;
+
+                        if (root.accidental.equals(DOUBLE_FLAT)) {
+                            switch (offset) {
+                                case 9: {
+                                    newAccidental = FLAT;
+                                    candidate = getNoteType(Theory.getPreviousNoteLetter(candidate), newAccidental);
+                                    break;
+                                }
+                                case -1: {
+                                    newAccidental = DOUBLE_FLAT;
+                                    nextNoteLetter = Theory.getNoteLetterForNashvilleNumber(root, nashvilleNumbers[i]);
+                                    candidate = getNoteType(nextNoteLetter, newAccidental);
+                                    break;
+                                }
+                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                            }
+                        }
+                        else if (root.accidental.equals(FLAT)) {
+                            switch (offset) {
+                                case -1: newAccidental = SHARP; break;
+                                case 1: newAccidental = SHARP; break;
+                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                            }
+
+                            candidate = getNoteType(candidate.letter, newAccidental);
+                        }
+                        else if (root.accidental.equals(SHARP)) {
+                            switch (offset) {
+                                case -1: newAccidental = FLAT; break;
+                                case 1: newAccidental = FLAT; break;
+                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                            }
+
+                            candidate = getNoteType(candidate.letter, newAccidental);
+                        }
+                        else if (root.accidental.equals(DOUBLE_SHARP)) {
+                            switch (offset) {
+                                case -9: newAccidental = SHARP; break;
+                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                            }
+
+                            candidate = getNoteType(Theory.getNextNoteLetter(candidate), newAccidental);
+                        }
+                        else if (root.accidental.equals(NONE)) {
+                            switch (offset) {
+                                case -11: newAccidental = SHARP; break;
+                                case 11: newAccidental = FLAT; break;
+                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                            }
+
+                            candidate = getNoteType(candidate.letter, newAccidental);
+                        }
 
                         returnedNoteTypes[i] = candidate;
 

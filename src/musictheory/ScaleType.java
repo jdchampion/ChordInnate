@@ -321,7 +321,7 @@ public enum ScaleType {
     ),
     BLUES_HEXATONIC(
             "Blues Hexatonic",
-            new NashvilleNumber[] {ONE, FLAT_THREE, FOUR, FIVE, FLAT_FIVE, FIVE, FLAT_SEVEN},
+            new NashvilleNumber[] {ONE, FLAT_THREE, FOUR, FLAT_FIVE, FIVE, FLAT_SEVEN},
             HEPTATONIC_TONALITY
     ),
     BLUES_PENTATONIC(

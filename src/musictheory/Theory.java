@@ -250,7 +250,8 @@ class Theory {
             return getNoteType(note.letter, NATURAL); // flats & sharps cancel out
         }
 
-        // DOUBLE FLAT, DOUBLE SHARP
+        // FLAT && FLAT = DOUBLE FLAT;
+        // SHARP && SHARP =  DOUBLE SHARP
         else if ((a.equals(FLAT) && b.equals(FLAT)) || (a.equals(SHARP) && b.equals(SHARP))) {
             Accidental doubleAccidental = Enum.valueOf(Accidental.class, "DOUBLE_" + a.name());
 
@@ -294,12 +295,26 @@ class Theory {
             else return getNoteType(letter, SHARP);
         }
 
+        // DOUBLE SHARP && FLAT; DOUBLE FLAT && SHARP
         else {
 //            System.out.println("Debug check: " + note);
 
-            if (note.equals(C_FLAT) || note.equals(B) || note.equals(F_FLAT) || note.equals(G_FLAT)) {
+            if (a.equals(DOUBLE_SHARP) && b.equals(FLAT)) {
                 return getNoteType(note.letter, SHARP);
             }
+            else if (a.equals(DOUBLE_FLAT) && b.equals(SHARP)) {
+                return getNoteType(note.letter, FLAT);
+            }
+
+
+
+
+//            if (note.equals(C_FLAT) /*|| note.equals(B)*/ || note.equals(F_FLAT) || note.equals(G_FLAT)) {
+//                return getNoteType(note.letter, SHARP);
+//            }
+//            else if (note.equals(E_SHARP)) {
+//                return getNoteType(note.letter, FLAT);
+//            }
 
             return note;
         }

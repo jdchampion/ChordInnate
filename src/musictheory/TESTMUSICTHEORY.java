@@ -20,8 +20,8 @@ public class TESTMUSICTHEORY {
     //===============================================================================================//
 
     // Toggle for hearing Midi playback
-    static final boolean PLAYBACK = true;
-    static final boolean PLAY_SCALES_UP_DOWN = true;
+    static final boolean PLAYBACK = false;
+    static final boolean PLAY_SCALES_UP_DOWN = false;
 
     // All possible note types that this program can play
     static final NoteType[] ALL_NOTES = NoteType.values();
@@ -31,6 +31,9 @@ public class TESTMUSICTHEORY {
 
     // Variables for testing scales
     static final ScaleType scaleType = ScaleType.MAJOR;
+
+    // Variables for testing chords
+    static final ChordType chordType = ChordType.MAJOR;
 
     //===============================================================================================//
 
@@ -71,6 +74,11 @@ public class TESTMUSICTHEORY {
 //                r.setSeed(System.currentTimeMillis());
 //            }
 
+//            for (NoteType nt : NoteType.values()) {
+//                testScaleAttributes(new Scale(nt, scaleType));
+//                System.out.println();
+//            }
+
             synthesizer.close();
         }
         catch (MidiUnavailableException ex) {}
@@ -78,7 +86,17 @@ public class TESTMUSICTHEORY {
         catch (Exception ex) {}
     }
 
-    private static void testAllChordInversionsforNote() {
+    private static void testAllChordInversionsForChordType() {
+        for (NoteType nt : NoteType.values()) {
+            try {
+                Chord d = new Chord(nt, chordType);
+                testChordInversions(d);
+                System.out.println();
+            } catch (Exception e) {}
+        }
+    }
+
+    private static void testAllChordInversionsForNote() {
         for (ChordType ct : ChordType.values()) {
             try {
                 Chord d = new Chord(note, ct);
@@ -100,7 +118,8 @@ public class TESTMUSICTHEORY {
         }
     }
 
-    private static void testChordInversions(Chord c) {
+    private static void
+    testChordInversions(Chord c) {
         for (Note n : c.getNotes()) {
             System.out.print(c.getName() + " : ");
             for (Note m : c.getNotes()) {
@@ -350,7 +369,7 @@ public class TESTMUSICTHEORY {
 
     private static void testSoundChord(Chord chord) {
         if (chord != null) {
-            soundChord(chord, 127, 1200, 100);
+            soundChord(chord, 127, 120, 100);
         }
     }
 
