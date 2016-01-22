@@ -102,8 +102,8 @@ public enum ChordType {
     ),
     MINOR_THIRTEEN(
             "m13",
-            new NashvilleNumber[] {ONE, FLAT_THREE, FOUR, FIVE, FLAT_SEVEN,
-                    NashvilleNumber.NINE, NashvilleNumber.THIRTEEN}
+            new NashvilleNumber[] {ONE, FLAT_THREE, FIVE, FLAT_SEVEN,
+                    NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN}
     ),
     MINOR_SIX(
             "m6",
