@@ -117,6 +117,10 @@ public enum NashvilleNumber {
         this.isNextOctave = relativePitchDistance >= 12 ? true : false;
     }
 
+    /**
+     *
+     * @return
+     */
     final String getShortName() {
         return accidental.indicator + intervalNumber;
     }

@@ -75,37 +75,72 @@ public enum NoteType {
         this.octaveRange = (relativePitch < 8) ? 11 : 10;
     }
 
+    /**
+     *
+     * @return
+     */
     boolean hasAccidentalSymbol() {
         return !accidental.equals(NONE);
     }
 
+    /**
+     *
+     * @return
+     */
     boolean isNatural() { return accidental.equals(NATURAL); }
 
+    /**
+     *
+     * @return
+     */
     boolean isDoubleAccidental() { return accidental.equals(DOUBLE_FLAT)
             || accidental.equals(DOUBLE_SHARP); }
 
+    /**
+     *
+     * @return
+     */
     final NoteType getNext() {
         return this.ordinal() < NoteType.values().length - 1
                 ? NoteType.values()[this.ordinal() + 1]
                 : null;
     }
 
+    /**
+     *
+     * @return
+     */
     final NoteType getPrevious() {
         return this.ordinal() > 0
                 ? NoteType.values()[this.ordinal() - 1]
                 : null;
     }
 
+    /**
+     *
+     * @param index
+     * @return
+     */
     final NoteType getFromIndex(int index) {
         return (index > 0 || index < NoteType.values().length - 1)
                 ? NoteType.values()[index]
                 : null;
     }
 
+    /**
+     *
+     * @param comparisonNote
+     * @return
+     */
     boolean isEnharmonicallyEquivalentTo(NoteType comparisonNote) {
         return this.relativePitch == comparisonNote.relativePitch;
     }
 
+    /**
+     *
+     * @param wantDoubleSharps
+     * @return
+     */
     static NoteType[] getAllSharps(boolean wantDoubleSharps) {
         return wantDoubleSharps
                 ? new NoteType[] {A_DOUBLE_SHARP, B_DOUBLE_SHARP, C_DOUBLE_SHARP,
@@ -115,6 +150,11 @@ public enum NoteType {
                 : new NoteType[] {A_SHARP, B_SHARP, C_SHARP, D_SHARP, E_SHARP, F_SHARP, G_SHARP};
     }
 
+    /**
+     *
+     * @param wantDoubleFlats
+     * @return
+     */
     static NoteType[] getAllFlats(boolean wantDoubleFlats) {
         return wantDoubleFlats
                 ? new NoteType[] {A_DOUBLE_FLAT, B_DOUBLE_FLAT, C_DOUBLE_FLAT,
@@ -123,14 +163,28 @@ public enum NoteType {
                 : new NoteType[] {A_FLAT, B_FLAT, C_FLAT, D_FLAT, E_FLAT, F_FLAT, G_FLAT};
      }
 
+    /**
+     *
+     * @return
+     */
     static NoteType[] getFlatChromaticNoteArray() {
         return new NoteType[] {C, D_FLAT, D, E_FLAT, E, F, G_FLAT, G, A_FLAT, A, B_FLAT, C_FLAT};
     }
 
+    /**
+     *
+     * @return
+     */
     static NoteType[] getSharpChromaticNoteArray() {
         return new NoteType[] {C, C_SHARP, D, D_SHARP, E, F, F_SHARP, G, G_SHARP, A, A_SHARP, B};
     }
 
+    /**
+     *
+     * @param c
+     * @param accidental
+     * @return
+     */
     static NoteType getNoteType(char c, Accidental accidental) {
         switch (accidental) {
             case DOUBLE_FLAT:

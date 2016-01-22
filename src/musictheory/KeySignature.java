@@ -67,6 +67,10 @@ public enum KeySignature {
         this.notes = notes;
     }
 
+    /**
+     *
+     * @return whether this KeySignature contains flats
+     */
     boolean isFlatKeySignature() {
         if (this.equals(C_MAJOR) || this.equals(A_MINOR)) {
             return false;   // C Major and A Minor are neither Flat nor Sharp
@@ -74,6 +78,10 @@ public enum KeySignature {
         return this.notes[0].equals(B_FLAT);
     }
 
+    /**
+     *
+     * @return whether this KeySignature contains sharps
+     */
     boolean isSharpKeySignature() {
         if (this.equals(C_MAJOR) || this.equals(A_MINOR)) {
             return false;   // C Major and A Minor are neither Flat nor Sharp
@@ -81,6 +89,11 @@ public enum KeySignature {
         return this.notes[0].equals(F_SHARP);
     }
 
+    /**
+     *
+     * @param root
+     * @return
+     */
     static final KeySignature getMajorKeySignatureWithRoot(NoteType root) {
         switch(root) {
             // Flat key signatures
@@ -119,6 +132,11 @@ public enum KeySignature {
         }
     }
 
+    /**
+     *
+     * @param root
+     * @return
+     */
     static final KeySignature getMinorKeySignatureWithRoot(NoteType root) {
         switch(root) {
             // Flat key signatures

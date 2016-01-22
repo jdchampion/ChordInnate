@@ -47,7 +47,7 @@ public class Scale extends IntervalSet {
     private final Set<Chord> diatonicChordTypes;
     private final HashMap<Integer, ArrayList<ChordType>> diatonicChordTypesByRelativePitch;
 
-    Scale(NoteType root, ScaleType scaleType) throws Exception {
+    Scale(NoteType root, ScaleType scaleType) {
         super(root, scaleType.nashvilleNumbers);
         super.name = root.name + " " + scaleType.name;
         this.scaleType = scaleType;
@@ -57,6 +57,10 @@ public class Scale extends IntervalSet {
         this.diatonicChordTypesByRelativePitch = setDiatonicHashMap();
     }
 
+    /**
+     *
+     * @param octave
+     */
     protected void setNoteOctaves(int octave) {
         int numNotes = super.notes.length;
 
@@ -72,6 +76,11 @@ public class Scale extends IntervalSet {
         }
     }
 
+    /**
+     *
+     * @param note
+     * @return
+     */
     private KeySignature setKeySignature(NoteType note) {
         KeySignature keySignature;
         switch (scaleType.tonality) {
@@ -84,6 +93,10 @@ public class Scale extends IntervalSet {
         return keySignature;
     }
 
+    /**
+     *
+     * @return
+     */
     private Step[] setSteps() {
         Step[] steps = new Step[scaleType.nashvilleNumbers.length-1];
 
@@ -104,6 +117,10 @@ public class Scale extends IntervalSet {
         return steps;
     }
 
+    /**
+     *
+     * @return
+     */
     final Set setDiatonicChordTypes() {
         Map<Integer, NoteType> relativePitchToNote = new HashMap<>(scaleType.nashvilleNumbers.length);
         for (int i = 0; i < super.noteTypes.length; i++) {
@@ -125,6 +142,10 @@ public class Scale extends IntervalSet {
         return Collections.unmodifiableSet(allDiatonicChords);
     }
 
+    /**
+     *
+     * @return
+     */
     private HashMap setDiatonicHashMap() {
         HashMap hashMap = new HashMap<>();
 
@@ -147,20 +168,40 @@ public class Scale extends IntervalSet {
         return hashMap;
     }
 
+    /**
+     *
+     * @return
+     */
     public ScaleType getScaleType() {
         return scaleType;
     }
 
+    /**
+     *
+     * @return
+     */
     public KeySignature getKeySignature() {
         return keySignature;
     }
 
+    /**
+     *
+     * @return
+     */
     public Step[] getSteps() {
         return steps;
     }
 
+    /**
+     *
+     * @return
+     */
     public Note[] getAscendingNotes() { return super.notes; }
 
+    /**
+     *
+     * @return
+     */
     public Note[] getDescendingNotes() {
         Note[] descendingNotes = new Note[super.notes.length];
 
@@ -171,18 +212,35 @@ public class Scale extends IntervalSet {
         return descendingNotes;
     }
 
+    /**
+     *
+     * @return
+     */
     public NashvilleNumber[] getNashvilleNumbers() {
         return scaleType.nashvilleNumbers;
     }
 
+    /**
+     *
+     * @return
+     */
     public Set<Chord> getDiatonicChordTypes() {
         return diatonicChordTypes;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<Integer, ArrayList<ChordType>> getDiatonicChordTypesByRelativePitch() {
         return diatonicChordTypesByRelativePitch;
     }
 
+    /**
+     *
+     * @param relativePitch
+     * @return
+     */
     public NoteType getNoteTypeWithRelativePitch(int relativePitch) {
         for (NoteType nt : super.noteTypes) {
             if (nt.relativePitch == relativePitch) {

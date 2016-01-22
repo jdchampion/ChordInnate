@@ -19,7 +19,13 @@ public class Bjorklund {
 
     private static boolean[] sequence;
 
-    public boolean[] compute_bitmap(int num_slots,int num_pulses) {
+    /**
+     *
+     * @param num_slots
+     * @param num_pulses
+     * @return
+     */
+    public boolean[] compute_bitmap(int num_slots, int num_pulses) {
 
         stepstatus = 0;
         steps = num_slots;
@@ -52,12 +58,16 @@ public class Bjorklund {
         return sequence;
     }
 
+    /**
+     *
+     * @param level
+     */
     private void build_string(int level) {
         if (level == -1) {
             sequence[stepstatus] = false;
             stepstatus++;
         }
-        else if (level == -2)  {
+        else if (level == -2) {
             sequence[stepstatus] = true;
             stepstatus++;
         }

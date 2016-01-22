@@ -9,8 +9,16 @@ import static musictheory.Accidental.*;
  * Created by Joseph on 1/7/16.
  */
 class Theory {
-    static final NoteType[] getEnharmonicEquivalents(NoteType note, boolean wantNatural, boolean wantDoubleAccidentals) {
-        switch (note.relativePitch) {
+
+    /**
+     *
+     * @param noteType the NoteType to receive enharmonic equivalents for
+     * @param wantNatural whether to include natural accidentals in the returned list
+     * @param wantDoubleAccidentals whether to include double accidentals in the returned list
+     * @return a list of enharmonic equivalents for the given NoteType
+     */
+    static final NoteType[] getEnharmonicEquivalents(NoteType noteType, boolean wantNatural, boolean wantDoubleAccidentals) {
+        switch (noteType.relativePitch) {
             case 0: { // B# | C | CNat | Dbb
                 if (wantNatural && wantDoubleAccidentals) {
                     return new NoteType[] {B_SHARP, C, C_NATURAL, D_DOUBLE_FLAT};
@@ -148,6 +156,12 @@ class Theory {
         }
     }
 
+    /**
+     *
+     * @param relativePitch the relative pitch of the desired NoteType
+     * @return the first "practical" (i.e., no naturals / double accidentals) in the NoteType enum
+     * possessing the desired relative pitch
+     */
     static final NoteType getFirstPracticalEnharmonicToRelativePitch(int relativePitch) {
         switch (relativePitch) {
             case 0: return B_SHARP;
@@ -166,6 +180,11 @@ class Theory {
         }
     }
 
+    /**
+     *
+     * @param relativePitch
+     * @return
+     */
     static final Interval[] getAllIntervalsMatchingRelativePitch(int relativePitch) {
         Vector<Interval> matchingIntervals = new Vector<>(3);
         for (Interval i : Interval.values()) {
@@ -183,6 +202,11 @@ class Theory {
     }
 
     // TODO identical to Interval...
+    /**
+     *
+     * @param relativePitch
+     * @return
+     */
     static NashvilleNumber[] getAllNashvilleNumbersMatchingRelativePitch(int relativePitch) {
         Vector<NashvilleNumber> matchingIntervals = new Vector<>(3);
         for (NashvilleNumber i : NashvilleNumber.values()) {
@@ -199,14 +223,20 @@ class Theory {
         return returnedIntervals;
     }
 
-    static char getNoteLetterForNashvilleNumber(NoteType note, NashvilleNumber nashvilleNumber) {
+    /**
+     *
+     * @param root the NoteType of the 'base' Note to count up from
+     * @param nashvilleNumber the desired interval above root
+     * @return the letter for the Note at nashvilleNumber, with respect to root (irrespective of root's accidental)
+     */
+    static char getNoteLetterForNashvilleNumber(NoteType root, NashvilleNumber nashvilleNumber) {
 
         // Convert the ASCII value to get the correct char
         int offset = nashvilleNumber.isNextOctave
                 ? nashvilleNumber.intervalNumber - 7
                 : nashvilleNumber.intervalNumber;
 
-        int comparison = (int) note.letter + offset - 1;
+        int comparison = (int) root.letter + offset - 1;
         if (comparison > 71) comparison = 65 + (comparison - 72);
 
         if ((char) comparison > 'G') comparison = (int) 'A' + comparison - (int) 'G';
@@ -214,6 +244,11 @@ class Theory {
         return (char) comparison;
     }
 
+    /**
+     *
+     * @param currentNote the NoteType of the Note in question
+     * @return the letter for the Note preceding currentNote
+     */
     static char getPreviousNoteLetter(NoteType currentNote) {
         char currentChar = currentNote.letter;
 
@@ -222,6 +257,11 @@ class Theory {
         return (char) ((int) currentChar - 1);
     }
 
+    /**
+     *
+     * @param currentNote the NoteType of the Note in question
+     * @return the letter for the Note succeeding currentNote
+     */
     static char getNextNoteLetter(NoteType currentNote) {
         char currentChar = currentNote.letter;
 
@@ -230,10 +270,22 @@ class Theory {
         return (char) ((int) currentChar + 1);
     }
 
+    /**
+     *
+     * @param n1 the NoteType of the first Note
+     * @param n2 the NoteType of the Note directly after n1
+     * @return whether the letter for n2 comes after the letter for n1
+     */
     static boolean noteLettersFollow(NoteType n1, NoteType n2) {
         return getNextNoteLetter(n1) == n2.letter;
     }
 
+    /**
+     *
+     * @param note
+     * @param accidental
+     * @return
+     */
     static final NoteType applyAccidentalTo(NoteType note, Accidental accidental) {
         Accidental a = note.accidental, b = accidental;
 
@@ -320,16 +372,34 @@ class Theory {
         }
     }
 
+    /**
+     *
+     * @param note
+     * @param letterShiftValue
+     * @return
+     */
     private static char getNoteLetter(NoteType note, int letterShiftValue) {
         int comparison = (int) note.letter + letterShiftValue;
         if (comparison > 71) comparison = 65 + (comparison - 72);
         return (char) comparison;
     }
 
-    static final Scale transpose(Scale scale, NoteType note) throws Exception {
+    /**
+     *
+     * @param scale
+     * @param note
+     * @return
+     */
+    static final Scale transpose(Scale scale, NoteType note) {
         return new Scale(note, scale.getScaleType());
     }
 
+    /**
+     *
+     * @param scaleType
+     * @param chordType
+     * @return
+     */
     static final Map getChordTypeDiatonicsForScaleType(ScaleType scaleType, ChordType chordType) {
         Map<Integer, ChordType> diatonicChordTypes = new HashMap<>(scaleType.nashvilleNumbers.length);
 

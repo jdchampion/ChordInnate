@@ -68,10 +68,18 @@ public enum Interval {
                 : RomanNumeral.getBigRomanNumerals()[(intervalNumber-1)%7];
     }
 
+    /**
+     *
+     * @return
+     */
     String getRomanNumeralName() {
         return romanNumeral + intervalQuality.romanNumeralIdentifier;
     }
 
+    /**
+     *
+     * @return
+     */
     String getShortName() {
         return intervalQuality.shortNameIdentifier + intervalNumber;
     }

@@ -10,12 +10,17 @@ public class Chord extends IntervalSet {
     private int inversion = 0;          // With n notes, there are n-1 possible inversions
     private int[] defaultOctaves;       // Default octave for each Note
 
-    public Chord(NoteType root, ChordType chordType) throws Exception {
+    public Chord(NoteType root, ChordType chordType) {
         super(root, chordType.nashvilleNumbers);
         super.name = root.name + chordType.chordSymbol;
         this.chordType = chordType;
     }
 
+    /**
+     * Raises or lowers all Notes in the Chord to a specified octave, if it is within the octave range of the Chord.
+     * Otherwise, this method does nothing.
+     * @param octave the octave number to set the Chord at
+     */
     protected void setNoteOctaves(int octave) {
         int numNotes = super.notes.length;
         defaultOctaves = new int[numNotes];
@@ -41,6 +46,11 @@ public class Chord extends IntervalSet {
         }
     }
 
+    /**
+     * Performs an inversion on the Chord by raising the octave of the lowest Note.
+     * Chords with n Notes have n - 1 possible inversions. An inversion after the n - 1st
+     * will return the Chord to its original structure and Note octaves.
+     */
     public void invert() {
         this.inversion = (++inversion) % super.noteTypes.length;
         super.name = super.root.name + chordType.chordSymbol;
@@ -61,10 +71,19 @@ public class Chord extends IntervalSet {
         }
     }
 
+    /**
+     *
+     * @return the ChordType for this Chord
+     */
     public ChordType getChordType() {
         return this.chordType;
     }
 
+    /**
+     * Returns the current inversion number of the Chord.
+     * If the Chord has not been inverted, a value of zero (0) is returned.
+     * @return the inversion number of this Chord
+     */
     public int getInversionNumber() {
         return inversion;
     }

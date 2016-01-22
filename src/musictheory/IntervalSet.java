@@ -10,12 +10,12 @@ abstract class IntervalSet {
     protected final NoteType[] noteTypes;
     protected final NoteType root;
     protected final Note[] notes;
-    protected String name;
+    protected String name;          // name is set by subclasses
     protected int minOctave;
     protected int maxOctave;
 
-    IntervalSet(NoteType root, NashvilleNumber[] nashvilleNumbers) throws Exception {
-//        // TODO IntervalSets beginning with a double accidental are not currently supported.
+    IntervalSet(NoteType root, NashvilleNumber[] nashvilleNumbers) {
+//        // TODO Uncomment these lines if double accidentals are not being handled properly.
 //        if (root.isDoubleAccidental() && this.equals(Scale.class)) {
 //            throw new Exception("Constructor called with Double Accidental NoteType root. (" + root.name + ")");
 //        }
@@ -29,14 +29,25 @@ abstract class IntervalSet {
 
         // IntervalSets have an octave range that is limited by the highest base relative pitch in the set
         this.minOctave = 0;
-
         this.maxOctave = getNoteTypeWithHighestRelativePitch(noteTypes).octaveRange;
+
         this.notes = setNotes();
+
         setNoteOctaves(5);
     }
 
+    /**
+     * Raises or lowers all Notes in the IntervalSet to a specified octave, if it is within the octave range of the IntervalSet.
+     * Otherwise, this method does nothing.
+     * @param octave the octave number to set the IntervalSet at
+     */
     protected abstract void setNoteOctaves(int octave);
 
+    /**
+     * Dynamically builds the list of diatonic NoteTypes for this IntervalSet, based on the root NoteType and NashvilleNumbers.
+     * @param nashvilleNumbers the list of NashvilleNumber elements, which will be used for deducing NoteTypes
+     * @return a list of NoteTypes that are diatonic to this IntervalSet
+     */
     private NoteType[] setNoteTypes(NashvilleNumber[] nashvilleNumbers) {
         int numNotes = nashvilleNumbers.length;
         NoteType[] returnedNoteTypes = new NoteType[numNotes];
@@ -152,6 +163,13 @@ abstract class IntervalSet {
         return returnedNoteTypes;
     }
 
+    /**
+     * Finds the NoteType in the IntervalSet containing the highest relative pitch value.
+     * This method assumes no duplicate NoteTypes or relative pitch values in the IntervalSet.
+     * If duplicates exist, the last element containing the highest relative pitch value will be returned.
+     * @param noteTypes the private member from IntervalSet
+     * @return the NoteType in the IntervalSet containing the highest relative pitch value
+     */
     private NoteType getNoteTypeWithHighestRelativePitch(NoteType[] noteTypes) {
         NoteType max = noteTypes[0];
         for (int i = 1; i < noteTypes.length; i++) {
@@ -164,12 +182,20 @@ abstract class IntervalSet {
         return max;
     }
 
+    /**
+     * A public wrapper method for raising or lowering the IntervalSet by the specified octave.
+     * @param octave the octave to set the IntervalSet at
+     */
     public void setOctave(int octave) {
         if (octave <= root.octaveRange) {
             setNoteOctaves(octave);
         }
     }
 
+    /**
+     * A private method designed for setting the private IntervalSet member notes.
+     * @return the list of Notes for the IntervalSet
+     */
     private Note[] setNotes() {
         Note[] returnedNotes = new Note[this.noteTypes.length];
         for (int i = 0; i < returnedNotes.length; i++) {
@@ -179,22 +205,42 @@ abstract class IntervalSet {
         return returnedNotes;
     }
 
+    /**
+     *
+     * @return the list of NoteTypes in this IntervalSet
+     */
     public NoteType[] getNoteTypes() {
         return noteTypes;
     }
 
+    /**
+     *
+     * @return the NoteType designated as the root for this IntervalSet
+     */
     public NoteType getRootNoteType() {
         return root;
     }
 
+    /**
+     *
+     * @return the list of Notes in this IntervalSet
+     */
     public Note[] getNotes() {
         return notes;
     }
 
+    /**
+     *
+     * @return the Note designated as the root for this IntervalSet
+     */
     public Note getRootNote() {
         return notes[0];
     }
 
+    /**
+     *
+     * @return the name of this IntervalSet
+     */
     public String getName() {
         return name;
     }
