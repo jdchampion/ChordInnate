@@ -395,6 +395,16 @@ class Theory {
     }
 
     /**
+     * 
+     * @param chord
+     * @param note
+     * @return
+     */
+    static final Chord transpose(Chord chord, NoteType note) {
+        return new Chord(note, chord.getChordType());
+    }
+
+    /**
      *
      * @param scaleType
      * @param chordType

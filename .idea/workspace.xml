@@ -2,37 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1727481b-bb17-4ae4-b2e7-bcd72d0fe28e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/generator/Bjorklund.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/generator/Bjorklund.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Accidental.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Accidental.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Chord.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Chord.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Degree.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Degree.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Interval.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Interval.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/IntervalQuality.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/IntervalQuality.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/IntervalSet.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/IntervalSet.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/KeySignature$1.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/KeySignature$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/KeySignature.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/KeySignature.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/NashvilleNumber.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/NashvilleNumber.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Note.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Note.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/NoteType$1.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/NoteType$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/NoteType.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/NoteType.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/RomanNumeral.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/RomanNumeral.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Scale$1.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Scale$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Scale.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Scale.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Step.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Step.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/TESTMUSICTHEORY.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/TESTMUSICTHEORY.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Theory.class" afterPath="$PROJECT_DIR$/out/production/ChordInnate/musictheory/Theory.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/generator/Bjorklund.java" afterPath="$PROJECT_DIR$/src/generator/Bjorklund.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Chord.java" afterPath="$PROJECT_DIR$/src/musictheory/Chord.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Degree.java" afterPath="$PROJECT_DIR$/src/musictheory/Degree.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Interval.java" afterPath="$PROJECT_DIR$/src/musictheory/Interval.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/IntervalSet.java" afterPath="$PROJECT_DIR$/src/musictheory/IntervalSet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/KeySignature.java" afterPath="$PROJECT_DIR$/src/musictheory/KeySignature.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/NashvilleNumber.java" afterPath="$PROJECT_DIR$/src/musictheory/NashvilleNumber.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Note.java" afterPath="$PROJECT_DIR$/src/musictheory/Note.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/NoteType.java" afterPath="$PROJECT_DIR$/src/musictheory/NoteType.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/RomanNumeral.java" afterPath="$PROJECT_DIR$/src/musictheory/RomanNumeral.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Scale.java" afterPath="$PROJECT_DIR$/src/musictheory/Scale.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/musictheory/Theory.java" afterPath="$PROJECT_DIR$/src/musictheory/Theory.java" />
     </list>
     <ignored path="ChordInnate.iws" />
@@ -69,7 +38,7 @@
         <entry file="file://$PROJECT_DIR$/src/musictheory/IntervalSet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
+              <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -80,26 +49,17 @@
       <file leaf-file-name="Theory.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/musictheory/Theory.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.505319">
-              <caret line="185" column="14" selection-start-line="185" selection-start-column="14" selection-end-line="185" selection-end-column="14" />
+            <state vertical-scroll-proportion="0.24734043">
+              <caret line="397" column="7" selection-start-line="397" selection-start-column="7" selection-end-line="397" selection-end-column="7" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#getEnharmonicEquivalents#0;class#Theory#0" expanded="false" />
                 <element signature="method#applyAccidentalTo#0;class#Theory#0" expanded="false" />
+                <element signature="e#14442#14443#0" expanded="true" />
+                <element signature="e#14502#14503#0" expanded="true" />
+                <element signature="e#14644#14645#0" expanded="true" />
+                <element signature="e#14704#14705#0" expanded="true" />
                 <element signature="method#getChordTypeDiatonicsForScaleType#0;class#Theory#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NoteType.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/musictheory/NoteType.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="182" column="6" selection-start-line="182" selection-start-column="6" selection-end-line="182" selection-end-column="6" />
-              <folding>
-                <element signature="method#getAllSharps#0;class#NoteType#0" expanded="false" />
-                <element signature="method#getSharpChromaticNoteArray#0;class#NoteType#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -1043,16 +1003,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/musictheory/ScaleType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="8.565459">
-          <caret line="410" column="5" selection-start-line="410" selection-start-column="5" selection-end-line="410" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/musictheory/Degree.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7075209">
@@ -1127,16 +1077,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/musictheory/IntervalSet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="13" selection-start-line="70" selection-start-column="13" selection-end-line="70" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/musictheory/TESTMUSICTHEORY.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1147,14 +1087,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/musictheory/ScaleType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.4787234">
+          <caret line="410" column="5" selection-start-line="410" selection-start-column="5" selection-end-line="410" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/musictheory/IntervalSet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/musictheory/Theory.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.505319">
-          <caret line="185" column="14" selection-start-line="185" selection-start-column="14" selection-end-line="185" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.24734043">
+          <caret line="397" column="7" selection-start-line="397" selection-start-column="7" selection-end-line="397" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#getEnharmonicEquivalents#0;class#Theory#0" expanded="false" />
             <element signature="method#applyAccidentalTo#0;class#Theory#0" expanded="false" />
+            <element signature="e#14442#14443#0" expanded="true" />
+            <element signature="e#14502#14503#0" expanded="true" />
+            <element signature="e#14644#14645#0" expanded="true" />
+            <element signature="e#14704#14705#0" expanded="true" />
             <element signature="method#getChordTypeDiatonicsForScaleType#0;class#Theory#0" expanded="false" />
           </folding>
         </state>
