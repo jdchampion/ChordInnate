@@ -9,6 +9,8 @@ import org.jgrapht.graph.DefaultEdge;
 
 /**
  * Created by Joseph on 1/12/16.
+ *
+ * References: http://web.as.uky.edu/statistics/users/pbreheny/764-F11/notes/9-1.pdf
  */
 public abstract class ChordProgression
         extends AbstractBaseGraph<NashvilleNumber, DefaultEdge>

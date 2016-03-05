@@ -32,13 +32,6 @@ public enum ScaleType {
             new NashvilleNumber[] {ONE, TWO, FLAT_THREE, FOUR, FIVE, FLAT_SIX, FLAT_SEVEN},
             MINOR_TONALITY
     ),
-    CHROMATIC(
-            "Chromatic",
-            new NashvilleNumber[] {ONE, SHARP_ONE, TWO, SHARP_TWO, THREE, FOUR,
-                    SHARP_FOUR, FIVE, SHARP_FIVE, SIX, SHARP_SIX, SEVEN
-            },
-            CHROMATIC_TONALITY
-    ),
     WHOLE_TONE(
             "Whole Tone",
             new NashvilleNumber[] {ONE, TWO, THREE, SHARP_FOUR, SHARP_FIVE, SHARP_SIX},
@@ -392,6 +385,151 @@ public enum ScaleType {
     BYZANTINE(
             "Byzantine",
             new NashvilleNumber[] {ONE, FLAT_TWO, THREE, FOUR, FIVE, FLAT_SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHAD_GADYO(
+            "Chad Gadyo",
+            new NashvilleNumber[] {ONE, TWO, FLAT_THREE, FOUR, FIVE},
+            HEXATONIC_TONALITY
+    ),
+    CHIAO(
+            "Chiao",
+            new NashvilleNumber[] {ONE, TWO, FLAT_THREE, FOUR, FIVE, FLAT_SIX, FLAT_SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHAIO_TWO(
+            "Chaio Two",
+            new NashvilleNumber[] {ONE, TWO, FOUR, FLAT_SIX, FLAT_SEVEN},
+            HEXATONIC_TONALITY
+    ),
+    CHIN(
+            "Chin",
+            new NashvilleNumber[] {ONE, FLAT_THREE, FLAT_FIVE, FLAT_SIX, FLAT_SEVEN},
+            HEXATONIC_TONALITY
+    ),
+    CHINESE(
+            "Chinese",
+            new NashvilleNumber[] {ONE, THREE, SHARP_FOUR, FIVE, SEVEN},
+            HEXATONIC_TONALITY
+    ),
+    CHING(
+            "Ching",
+            new NashvilleNumber[] {ONE, THREE, SHARP_FOUR, FIVE, SEVEN},
+            HEXATONIC_TONALITY
+    ),
+    CHROMATIC(
+            "Chromatic",
+            new NashvilleNumber[] {ONE, SHARP_ONE, TWO, SHARP_TWO, THREE, FOUR,
+                    SHARP_FOUR, FIVE, SHARP_FIVE, SIX, SHARP_SIX, SEVEN
+            },
+            CHROMATIC_TONALITY // TODO: UNDECATONIC_TONALITY, HENDECATONIC_TONALITY
+    ),
+    CHROMATIC_HARMONIC_ASCENDING(
+            "Chromatic (Harmonic) Ascending",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, FLAT_THREE, THREE, FOUR, SHARP_FOUR,
+                    FIVE, FLAT_SIX, SIX, FLAT_SEVEN
+            },
+            CHROMATIC_TONALITY // TODO: UNDECATONIC_TONALITY, HENDECATONIC_TONALITY
+    ),
+    CHROMATIC_HARMONIC_DESCENDING( // TODO: write in descending order when Scale.setSteps() supports descending order
+            "Chromatic (Harmonic) Descending",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, FLAT_THREE, THREE, FOUR, SHARP_FOUR,
+                    FIVE, FLAT_SIX, SIX, FLAT_SEVEN, SEVEN
+            },
+            CHROMATIC_TONALITY // TODO: DODECATONIC_TONALITY
+    ),
+    CHROMATIC_MELODIC_ASCENDING(
+            "Chromatic (Melodic) Ascending",
+            new NashvilleNumber[] {ONE, SHARP_ONE, TWO, SHARP_TWO, THREE, FOUR, SHARP_FOUR,
+                    FIVE, SHARP_FIVE, SIX, SHARP_SIX
+            },
+            CHROMATIC_TONALITY // TODO: UNDECATONIC_TONALITY, HENDECATONIC_TONALITY
+    ),
+    CHROMATIC_MELODIC_DESCENDING( // TODO: write in descending order when Scale.setSteps() supports descending order
+            "Chromatic (Melodic) Descending",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, FLAT_THREE, THREE, FOUR, FLAT_FIVE,
+                    FIVE, FLAT_SIX, SIX, FLAT_SEVEN, SEVEN
+            },
+            CHROMATIC_TONALITY // TODO: DODECATONIC_TONALITY
+    ),
+    CHROMATIC_AND_DIATONIC_DORIAN_MIXED(
+            "Chromatic and Diatonic Dorian Mixed",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, FLAT_THREE, FOUR, FIVE, FLAT_SIX, SIX, FLAT_SEVEN},
+            DECATONIC_TONALITY
+    ),
+    CHROMATIC_PERMUTED_DIATONIC_DORIAN_MIXED(
+            "Chromatic Permuted Diatonic Dorian Mixed",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, THREE, FOUR, FIVE, FLAT_SIX, SIX, SEVEN},
+            DECATONIC_TONALITY
+    ),
+    CHROMATIC_DORIAN(
+            "Chromatic Dorian",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, FOUR, FIVE, FLAT_SIX, SIX},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_HYPODORIAN(
+            "Chromatic Hypodorian",
+            new NashvilleNumber[] {ONE, TWO, FLAT_THREE, THREE, FIVE, FLAT_SIX, SIX},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_HYPODORIAN_INVERSE(
+            "Chromatic Hypodorian Inverse",
+            new NashvilleNumber[] {ONE, FLAT_THREE, THREE, FOUR, FLAT_SIX, SIX, FLAT_SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_HYPOLYDIAN(
+            "Chromatic Hypolydian",
+            new NashvilleNumber[] {ONE, FLAT_TWO, THREE, FLAT_FIVE, FIVE, FLAT_SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_HYPOLYDIAN_INVERSE(
+            "Chromatic Hypolydian Inverse",
+            new NashvilleNumber[] {ONE, FLAT_TWO, THREE, FOUR, FLAT_FIVE, FLAT_SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_HYPOPHRYGIAN(
+            "Chromatic Hypophrygian",
+            new NashvilleNumber[] {ONE, FLAT_THREE, FOUR, FLAT_FIVE, FIVE, FLAT_SEVEN, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_HYPOPHRYGIAN_INVERSE(
+            "Chromatic Hypophrygian Inverse",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, FOUR, FLAT_FIVE, FIVE, SIX},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_LYDIAN(
+            "Chromatic Lydian",
+            new NashvilleNumber[] {ONE, FLAT_TWO, THREE, FOUR, FLAT_FIVE, SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_LYDIAN_INVERSE(
+            "Chromatic Lydian Inverse",
+            new NashvilleNumber[] {ONE, FLAT_TWO, FLAT_THREE, FLAT_FIVE, FIVE, FLAT_SIX, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_MIXOLYDIAN(
+            "Chromatic Mixolydian",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, FOUR, FLAT_FIVE, FIVE, FLAT_SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_MIXOLYDIAN_INVERSE(
+            "Chromatic Mixolydian Inverse",
+            new NashvilleNumber[] {ONE, TWO, FOUR, FLAT_FIVE, FIVE, FLAT_SEVEN, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_PHRYGIAN(
+            "Chromatic Phrygian",
+            new NashvilleNumber[] {ONE, FLAT_THREE, THREE, FOUR, FLAT_SIX, FLAT_SEVEN, SEVEN},
+            OCTATONIC_TONALITY
+    ),
+    CHROMATIC_PHRYGIAN_INVERSE(
+            "Chromatic Phrygian Inverse",
+            new NashvilleNumber[] {ONE, FLAT_TWO, TWO, THREE, FIVE, FLAT_SIX, SIX},
+            OCTATONIC_TONALITY
+    ),
+    CUSHAK(
+            "Cushak",
+            new NashvilleNumber[] {ONE, TWO, FLAT_THREE, FOUR, FIVE, FLAT_SIX, FLAT_SEVEN},
             OCTATONIC_TONALITY
     ),
 
