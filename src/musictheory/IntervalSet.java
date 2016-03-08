@@ -115,14 +115,14 @@ abstract class IntervalSet {
                                     candidate = getNoteType(nextNoteLetter, newAccidental);
                                     break;
                                 }
-                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
                         }
                         else if (root.accidental.equals(FLAT)) {
                             switch (offset) {
                                 case -1: newAccidental = SHARP; break;
                                 case 1: newAccidental = SHARP; break;
-                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
 
                             candidate = getNoteType(candidate.letter, newAccidental);
@@ -131,7 +131,7 @@ abstract class IntervalSet {
                             switch (offset) {
                                 case -1: newAccidental = FLAT; break;
                                 case 1: newAccidental = FLAT; break;
-                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
 
                             candidate = getNoteType(candidate.letter, newAccidental);
@@ -139,7 +139,7 @@ abstract class IntervalSet {
                         else if (root.accidental.equals(DOUBLE_SHARP)) {
                             switch (offset) {
                                 case -9: newAccidental = SHARP; break;
-                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
 
                             candidate = getNoteType(Theory.getNextNoteLetter(candidate), newAccidental);
@@ -148,7 +148,7 @@ abstract class IntervalSet {
                             switch (offset) {
                                 case -11: newAccidental = SHARP; break;
                                 case 11: newAccidental = FLAT; break;
-                                default: System.out.println("                       uncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
 
                             candidate = getNoteType(candidate.letter, newAccidental);

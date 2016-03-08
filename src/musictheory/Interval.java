@@ -99,7 +99,3 @@ enum IntervalQuality {
         this.romanNumeralIdentifier = romanNumeralIdentifier;
     }
 }
-
-enum Step {
-    W, H, WH, WW
-}

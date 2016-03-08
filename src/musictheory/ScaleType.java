@@ -545,17 +545,3 @@ public enum ScaleType {
         this.tonality = tonality;
     }
 }
-
-enum Tonality {
-    MAJOR_TONALITY,
-    MINOR_TONALITY,
-    NO_TONALITY,
-    CHROMATIC_TONALITY,
-    PENTATONIC_TONALITY,
-    HEXATONIC_TONALITY,
-    HEPTATONIC_TONALITY,
-    OCTATONIC_TONALITY,
-    ENNEATONIC_TONALITY,
-    DECATONIC_TONALITY,
-    MODAL_TONALITY
-}
