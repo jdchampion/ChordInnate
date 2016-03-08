@@ -86,7 +86,6 @@ public class Scale extends IntervalSet {
         switch (scaleType.tonality) {
             case MAJOR_TONALITY: keySignature = getMajorKeySignatureWithRoot(note); break;
             case MINOR_TONALITY: keySignature = getMinorKeySignatureWithRoot(note); break;
-            case CHROMATIC_TONALITY: keySignature = NO_KEY_SIGNATURE; break;
             default: keySignature = NO_KEY_SIGNATURE; break;
         }
 
