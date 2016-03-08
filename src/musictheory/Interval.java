@@ -84,18 +84,3 @@ public enum Interval {
         return intervalQuality.shortNameIdentifier + intervalNumber;
     }
 }
-
-enum IntervalQuality {
-    MAJOR("M", ""),
-    MINOR("m", ""),
-    PERFECT("P", ""),
-    AUGMENTED("A", "+"),
-    DIMINISHED("d", "˚");
-
-    final String shortNameIdentifier, romanNumeralIdentifier;
-
-    IntervalQuality(String shortNameIdentifier, String romanNumeralIdentifier) {
-        this.shortNameIdentifier = shortNameIdentifier;
-        this.romanNumeralIdentifier = romanNumeralIdentifier;
-    }
-}
