@@ -47,7 +47,7 @@ public class Scale extends IntervalSet {
     private final Set<Chord> diatonicChordTypes;
     private final HashMap<Integer, ArrayList<ChordType>> diatonicChordTypesByRelativePitch;
 
-    Scale(NoteType root, ScaleType scaleType) {
+    public Scale(NoteType root, ScaleType scaleType) {
         super(root, scaleType.nashvilleNumbers);
         super.name = root.name + " " + scaleType.name;
         this.scaleType = scaleType;
