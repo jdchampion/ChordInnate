@@ -54,13 +54,13 @@ abstract class IntervalSet {
 
         returnedNoteTypes[0] = root;
 
-        Accidental a = root.accidental;
+        Accidental rootAccidental = root.accidental;
         for (int i = 1; i < numNotes; i++) {
             char nextNoteLetter = Theory.getNoteLetterForNashvilleNumber(root, nashvilleNumbers[i]);
-            NoteType candidate = getNoteType(nextNoteLetter, a);
+            NoteType candidate;
 
-            if (!root.isNatural()) candidate = getNoteType(nextNoteLetter, a);
-            else candidate = Theory.applyAccidentalTo(candidate, nashvilleNumbers[i].accidental);
+            if (!root.isNatural()) candidate = getNoteType(nextNoteLetter, rootAccidental);
+            else candidate = Theory.applyAccidentalTo(getNoteType(nextNoteLetter, rootAccidental), nashvilleNumbers[i].accidental);
 
             int candidateRelativePitch = candidate.relativePitch;
             int comparisonRelativePitch = (root.relativePitch + nashvilleNumbers[i].relativePitchDistance) % 12;
