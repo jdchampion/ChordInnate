@@ -15,8 +15,8 @@ public class ChordTypeTest {
             assertNotNull(chordType.chordSymbol);
             assertNotNull(chordType.nashvilleNumbers);
 
-            // ScaleTypes must have their NashvilleNumbers defined in
-            // either ascending or descending order
+            // ChordTypes must have their NashvilleNumbers defined in
+            // ascending order
             assertTrue(isAscendingNashvilleNumbers(chordType));
         }
     }
