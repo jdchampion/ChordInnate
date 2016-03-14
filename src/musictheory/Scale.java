@@ -57,6 +57,16 @@ public class Scale extends IntervalSet {
         this.diatonicChordTypesByRelativePitch = setDiatonicHashMap();
     }
 
+    public Scale(Scale other) {
+        super(other.root, other.scaleType.nashvilleNumbers);
+        super.name = root.name + " " + other.scaleType.name;
+        this.scaleType = other.scaleType;
+        this.keySignature = other.keySignature;
+        this.steps = other.steps;
+        this.diatonicChordTypes = other.getDiatonicChordTypes();
+        this.diatonicChordTypesByRelativePitch = other.getDiatonicChordTypesByRelativePitch();
+    }
+
     /**
      *
      * @param octave
@@ -66,7 +76,7 @@ public class Scale extends IntervalSet {
 
         // Scales with roots F# - B will begin one octave lower
         // (to compensate for octave ranges)
-        int rootOctave = root.relativePitch < 6 ? octave : octave-1;
+        int rootOctave = root.relativePitch < 6 ? octave : (octave == 0 ? octave : octave-1);
         super.notes[0].setOctave(rootOctave);
 
         int currentOctave;

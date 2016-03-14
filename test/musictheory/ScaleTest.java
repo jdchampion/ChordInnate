@@ -35,12 +35,14 @@ public class ScaleTest {
 
     @Test
     public void testSetNoteOctaves() throws Exception {
-        scale.setNoteOctaves(5);
         Note[] notes = scale.getAscendingNotes();
+        for (int i = scale.minOctave; i < scale.maxOctave; i++) {
+            scale.setNoteOctaves(i);
 
-        // Ascending notes should have increasing relative pitch
-        for (int i = 1; i < notes.length; i++) {
-            assertTrue(notes[i-1].getRelativePitch() < notes[i].getRelativePitch());
+            // Ascending notes should have increasing relative pitch
+            for (int j = 1; j < notes.length; j++) {
+                assertTrue(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+            }
         }
     }
 

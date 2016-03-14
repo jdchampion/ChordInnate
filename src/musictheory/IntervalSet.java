@@ -11,8 +11,8 @@ abstract class IntervalSet {
     protected final NoteType root;
     protected final Note[] notes;
     protected String name;          // name is set by subclasses
-    protected int minOctave;
-    protected int maxOctave;
+    protected final int minOctave;
+    protected final int maxOctave;
 
     IntervalSet(NoteType root, NashvilleNumber[] nashvilleNumbers) {
 //        // TODO Uncomment these lines if double accidentals are not being handled properly.

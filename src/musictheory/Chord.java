@@ -16,6 +16,12 @@ public class Chord extends IntervalSet {
         this.chordType = chordType;
     }
 
+    protected Chord(Chord other) {
+        super(other.root, other.chordType.nashvilleNumbers);
+        super.name = other.root.name + other.chordType.chordSymbol;
+        this.chordType = other.chordType;
+    }
+
     /**
      * Raises or lowers all Notes in the Chord to a specified octave, if it is within the octave range of the Chord.
      * Otherwise, this method does nothing.
@@ -34,7 +40,7 @@ public class Chord extends IntervalSet {
 
         // Chords with roots F# - B will begin one octave lower
         // (to compensate for octave ranges)
-        int rootOctave = (super.root.relativePitch + maxRelativePitch) < 6 ? octave : octave-1;
+        int rootOctave = (super.root.relativePitch + maxRelativePitch) < 6 ? octave : (octave == 0 ? octave : octave-1);
         super.notes[0].setOctave(rootOctave);
         defaultOctaves[0] = rootOctave;
 
