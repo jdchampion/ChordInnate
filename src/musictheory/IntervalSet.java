@@ -16,10 +16,6 @@ abstract class IntervalSet {
     protected final int octave;
 
     IntervalSet(NoteType rootNoteType, NashvilleNumber[] nashvilleNumbers, int octave, String name) {
-//        // TODO Uncomment these lines if double accidentals are not being handled properly.
-//        if (rootNoteType.isDoubleAccidental() && this.equals(Scale.class)) {
-//            throw new Exception("Constructor called with Double Accidental NoteType rootNoteType. (" + rootNoteType.name + ")");
-//        }
 
         // If the IntervalSet constructor was called with a NoteType containing
         // a natural accidental, just convert the NoteType to its non-accidental equivalent.
