@@ -5,7 +5,7 @@ import static musictheory.Accidental.*;
 /**
  * Created by Joseph on 1/9/16.
  */
-public class Note {
+public class Note implements Comparable<Note> {
     private final NoteType noteType;
     private int octave;
     private int relativePitch;
@@ -20,6 +20,12 @@ public class Note {
         this.noteType = noteType;
         this.octave = octave <= noteType.octaveRange ? octave : noteType.octaveRange/2;
         this.relativePitch = 12 * octave + noteType.relativePitch;
+    }
+
+    protected Note(Note other) {
+        this.noteType = other.noteType;
+        this.octave = other.octave;
+        this.relativePitch = other.relativePitch;
     }
 
     /**
@@ -97,4 +103,11 @@ public class Note {
      */
     boolean isDoubleAccidental() { return noteType.accidental.equals(DOUBLE_FLAT)
             || noteType.accidental.equals(DOUBLE_SHARP); }
+
+    @Override
+    public int compareTo(Note otherNote) {
+        if (this.relativePitch < otherNote.relativePitch) return -1;
+        else if (this.relativePitch == otherNote.relativePitch) return 0;
+        else return 1;
+    }
 }

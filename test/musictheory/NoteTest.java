@@ -7,6 +7,7 @@ import org.junit.runners.Parameterized;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -20,6 +21,8 @@ public class NoteTest {
     private Note note;
     private NoteType noteType;
     private int octave;
+
+    private Random random = new Random();
 
     public NoteTest(NoteType noteType, int octave) {
         this.noteType = noteType;
@@ -94,6 +97,22 @@ public class NoteTest {
         }
         else {
             assertFalse(note.isDoubleAccidental());
+        }
+    }
+
+    @Test
+    public void testCompareTo() throws Exception {
+        Note other = new Note(note);
+        other.setOctave(random.nextInt(12));
+        int noteOctave = note.getOctave(), otherOctave = other.getOctave();
+        if (noteOctave < otherOctave) {
+            assertTrue(note.compareTo(other) == -1);
+        }
+        else if (noteOctave == otherOctave) {
+            assertTrue(note.compareTo(other) == 0);
+        }
+        else {
+            assertTrue(note.compareTo(other) == 1);
         }
     }
 }
