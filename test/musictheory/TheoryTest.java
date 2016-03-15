@@ -57,9 +57,4 @@ public class TheoryTest {
     public void testTranspose1() throws Exception {
 
     }
-
-    @Test
-    public void testGetChordTypeDiatonicsForScaleType() throws Exception {
-
-    }
 }

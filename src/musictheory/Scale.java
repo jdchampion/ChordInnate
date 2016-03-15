@@ -62,8 +62,8 @@ public class Scale extends IntervalSet {
         this.scaleType = other.scaleType;
         this.keySignature = other.keySignature;
         this.steps = other.steps;
-        this.diatonicChordTypes = other.getDiatonicChordTypes();
-        this.diatonicChordTypesByRelativePitch = other.getDiatonicChordTypesByRelativePitch();
+        this.diatonicChordTypes = other.diatonicChordTypes;
+        this.diatonicChordTypesByRelativePitch = other.diatonicChordTypesByRelativePitch;
     }
 
     /**
@@ -129,7 +129,7 @@ public class Scale extends IntervalSet {
      *
      * @return
      */
-    final Set setDiatonicChordTypes() {
+    private Set setDiatonicChordTypes() {
         Map<Integer, NoteType> relativePitchToNote = new HashMap<>(scaleType.nashvilleNumbers.length);
         for (int i = 0; i < super.noteTypes.length; i++) {
             relativePitchToNote.put(super.noteTypes[i].relativePitch, super.noteTypes[i]);
@@ -138,7 +138,7 @@ public class Scale extends IntervalSet {
         ChordType[] allChordTypes = ChordType.values();
         Set<Chord> allDiatonicChords = new HashSet<>(allChordTypes.length);
         for (ChordType ct : allChordTypes) {
-            Map<Integer, ChordType> m = Theory.getChordTypeDiatonicsForScaleType(scaleType, ct);
+            Map<Integer, ChordType> m = getChordTypeDiatonicsForScale(ct);
 //            System.out.println(ct + ": " + m.keySet());
             for (Integer i : m.keySet()) {
                 try {
@@ -148,6 +148,43 @@ public class Scale extends IntervalSet {
             }
         }
         return Collections.unmodifiableSet(allDiatonicChords);
+    }
+
+    /**
+     *
+     * @param chordType
+     * @return
+     */
+    private Map getChordTypeDiatonicsForScale(ChordType chordType) {
+        Map<Integer, ChordType> diatonicChordTypes = new HashMap<>(scaleType.nashvilleNumbers.length);
+
+        // Get a Set representation of the scale's relative pitches (used for checking subsets later)
+        int scaleLength = scaleType.nashvilleNumbers.length;
+        Set<Integer> scaleSet = new HashSet<>(scaleLength);
+        for (int i = 0; i < scaleLength; i++) {
+            scaleSet.add(scaleType.nashvilleNumbers[i].relativePitchDistance);
+        }
+
+        int numPitchesInChord = chordType.nashvilleNumbers.length;
+        for (int i = 0; i < scaleLength; i++) {
+            Set<Integer> candidateChordSet = new HashSet<>(numPitchesInChord);
+
+            int intervalRelativePitch = scaleType.nashvilleNumbers[i].relativePitchDistance;
+
+            // Get the set of pitches that would be made from the ChordType at scale degree i
+            for (int j = 0; j < numPitchesInChord; j++) {
+                int value = (intervalRelativePitch + chordType.nashvilleNumbers[j].relativePitchDistance) % 12;
+                candidateChordSet.add(value);
+            }
+
+            // If all pitches in the above set are also in the scale,
+            // then the chord is diatonic for scale degree i.
+            if (scaleSet.containsAll(candidateChordSet)) {
+                diatonicChordTypes.put(intervalRelativePitch, chordType);
+            }
+        }
+
+        return diatonicChordTypes;
     }
 
     /**
