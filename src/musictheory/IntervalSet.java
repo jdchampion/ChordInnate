@@ -75,32 +75,33 @@ abstract class IntervalSet {
                 returnedNoteTypes[i] = candidate; // they match, so we're done
             }
             else {
-                Accidental newAccidental = NONE;
+                Accidental newAccidental;
                 switch (offset) {
                     case -2: newAccidental = DOUBLE_FLAT; break;
                     case -1: newAccidental = FLAT; break;
                     case 1: newAccidental = SHARP; break;
                     case 2: newAccidental = DOUBLE_SHARP; break;
-                    default: /*System.out.println("uncaught value of " + offset + " on " + nashvilleNumbers[i]);*/
+                    default: newAccidental = NONE;
                 }
 
                 candidate = Theory.applyAccidentalTo(candidate, newAccidental);
+                if (candidate.isNatural() && Theory.noteLettersFollow(returnedNoteTypes[i-1], candidate)) {
+                    candidate = getNoteType(candidate.letter, NONE);
+                }
 
                 if (candidate.relativePitch == comparisonRelativePitch) {
-//                    System.out.println(nashvilleNumbers[i] + " is caught in IF");
-                    returnedNoteTypes[i] = candidate;
+                    returnedNoteTypes[i] = candidate; // match on second attempt (done)
                 }
                 else {
-//                    System.out.println(nashvilleNumbers[i] + " is caught in ELSE");
                     candidate = getNoteType(candidate.letter, newAccidental);
 
                     if (candidate.relativePitch == comparisonRelativePitch) {
-                        returnedNoteTypes[i] = candidate;
+                        returnedNoteTypes[i] = candidate; // match on third attempt (done)
                     }
                     else {
                         // TODO this tends to be the problem case for Double Accidental Scales / Chords
 //                        System.out.println("                                DEBUG **********************************");
-//                        System.out.println("Root: " + root);
+//                        System.out.println("Root: " + rootNoteType);
 //                        System.out.println("Candidate: " + candidate);
 //                        System.out.println("NashvilleNumber: " + nashvilleNumbers[i]);
 

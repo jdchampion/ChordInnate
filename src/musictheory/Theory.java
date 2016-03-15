@@ -289,7 +289,12 @@ class Theory {
     static final NoteType applyAccidentalTo(NoteType note, Accidental accidental) {
         Accidental a = note.accidental, b = accidental;
 
-        // NATURAL && ACCIDENTAL == ACCIDENTAL
+        // ACCIDENTAL && (NATURAL || NONE) == ACCIDENTAL
+        if (accidental.equals(NATURAL) || accidental.equals(NONE)) {
+            return note; // return the same item back with no changes
+        }
+
+        // (NATURAL || NONE) && ACCIDENTAL == ACCIDENTAL
         if (note.isNatural() || note.accidental.equals(NONE)) {
             return getNoteType(note.letter, b); // whatever Accidental b is
         }
@@ -315,8 +320,8 @@ class Theory {
         else if ((a.equals(DOUBLE_FLAT) && b.equals(FLAT)) || (a.equals(FLAT) && b.equals(DOUBLE_FLAT))) {
             char letter = getNoteLetter(note, 6);
 
-            // All results from triple flatting have a single flat, except for Bbb
-            if (letter == 'B') return getNoteType(letter, DOUBLE_FLAT);
+            // All results from triple flatting have a single flat, except for Bbb and Ebb
+            if (letter == 'B' || letter == 'E') return getNoteType(letter, DOUBLE_FLAT);
             else return getNoteType(letter, FLAT);
         }
 
@@ -331,25 +336,26 @@ class Theory {
 
         // QUADRUPLE FLAT
         else if (a.equals(DOUBLE_FLAT) && b.equals(DOUBLE_FLAT)) {
-            char letter = getNoteLetter(note, 5);
-
-            // Results from quadruple flatting: F, G, Ab, Bb, C, Db, Eb
-            if (letter == 'F' || letter == 'G' || letter == 'C') return getNoteType(letter, NONE);
-            else return getNoteType(letter, FLAT);
+            if (!note.equals(C_DOUBLE_FLAT) && !note.equals(F_DOUBLE_FLAT)) {
+                return getNoteType(getPreviousNoteLetter(note), DOUBLE_FLAT);
+            }
+            else {
+                return getNoteType(getNoteLetter(note, 5), FLAT);
+            }
         }
 
         // QUADRUPLE SHARP
         else if (a.equals(DOUBLE_SHARP) && b.equals(DOUBLE_SHARP)) {
-            char letter = getNoteLetter(note, 2);
-
-            // Results from quadruple sharping: C#, D#, E, F#, G#, A, B
-            if (letter == 'E' || letter == 'A' || letter == 'B') return getNoteType(letter, NONE);
-            else return getNoteType(letter, SHARP);
+            if (!note.equals(B_DOUBLE_SHARP) && !note.equals(E_DOUBLE_SHARP)) {
+                return getNoteType(getNextNoteLetter(note), DOUBLE_SHARP);
+            }
+            else {
+                return getNoteType(getNoteLetter(note, 2), SHARP);
+            }
         }
 
         // DOUBLE SHARP && FLAT; DOUBLE FLAT && SHARP
         else {
-//            System.out.println("Debug check: " + note);
             if (a.equals(SHARP) && b.equals(DOUBLE_FLAT)) {
                 return getNoteType(note.letter, FLAT);
             }
@@ -362,18 +368,9 @@ class Theory {
             else if (a.equals(DOUBLE_FLAT) && b.equals(SHARP)) {
                 return getNoteType(note.letter, FLAT);
             }
-
-
-
-
-//            if (note.equals(C_FLAT) /*|| note.equals(B)*/ || note.equals(F_FLAT) || note.equals(G_FLAT)) {
-//                return getNoteType(note.letter, SHARP);
-//            }
-//            else if (note.equals(E_SHARP)) {
-//                return getNoteType(note.letter, FLAT);
-//            }
-
-            return note;
+            else {
+                return null; // error
+            }
         }
     }
 

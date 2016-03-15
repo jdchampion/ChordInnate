@@ -52,6 +52,15 @@ public class TheoryTest {
     @Test
     public void testApplyAccidentalTo() throws Exception {
 
+        // TODO: this test currently requires visual cross-referencing
+
+        for (NoteType nt : NoteType.values()) {
+            System.out.println(nt.name + ":\n===================");
+            for (Accidental a : Accidental.values()) {
+                System.out.println(a.name() + ": " + Theory.applyAccidentalTo(nt, a).name);
+            }
+            System.out.println("\n===================");
+        }
     }
 
     @Test
