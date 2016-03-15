@@ -101,8 +101,6 @@ public class ScaleTest {
     public void testGetDiatonicChordTypesByRelativePitch() throws Exception {
         HashMap<Integer, ArrayList<ChordType>> diatonicChordTypesByRelativePitch = scale.getDiatonicChordTypesByRelativePitch();
         assertNotNull(diatonicChordTypesByRelativePitch);
-        Set diatonicChordTypes = scale.getDiatonicChordTypes();
-        assertTrue(diatonicChordTypes.containsAll(diatonicChordTypes));
     }
 
     @Test

@@ -290,7 +290,7 @@ class Theory {
         Accidental a = note.accidental, b = accidental;
 
         // NATURAL && ACCIDENTAL == ACCIDENTAL
-        if (note.isNatural()) {
+        if (note.isNatural() || note.accidental.equals(NONE)) {
             return getNoteType(note.letter, b); // whatever Accidental b is
         }
 
@@ -350,8 +350,13 @@ class Theory {
         // DOUBLE SHARP && FLAT; DOUBLE FLAT && SHARP
         else {
 //            System.out.println("Debug check: " + note);
-
-            if (a.equals(DOUBLE_SHARP) && b.equals(FLAT)) {
+            if (a.equals(SHARP) && b.equals(DOUBLE_FLAT)) {
+                return getNoteType(note.letter, FLAT);
+            }
+            else if (a.equals(FLAT) && b.equals(DOUBLE_SHARP)) {
+                return getNoteType(note.letter, SHARP);
+            }
+            else if (a.equals(DOUBLE_SHARP) && b.equals(FLAT)) {
                 return getNoteType(note.letter, SHARP);
             }
             else if (a.equals(DOUBLE_FLAT) && b.equals(SHARP)) {
