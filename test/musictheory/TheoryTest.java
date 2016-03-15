@@ -15,21 +15,6 @@ public class TheoryTest {
     }
 
     @Test
-    public void testGetFirstPracticalEnharmonicToRelativePitch() throws Exception {
-
-    }
-
-    @Test
-    public void testGetAllIntervalsMatchingRelativePitch() throws Exception {
-
-    }
-
-    @Test
-    public void testGetAllNashvilleNumbersMatchingRelativePitch() throws Exception {
-
-    }
-
-    @Test
     public void testGetNoteLetterForNashvilleNumber() throws Exception {
 
     }
