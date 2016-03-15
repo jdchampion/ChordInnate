@@ -8,23 +8,23 @@ import static musictheory.NoteType.getNoteType;
  */
 abstract class IntervalSet {
     protected final NoteType[] noteTypes;
-    protected final NoteType root;
+    protected final NoteType rootNoteType;
     protected final Note[] notes;
     protected String name;
     protected final int minOctave;
     protected final int maxOctave;
     protected final int octave;
 
-    IntervalSet(NoteType root, NashvilleNumber[] nashvilleNumbers, int octave, String name) {
+    IntervalSet(NoteType rootNoteType, NashvilleNumber[] nashvilleNumbers, int octave, String name) {
 //        // TODO Uncomment these lines if double accidentals are not being handled properly.
-//        if (root.isDoubleAccidental() && this.equals(Scale.class)) {
-//            throw new Exception("Constructor called with Double Accidental NoteType root. (" + root.name + ")");
+//        if (rootNoteType.isDoubleAccidental() && this.equals(Scale.class)) {
+//            throw new Exception("Constructor called with Double Accidental NoteType rootNoteType. (" + rootNoteType.name + ")");
 //        }
 
         // If the IntervalSet constructor was called with a NoteType containing
         // a natural accidental, just convert the NoteType to its non-accidental equivalent.
-        if (root.isNatural()) this.root = getNoteType(root.letter, NONE);
-        else this.root = root;
+        if (rootNoteType.isNatural()) this.rootNoteType = getNoteType(rootNoteType.letter, NONE);
+        else this.rootNoteType = rootNoteType;
 
         this.noteTypes = setNoteTypes(nashvilleNumbers);
 
@@ -57,18 +57,18 @@ abstract class IntervalSet {
         int numNotes = nashvilleNumbers.length;
         NoteType[] returnedNoteTypes = new NoteType[numNotes];
 
-        returnedNoteTypes[0] = root;
+        returnedNoteTypes[0] = rootNoteType;
 
-        Accidental rootAccidental = root.accidental;
+        Accidental rootAccidental = rootNoteType.accidental;
         for (int i = 1; i < numNotes; i++) {
-            char nextNoteLetter = Theory.getNoteLetterForNashvilleNumber(root, nashvilleNumbers[i]);
+            char nextNoteLetter = Theory.getNoteLetterForNashvilleNumber(rootNoteType, nashvilleNumbers[i]);
             NoteType candidate;
 
-            if (!root.isNatural()) candidate = getNoteType(nextNoteLetter, rootAccidental);
+            if (!rootNoteType.isNatural()) candidate = getNoteType(nextNoteLetter, rootAccidental);
             else candidate = Theory.applyAccidentalTo(getNoteType(nextNoteLetter, rootAccidental), nashvilleNumbers[i].accidental);
 
             int candidateRelativePitch = candidate.relativePitch;
-            int comparisonRelativePitch = (root.relativePitch + nashvilleNumbers[i].relativePitchDistance) % 12;
+            int comparisonRelativePitch = (rootNoteType.relativePitch + nashvilleNumbers[i].relativePitchDistance) % 12;
             int offset = comparisonRelativePitch - candidateRelativePitch;
 
             if (offset == 0) {
@@ -107,7 +107,7 @@ abstract class IntervalSet {
                         candidateRelativePitch = candidate.relativePitch;
                         offset = comparisonRelativePitch - candidateRelativePitch;
 
-                        if (root.accidental.equals(DOUBLE_FLAT)) {
+                        if (rootNoteType.accidental.equals(DOUBLE_FLAT)) {
                             switch (offset) {
                                 case 9: {
                                     newAccidental = FLAT;
@@ -116,14 +116,14 @@ abstract class IntervalSet {
                                 }
                                 case -1: {
                                     newAccidental = DOUBLE_FLAT;
-                                    nextNoteLetter = Theory.getNoteLetterForNashvilleNumber(root, nashvilleNumbers[i]);
+                                    nextNoteLetter = Theory.getNoteLetterForNashvilleNumber(rootNoteType, nashvilleNumbers[i]);
                                     candidate = getNoteType(nextNoteLetter, newAccidental);
                                     break;
                                 }
                                 default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
                         }
-                        else if (root.accidental.equals(FLAT)) {
+                        else if (rootNoteType.accidental.equals(FLAT)) {
                             switch (offset) {
                                 case -1: newAccidental = SHARP; break;
                                 case 1: newAccidental = SHARP; break;
@@ -132,7 +132,7 @@ abstract class IntervalSet {
 
                             candidate = getNoteType(candidate.letter, newAccidental);
                         }
-                        else if (root.accidental.equals(SHARP)) {
+                        else if (rootNoteType.accidental.equals(SHARP)) {
                             switch (offset) {
                                 case -1: newAccidental = FLAT; break;
                                 case 1: newAccidental = FLAT; break;
@@ -141,7 +141,7 @@ abstract class IntervalSet {
 
                             candidate = getNoteType(candidate.letter, newAccidental);
                         }
-                        else if (root.accidental.equals(DOUBLE_SHARP)) {
+                        else if (rootNoteType.accidental.equals(DOUBLE_SHARP)) {
                             switch (offset) {
                                 case -9: newAccidental = SHARP; break;
                                 default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
@@ -149,7 +149,7 @@ abstract class IntervalSet {
 
                             candidate = getNoteType(Theory.getNextNoteLetter(candidate), newAccidental);
                         }
-                        else if (root.accidental.equals(NONE)) {
+                        else if (rootNoteType.accidental.equals(NONE)) {
                             switch (offset) {
                                 case -11: newAccidental = SHARP; break;
                                 case 11: newAccidental = FLAT; break;
@@ -192,7 +192,7 @@ abstract class IntervalSet {
      * @param octave the octave to set the IntervalSet at
      */
     public void setOctave(int octave) {
-        if (octave <= root.octaveRange) {
+        if (octave <= rootNoteType.octaveRange) {
             setNoteOctaves(octave);
         }
     }
@@ -223,7 +223,7 @@ abstract class IntervalSet {
      * @return the NoteType designated as the root for this IntervalSet
      */
     public NoteType getRootNoteType() {
-        return root;
+        return rootNoteType;
     }
 
     /**

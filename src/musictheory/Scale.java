@@ -50,15 +50,15 @@ public class Scale extends IntervalSet {
     public Scale(NoteType root, ScaleType scaleType) {
         super(root, scaleType.nashvilleNumbers, 0, root.name + " " + scaleType.name);
         this.scaleType = scaleType;
-        this.keySignature = setKeySignature(this.root);
+        this.keySignature = setKeySignature(this.rootNoteType);
         this.steps = setSteps();
         this.diatonicChordTypes = setDiatonicChordTypes();
         this.diatonicChordTypesByRelativePitch = setDiatonicHashMap();
     }
 
     public Scale(Scale other) {
-        super(other.root, other.scaleType.nashvilleNumbers, other.octave,
-                other.root.name + " " + other.scaleType.name);
+        super(other.rootNoteType, other.scaleType.nashvilleNumbers, other.octave,
+                other.rootNoteType.name + " " + other.scaleType.name);
         this.scaleType = other.scaleType;
         this.keySignature = other.keySignature;
         this.steps = other.steps;
@@ -75,12 +75,12 @@ public class Scale extends IntervalSet {
 
         // Scales with roots F# - B will begin one octave lower
         // (to compensate for octave ranges)
-        int rootOctave = root.relativePitch < 6 ? octave : (octave == 0 ? octave : octave-1);
+        int rootOctave = rootNoteType.relativePitch < 6 ? octave : (octave == 0 ? octave : octave-1);
         super.notes[0].setOctave(rootOctave);
 
         int currentOctave;
         for (int i = 1; i < numNotes; i++) {
-            currentOctave = super.noteTypes[i].relativePitch < super.root.relativePitch ? rootOctave+1 : rootOctave;
+            currentOctave = super.noteTypes[i].relativePitch < super.rootNoteType.relativePitch ? rootOctave+1 : rootOctave;
             super.notes[i].setOctave(currentOctave);
         }
     }
