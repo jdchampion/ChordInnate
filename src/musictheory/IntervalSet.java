@@ -10,11 +10,12 @@ abstract class IntervalSet {
     protected final NoteType[] noteTypes;
     protected final NoteType root;
     protected final Note[] notes;
-    protected String name;          // name is set by subclasses
+    protected String name;
     protected final int minOctave;
     protected final int maxOctave;
+    protected final int octave;
 
-    IntervalSet(NoteType root, NashvilleNumber[] nashvilleNumbers) {
+    IntervalSet(NoteType root, NashvilleNumber[] nashvilleNumbers, int octave, String name) {
 //        // TODO Uncomment these lines if double accidentals are not being handled properly.
 //        if (root.isDoubleAccidental() && this.equals(Scale.class)) {
 //            throw new Exception("Constructor called with Double Accidental NoteType root. (" + root.name + ")");
@@ -33,7 +34,11 @@ abstract class IntervalSet {
 
         this.notes = setNotes();
 
-        setNoteOctaves(5);
+        this.name = name;
+
+        this.octave = octave;
+
+        setNoteOctaves(octave);
     }
 
     /**

@@ -11,14 +11,13 @@ public class Chord extends IntervalSet {
     private int[] defaultOctaves;       // Default octave for each Note
 
     public Chord(NoteType root, ChordType chordType) {
-        super(root, chordType.nashvilleNumbers);
-        super.name = root.name + chordType.chordSymbol;
+        super(root, chordType.nashvilleNumbers, 0, root.name + chordType.chordSymbol);
         this.chordType = chordType;
     }
 
     protected Chord(Chord other) {
-        super(other.root, other.chordType.nashvilleNumbers);
-        super.name = other.root.name + other.chordType.chordSymbol;
+        super(other.root, other.chordType.nashvilleNumbers, other.octave,
+                other.root.name + other.chordType.chordSymbol);
         this.chordType = other.chordType;
     }
 
@@ -74,6 +73,17 @@ public class Chord extends IntervalSet {
             for (int i = 0; i < super.notes.length; i++) {
                 super.notes[i].setOctave(defaultOctaves[i]);
             }
+        }
+    }
+
+    /**
+     * Resets the Chord to an uninverted state, with its original octave.
+     */
+    protected void resetInversion() {
+        this.inversion = 0;
+        super.name = super.root.name + chordType.chordSymbol;
+        for (int i = 0; i < super.notes.length; i++) {
+            super.notes[i].setOctave(defaultOctaves[i]);
         }
     }
 

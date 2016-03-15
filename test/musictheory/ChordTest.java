@@ -38,23 +38,29 @@ public class ChordTest {
     @Test
     public void testSetNoteOctaves() throws Exception {
         Note[] notes = chord.getNotes();
-
-        System.out.println(chord.getName());
-
+        Chord c1 = new Chord(chord), c2 = new Chord(chord);
+        Note[] n1 = c1.getNotes(), n2 = c2.getNotes();
+        int oct1, oct2;
         for (int i = chord.minOctave; i < chord.maxOctave; i++) {
-            chord.setNoteOctaves(i);
-            // TODO: Ensure that the lowest note >= chord.minOctave && highest note <= chord.maxOctave
-//            assertTrue(chord.getRootNote().getOctave() >= chord.minOctave);
+            c1.setNoteOctaves(i);
+            c2.setOctave(i);
+            for (int j = 0; j < notes.length; j++) {
+                oct1 = n1[j].getOctave();
+                oct2 = n2[j].getOctave();
+                assertEquals(oct1, oct2);
+                assertTrue(oct1 >= chord.minOctave && oct1 <= chord.maxOctave);
+                assertTrue(oct2 >= chord.minOctave && oct2 <= chord.maxOctave);
+            }
         }
     }
 
     @Test
     public void testInvert() throws Exception {
         Note[] notes = chord.getNotes();
+        Chord c = new Chord(chord);
 
         // Test all inversions / wrap-around to non-inverted state
         for (int i = 0; i < notes.length+1; i++) {
-            Chord c = new Chord(chord);
             for (int j = 0; j < i; j++) {
                 c.invert();
             }
@@ -74,6 +80,7 @@ public class ChordTest {
                     assertEquals(notes[j].getRelativePitch(), inverted[j].getRelativePitch());
                 }
             }
+            c.resetInversion();
         }
     }
 
