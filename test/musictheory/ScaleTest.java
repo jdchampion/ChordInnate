@@ -71,6 +71,54 @@ public class ScaleTest {
     }
 
     @Test
+    public void testScaleAttributes() {
+        System.out.print(scale.getName() + ": ");
+
+        NoteType root = scale.getRootNoteType();
+
+        System.out.println(root.name + " " + root.name());
+
+        KeySignature keySignature = scale.getKeySignature();
+
+        System.out.print("Key Signature: " + keySignature + "( ");
+
+        if (keySignature != null) {
+            for (NoteType n : keySignature.notes) {
+                System.out.print(n.name + " ");
+            }
+        }
+
+        System.out.println(")");
+
+        // Print the scale notes out, and sound them
+        System.out.print("Notes: ");
+        Note[] notes = scale.getAscendingNotes();
+        for (Note n : notes) {
+            if (n != null) {
+                System.out.print(n.getName() + " ");
+            }
+            else System.out.print("_ ");
+        }
+
+        System.out.println();
+
+        System.out.print("Steps: ");
+        for (Step s : scale.getSteps()) {
+            System.out.print(s + " ");
+        }
+
+        System.out.println();
+
+        System.out.print("Nashville Numbers: ");
+        for (NashvilleNumber nn : scale.getNashvilleNumbers()) {
+            System.out.print(nn.getShortName() + " ");
+        }
+        System.out.println();
+
+        testSoundScale(scale);
+    }
+
+    @Test
     public void testSetNoteOctaves() throws Exception {
         Note[] notes = scale.getAscendingNotes();
         for (int i = scale.minOctave; i < scale.maxOctave; i++) {
