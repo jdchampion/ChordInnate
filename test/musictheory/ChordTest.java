@@ -25,8 +25,8 @@ public class ChordTest {
 
     private final boolean PLAYBACK = false;
     private final int PLAYBACK_VOLUME = 127;
-    private final int PLAYBACK_DURATION = 120;
-    private final int PLAYBACK_WAIT = 100;
+    private final int PLAYBACK_NOTE_ON_DURATION = 120;
+    private final int PLAYBACK_WAIT_BETWEEN_NOTES = 100;
 
     private Chord chord;
 
@@ -146,12 +146,12 @@ public class ChordTest {
 
     private void testSoundChord(Chord chord) {
         if (chord != null) {
-            soundChord(chord, PLAYBACK_VOLUME, PLAYBACK_DURATION, PLAYBACK_WAIT);
+            soundChord(chord, PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
         }
     }
 
     private void soundChord(Chord chord, int volume, int duration, int wait) {
-        if (PLAYBACK)
+        if (PLAYBACK) {
             try {
                 Note[] notes = chord.notes;
                 for (Note n : notes) {
@@ -162,7 +162,7 @@ public class ChordTest {
                     channels[0].noteOff(n.getRelativePitch(), volume);
                 }
                 Thread.sleep(wait);
-            }
-            catch (InterruptedException ex) {}
+            } catch (InterruptedException ex) {}
+        }
     }
 }

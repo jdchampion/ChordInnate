@@ -26,8 +26,8 @@ public class NoteTest {
 
     private final boolean PLAYBACK = false;
     private final int PLAYBACK_VOLUME = 127;
-    private final int PLAYBACK_DURATION = 120;
-    private final int PLAYBACK_WAIT = 500;
+    private final int PLAYBACK_NOTE_ON_DURATION = 120;
+    private final int PLAYBACK_WAIT_BETWEEN_NOTES = 500;
 
     static MidiChannel[] channels;
     static Synthesizer synthesizer;
@@ -135,6 +135,7 @@ public class NoteTest {
     @Test
     public void testCompareTo() throws Exception {
         Note other = new Note(note);
+        random.setSeed(System.currentTimeMillis());
         other.setOctave(random.nextInt(12));
         int noteOctave = note.getOctave(), otherOctave = other.getOctave();
         if (noteOctave < otherOctave) {
@@ -156,20 +157,20 @@ public class NoteTest {
             System.out.println("RomanNumeral: " + interval.getRomanNumeralName());
             System.out.println("=======================================");
 
-            soundNote(note.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_WAIT);
-            soundNote(note.getRelativePitch() + interval.relativePitchDistance, PLAYBACK_VOLUME, PLAYBACK_WAIT);
+            soundNote(note.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
+            soundNote(note.getRelativePitch() + interval.relativePitchDistance, PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
         }
     }
 
-    private void soundNote(int midiValue, int volume, int wait) {
-        if (PLAYBACK)
+    private void soundNote(int midiValue, int volume, int duration, int wait) {
+        if (PLAYBACK) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(duration);
                 channels[0].noteOn(midiValue, volume);
-                Thread.sleep(50);
+                Thread.sleep(duration);
                 channels[0].noteOff(midiValue, volume);
                 Thread.sleep(wait);
-            }
-            catch (InterruptedException ex) {}
+            } catch (InterruptedException ex) {}
+        }
     }
 }
