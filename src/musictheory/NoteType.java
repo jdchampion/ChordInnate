@@ -101,9 +101,8 @@ public enum NoteType {
      * @return
      */
     final NoteType getNext() {
-        return this.ordinal() < NoteType.values().length - 1
-                ? NoteType.values()[this.ordinal() + 1]
-                : null;
+        NoteType[] noteTypes = NoteType.values();
+        return noteTypes[(this.ordinal() + 1) % noteTypes.length];
     }
 
     /**
@@ -111,9 +110,8 @@ public enum NoteType {
      * @return
      */
     final NoteType getPrevious() {
-        return this.ordinal() > 0
-                ? NoteType.values()[this.ordinal() - 1]
-                : null;
+        NoteType[] noteTypes = NoteType.values();
+        return noteTypes[(this.ordinal() - 1) % noteTypes.length];
     }
 
     /**
@@ -122,7 +120,7 @@ public enum NoteType {
      * @return
      */
     final NoteType getFromIndex(int index) {
-        return (index > 0 || index < NoteType.values().length - 1)
+        return (index > 0 && index < NoteType.values().length - 1)
                 ? NoteType.values()[index]
                 : null;
     }
