@@ -105,6 +105,9 @@ public class ScaleTest {
 
     @Test
     public void testGetNoteTypeWithRelativePitch() throws Exception {
-
+        ArrayList<NoteType> scaleNoteTypes = new ArrayList<NoteType>(Arrays.asList(scale.noteTypes));
+        for (NoteType nt : scaleNoteTypes) {
+            assertNotNull(scale.getNoteTypeWithRelativePitch(nt.relativePitch));
+        }
     }
 }
