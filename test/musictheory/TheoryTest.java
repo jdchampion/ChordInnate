@@ -49,12 +49,32 @@ public class TheoryTest {
     }
 
     @Test
-    public void testTranspose() throws Exception {
+    public void testTransposeScale() throws Exception {
+        Scale original = new Scale(NoteType.C, ScaleType.MAJOR);
+        Note[] originalNotes = original.getNotes();
+        for (NoteType nt : NoteType.values()) {
+            Scale transposed = Theory.transpose(original, nt);
+            Note[] transposedNotes = transposed.getNotes();
 
+            for (int i = 0; i < originalNotes.length; i++) {
+                assertTrue(transposedNotes[i].getRelativePitch()
+                        == originalNotes[i].getRelativePitch() + nt.relativePitch);
+            }
+        }
     }
 
     @Test
-    public void testTranspose1() throws Exception {
+    public void testTransposeChord() throws Exception {
+        Chord original = new Chord(NoteType.C, ChordType.MAJOR);
+        Note[] originalNotes = original.getNotes();
+        for (NoteType nt : NoteType.values()) {
+            Chord transposed = Theory.transpose(original, nt);
+            Note[] transposedNotes = transposed.getNotes();
 
+            for (int i = 0; i < originalNotes.length; i++) {
+                assertTrue(transposedNotes[i].getRelativePitch()
+                        == originalNotes[i].getRelativePitch() + nt.relativePitch);
+            }
+        }
     }
 }
