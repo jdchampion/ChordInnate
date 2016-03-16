@@ -24,8 +24,8 @@ public class ScaleTest {
     private final boolean PLAYBACK = true;
     private final boolean PLAY_SCALES_UP_DOWN = false;
     private final int PLAYBACK_VOLUME = 127;
-    private final int PLAYBACK_DURATION = 120;
-    private final int PLAYBACK_WAIT = 0;
+    private final int PLAYBACK_NOTE_ON_DURATION = 120;
+    private final int PLAYBACK_WAIT_BETWEEN_NOTES = 0;
 
     private Scale scale;
 
@@ -119,6 +119,22 @@ public class ScaleTest {
     }
 
     @Test
+    public void testScaleDiatonicChords() throws Exception {
+        Map<Integer, ArrayList<ChordType>> hm = scale.getDiatonicChordTypesByRelativePitch();
+
+        for (Integer i : hm.keySet()) {
+            System.out.print(i + ": ");
+            Collection<ChordType> x = hm.get(i);
+            for (ChordType ct : x) {
+                System.out.print(ct.chordSymbol + " ");
+                Chord c = new Chord(scale.noteTypes[i], ct);
+                testSoundChord(c);
+            }
+            System.out.println();
+        }
+    }
+
+    @Test
     public void testSetNoteOctaves() throws Exception {
         Note[] notes = scale.getAscendingNotes();
         for (int i = scale.minOctave; i < scale.maxOctave; i++) {
@@ -203,32 +219,54 @@ public class ScaleTest {
 
         for (Note n : upNotes) {
             if (n != null) {
-                soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_WAIT);
+                soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
             }
         }
 
         // Top octave note (root)
         Note top = new Note(upNotes[0].getNoteType(), upNotes[0].getOctave()+1);
-        soundNote(top.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_WAIT);
+        soundNote(top.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
 
         if (PLAY_SCALES_UP_DOWN) {
             for (Note n : downNotes) {
                 if (n != null) {
-                    soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_WAIT);
+                    soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, 0);
                 }
             }
         }
     }
 
-    private void soundNote(int midiValue, int volume, int wait) {
-        if (PLAYBACK)
+    private void soundNote(int midiValue, int volume, int duration, int wait) {
+        if (PLAYBACK) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(duration);
                 channels[0].noteOn(midiValue, volume);
-                Thread.sleep(50);
+                Thread.sleep(duration);
                 channels[0].noteOff(midiValue, volume);
                 Thread.sleep(wait);
-            }
-            catch (InterruptedException ex) {}
+            } catch (InterruptedException ex) {}
+        }
+    }
+
+    private void testSoundChord(Chord chord) {
+        if (chord != null) {
+            soundChord(chord, PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
+        }
+    }
+
+    private void soundChord(Chord chord, int volume, int duration, int wait) {
+        if (PLAYBACK) {
+            try {
+                Note[] notes = chord.notes;
+                for (Note n : notes) {
+                    channels[0].noteOn(n.getRelativePitch(), volume);
+                }
+                Thread.sleep(duration);
+                for (Note n : notes) {
+                    channels[0].noteOff(n.getRelativePitch(), volume);
+                }
+                Thread.sleep(wait);
+            } catch (InterruptedException ex) {}
+        }
     }
 }
