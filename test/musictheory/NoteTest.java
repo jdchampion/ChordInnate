@@ -1,9 +1,15 @@
 package musictheory;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Synthesizer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -18,24 +24,50 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class NoteTest {
 
+    private final boolean PLAYBACK = false;
+    private final int PLAYBACK_VOLUME = 127;
+    private final int PLAYBACK_DURATION = 120;
+    private final int PLAYBACK_WAIT = 500;
+
+    static MidiChannel[] channels;
+    static Synthesizer synthesizer;
+
     private Note note;
-    private NoteType noteType;
-    private int octave;
 
     private Random random = new Random();
 
-    public NoteTest(NoteType noteType, int octave) {
-        this.noteType = noteType;
-        this.octave = octave;
-        this.note = new Note(noteType);
+    public NoteTest(Note note) {
+        this.note = note;
+    }
+
+    @BeforeClass
+    public static void setUp() {
+        try {
+            synthesizer = MidiSystem.getSynthesizer();
+            synthesizer.open();
+            channels = synthesizer.getChannels();
+
+            Thread.sleep(1000); // To minimize the (annoying) initial sound delay
+        }
+        catch (MidiUnavailableException ex) {}
+        catch (InterruptedException ex) {}
+        catch (Exception ex) {}
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        try {
+            synthesizer.close();
+        }
+        catch (Exception ex) {}
     }
 
     @Parameterized.Parameters
-    public static Collection<Object[]> data() {
-        List<Object[]> data = new ArrayList<Object[]>();
+    public static Collection<Note> data() {
+        List<Note> data = new ArrayList<Note>();
         for (NoteType nt : NoteType.values()) {
             for (int i = 0; i < 12; i++) {
-                data.add(new Object[] {nt, i});
+                data.add(new Note(nt, i));
             }
         }
 
@@ -44,7 +76,7 @@ public class NoteTest {
 
     @Test
     public void testOctave() throws Exception {
-        note.setOctave(octave);
+        note.setOctave(note.getOctave());
         assertFalse(note.getOctave() < 0);
     }
 
@@ -114,5 +146,30 @@ public class NoteTest {
         else {
             assertTrue(note.compareTo(other) == 1);
         }
+    }
+
+    @Test
+    public void testIntervalNotes() {
+        for (Interval interval: Interval.values()) {
+            System.out.println(interval.toString());
+            System.out.println("Short Name: " + interval.getShortName());
+            System.out.println("RomanNumeral: " + interval.getRomanNumeralName());
+            System.out.println("=======================================");
+
+            soundNote(note.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_WAIT);
+            soundNote(note.getRelativePitch() + interval.relativePitchDistance, PLAYBACK_VOLUME, PLAYBACK_WAIT);
+        }
+    }
+
+    private void soundNote(int midiValue, int volume, int wait) {
+        if (PLAYBACK)
+            try {
+                Thread.sleep(50);
+                channels[0].noteOn(midiValue, volume);
+                Thread.sleep(50);
+                channels[0].noteOff(midiValue, volume);
+                Thread.sleep(wait);
+            }
+            catch (InterruptedException ex) {}
     }
 }
