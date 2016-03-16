@@ -21,11 +21,13 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ScaleTest {
 
-    private final boolean PLAYBACK = true;
+    private final boolean PLAYBACK = false;
     private final boolean PLAY_SCALES_UP_DOWN = false;
     private final int PLAYBACK_VOLUME = 127;
     private final int PLAYBACK_NOTE_ON_DURATION = 120;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 0;
+    private static final ScaleType[] SCALETYPES_TO_TEST = ScaleType.values();
+    private static final NoteType[] NOTETYPES_TO_TEST = NoteType.values();
 
     private Scale scale;
 
@@ -61,8 +63,8 @@ public class ScaleTest {
     @Parameterized.Parameters
     public static Collection<Scale> data() {
         List<Scale> data = new ArrayList<Scale>();
-        for (ScaleType st : ScaleType.values()) {
-            for (NoteType nt : NoteType.values()) {
+        for (ScaleType st : SCALETYPES_TO_TEST) {
+            for (NoteType nt : NOTETYPES_TO_TEST) {
                 data.add(new Scale(nt, st));
             }
         }

@@ -27,6 +27,8 @@ public class ChordTest {
     private final int PLAYBACK_VOLUME = 127;
     private final int PLAYBACK_NOTE_ON_DURATION = 120;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 100;
+    private static final ChordType[] CHORDTYPES_TO_TEST = ChordType.values();
+    private static final NoteType[] NOTETYPES_TO_TEST = NoteType.values();
 
     private Chord chord;
 
@@ -62,8 +64,8 @@ public class ChordTest {
     @Parameterized.Parameters
     public static Collection<Chord> data() {
         List<Chord> data = new ArrayList<Chord>();
-        for (ChordType ct : ChordType.values()) {
-            for (NoteType nt : NoteType.values()) {
+        for (ChordType ct : CHORDTYPES_TO_TEST) {
+            for (NoteType nt : NOTETYPES_TO_TEST) {
                 data.add(new Chord(nt, ct));
             }
         }

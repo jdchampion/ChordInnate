@@ -28,6 +28,8 @@ public class NoteTest {
     private final int PLAYBACK_VOLUME = 127;
     private final int PLAYBACK_NOTE_ON_DURATION = 120;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 500;
+    private static final NoteType[] NOTETYPES_TO_TEST = NoteType.values();
+    private static final int OCTAVES_TO_TEST = 11;
 
     static MidiChannel[] channels;
     static Synthesizer synthesizer;
@@ -65,8 +67,8 @@ public class NoteTest {
     @Parameterized.Parameters
     public static Collection<Note> data() {
         List<Note> data = new ArrayList<Note>();
-        for (NoteType nt : NoteType.values()) {
-            for (int i = 0; i < 12; i++) {
+        for (NoteType nt : NOTETYPES_TO_TEST) {
+            for (int i = 0; i < OCTAVES_TO_TEST; i++) {
                 data.add(new Note(nt, i));
             }
         }
@@ -83,7 +85,12 @@ public class NoteTest {
     @Test
     public void testGetRelativePitch() throws Exception {
         int relativePitch = note.getRelativePitch();
-        assertTrue(relativePitch >= 0 && relativePitch < 128);
+        if (note.getOctave() <= note.getNoteType().octaveRange) {
+            assertTrue(relativePitch >= 0 && relativePitch < 128);
+        }
+        else {
+            assertFalse(relativePitch >= 0 && relativePitch < 128);
+        }
     }
 
     @Test
@@ -136,7 +143,7 @@ public class NoteTest {
     public void testCompareTo() throws Exception {
         Note other = new Note(note);
         random.setSeed(System.currentTimeMillis());
-        other.setOctave(random.nextInt(12));
+        other.setOctave(random.nextInt(OCTAVES_TO_TEST));
         int noteOctave = note.getOctave(), otherOctave = other.getOctave();
         if (noteOctave < otherOctave) {
             assertTrue(note.compareTo(other) == -1);
