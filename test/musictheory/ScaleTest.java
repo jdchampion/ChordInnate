@@ -1,9 +1,15 @@
 package musictheory;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Synthesizer;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -15,10 +21,41 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ScaleTest {
 
+    private final boolean PLAYBACK = true;
+    private final boolean PLAY_SCALES_UP_DOWN = false;
+    private final int PLAYBACK_VOLUME = 127;
+    private final int PLAYBACK_DURATION = 120;
+    private final int PLAYBACK_WAIT = 0;
+
     private Scale scale;
+
+    static MidiChannel[] channels;
+    static Synthesizer synthesizer;
 
     public ScaleTest(Scale scale) {
         this.scale = scale;
+    }
+
+    @BeforeClass
+    public static void setUp() {
+        try {
+            synthesizer = MidiSystem.getSynthesizer();
+            synthesizer.open();
+            channels = synthesizer.getChannels();
+
+            Thread.sleep(1000); // To minimize the (annoying) initial sound delay
+        }
+        catch (MidiUnavailableException ex) {}
+        catch (InterruptedException ex) {}
+        catch (Exception ex) {}
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        try {
+            synthesizer.close();
+        }
+        catch (Exception ex) {}
     }
 
     @Parameterized.Parameters
@@ -39,6 +76,8 @@ public class ScaleTest {
         for (int i = scale.minOctave; i < scale.maxOctave; i++) {
             scale.setNoteOctaves(i);
 
+            testSoundScale(scale);
+
             // Ascending notes should have increasing relative pitch
             for (int j = 1; j < notes.length; j++) {
                 assertTrue(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
@@ -51,7 +90,6 @@ public class ScaleTest {
         Set diatonicChordTypes = scale.getDiatonicChordTypes();
         assertNotNull(diatonicChordTypes);
         assertFalse(diatonicChordTypes.isEmpty());
-
     }
 
     @Test
@@ -109,5 +147,40 @@ public class ScaleTest {
         for (NoteType nt : scaleNoteTypes) {
             assertNotNull(scale.getNoteTypeWithRelativePitch(nt.relativePitch));
         }
+    }
+
+    private void testSoundScale(Scale scale) {
+        Note[] upNotes = scale.getAscendingNotes();
+        Note[] downNotes = scale.getDescendingNotes();
+
+        for (Note n : upNotes) {
+            if (n != null) {
+                soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_WAIT);
+            }
+        }
+
+        // Top octave note (root)
+        Note top = new Note(upNotes[0].getNoteType(), upNotes[0].getOctave()+1);
+        soundNote(top.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_WAIT);
+
+        if (PLAY_SCALES_UP_DOWN) {
+            for (Note n : downNotes) {
+                if (n != null) {
+                    soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_WAIT);
+                }
+            }
+        }
+    }
+
+    private void soundNote(int midiValue, int volume, int wait) {
+        if (PLAYBACK)
+            try {
+                Thread.sleep(50);
+                channels[0].noteOn(midiValue, volume);
+                Thread.sleep(50);
+                channels[0].noteOff(midiValue, volume);
+                Thread.sleep(wait);
+            }
+            catch (InterruptedException ex) {}
     }
 }
