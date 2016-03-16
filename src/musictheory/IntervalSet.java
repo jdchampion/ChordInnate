@@ -176,7 +176,7 @@ abstract class IntervalSet {
         NoteType max = noteTypes[0];
         for (int i = 1; i < noteTypes.length; i++) {
             int x = noteTypes[i].relativePitch;
-            if (max.relativePitch < x) {
+            if (max.relativePitch <= x) {
                 max = noteTypes[i];
             }
         }
