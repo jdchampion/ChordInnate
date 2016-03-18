@@ -13,17 +13,20 @@ public class Chord extends IntervalSet {
     public Chord(NoteType root, ChordType chordType) {
         super(root, chordType.nashvilleNumbers, Octave.ZERO, root.name + chordType.chordSymbol);
         this.chordType = chordType;
+        setNoteOctaves(octave);
     }
 
     public Chord(NoteType root, ChordType chordType, Octave octave) {
         super(root, chordType.nashvilleNumbers, octave, root.name + chordType.chordSymbol);
         this.chordType = chordType;
+        setNoteOctaves(octave);
     }
 
     protected Chord(Chord other) {
         super(other.rootNoteType, other.chordType.nashvilleNumbers, other.octave,
                 other.rootNoteType.name + other.chordType.chordSymbol);
         this.chordType = other.chordType;
+        setNoteOctaves(octave);
     }
 
     /**
