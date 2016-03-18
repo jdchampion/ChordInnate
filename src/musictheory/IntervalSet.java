@@ -164,9 +164,9 @@ abstract class IntervalSet {
     }
 
     /**
-     * Finds the NoteType in the IntervalSet containing the highest relative pitch value.
-     * This method assumes no duplicate NoteTypes or relative pitch values in the IntervalSet.
-     * If duplicates exist, the last element containing the highest relative pitch value will be returned.
+     * Finds the NoteType in the IntervalSet that has the potential for being the
+     * highest relative pitch value, depending on how the IntervalSet is manipulated
+     * (e.g., via inversion, transposition, or raising the Octave).
      * @return the NoteType in the IntervalSet containing the highest relative pitch value
      */
     protected abstract NoteType getNoteTypeWithHighestPotential();
