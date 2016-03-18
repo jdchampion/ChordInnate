@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ScaleTest {
 
-    private final boolean PLAYBACK = true;
+    private final boolean PLAYBACK = false;
     private final boolean PLAY_SCALES_UP_DOWN = false;
     private final int PLAYBACK_VOLUME = 127;
     private final int PLAYBACK_NOTE_ON_DURATION = 50;
@@ -131,16 +131,17 @@ public class ScaleTest {
     public void testScaleDiatonicChords() throws Exception {
         Map<Integer, ArrayList<ChordType>> hm = scale.getDiatonicChordTypesByRelativePitch();
 
-        // FIXME: Not working yet
+        int index = 0;
         for (Integer i : hm.keySet()) {
             System.out.print(i + ": ");
-            Collection<ChordType> x = hm.get(i);
-            for (ChordType ct : x) {
+            Collection<ChordType> chordTypeArrayList = hm.get(i);
+            for (ChordType ct : chordTypeArrayList) {
                 System.out.print(ct.chordSymbol + " ");
-                Chord c = new Chord(scale.noteTypes[i], ct);
+                Chord c = new Chord(scale.noteTypes[index], ct);
                 testSoundChord(c);
             }
             System.out.println();
+            index++;
         }
     }
 
