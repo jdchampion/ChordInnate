@@ -28,11 +28,9 @@ abstract class IntervalSet {
 
         this.octave = octave;
 
-        this.notes = setNotes();
+        this.notes = setNotes(this.octave, this.octaveRange);
 
         this.name = name;
-
-        setNoteOctaves(octave);
     }
 
     /**
@@ -186,15 +184,29 @@ abstract class IntervalSet {
     /**
      * A private method designed for setting the private IntervalSet member notes.
      * This is called exactly one time, in the constructor method.
+     * @param octave this.octave
+     * @param octaveRange this.octaveRange
      * @return the list of Notes for the IntervalSet
      */
-    private Note[] setNotes() {
+    private Note[] setNotes(Octave octave, Octave octaveRange) {
         Note[] returnedNotes = new Note[this.noteTypes.length];
 
+        /*
+         * If the desired Octave is too high,
+         * we'll make the executive decision
+         * to use the highest possible Octave instead.
+         */
         if (octave.height > octaveRange.height) {
             octave = octaveRange;
         }
 
+        /*
+         * Create the array of Notes for this IntervalSet.
+         * Since this method is only called via constructor,
+         * the Octaves chosen are just the "initial" ones for each Note.
+         * After the IntervalSet is created, we can collectively
+         * raise / lower each Octave in the IntervalSet by using setOctave().
+         */
         returnedNotes[0] = new Note(this.noteTypes[0], octave);
         for (int i = 1; i < returnedNotes.length; i++) {
             if (this.noteTypes[i].relativePitch < this.noteTypes[i-1].relativePitch) {
