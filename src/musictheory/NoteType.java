@@ -65,14 +65,16 @@ public enum NoteType {
     final char letter;
     final Accidental accidental;
     final String name;
-    final int relativePitch, octaveRange;
+    final int relativePitch;
+    Octave minOctave, maxOctave;
 
     NoteType(char letter, Accidental accidental, int relativePitch) {
         this.letter = letter;
         this.accidental = accidental;
         this.name = letter + accidental.indicator;
         this.relativePitch = relativePitch;
-        this.octaveRange = (relativePitch < 8) ? 11 : 10;
+        this.minOctave = (relativePitch > 8) ? Octave.ZERO : Octave.ONE;
+        this.maxOctave = (relativePitch > 0) ? Octave.SEVEN : Octave.EIGHT;
     }
 
     /**
@@ -95,35 +97,6 @@ public enum NoteType {
      */
     boolean isDoubleAccidental() { return accidental.equals(DOUBLE_FLAT)
             || accidental.equals(DOUBLE_SHARP); }
-
-    /**
-     *
-     * @return
-     */
-    final NoteType getNext() {
-        NoteType[] noteTypes = NoteType.values();
-        return noteTypes[(this.ordinal() + 1) % noteTypes.length];
-    }
-
-    /**
-     *
-     * @return
-     */
-    final NoteType getPrevious() {
-        NoteType[] noteTypes = NoteType.values();
-        return noteTypes[(this.ordinal() - 1) % noteTypes.length];
-    }
-
-    /**
-     *
-     * @param index
-     * @return
-     */
-    final NoteType getFromIndex(int index) {
-        return (index > 0 && index < NoteType.values().length - 1)
-                ? NoteType.values()[index]
-                : null;
-    }
 
     /**
      *

@@ -8,10 +8,15 @@ public class Chord extends IntervalSet {
     private final ChordType chordType;
 
     private int inversion = 0;          // With n notes, there are n-1 possible inversions
-    private int[] defaultOctaves;       // Default octave for each Note
+    private Octave[] defaultOctaves;    // Default octave for each Note
 
     public Chord(NoteType root, ChordType chordType) {
-        super(root, chordType.nashvilleNumbers, 0, root.name + chordType.chordSymbol);
+        super(root, chordType.nashvilleNumbers, Octave.ZERO, root.name + chordType.chordSymbol);
+        this.chordType = chordType;
+    }
+
+    public Chord(NoteType root, ChordType chordType, Octave octave) {
+        super(root, chordType.nashvilleNumbers, octave, root.name + chordType.chordSymbol);
         this.chordType = chordType;
     }
 
@@ -23,31 +28,93 @@ public class Chord extends IntervalSet {
 
     /**
      * Raises or lowers all Notes in the Chord to a specified octave, if it is within the octave range of the Chord.
-     * Otherwise, this method does nothing.
+     * If the desired octave is above the octave range of the Chord, then the Chord will be raised to its highest octave.
      * @param octave the octave number to set the Chord at
      */
-    protected void setNoteOctaves(int octave) {
+    protected void setNoteOctaves(Octave octave) {
         int numNotes = super.notes.length;
-        defaultOctaves = new int[numNotes];
+        defaultOctaves = new Octave[numNotes];
 
-        int maxRelativePitch = super.rootNoteType.relativePitch;
-        for (int i = 1; i < super.noteTypes.length; i++) {
-            if (super.noteTypes[i].relativePitch > maxRelativePitch) {
-                maxRelativePitch = super.noteTypes[i].relativePitch;
+        super.notes[0].setOctave(octave);
+        defaultOctaves[0] = octave;
+
+        for (int i = 1; i < numNotes; i++) {
+            /*
+             * Keep filling in the Octaves as usual
+             * until we encounter a Note whose relativePitch < the previous Note.
+             * (This will occur in every case except for Scales whose root Note's relativePitch == 0).
+             * If this happens, finish filling in the remaining Octaves with a higher Octave (octave + 1).
+             */
+            if (super.noteTypes[i].relativePitch < super.noteTypes[i-1].relativePitch) {
+                super.notes[i].setOctave(Octave.getNext(octave));
+                defaultOctaves[i] = Octave.getNext(octave);
+                for (int j = i + 1; j < numNotes; j++) {
+
+                    /*
+                     * For Chords, follow the same pattern
+                     * to fill in Octaves as Scales, but one level deeper.
+                     * This is required because some Chords (ex.: A#9)
+                     * need to have its highest Note raised by two Octaves.
+                     *
+                     * Observe the relativePitch for the Chord:
+                     * A#9:             A#   Cx  E#  B#
+                     * At Octave 0:     0    1   1   1
+                     * relativePitch:   22   26  29  [24]       <-- 24 < 29, so it must be raised again.
+                     */
+
+                    if (super.noteTypes[j].relativePitch < super.noteTypes[j-1].relativePitch) {
+                        super.notes[j].setOctave(Octave.getNext(Octave.getNext(octave)));
+                        defaultOctaves[j] = Octave.getNext(Octave.getNext(octave));
+
+                        for (int k = j + 1; k < numNotes; k++) {
+                            super.notes[k].setOctave(Octave.getNext(Octave.getNext(octave)));
+                            defaultOctaves[k] = Octave.getNext(Octave.getNext(octave));
+                        }
+                        break;
+                    }
+                    else {
+                        super.notes[j].setOctave(Octave.getNext(octave));
+                        defaultOctaves[j] = Octave.getNext(octave);
+                    }
+                }
+                break;
+            }
+            else {
+                super.notes[i].setOctave(octave);
+                defaultOctaves[i] = octave;
             }
         }
+    }
 
-        // Chords with roots F# - B will begin one octave lower
-        // (to compensate for octave ranges)
-        int rootOctave = (super.rootNoteType.relativePitch + maxRelativePitch) < 6 ? octave : (octave == 0 ? octave : octave-1);
-        super.notes[0].setOctave(rootOctave);
-        defaultOctaves[0] = rootOctave;
+    protected NoteType getNoteTypeWithHighestPotential() {
+        /*
+         * The NoteType with highest potential is the NoteType that, after
+         * inversion or transposition of the IntervalSet, will become the
+         * Note with the highest relativePitch. We want to make sure that
+         * the entire IntervalSet stays within the playable range, so we
+         * must consider this Note's maxOctave as the "upper bound" for
+         * the entire IntervalSet.
+         *
+         * Since there are n-1 possible Chord inversions (permutations),
+         * we know that the n-2nd note would be what we're looking for.
+         *
+         * Consider:
+         *
+         * C E G |          inversion 0
+         *   E G | C        inversion 1
+         *     G | C E      inversion 2
+         *
+         * In this case, 'E' is the highest potential NoteType.
+         *
+         */
+        return super.noteTypes[super.noteTypes.length-2];
+    }
 
-        int currentOctave;
-        for (int i = 1; i < numNotes; i++) {
-            currentOctave = super.noteTypes[i].relativePitch < super.rootNoteType.relativePitch ? rootOctave+1 : rootOctave;
-            super.notes[i].setOctave(currentOctave);
-            defaultOctaves[i] = currentOctave;
+    private void invertNoteOctaves(Octave octave) {
+        super.notes[inversion - 1].setOctave(octave);
+
+        for (int i = 0; i < inversion; i++) {
+            super.notes[i].setOctave(octave);
         }
     }
 
@@ -65,8 +132,8 @@ public class Chord extends IntervalSet {
             // but has the bass note tacked to the end of it.
             super.name += "/" + super.noteTypes[inversion].name;
 
-            // Change the octave of notes[inversion-1]
-            super.notes[inversion-1].setOctave(defaultOctaves[inversion-1]+1);
+            // Raise the octave of notes[inversion-1]
+            invertNoteOctaves(defaultOctaves[inversion - 1]);
         }
         else {
             // Return the octaves to their original positions

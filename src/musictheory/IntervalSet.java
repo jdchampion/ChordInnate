@@ -11,11 +11,10 @@ abstract class IntervalSet {
     protected final NoteType rootNoteType;
     protected final Note[] notes;
     protected String name;
-    protected final int minOctave;
-    protected final int maxOctave;
-    protected final int octave;
+    protected final Octave octaveRange;
+    protected Octave octave;
 
-    IntervalSet(NoteType rootNoteType, NashvilleNumber[] nashvilleNumbers, int octave, String name) {
+    IntervalSet(NoteType rootNoteType, NashvilleNumber[] nashvilleNumbers, Octave octave, String name) {
 
         // If the IntervalSet constructor was called with a NoteType containing
         // a natural accidental, just convert the NoteType to its non-accidental equivalent.
@@ -25,14 +24,13 @@ abstract class IntervalSet {
         this.noteTypes = setNoteTypes(nashvilleNumbers);
 
         // IntervalSets have an octave range that is limited by the highest base relative pitch in the set
-        this.minOctave = 0;
-        this.maxOctave = getNoteTypeWithHighestRelativePitch(noteTypes).octaveRange;
+        this.octaveRange = Octave.getPrevious(getNoteTypeWithHighestPotential().maxOctave);
+
+        this.octave = octave;
 
         this.notes = setNotes();
 
         this.name = name;
-
-        this.octave = octave;
 
         setNoteOctaves(octave);
     }
@@ -42,7 +40,7 @@ abstract class IntervalSet {
      * Otherwise, this method does nothing.
      * @param octave the octave number to set the IntervalSet at
      */
-    protected abstract void setNoteOctaves(int octave);
+    protected abstract void setNoteOctaves(Octave octave);
 
     /**
      * Dynamically builds the list of diatonic NoteTypes for this IntervalSet, based on the root NoteType and NashvilleNumbers.
@@ -169,39 +167,42 @@ abstract class IntervalSet {
      * Finds the NoteType in the IntervalSet containing the highest relative pitch value.
      * This method assumes no duplicate NoteTypes or relative pitch values in the IntervalSet.
      * If duplicates exist, the last element containing the highest relative pitch value will be returned.
-     * @param noteTypes the private member from IntervalSet
      * @return the NoteType in the IntervalSet containing the highest relative pitch value
      */
-    private NoteType getNoteTypeWithHighestRelativePitch(NoteType[] noteTypes) {
-        NoteType max = noteTypes[0];
-        for (int i = 1; i < noteTypes.length; i++) {
-            int x = noteTypes[i].relativePitch;
-            if (max.relativePitch <= x) {
-                max = noteTypes[i];
-            }
-        }
+    protected abstract NoteType getNoteTypeWithHighestPotential();
 
-        return max;
-    }
 
     /**
      * A public wrapper method for raising or lowering the IntervalSet by the specified octave.
      * @param octave the octave to set the IntervalSet at
      */
-    public void setOctave(int octave) {
-        if (octave <= rootNoteType.octaveRange) {
-            setNoteOctaves(octave);
-        }
+    public void setOctave(Octave octave) {
+
+        this.octave = octave;
+
+        setNoteOctaves(octave);
     }
 
     /**
      * A private method designed for setting the private IntervalSet member notes.
+     * This is called exactly one time, in the constructor method.
      * @return the list of Notes for the IntervalSet
      */
     private Note[] setNotes() {
         Note[] returnedNotes = new Note[this.noteTypes.length];
-        for (int i = 0; i < returnedNotes.length; i++) {
-            returnedNotes[i] = new Note(this.noteTypes[i]);
+
+        if (octave.height > octaveRange.height) {
+            octave = octaveRange;
+        }
+
+        returnedNotes[0] = new Note(this.noteTypes[0], octave);
+        for (int i = 1; i < returnedNotes.length; i++) {
+            if (this.noteTypes[i].relativePitch < this.noteTypes[i-1].relativePitch) {
+                returnedNotes[i] = new Note(this.noteTypes[i], Octave.getNext(octave));
+            }
+            else {
+                returnedNotes[i] = new Note(this.noteTypes[i], octave);
+            }
         }
 
         return returnedNotes;

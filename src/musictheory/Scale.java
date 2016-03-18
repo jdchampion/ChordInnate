@@ -48,7 +48,16 @@ public class Scale extends IntervalSet {
     private final HashMap<Integer, ArrayList<ChordType>> diatonicChordTypesByRelativePitch;
 
     public Scale(NoteType root, ScaleType scaleType) {
-        super(root, scaleType.nashvilleNumbers, 0, root.name + " " + scaleType.name);
+        super(root, scaleType.nashvilleNumbers, Octave.ZERO, root.name + " " + scaleType.name);
+        this.scaleType = scaleType;
+        this.keySignature = setKeySignature(this.rootNoteType);
+        this.steps = setSteps();
+        this.diatonicChordTypes = setDiatonicChordTypes();
+        this.diatonicChordTypesByRelativePitch = setDiatonicHashMap();
+    }
+
+    public Scale(NoteType root, ScaleType scaleType, Octave octave) {
+        super(root, scaleType.nashvilleNumbers, octave, root.name + " " + scaleType.name);
         this.scaleType = scaleType;
         this.keySignature = setKeySignature(this.rootNoteType);
         this.steps = setSteps();
@@ -67,22 +76,38 @@ public class Scale extends IntervalSet {
     }
 
     /**
-     *
-     * @param octave
+     * Raises or lowers all Notes in the Scale to a specified octave, if it is within the octave range of the Scale.
+     * If the desired octave is above the octave range of the Scale, then the Scale will be raised to its highest octave.
+     * @param octave the octave number to set the Scale at
      */
-    protected void setNoteOctaves(int octave) {
+    protected void setNoteOctaves(Octave octave) {
         int numNotes = super.notes.length;
 
-        // Scales with roots F# - B will begin one octave lower
-        // (to compensate for octave ranges)
-        int rootOctave = rootNoteType.relativePitch < 6 ? octave : (octave == 0 ? octave : octave-1);
-        super.notes[0].setOctave(rootOctave);
+        super.notes[0].setOctave(octave);
 
-        int currentOctave;
         for (int i = 1; i < numNotes; i++) {
-            currentOctave = super.noteTypes[i].relativePitch < super.rootNoteType.relativePitch ? rootOctave+1 : rootOctave;
-            super.notes[i].setOctave(currentOctave);
+            /*
+             * Keep filling in the Octaves as usual
+             * until we encounter a Note whose relativePitch < the previous Note.
+             * (This will occur in every case except for Scales whose root Note's relativePitch == 0).
+             * If this happens, finish filling in the remaining Octaves with a higher Octave (octave + 1).
+             */
+            if (super.noteTypes[i].relativePitch < super.noteTypes[i-1].relativePitch) {
+                super.notes[i].setOctave(Octave.getNext(octave));
+                for (int j = i + 1; j < numNotes; j++) {
+                    super.notes[j].setOctave(Octave.getNext(octave));
+                }
+                break;
+            }
+            else {
+                super.notes[i].setOctave(octave);
+            }
         }
+    }
+
+    protected NoteType getNoteTypeWithHighestPotential() {
+        // For Scales, this will always be the last NoteType in the list
+        return super.noteTypes[super.noteTypes.length-1];
     }
 
     /**

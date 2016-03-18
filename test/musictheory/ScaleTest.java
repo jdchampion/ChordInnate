@@ -21,13 +21,14 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ScaleTest {
 
-    private final boolean PLAYBACK = false;
+    private final boolean PLAYBACK = true;
     private final boolean PLAY_SCALES_UP_DOWN = false;
     private final int PLAYBACK_VOLUME = 127;
-    private final int PLAYBACK_NOTE_ON_DURATION = 120;
+    private final int PLAYBACK_NOTE_ON_DURATION = 50;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 0;
-    private static final ScaleType[] SCALETYPES_TO_TEST = ScaleType.values();
-    private static final NoteType[] NOTETYPES_TO_TEST = NoteType.values();
+    private static final ScaleType[] SCALETYPES_TO_TEST =   /**ScaleType.values();/**/      /**/{ScaleType.MAJOR};/**/
+    private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/      /**{NoteType.C};/**/
+    private static final Octave[] OCTAVES_TO_TEST =         /**/Octave.values();/**/         /**{Octave.FOUR};/**/
 
     private Scale scale;
 
@@ -74,6 +75,7 @@ public class ScaleTest {
 
     @Test
     public void testScaleAttributes() {
+
         System.out.print(scale.getName() + ": ");
 
         NoteType root = scale.getRootNoteType();
@@ -117,13 +119,19 @@ public class ScaleTest {
         }
         System.out.println();
 
-        testSoundScale(scale);
+        for (Octave o : OCTAVES_TO_TEST) {
+            scale = new Scale(scale.getRootNoteType(), scale.getScaleType(), o);
+            if (o.height <= scale.octaveRange.height) {
+                testSoundScale(scale);
+            }
+        }
     }
 
     @Test
     public void testScaleDiatonicChords() throws Exception {
         Map<Integer, ArrayList<ChordType>> hm = scale.getDiatonicChordTypesByRelativePitch();
 
+        // FIXME: Not working yet
         for (Integer i : hm.keySet()) {
             System.out.print(i + ": ");
             Collection<ChordType> x = hm.get(i);
@@ -139,14 +147,21 @@ public class ScaleTest {
     @Test
     public void testSetNoteOctaves() throws Exception {
         Note[] notes = scale.getAscendingNotes();
-        for (int i = scale.minOctave; i < scale.maxOctave; i++) {
-            scale.setNoteOctaves(i);
+        for (Octave o : OCTAVES_TO_TEST) {
+            scale.setNoteOctaves(o);
 
-            testSoundScale(scale);
+            if (o.height <= scale.octaveRange.height) {
+                testSoundScale(scale);
 
-            // Ascending notes should have increasing relative pitch
-            for (int j = 1; j < notes.length; j++) {
-                assertTrue(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                // Ascending notes should have increasing relative pitch
+                for (int j = 1; j < notes.length; j++) {
+                    if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
+                        assertFalse(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                    }
+                    else {
+                        assertTrue(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                    }
+                }
             }
         }
     }
@@ -226,13 +241,13 @@ public class ScaleTest {
         }
 
         // Top octave note (root)
-        Note top = new Note(upNotes[0].getNoteType(), upNotes[0].getOctave()+1);
+        Note top = new Note(upNotes[0].getNoteType(), Octave.values()[upNotes[0].getOctave().ordinal()+1]);
         soundNote(top.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
 
         if (PLAY_SCALES_UP_DOWN) {
             for (Note n : downNotes) {
                 if (n != null) {
-                    soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, 0);
+                    soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
                 }
             }
         }

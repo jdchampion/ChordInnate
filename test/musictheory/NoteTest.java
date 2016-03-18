@@ -29,7 +29,7 @@ public class NoteTest {
     private final int PLAYBACK_NOTE_ON_DURATION = 120;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 500;
     private static final NoteType[] NOTETYPES_TO_TEST = NoteType.values();
-    private static final int OCTAVES_TO_TEST = 11;
+    private static final Octave[] OCTAVES_TO_TEST = Octave.values();
 
     static MidiChannel[] channels;
     static Synthesizer synthesizer;
@@ -68,8 +68,8 @@ public class NoteTest {
     public static Collection<Note> data() {
         List<Note> data = new ArrayList<Note>();
         for (NoteType nt : NOTETYPES_TO_TEST) {
-            for (int i = 0; i < OCTAVES_TO_TEST; i++) {
-                data.add(new Note(nt, i));
+            for (Octave o : OCTAVES_TO_TEST) {
+                data.add(new Note(nt, o));
             }
         }
 
@@ -78,14 +78,16 @@ public class NoteTest {
 
     @Test
     public void testOctave() throws Exception {
+        assertFalse(note.getOctave().height < 0);
+        soundNote(note.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
         note.setOctave(note.getOctave());
-        assertFalse(note.getOctave() < 0);
+        assertFalse(note.getOctave().height < 0);
     }
 
     @Test
     public void testGetRelativePitch() throws Exception {
         int relativePitch = note.getRelativePitch();
-        if (note.getOctave() <= note.getNoteType().octaveRange) {
+        if (note.getOctave().height <= note.getNoteType().maxOctave.height) {
             assertTrue(relativePitch >= 0 && relativePitch < 128);
         }
         else {
@@ -143,8 +145,8 @@ public class NoteTest {
     public void testCompareTo() throws Exception {
         Note other = new Note(note);
         random.setSeed(System.currentTimeMillis());
-        other.setOctave(random.nextInt(OCTAVES_TO_TEST));
-        int noteOctave = note.getOctave(), otherOctave = other.getOctave();
+        other.setOctave(OCTAVES_TO_TEST[random.nextInt(OCTAVES_TO_TEST.length)]);
+        int noteOctave = note.getOctave().height, otherOctave = other.getOctave().height;
         if (noteOctave < otherOctave) {
             assertTrue(note.compareTo(other) == -1);
         }

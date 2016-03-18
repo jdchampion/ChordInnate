@@ -53,13 +53,30 @@ public class TheoryTest {
         Scale original = new Scale(NoteType.C, ScaleType.MAJOR);
         Note[] originalNotes = original.getNotes();
         for (NoteType nt : NoteType.values()) {
-            Scale transposed = Theory.transpose(original, nt);
-            Note[] transposedNotes = transposed.getNotes();
+            Scale transposed = new Scale(original);
+            Note[] transposedNotesBefore = transposed.getNotes();
 
+            System.out.println("Transpose " + originalNotes[0].getName() + " -> " + nt.name + ":");
+            System.out.print("Before: ");
             for (int i = 0; i < originalNotes.length; i++) {
-                assertTrue(transposedNotes[i].getRelativePitch()
-                        == originalNotes[i].getRelativePitch() + nt.relativePitch);
+                System.out.print(originalNotes[i].getName() + "\t");
+                assertEquals(originalNotes[i].getNoteType(), transposedNotesBefore[i].getNoteType());
+                assertEquals(originalNotes[i].getRelativePitch(), transposedNotesBefore[i].getRelativePitch());
             }
+
+            transposed = Theory.transpose(transposed, nt);
+            Note[] transposedNotesAfter = transposed.getNotes();
+
+            Scale expected = new Scale(nt, original.getScaleType());
+            Note[] expectedNotes = expected.getNotes();
+
+            System.out.print("\nAfter:  ");
+            for (int i = 0; i < transposedNotesAfter.length; i++) {
+                System.out.print(transposedNotesAfter[i].getName() + "\t");
+                assertEquals(expectedNotes[i].getNoteType(), transposedNotesAfter[i].getNoteType());
+                assertEquals(expectedNotes[i].getRelativePitch(), transposedNotesAfter[i].getRelativePitch());
+            }
+            System.out.println("\n====================================");
         }
     }
 
@@ -71,10 +88,16 @@ public class TheoryTest {
             Chord transposed = Theory.transpose(original, nt);
             Note[] transposedNotes = transposed.getNotes();
 
+            System.out.println("Transpose " + originalNotes[0].getName() + " -> " + transposedNotes[0].getName() + ":");
+            System.out.print("Before: ");
             for (int i = 0; i < originalNotes.length; i++) {
-                assertTrue(transposedNotes[i].getRelativePitch()
-                        == originalNotes[i].getRelativePitch() + nt.relativePitch);
+                System.out.print(originalNotes[i].getName() + "\t");
             }
+            System.out.print("\nAfter:  ");
+            for (int i = 0; i < transposedNotes.length; i++) {
+                System.out.print(transposedNotes[i].getName() + "\t");
+            }
+            System.out.println("\n====================================");
         }
     }
 }

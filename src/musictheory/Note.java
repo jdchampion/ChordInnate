@@ -7,34 +7,47 @@ import static musictheory.Accidental.*;
  */
 public class Note implements Comparable<Note> {
     private final NoteType noteType;
-    private int octave;
+    private Octave octave;
     private int relativePitch;
 
     protected Note(NoteType notetype) {
         this.noteType = notetype;
-        this.octave = 0;
-        this.relativePitch = notetype.relativePitch;
+        setOctave(Octave.ZERO);
     }
 
-    public Note(NoteType noteType, int octave) {
+    public Note(NoteType noteType, Octave octave) {
         this.noteType = noteType;
-        this.octave = octave <= noteType.octaveRange ? octave : noteType.octaveRange/2;
-        this.relativePitch = 12 * octave + noteType.relativePitch;
+        setOctave(octave);
     }
 
     protected Note(Note other) {
         this.noteType = other.noteType;
-        this.octave = other.octave;
-        this.relativePitch = other.relativePitch;
+        setOctave(other.octave);
     }
 
     /**
      *
      * @param newOctave
      */
-    public void setOctave(int newOctave) {
-        this.octave = newOctave <= noteType.octaveRange ? newOctave : octave;
-        this.relativePitch = 12 * octave + noteType.relativePitch;
+    public void setOctave(Octave newOctave) {
+        /*
+         *  Octaves must fit within the range for the Note
+         *  to be playable. If they are outside of it, assign
+         *  the closest playable Octave value to the Note.
+         */
+
+        if (newOctave.height >= noteType.minOctave.height
+                && newOctave.height <= noteType.maxOctave.height) {
+            this.octave = newOctave;
+        }
+        else if (newOctave.height < noteType.minOctave.height) {
+            this.octave = noteType.minOctave;
+        }
+        else {
+            this.octave = noteType.maxOctave;
+        }
+
+        this.relativePitch = this.octave.height + noteType.relativePitch;
     }
 
     /**
@@ -49,7 +62,7 @@ public class Note implements Comparable<Note> {
      *
      * @return
      */
-    public int getOctave() {
+    public Octave getOctave() {
         return octave;
     }
 

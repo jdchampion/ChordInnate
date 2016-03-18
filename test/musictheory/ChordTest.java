@@ -23,12 +23,14 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ChordTest {
 
-    private final boolean PLAYBACK = false;
+    private final boolean PLAYBACK_COMPOUND = false;
+    private final boolean PLAYBACK_SEQUENTIAL = false;
     private final int PLAYBACK_VOLUME = 127;
-    private final int PLAYBACK_NOTE_ON_DURATION = 120;
+    private final int PLAYBACK_NOTE_ON_DURATION = 50;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 100;
-    private static final ChordType[] CHORDTYPES_TO_TEST = ChordType.values();
-    private static final NoteType[] NOTETYPES_TO_TEST = NoteType.values();
+    private static final ChordType[] CHORDTYPES_TO_TEST =   /**/ChordType.values();/**/   /**{ChordType.MAJOR};/**/
+    private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/   /**{NoteType.C};/**/
+    private static final Octave[] OCTAVES_TO_TEST =         /**Octave.values();/**/     /**/{Octave.ZERO};/**/
 
     private Chord chord;
 
@@ -64,9 +66,11 @@ public class ChordTest {
     @Parameterized.Parameters
     public static Collection<Chord> data() {
         List<Chord> data = new ArrayList<Chord>();
-        for (ChordType ct : CHORDTYPES_TO_TEST) {
-            for (NoteType nt : NOTETYPES_TO_TEST) {
-                data.add(new Chord(nt, ct));
+        for (Octave o : OCTAVES_TO_TEST) {
+            for (ChordType ct : CHORDTYPES_TO_TEST) {
+                for (NoteType nt : NOTETYPES_TO_TEST) {
+                    data.add(new Chord(nt, ct, o));
+                }
             }
         }
 
@@ -75,61 +79,71 @@ public class ChordTest {
 
     @Test
     public void testSetNoteOctaves() throws Exception {
+        System.out.print(chord.getName() + ": ");
+        for(Note n : chord.getNotes()) {
+            System.out.print(n.getName() + n.getOctave().number + " ");
+        }
+        System.out.println();
         Note[] notes = chord.getNotes();
-        Chord c1 = new Chord(chord), c2 = new Chord(chord);
-        Note[] n1 = c1.getNotes(), n2 = c2.getNotes();
-        int oct1, oct2;
-        for (int i = chord.minOctave; i < chord.maxOctave; i++) {
-            c1.setNoteOctaves(i);
-            c2.setOctave(i);
+        Chord c = new Chord(chord);
+        for (Octave o : OCTAVES_TO_TEST) {
+            c.setNoteOctaves(o);
 
-            testSoundChord(c1);
-            testSoundChord(c2);
+            if (o.height <= chord.octaveRange.height) {
+                testSoundChord(chord);
 
-            for (int j = 0; j < notes.length; j++) {
-                oct1 = n1[j].getOctave();
-                oct2 = n2[j].getOctave();
-                assertEquals(oct1, oct2);
-                assertTrue(oct1 >= chord.minOctave && oct1 <= chord.maxOctave);
-                assertTrue(oct2 >= chord.minOctave && oct2 <= chord.maxOctave);
+                // Ascending notes should have increasing relative pitch
+                for (int j = 1; j < notes.length; j++) {
+                    if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
+                        assertFalse(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                    }
+                    else {
+                        assertTrue(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                    }
+                }
             }
         }
     }
 
     @Test
     public void testInvert() throws Exception {
-        Note[] notes = chord.getNotes();
+        Note[] original = chord.getNotes();
+
+        // Use a copy constructor to manipulate the same Chord
         Chord c = new Chord(chord);
 
         // Test all inversions / wrap-around to non-inverted state
-        for (int i = 0; i < notes.length+1; i++) {
+        for (int i = 0; i < original.length+1; i++) {
             for (int j = 0; j < i; j++) {
                 c.invert();
             }
 
+            Note[] inverted = c.getNotes();
+
             System.out.print(c.name + " : ");
             for (Note m : c.notes) {
-                System.out.print(m.getName() + m.getOctave() + " ");
+                System.out.print(m.getName() + m.getOctave().number + " ");
             }
             System.out.println();
 
             testSoundChord(c);
 
             // Ensure that the correct Notes were raised by one octave
-            Note[] inverted = c.getNotes();
-            if (i % notes.length == 0) {
-                for (int j = 0; j < notes.length; j++) {
-                    assertEquals(notes[j].getRelativePitch(), inverted[j].getRelativePitch());
+            // TODO: math for the Octave differences between notes and inverted
+            if (i % original.length+1 == 0) {
+                for (int j = 0; j < original.length; j++) {
+                    assertEquals(original[j].getRelativePitch() % 12, inverted[j].getRelativePitch() % 12);
                 }
             }
             else {
                 for (int j = 0; j < i; j++) {
-                    assertEquals(notes[j].getRelativePitch() + 12, inverted[j].getRelativePitch());
+                    assertEquals(original[j].getRelativePitch() % 12, inverted[j].getRelativePitch() % 12);
                 }
-                for (int j = i; j < notes.length; j++) {
-                    assertEquals(notes[j].getRelativePitch(), inverted[j].getRelativePitch());
+                for (int j = i; j < original.length; j++) {
+                    assertEquals(original[j].getRelativePitch() % 12, inverted[j].getRelativePitch() % 12);
                 }
             }
+
             c.resetInversion();
         }
     }
@@ -153,16 +167,37 @@ public class ChordTest {
     }
 
     private void soundChord(Chord chord, int volume, int duration, int wait) {
-        if (PLAYBACK) {
+        if (PLAYBACK_COMPOUND || PLAYBACK_SEQUENTIAL) {
             try {
                 Note[] notes = chord.notes;
-                for (Note n : notes) {
-                    channels[0].noteOn(n.getRelativePitch(), volume);
+                if (PLAYBACK_SEQUENTIAL) {
+                    int inversionNumber = chord.getInversionNumber();
+                    for (int i = 0; i < notes.length; i++) {
+                        soundNote(notes[(i + inversionNumber) % notes.length].getRelativePitch(), volume, duration, wait);
+                    }
                 }
+                if (PLAYBACK_COMPOUND) {
+                    Thread.sleep(duration);
+                    for (Note n : notes) {
+                        channels[0].noteOn(n.getRelativePitch(), volume);
+                    }
+                    Thread.sleep(duration);
+                    for (Note n : notes) {
+                        channels[0].noteOff(n.getRelativePitch(), volume);
+                    }
+                    Thread.sleep(wait * 2);
+                }
+            } catch (InterruptedException ex) {}
+        }
+    }
+
+    private void soundNote(int midiValue, int volume, int duration, int wait) {
+        if (PLAYBACK_COMPOUND || PLAYBACK_SEQUENTIAL) {
+            try {
                 Thread.sleep(duration);
-                for (Note n : notes) {
-                    channels[0].noteOff(n.getRelativePitch(), volume);
-                }
+                channels[0].noteOn(midiValue, volume);
+                Thread.sleep(duration);
+                channels[0].noteOff(midiValue, volume);
                 Thread.sleep(wait);
             } catch (InterruptedException ex) {}
         }
