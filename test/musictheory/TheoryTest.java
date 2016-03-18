@@ -85,17 +85,28 @@ public class TheoryTest {
         Chord original = new Chord(NoteType.C, ChordType.MAJOR);
         Note[] originalNotes = original.getNotes();
         for (NoteType nt : NoteType.values()) {
-            Chord transposed = Theory.transpose(original, nt);
-            Note[] transposedNotes = transposed.getNotes();
+            Chord transposed = new Chord(original);
+            Note[] transposedNotesBefore = transposed.getNotes();
 
-            System.out.println("Transpose " + originalNotes[0].getName() + " -> " + transposedNotes[0].getName() + ":");
+            System.out.println("Transpose " + originalNotes[0].getName() + " -> " + nt.name + ":");
             System.out.print("Before: ");
             for (int i = 0; i < originalNotes.length; i++) {
                 System.out.print(originalNotes[i].getName() + "\t");
+                assertEquals(originalNotes[i].getNoteType(), transposedNotesBefore[i].getNoteType());
+                assertEquals(originalNotes[i].getRelativePitch(), transposedNotesBefore[i].getRelativePitch());
             }
+
+            transposed = Theory.transpose(transposed, nt);
+            Note[] transposedNotesAfter = transposed.getNotes();
+
+            Chord expected = new Chord(nt, original.getChordType());
+            Note[] expectedNotes = expected.getNotes();
+
             System.out.print("\nAfter:  ");
-            for (int i = 0; i < transposedNotes.length; i++) {
-                System.out.print(transposedNotes[i].getName() + "\t");
+            for (int i = 0; i < transposedNotesAfter.length; i++) {
+                System.out.print(transposedNotesAfter[i].getName() + "\t");
+                assertEquals(expectedNotes[i].getNoteType(), transposedNotesAfter[i].getNoteType());
+                assertEquals(expectedNotes[i].getRelativePitch(), transposedNotesAfter[i].getRelativePitch());
             }
             System.out.println("\n====================================");
         }
