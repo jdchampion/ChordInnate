@@ -61,7 +61,7 @@ public class TheoryTest {
             for (int i = 0; i < originalNotes.length; i++) {
                 System.out.print(originalNotes[i].getName() + "\t");
                 assertEquals(originalNotes[i].getNoteType(), transposedNotesBefore[i].getNoteType());
-                assertEquals(originalNotes[i].getRelativePitch(), transposedNotesBefore[i].getRelativePitch());
+                assertEquals(originalNotes[i].getPitch(), transposedNotesBefore[i].getPitch());
             }
 
             transposed = Theory.transpose(transposed, nt);
@@ -74,7 +74,7 @@ public class TheoryTest {
             for (int i = 0; i < transposedNotesAfter.length; i++) {
                 System.out.print(transposedNotesAfter[i].getName() + "\t");
                 assertEquals(expectedNotes[i].getNoteType(), transposedNotesAfter[i].getNoteType());
-                assertEquals(expectedNotes[i].getRelativePitch(), transposedNotesAfter[i].getRelativePitch());
+                assertEquals(expectedNotes[i].getPitch(), transposedNotesAfter[i].getPitch());
             }
             System.out.println("\n====================================");
         }
@@ -93,7 +93,7 @@ public class TheoryTest {
             for (int i = 0; i < originalNotes.length; i++) {
                 System.out.print(originalNotes[i].getName() + "\t");
                 assertEquals(originalNotes[i].getNoteType(), transposedNotesBefore[i].getNoteType());
-                assertEquals(originalNotes[i].getRelativePitch(), transposedNotesBefore[i].getRelativePitch());
+                assertEquals(originalNotes[i].getPitch(), transposedNotesBefore[i].getPitch());
             }
 
             transposed = Theory.transpose(transposed, nt);
@@ -106,7 +106,7 @@ public class TheoryTest {
             for (int i = 0; i < transposedNotesAfter.length; i++) {
                 System.out.print(transposedNotesAfter[i].getName() + "\t");
                 assertEquals(expectedNotes[i].getNoteType(), transposedNotesAfter[i].getNoteType());
-                assertEquals(expectedNotes[i].getRelativePitch(), transposedNotesAfter[i].getRelativePitch());
+                assertEquals(expectedNotes[i].getPitch(), transposedNotesAfter[i].getPitch());
             }
             System.out.println("\n====================================");
         }

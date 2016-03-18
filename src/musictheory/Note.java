@@ -8,7 +8,7 @@ import static musictheory.Accidental.*;
 public class Note implements Comparable<Note> {
     private final NoteType noteType;
     private Octave octave;
-    private int relativePitch;
+    private int pitch;
 
     protected Note(NoteType notetype) {
         this.noteType = notetype;
@@ -47,7 +47,7 @@ public class Note implements Comparable<Note> {
             this.octave = noteType.maxOctave;
         }
 
-        this.relativePitch = this.octave.height + noteType.relativePitch;
+        this.pitch = this.octave.height + noteType.relativePitch;
     }
 
     /**
@@ -78,8 +78,8 @@ public class Note implements Comparable<Note> {
      *
      * @return
      */
-    int getRelativePitch() {
-        return relativePitch;
+    int getPitch() {
+        return pitch;
     }
 
     /**
@@ -119,8 +119,53 @@ public class Note implements Comparable<Note> {
 
     @Override
     public int compareTo(Note otherNote) {
-        if (this.relativePitch < otherNote.relativePitch) return -1;
-        else if (this.relativePitch == otherNote.relativePitch) return 0;
+        if (this.pitch < otherNote.pitch) return -1;
+        else if (this.pitch == otherNote.pitch) return 0;
         else return 1;
+    }
+
+    /**
+     *
+     * @param otherNote the Note to compare the current Note against
+     * @return whether this Note is lower in pitch than otherNote
+     */
+    public boolean isLowerPitchThan(Note otherNote) {
+        return compareTo(otherNote) == -1;
+    }
+
+    /**
+     *
+     * @param otherNote the Note to compare the current Note against
+     * @return whether this Note is the same pitch as otherNote
+     */
+    public boolean isSamePitchAs(Note otherNote) {
+        return compareTo(otherNote) == 0;
+    }
+
+    /**
+     *
+     * @param otherNote the Note to compare the current Note against
+     * @return whether this Note is higher in pitch than otherNote
+     */
+    public boolean isHigherPitchThan(Note otherNote) {
+        return compareTo(otherNote) == 1;
+    }
+
+    /**
+     *
+     * @param otherNote the Note to compare the current Note against
+     * @return whether this Note enharmonically matches otherNote
+     */
+    public boolean isEnharmonicTo(Note otherNote) {
+        return this.getNoteType().relativePitch == otherNote.getNoteType().relativePitch;
+    }
+
+    /**
+     *
+     * @param otherNote the Note to compare the current Note against
+     * @return whether this Note identically matches otherNote
+     */
+    public boolean isIdenticalTo(Note otherNote) {
+        return isSamePitchAs(otherNote) && isEnharmonicTo(otherNote);
     }
 }

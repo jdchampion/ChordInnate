@@ -79,14 +79,14 @@ public class NoteTest {
     @Test
     public void testOctave() throws Exception {
         assertFalse(note.getOctave().height < 0);
-        soundNote(note.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
+        soundNote(note.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
         note.setOctave(note.getOctave());
         assertFalse(note.getOctave().height < 0);
     }
 
     @Test
     public void testGetRelativePitch() throws Exception {
-        int relativePitch = note.getRelativePitch();
+        int relativePitch = note.getPitch();
         if (note.getOctave().height <= note.getNoteType().maxOctave.height) {
             assertTrue(relativePitch >= 0 && relativePitch < 128);
         }
@@ -166,8 +166,8 @@ public class NoteTest {
             System.out.println("RomanNumeral: " + interval.getRomanNumeralName());
             System.out.println("=======================================");
 
-            soundNote(note.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
-            soundNote(note.getRelativePitch() + interval.relativePitchDistance, PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
+            soundNote(note.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
+            soundNote(note.getPitch() + interval.relativePitchDistance, PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
         }
     }
 

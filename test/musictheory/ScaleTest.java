@@ -153,13 +153,13 @@ public class ScaleTest {
             if (o.height <= scale.octaveRange.height) {
                 testSoundScale(scale);
 
-                // Ascending notes should have increasing relative pitch
+                // Ascending notes should have increasing pitch
                 for (int j = 1; j < notes.length; j++) {
                     if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
-                        assertFalse(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                        assertFalse(notes[j - 1].getPitch() < notes[j].getPitch());
                     }
                     else {
-                        assertTrue(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                        assertTrue(notes[j - 1].getPitch() < notes[j].getPitch());
                     }
                 }
             }
@@ -236,18 +236,18 @@ public class ScaleTest {
 
         for (Note n : upNotes) {
             if (n != null) {
-                soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
+                soundNote(n.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
             }
         }
 
         // Top octave note (root)
         Note top = new Note(upNotes[0].getNoteType(), Octave.values()[upNotes[0].getOctave().ordinal()+1]);
-        soundNote(top.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
+        soundNote(top.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
 
         if (PLAY_SCALES_UP_DOWN) {
             for (Note n : downNotes) {
                 if (n != null) {
-                    soundNote(n.getRelativePitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
+                    soundNote(n.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
                 }
             }
         }
@@ -276,11 +276,11 @@ public class ScaleTest {
             try {
                 Note[] notes = chord.notes;
                 for (Note n : notes) {
-                    channels[0].noteOn(n.getRelativePitch(), volume);
+                    channels[0].noteOn(n.getPitch(), volume);
                 }
                 Thread.sleep(duration);
                 for (Note n : notes) {
-                    channels[0].noteOff(n.getRelativePitch(), volume);
+                    channels[0].noteOff(n.getPitch(), volume);
                 }
                 Thread.sleep(wait);
             } catch (InterruptedException ex) {}

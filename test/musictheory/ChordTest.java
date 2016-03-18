@@ -92,13 +92,13 @@ public class ChordTest {
             if (o.height <= chord.octaveRange.height) {
                 testSoundChord(chord);
 
-                // Ascending notes should have increasing relative pitch
+                // Ascending notes should have increasing pitch
                 for (int j = 1; j < notes.length; j++) {
                     if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
-                        assertFalse(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                        assertFalse(notes[j - 1].getPitch() < notes[j].getPitch());
                     }
                     else {
-                        assertTrue(notes[j - 1].getRelativePitch() < notes[j].getRelativePitch());
+                        assertTrue(notes[j - 1].getPitch() < notes[j].getPitch());
                     }
                 }
             }
@@ -132,15 +132,15 @@ public class ChordTest {
             // TODO: math for the Octave differences between notes and inverted
             if (i % original.length+1 == 0) {
                 for (int j = 0; j < original.length; j++) {
-                    assertEquals(original[j].getRelativePitch() % 12, inverted[j].getRelativePitch() % 12);
+                    assertEquals(original[j].getPitch() % 12, inverted[j].getPitch() % 12);
                 }
             }
             else {
                 for (int j = 0; j < i; j++) {
-                    assertEquals(original[j].getRelativePitch() % 12, inverted[j].getRelativePitch() % 12);
+                    assertEquals(original[j].getPitch() % 12, inverted[j].getPitch() % 12);
                 }
                 for (int j = i; j < original.length; j++) {
-                    assertEquals(original[j].getRelativePitch() % 12, inverted[j].getRelativePitch() % 12);
+                    assertEquals(original[j].getPitch() % 12, inverted[j].getPitch() % 12);
                 }
             }
 
@@ -173,17 +173,17 @@ public class ChordTest {
                 if (PLAYBACK_SEQUENTIAL) {
                     int inversionNumber = chord.getInversionNumber();
                     for (int i = 0; i < notes.length; i++) {
-                        soundNote(notes[(i + inversionNumber) % notes.length].getRelativePitch(), volume, duration, wait);
+                        soundNote(notes[(i + inversionNumber) % notes.length].getPitch(), volume, duration, wait);
                     }
                 }
                 if (PLAYBACK_COMPOUND) {
                     Thread.sleep(duration);
                     for (Note n : notes) {
-                        channels[0].noteOn(n.getRelativePitch(), volume);
+                        channels[0].noteOn(n.getPitch(), volume);
                     }
                     Thread.sleep(duration);
                     for (Note n : notes) {
-                        channels[0].noteOff(n.getRelativePitch(), volume);
+                        channels[0].noteOff(n.getPitch(), volume);
                     }
                     Thread.sleep(wait * 2);
                 }
