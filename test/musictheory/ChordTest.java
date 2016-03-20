@@ -30,7 +30,7 @@ public class ChordTest {
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 100;
     private static final ChordType[] CHORDTYPES_TO_TEST =   /**/ChordType.values();/**/   /**{ChordType.MAJOR};/**/
     private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/   /**{NoteType.C};/**/
-    private static final Octave[] OCTAVES_TO_TEST =         /**Octave.values();/**/     /**/{Octave.ZERO};/**/
+    private static final Octave[] OCTAVES_TO_TEST =         /**Octave.values();/**/     /**/{Octave.FOUR};/**/
 
     private Chord chord;
 
@@ -129,18 +129,18 @@ public class ChordTest {
             testSoundChord(c);
 
             // Ensure that the correct Notes were raised by one octave
-            // TODO: math for the Octave differences between notes and inverted
             if (i % original.length+1 == 0) {
                 for (int j = 0; j < original.length; j++) {
-                    assertEquals(original[j].getPitch() % 12, inverted[j].getPitch() % 12);
+                    assertEquals(original[j].getPitch(), inverted[j].getPitch());
                 }
             }
             else {
                 for (int j = 0; j < i; j++) {
+                    // TODO: math for the Octave differences between original and inverted
                     assertEquals(original[j].getPitch() % 12, inverted[j].getPitch() % 12);
                 }
                 for (int j = i; j < original.length; j++) {
-                    assertEquals(original[j].getPitch() % 12, inverted[j].getPitch() % 12);
+                    assertEquals(original[j].getPitch(), inverted[j].getPitch());
                 }
             }
 

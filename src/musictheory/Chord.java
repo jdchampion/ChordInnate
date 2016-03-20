@@ -113,11 +113,9 @@ public class Chord extends IntervalSet {
         return super.noteTypes[super.noteTypes.length-2];
     }
 
-    private void invertNoteOctaves(Octave octave) {
-        super.notes[inversion - 1].setOctave(octave);
-
+    private void invertNoteOctaves() {
         for (int i = 0; i < inversion; i++) {
-            super.notes[i].setOctave(octave);
+            super.notes[i].setOctave(Octave.getNext(defaultOctaves[i]));
         }
     }
 
@@ -136,7 +134,7 @@ public class Chord extends IntervalSet {
             super.name += "/" + super.noteTypes[inversion].name;
 
             // Raise the octave of notes[inversion-1]
-            invertNoteOctaves(defaultOctaves[inversion - 1]);
+            invertNoteOctaves();
         }
         else {
             // Return the octaves to their original positions
