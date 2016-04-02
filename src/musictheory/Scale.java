@@ -164,7 +164,6 @@ public class Scale extends IntervalSet {
         Set<Chord> allDiatonicChords = new HashSet<>(allChordTypes.length);
         for (ChordType ct : allChordTypes) {
             Map<Integer, ChordType> m = getChordTypeDiatonicsForScale(ct);
-//            System.out.println(ct + ": " + m.keySet());
             for (Integer i : m.keySet()) {
                 try {
                     Chord c = new Chord(relativePitchToNote.get((i+super.noteTypes[0].relativePitch)%12), ct);
