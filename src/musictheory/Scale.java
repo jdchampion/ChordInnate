@@ -48,7 +48,7 @@ public class Scale extends IntervalSet {
     private final HashMap<Integer, ArrayList<ChordType>> diatonicChordTypesByRelativePitch;
 
     public Scale(NoteType root, ScaleType scaleType) {
-        super(root, scaleType.nashvilleNumbers, Octave.ZERO, root.name + " " + scaleType.name);
+        super(root, scaleType.nashvilleNumbers, Octave.OCTAVE_MIN, root.name + " " + scaleType.name);
         this.scaleType = scaleType;
         this.keySignature = setKeySignature(this.rootNoteType);
         this.steps = setSteps();
@@ -93,9 +93,9 @@ public class Scale extends IntervalSet {
              * If this happens, finish filling in the remaining Octaves with a higher Octave (octave + 1).
              */
             if (super.noteTypes[i].relativePitch < super.noteTypes[i-1].relativePitch) {
-                super.notes[i].setOctave(Octave.getNext(octave));
+                super.notes[i].setOctave(octave.raiseBy(1));
                 for (int j = i + 1; j < numNotes; j++) {
-                    super.notes[j].setOctave(Octave.getNext(octave));
+                    super.notes[j].setOctave(octave.raiseBy(1));
                 }
                 break;
             }

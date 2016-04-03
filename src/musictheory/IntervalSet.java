@@ -24,7 +24,7 @@ abstract class IntervalSet {
         this.noteTypes = setNoteTypes(nashvilleNumbers);
 
         // IntervalSets have an octave range that is limited by the highest base relative pitch in the set
-        this.octaveRange = Octave.getPrevious(getNoteTypeWithHighestPotential().maxOctave);
+        this.octaveRange = getNoteTypeWithHighestPotential().maxOctave.lowerBy(1);
 
         this.octave = octave;
 
@@ -210,7 +210,7 @@ abstract class IntervalSet {
         returnedNotes[0] = new Note(this.noteTypes[0], octave);
         for (int i = 1; i < returnedNotes.length; i++) {
             if (this.noteTypes[i].relativePitch < this.noteTypes[i-1].relativePitch) {
-                returnedNotes[i] = new Note(this.noteTypes[i], Octave.getNext(octave));
+                returnedNotes[i] = new Note(this.noteTypes[i], octave.raiseBy(1));
             }
             else {
                 returnedNotes[i] = new Note(this.noteTypes[i], octave);

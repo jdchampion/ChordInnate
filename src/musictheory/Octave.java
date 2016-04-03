@@ -4,17 +4,24 @@ package musictheory;
  * Created by Joseph on 3/16/16.
  */
 public enum Octave {
-    TOO_LOW(-1, 0),
-    ZERO(0, 12),
-    ONE(1, 24),
-    TWO(2, 36),
-    THREE(3, 48),
-    FOUR(4, 60),
-    FIVE(5, 72),
-    SIX(6, 84),
-    SEVEN(7, 96),
-    EIGHT(8, 108),
-    TOO_HIGH(9, 120);
+
+    /*
+     * The purpose for the Octave enumerated type is to
+     * keep constructed members of the Note class
+     * within the playable / audible range for MIDI playback.
+     *
+     * Per MIDI standards, playback notes must fall within
+     * a height range of 0 (C0) and 127 (G9).
+     */
+    OCTAVE_MIN(0, 12),
+    OCTAVE_ONE(1, 24),
+    OCTAVE_TWO(2, 36),
+    OCTAVE_THREE(3, 48),
+    OCTAVE_FOUR(4, 60),
+    OCTAVE_FIVE(5, 72),
+    OCTAVE_SIX(6, 84),
+    OCTAVE_SEVEN(7, 96),
+    OCTAVE_MAX(8, 108);
 
     final int number, height;
 
@@ -27,18 +34,30 @@ public enum Octave {
      *
      * @return
      */
-    static final Octave getNext(Octave o) {
-        Octave[] octaves = Octave.values();
-        return octaves[(o.ordinal() + 1) % octaves.length];
+    final Octave raiseBy(int numOctavesRaised) {
+        int ordinal = this.ordinal() + numOctavesRaised;
+        if (this.equals(OCTAVE_MAX) || ordinal >= OCTAVE_MAX.ordinal()) {
+            return OCTAVE_MAX;
+        }
+        else {
+            Octave[] octaves = Octave.values();
+            return octaves[ordinal];
+        }
     }
 
     /**
      *
      * @return
      */
-    static final Octave getPrevious(Octave o) {
-        Octave[] octaves = Octave.values();
-        return octaves[(o.ordinal() - 1) % octaves.length];
+    final Octave lowerBy(int numOctavesLowered) {
+        int ordinal = this.ordinal() - numOctavesLowered;
+        if (this.equals(OCTAVE_MIN) || ordinal <= OCTAVE_MIN.ordinal()) {
+            return OCTAVE_MIN;
+        }
+        else {
+            Octave[] octaves = Octave.values();
+            return octaves[ordinal];
+        }
     }
 
     /**
@@ -51,13 +70,5 @@ public enum Octave {
         return (index > 0 && index < octaves.length - 1)
                 ? octaves[index]
                 : null;
-    }
-
-    /**
-     *
-     * @return all Octaves that can be audibly played back
-     */
-    final Octave[] withinBounds() {
-        return new Octave[] {ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT};
     }
 }

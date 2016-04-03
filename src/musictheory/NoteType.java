@@ -73,8 +73,8 @@ public enum NoteType {
         this.accidental = accidental;
         this.name = letter + accidental.indicator;
         this.relativePitch = relativePitch;
-        this.minOctave = (relativePitch > 8) ? Octave.ZERO : Octave.ONE;
-        this.maxOctave = (relativePitch > 0) ? Octave.SEVEN : Octave.EIGHT;
+        this.minOctave = (relativePitch > 8) ? Octave.OCTAVE_MIN : Octave.OCTAVE_ONE;
+        this.maxOctave = (relativePitch > 0) ? Octave.OCTAVE_SEVEN : Octave.OCTAVE_MAX;
     }
 
     /**

@@ -30,7 +30,7 @@ public class ChordTest {
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 100;
     private static final ChordType[] CHORDTYPES_TO_TEST =   /**/ChordType.values();/**/   /**{ChordType.MAJOR};/**/
     private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/   /**{NoteType.C};/**/
-    private static final Octave[] OCTAVES_TO_TEST =         /**Octave.values();/**/     /**/{Octave.FOUR};/**/
+    private static final Octave[] OCTAVES_TO_TEST =         /**Octave.values();/**/     /**/{Octave.OCTAVE_ONE};/**/
 
     private Chord chord;
 

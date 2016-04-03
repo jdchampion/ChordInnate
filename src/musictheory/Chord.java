@@ -11,7 +11,7 @@ public class Chord extends IntervalSet {
     private Octave[] defaultOctaves;    // Default octave for each Note
 
     public Chord(NoteType root, ChordType chordType) {
-        super(root, chordType.nashvilleNumbers, Octave.ZERO, root.name + chordType.chordSymbol);
+        super(root, chordType.nashvilleNumbers, Octave.OCTAVE_MIN, root.name + chordType.chordSymbol);
         this.chordType = chordType;
         setNoteOctaves(octave);
     }
@@ -49,8 +49,8 @@ public class Chord extends IntervalSet {
              * If this happens, finish filling in the remaining Octaves with a higher Octave (octave + 1).
              */
             if (super.noteTypes[i].relativePitch < super.noteTypes[i-1].relativePitch) {
-                super.notes[i].setOctave(Octave.getNext(octave));
-                defaultOctaves[i] = Octave.getNext(octave);
+                super.notes[i].setOctave(octave.raiseBy(1));
+                defaultOctaves[i] = octave.raiseBy(1);
                 for (int j = i + 1; j < numNotes; j++) {
 
                     /*
@@ -66,18 +66,18 @@ public class Chord extends IntervalSet {
                      */
 
                     if (super.noteTypes[j].relativePitch < super.noteTypes[j-1].relativePitch) {
-                        super.notes[j].setOctave(Octave.getNext(Octave.getNext(octave)));
-                        defaultOctaves[j] = Octave.getNext(Octave.getNext(octave));
+                        super.notes[j].setOctave(octave.raiseBy(2));
+                        defaultOctaves[j] = octave.raiseBy(2);
 
                         for (int k = j + 1; k < numNotes; k++) {
-                            super.notes[k].setOctave(Octave.getNext(Octave.getNext(octave)));
-                            defaultOctaves[k] = Octave.getNext(Octave.getNext(octave));
+                            super.notes[k].setOctave(octave.raiseBy(2));
+                            defaultOctaves[k] = octave.raiseBy(2);
                         }
                         break;
                     }
                     else {
-                        super.notes[j].setOctave(Octave.getNext(octave));
-                        defaultOctaves[j] = Octave.getNext(octave);
+                        super.notes[j].setOctave(octave.raiseBy(1));
+                        defaultOctaves[j] = octave.raiseBy(1);
                     }
                 }
                 break;
@@ -115,7 +115,7 @@ public class Chord extends IntervalSet {
 
     private void invertNoteOctaves() {
         for (int i = 0; i < inversion; i++) {
-            super.notes[i].setOctave(Octave.getNext(defaultOctaves[i]));
+            super.notes[i].setOctave(defaultOctaves[i].raiseBy(1));
         }
     }
 

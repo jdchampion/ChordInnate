@@ -12,7 +12,7 @@ public class Note implements Comparable<Note> {
 
     protected Note(NoteType notetype) {
         this.noteType = notetype;
-        setOctave(Octave.ZERO);
+        setOctave(Octave.OCTAVE_MIN);
     }
 
     public Note(NoteType noteType, Octave octave) {

@@ -21,14 +21,14 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ScaleTest {
 
-    private final boolean PLAYBACK = false;
+    private final boolean PLAYBACK = true;
     private final boolean PLAY_SCALES_UP_DOWN = false;
     private final int PLAYBACK_VOLUME = 127;
-    private final int PLAYBACK_NOTE_ON_DURATION = 50;
+    private final int PLAYBACK_NOTE_ON_DURATION = 200;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 0;
     private static final ScaleType[] SCALETYPES_TO_TEST =   /**ScaleType.values();/**/      /**/{ScaleType.MAJOR};/**/
     private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/      /**{NoteType.C};/**/
-    private static final Octave[] OCTAVES_TO_TEST =         /**/Octave.values();/**/         /**{Octave.FOUR};/**/
+    private static final Octave[] OCTAVES_TO_TEST =         /**/Octave.values();/**/         /**{Octave.OCTAVE_FOUR};/**/
 
     private Scale scale;
 
