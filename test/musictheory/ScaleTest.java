@@ -62,7 +62,7 @@ public class ScaleTest {
     }
 
     @Parameterized.Parameters
-    public static Collection<Scale> data() {
+    public static Collection<Scale> data() throws Exception {
         List<Scale> data = new ArrayList<Scale>();
         for (ScaleType st : SCALETYPES_TO_TEST) {
             for (NoteType nt : NOTETYPES_TO_TEST) {
@@ -74,7 +74,7 @@ public class ScaleTest {
     }
 
     @Test
-    public void testScaleAttributes() {
+    public void testScaleAttributes() throws Exception {
 
         System.out.print(scale.getName() + ": ");
 

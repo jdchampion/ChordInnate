@@ -336,7 +336,7 @@ class Theory {
      * @param note
      * @return
      */
-    static final Scale transpose(Scale scale, NoteType note) {
+    static final Scale transpose(Scale scale, NoteType note) throws Exception {
         return new Scale(note, scale.getScaleType());
     }
 
@@ -346,7 +346,7 @@ class Theory {
      * @param note
      * @return
      */
-    static final Chord transpose(Chord chord, NoteType note) {
+    static final Chord transpose(Chord chord, NoteType note) throws Exception {
         return new Chord(note, chord.getChordType());
     }
 }

@@ -47,7 +47,7 @@ public class Scale extends IntervalSet {
     private final Set<Chord> diatonicChordTypes;
     private final HashMap<Integer, ArrayList<ChordType>> diatonicChordTypesByRelativePitch;
 
-    public Scale(NoteType root, ScaleType scaleType) {
+    public Scale(NoteType root, ScaleType scaleType) throws Exception {
         super(root, scaleType.nashvilleNumbers, Octave.OCTAVE_MIN, root.name + " " + scaleType.name);
         this.scaleType = scaleType;
         this.keySignature = setKeySignature(this.rootNoteType);
@@ -56,7 +56,7 @@ public class Scale extends IntervalSet {
         this.diatonicChordTypesByRelativePitch = setDiatonicHashMap();
     }
 
-    public Scale(NoteType root, ScaleType scaleType, Octave octave) {
+    public Scale(NoteType root, ScaleType scaleType, Octave octave) throws Exception {
         super(root, scaleType.nashvilleNumbers, octave, root.name + " " + scaleType.name);
         this.scaleType = scaleType;
         this.keySignature = setKeySignature(this.rootNoteType);
@@ -65,7 +65,7 @@ public class Scale extends IntervalSet {
         this.diatonicChordTypesByRelativePitch = setDiatonicHashMap();
     }
 
-    public Scale(Scale other) {
+    public Scale(Scale other) throws Exception {
         super(other.rootNoteType, other.scaleType.nashvilleNumbers, other.octave,
                 other.rootNoteType.name + " " + other.scaleType.name);
         this.scaleType = other.scaleType;

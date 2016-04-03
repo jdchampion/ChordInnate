@@ -14,7 +14,7 @@ abstract class IntervalSet {
     protected final Octave octaveRange;
     protected Octave octave;
 
-    IntervalSet(NoteType rootNoteType, NashvilleNumber[] nashvilleNumbers, Octave octave, String name) {
+    IntervalSet(NoteType rootNoteType, NashvilleNumber[] nashvilleNumbers, Octave octave, String name) throws Exception {
 
         // If the IntervalSet constructor was called with a NoteType containing
         // a natural accidental, just convert the NoteType to its non-accidental equivalent.
@@ -46,7 +46,7 @@ abstract class IntervalSet {
      * @param nashvilleNumbers the list of NashvilleNumber elements, which will be used for deducing NoteTypes
      * @return a list of NoteTypes that are diatonic to this IntervalSet
      */
-    private NoteType[] setNoteTypes(NashvilleNumber[] nashvilleNumbers) {
+    private NoteType[] setNoteTypes(NashvilleNumber[] nashvilleNumbers) throws Exception {
         int numNotes = nashvilleNumbers.length;
         NoteType[] returnedNoteTypes = new NoteType[numNotes];
 
@@ -92,12 +92,6 @@ abstract class IntervalSet {
                         returnedNoteTypes[i] = candidate; // match on third attempt (done)
                     }
                     else {
-                        // TODO this tends to be the problem case for Double Accidental Scales / Chords
-//                        System.out.println("                                DEBUG **********************************");
-//                        System.out.println("Root: " + rootNoteType);
-//                        System.out.println("Candidate: " + candidate);
-//                        System.out.println("NashvilleNumber: " + nashvilleNumbers[i]);
-
                         candidateRelativePitch = candidate.relativePitch;
                         offset = comparisonRelativePitch - candidateRelativePitch;
 
@@ -114,14 +108,14 @@ abstract class IntervalSet {
                                     candidate = getNoteType(nextNoteLetter, newAccidental);
                                     break;
                                 }
-                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: throw new Exception("uncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
                         }
                         else if (rootNoteType.accidental.equals(FLAT)) {
                             switch (offset) {
                                 case -1: newAccidental = SHARP; break;
                                 case 1: newAccidental = SHARP; break;
-                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: throw new Exception("uncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
 
                             candidate = getNoteType(candidate.letter, newAccidental);
@@ -130,7 +124,7 @@ abstract class IntervalSet {
                             switch (offset) {
                                 case -1: newAccidental = FLAT; break;
                                 case 1: newAccidental = FLAT; break;
-                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: throw new Exception("uncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
 
                             candidate = getNoteType(candidate.letter, newAccidental);
@@ -138,7 +132,7 @@ abstract class IntervalSet {
                         else if (rootNoteType.accidental.equals(DOUBLE_SHARP)) {
                             switch (offset) {
                                 case -9: newAccidental = SHARP; break;
-                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: throw new Exception("uncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
 
                             candidate = getNoteType(Theory.getNextNoteLetter(candidate), newAccidental);
@@ -147,7 +141,7 @@ abstract class IntervalSet {
                             switch (offset) {
                                 case -11: newAccidental = SHARP; break;
                                 case 11: newAccidental = FLAT; break;
-                                default: System.out.println("\t\t\t\t\t\tuncaught value of " + offset + " on " + nashvilleNumbers[i]);
+                                default: throw new Exception("uncaught value of " + offset + " on " + nashvilleNumbers[i]);
                             }
 
                             candidate = getNoteType(candidate.letter, newAccidental);

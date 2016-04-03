@@ -10,19 +10,19 @@ public class Chord extends IntervalSet {
     private int inversion = 0;          // With n notes, there are n-1 possible inversions
     private Octave[] defaultOctaves;    // Default octave for each Note
 
-    public Chord(NoteType root, ChordType chordType) {
+    public Chord(NoteType root, ChordType chordType) throws Exception {
         super(root, chordType.nashvilleNumbers, Octave.OCTAVE_MIN, root.name + chordType.chordSymbol);
         this.chordType = chordType;
         setNoteOctaves(octave);
     }
 
-    public Chord(NoteType root, ChordType chordType, Octave octave) {
+    public Chord(NoteType root, ChordType chordType, Octave octave) throws Exception {
         super(root, chordType.nashvilleNumbers, octave, root.name + chordType.chordSymbol);
         this.chordType = chordType;
         setNoteOctaves(octave);
     }
 
-    protected Chord(Chord other) {
+    protected Chord(Chord other) throws Exception {
         super(other.rootNoteType, other.chordType.nashvilleNumbers, other.octave,
                 other.rootNoteType.name + other.chordType.chordSymbol);
         this.chordType = other.chordType;

@@ -64,7 +64,7 @@ public class ChordTest {
     }
 
     @Parameterized.Parameters
-    public static Collection<Chord> data() {
+    public static Collection<Chord> data() throws Exception {
         List<Chord> data = new ArrayList<Chord>();
         for (Octave o : OCTAVES_TO_TEST) {
             for (ChordType ct : CHORDTYPES_TO_TEST) {
