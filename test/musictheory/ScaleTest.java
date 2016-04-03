@@ -125,6 +125,8 @@ public class ScaleTest {
                 testSoundScale(scale);
             }
         }
+
+        System.out.println("==========================================");
     }
 
     @Test
@@ -143,6 +145,8 @@ public class ScaleTest {
             System.out.println();
             index++;
         }
+
+        System.out.println("==========================================");
     }
 
     @Test
@@ -165,6 +169,8 @@ public class ScaleTest {
                 }
             }
         }
+
+        System.out.println("==========================================");
     }
 
     @Test
@@ -239,13 +245,10 @@ public class ScaleTest {
 
         for (Note n : upNotes) {
             if (n != null) {
-//                System.out.print(n.getName() + n.getOctave().number + " ");
                 System.out.print(n.getPitch() + " ");
                 soundNote(n.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
             }
         }
-
-        System.out.println();
 
         // Top octave note (root)
         Note top = new Note(upNotes[0].getNoteType(), upNotes[0].getOctave().raiseBy(1));
@@ -258,6 +261,8 @@ public class ScaleTest {
                 }
             }
         }
+
+        System.out.println();
     }
 
     private void soundNote(int midiValue, int volume, int duration, int wait) {

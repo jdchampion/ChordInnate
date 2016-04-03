@@ -103,6 +103,8 @@ public class ChordTest {
                 }
             }
         }
+
+        System.out.println("==========================================");
     }
 
     @Test
@@ -146,6 +148,8 @@ public class ChordTest {
 
             c.resetInversion();
         }
+
+        System.out.println("==========================================");
     }
 
     @Test
