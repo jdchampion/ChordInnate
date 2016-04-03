@@ -42,6 +42,7 @@ abstract class IntervalSet {
 
     /**
      * Dynamically builds the list of diatonic NoteTypes for this IntervalSet, based on the root NoteType and NashvilleNumbers.
+     * This function operates in Θ(n) time.
      * @param nashvilleNumbers the list of NashvilleNumber elements, which will be used for deducing NoteTypes
      * @return a list of NoteTypes that are diatonic to this IntervalSet
      */
@@ -184,6 +185,7 @@ abstract class IntervalSet {
     /**
      * A private method designed for setting the private IntervalSet member notes.
      * This is called exactly one time, in the constructor method.
+     * This function operates in Θ(n) time.
      * @param octave this.octave
      * @param octaveRange this.octaveRange
      * @return the list of Notes for the IntervalSet

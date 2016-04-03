@@ -9,13 +9,22 @@ import static musictheory.Accidental.*;
 class Theory {
 
     /**
-     *
+     * Gets all NoteTypes that are enharmonically equivalent to the specified NoteType.
      * @param noteType the NoteType to receive enharmonic equivalents for
      * @param wantNatural whether to include natural accidentals in the returned list
      * @param wantDoubleAccidentals whether to include double accidentals in the returned list
      * @return a list of enharmonic equivalents for the given NoteType
      */
     static final NoteType[] getEnharmonicEquivalents(NoteType noteType, boolean wantNatural, boolean wantDoubleAccidentals) {
+        /*
+         * The switch statement operates at O(n) in worst-case (e.g., reaching the default case),
+         * but since I've already done some preprocessing to get the enharmonics for each case,
+         * returning the result is Θ(1).
+         *
+         * While it's possible to have implemented the switch-case as a HashMap to allow
+         * constant access time for all results, I would argue that it is (somewhat) easier to
+         * read and debug this logic when structured as a switch-case.
+         */
         switch (noteType.relativePitch) {
             case 0: { // B# | C | CNat | Dbb
                 if (wantNatural && wantDoubleAccidentals) {
@@ -150,7 +159,9 @@ class Theory {
                     return new NoteType[] {B, C_FLAT};
                 }
             }
-            default: return new NoteType[] {};
+            default: { // Should not be reached: all NoteTypes have at least one enharmonic equivalent
+                return new NoteType[] {};
+            }
         }
     }
 
@@ -212,22 +223,24 @@ class Theory {
     }
 
     /**
-     *
-     * @param note
-     * @param accidental
-     * @return
+     * Gives back the NoteType that would be the enharmonic result from applying the specified Accidental
+     * to the specified NoteType. This function does not perform any side effects to the
+     * original NoteType.
+     * @param original the NoteType in question
+     * @param accidentalToApply the Accidental to apply to original
+     * @return the NoteType that enharmonically matches the result from applying the specified accidental to it
      */
-    static final NoteType applyAccidentalTo(NoteType note, Accidental accidental) {
-        Accidental a = note.accidental, b = accidental;
+    static final NoteType applyAccidentalTo(NoteType original, Accidental accidentalToApply) {
+        Accidental a = original.accidental, b = accidentalToApply;
 
         // ACCIDENTAL && (NATURAL || NONE) == ACCIDENTAL
-        if (accidental.equals(NATURAL) || accidental.equals(NONE)) {
-            return note; // return the same item back with no changes
+        if (accidentalToApply.equals(NATURAL) || accidentalToApply.equals(NONE)) {
+            return original; // return the same item back with no changes
         }
 
         // (NATURAL || NONE) && ACCIDENTAL == ACCIDENTAL
-        if (note.isNatural() || note.accidental.equals(NONE)) {
-            return getNoteType(note.letter, b); // whatever Accidental b is
+        if (original.isNatural() || original.accidental.equals(NONE)) {
+            return getNoteType(original.letter, b); // whatever Accidental b is
         }
 
         // FLAT && SHARP == NATURAL
@@ -235,7 +248,7 @@ class Theory {
                 (a.equals(DOUBLE_SHARP) && b.equals(DOUBLE_FLAT))   ||
                 (a.equals(FLAT) && b.equals(SHARP))                 ||
                 (a.equals(SHARP) && b.equals(FLAT)))                    {
-            return getNoteType(note.letter, NATURAL); // flats & sharps cancel out
+            return getNoteType(original.letter, NATURAL); // flats & sharps cancel out
         }
 
         // FLAT && FLAT = DOUBLE FLAT;
@@ -244,12 +257,12 @@ class Theory {
             Accidental doubleAccidental = Enum.valueOf(Accidental.class, "DOUBLE_" + a.name());
 
             // flat + flat = double flat; sharp + sharp = double sharp
-            return getNoteType(note.letter, doubleAccidental);
+            return getNoteType(original.letter, doubleAccidental);
         }
 
         // TRIPLE FLAT
         else if ((a.equals(DOUBLE_FLAT) && b.equals(FLAT)) || (a.equals(FLAT) && b.equals(DOUBLE_FLAT))) {
-            char letter = getNoteLetter(note, 6);
+            char letter = getNoteLetter(original, 6);
 
             // All results from triple flatting have a single flat, except for Bbb and Ebb
             if (letter == 'B' || letter == 'E') return getNoteType(letter, DOUBLE_FLAT);
@@ -258,7 +271,7 @@ class Theory {
 
         // TRIPLE SHARP
         else if ((a.equals(DOUBLE_SHARP) && b.equals(SHARP)) || (a.equals(SHARP) && b.equals(DOUBLE_SHARP))) {
-            char letter = getNoteLetter(note, 1);
+            char letter = getNoteLetter(original, 1);
 
             // All results from triple sharping have a single sharp, except for Cx and Fx
             if (letter == 'C' || letter == 'F') return getNoteType(letter, DOUBLE_SHARP);
@@ -267,37 +280,37 @@ class Theory {
 
         // QUADRUPLE FLAT
         else if (a.equals(DOUBLE_FLAT) && b.equals(DOUBLE_FLAT)) {
-            if (!note.equals(C_DOUBLE_FLAT) && !note.equals(F_DOUBLE_FLAT)) {
-                return getNoteType(getPreviousNoteLetter(note), DOUBLE_FLAT);
+            if (!original.equals(C_DOUBLE_FLAT) && !original.equals(F_DOUBLE_FLAT)) {
+                return getNoteType(getPreviousNoteLetter(original), DOUBLE_FLAT);
             }
             else {
-                return getNoteType(getNoteLetter(note, 5), FLAT);
+                return getNoteType(getNoteLetter(original, 5), FLAT);
             }
         }
 
         // QUADRUPLE SHARP
         else if (a.equals(DOUBLE_SHARP) && b.equals(DOUBLE_SHARP)) {
-            if (!note.equals(B_DOUBLE_SHARP) && !note.equals(E_DOUBLE_SHARP)) {
-                return getNoteType(getNextNoteLetter(note), DOUBLE_SHARP);
+            if (!original.equals(B_DOUBLE_SHARP) && !original.equals(E_DOUBLE_SHARP)) {
+                return getNoteType(getNextNoteLetter(original), DOUBLE_SHARP);
             }
             else {
-                return getNoteType(getNoteLetter(note, 2), SHARP);
+                return getNoteType(getNoteLetter(original, 2), SHARP);
             }
         }
 
         // DOUBLE SHARP && FLAT; DOUBLE FLAT && SHARP
         else {
             if (a.equals(SHARP) && b.equals(DOUBLE_FLAT)) {
-                return getNoteType(note.letter, FLAT);
+                return getNoteType(original.letter, FLAT);
             }
             else if (a.equals(FLAT) && b.equals(DOUBLE_SHARP)) {
-                return getNoteType(note.letter, SHARP);
+                return getNoteType(original.letter, SHARP);
             }
             else if (a.equals(DOUBLE_SHARP) && b.equals(FLAT)) {
-                return getNoteType(note.letter, SHARP);
+                return getNoteType(original.letter, SHARP);
             }
             else if (a.equals(DOUBLE_FLAT) && b.equals(SHARP)) {
-                return getNoteType(note.letter, FLAT);
+                return getNoteType(original.letter, FLAT);
             }
             else {
                 return null; // error

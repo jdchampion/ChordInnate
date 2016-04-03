@@ -32,6 +32,7 @@ public class Chord extends IntervalSet {
     /**
      * Raises or lowers all Notes in the Chord to a specified octave, if it is within the octave range of the Chord.
      * If the desired octave is above the octave range of the Chord, then the Chord will be raised to its highest octave.
+     * This function operates in Θ(n) time.
      * @param octave the octave number to set the Chord at
      */
     protected void setNoteOctaves(Octave octave) {

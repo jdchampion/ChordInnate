@@ -78,6 +78,7 @@ public class Scale extends IntervalSet {
     /**
      * Raises or lowers all Notes in the Scale to a specified octave, if it is within the octave range of the Scale.
      * If the desired octave is above the octave range of the Scale, then the Scale will be raised to its highest octave.
+     * This function operates in Θ(n) time.
      * @param octave the octave number to set the Scale at
      */
     protected void setNoteOctaves(Octave octave) {
