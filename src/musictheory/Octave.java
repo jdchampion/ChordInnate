@@ -32,7 +32,9 @@ public enum Octave {
 
     /**
      *
-     * @return
+     * @param numOctavesRaised the number of octaves to raise the current Octave by
+     * @return the desired raised Octave if it is within range of the Octave enum ordinal.
+     * Otherwise, OCTAVE_MAX
      */
     final Octave raiseBy(int numOctavesRaised) {
         int ordinal = this.ordinal() + numOctavesRaised;
@@ -47,7 +49,9 @@ public enum Octave {
 
     /**
      *
-     * @return
+     * @param numOctavesLowered the number of octaves to lower the current Octave by
+     * @return the desired lower Octave if it is within range of the Octave enum ordinal.
+     * Otherwise, OCTAVE_MIN
      */
     final Octave lowerBy(int numOctavesLowered) {
         int ordinal = this.ordinal() - numOctavesLowered;
