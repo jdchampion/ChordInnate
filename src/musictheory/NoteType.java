@@ -73,8 +73,15 @@ public enum NoteType {
         this.accidental = accidental;
         this.name = letter + accidental.indicator;
         this.relativePitch = relativePitch;
-        this.minOctave = (relativePitch > 8) ? Octave.OCTAVE_MIN : Octave.OCTAVE_ONE;
-        this.maxOctave = (relativePitch > 0) ? Octave.OCTAVE_SEVEN : Octave.OCTAVE_MAX;
+        this.minOctave = Octave.OCTAVE_MIN;
+
+        /*
+         * The highest playable MIDI note has a height of 127 (G9),
+         * which means that MIDI cannot play the full range for OCTAVE_MAX (C9 - B10).
+         * Since the starting point for OCTAVE_MAX is 120 (C9),
+         * we are only able to go up 7 more notes, necessitating this conditional.
+         */
+        this.maxOctave = (relativePitch >= 8) ? Octave.OCTAVE_EIGHT : Octave.OCTAVE_MAX;
     }
 
     /**

@@ -1,7 +1,7 @@
 package musictheory;
 
 import static musictheory.Accidental.*;
-import static musictheory.NoteType.getNoteType;
+import static musictheory.NoteType.*;
 
 /**
  * Created by Joseph on 1/13/16.
@@ -24,7 +24,7 @@ abstract class IntervalSet {
         this.noteTypes = setNoteTypes(nashvilleNumbers);
 
         // IntervalSets have an octave range that is limited by the highest base relative pitch in the set
-        this.octaveRange = getNoteTypeWithHighestPotential().maxOctave.lowerBy(1);
+        this.octaveRange = getNoteTypeWithHighestPotential().maxOctave;
 
         this.octave = octave;
 
@@ -208,12 +208,36 @@ abstract class IntervalSet {
          * raise / lower each Octave in the IntervalSet by using setOctave().
          */
         returnedNotes[0] = new Note(this.noteTypes[0], octave);
-        for (int i = 1; i < returnedNotes.length; i++) {
-            if (this.noteTypes[i].relativePitch < this.noteTypes[i-1].relativePitch) {
-                returnedNotes[i] = new Note(this.noteTypes[i], octave.raiseBy(1));
+        if (returnedNotes[0].getPitch() >= octaveRange.height) {
+            octave = octave.lowerBy(1);
+            returnedNotes[0].setOctave(octave);
+        }
+        if (octave.equals(Octave.OCTAVE_MIN)) {
+            for (int i = 1; i < returnedNotes.length; i++) {
+                Note n = new Note(this.noteTypes[i], octave);
+
+                if (this.noteTypes[i].relativePitch == C.relativePitch) {
+                    n.setOctave(returnedNotes[i - 1].getOctave().raiseBy(1));
+                }
+                else if (n.getPitch() < returnedNotes[i - 1].getPitch()) {
+                    n.setOctave(returnedNotes[i - 1].getOctave());
+                }
+
+                returnedNotes[i] = n;
             }
-            else {
-                returnedNotes[i] = new Note(this.noteTypes[i], octave);
+        }
+        else {
+            for (int i = 1; i < returnedNotes.length; i++) {
+                Note n = new Note(this.noteTypes[i], octave);
+
+                if (this.noteTypes[i].relativePitch < this.noteTypes[i - 1].relativePitch) {
+                    n.setOctave(returnedNotes[i - 1].getOctave().raiseBy(1));
+                }
+                else if (n.getPitch() < returnedNotes[i - 1].getPitch()) {
+                    n.setOctave(returnedNotes[i - 1].getOctave());
+                }
+
+                returnedNotes[i] = n;
             }
         }
 

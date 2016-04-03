@@ -21,14 +21,14 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ScaleTest {
 
-    private final boolean PLAYBACK = true;
+    private final boolean PLAYBACK = false;
     private final boolean PLAY_SCALES_UP_DOWN = false;
     private final int PLAYBACK_VOLUME = 127;
-    private final int PLAYBACK_NOTE_ON_DURATION = 200;
+    private final int PLAYBACK_NOTE_ON_DURATION = 100;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 0;
     private static final ScaleType[] SCALETYPES_TO_TEST =   /**ScaleType.values();/**/      /**/{ScaleType.MAJOR};/**/
     private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/      /**{NoteType.C};/**/
-    private static final Octave[] OCTAVES_TO_TEST =         /**/Octave.values();/**/         /**{Octave.OCTAVE_FOUR};/**/
+    private static final Octave[] OCTAVES_TO_TEST =         /**/Octave.values();/**/         /**{Octave.FOUR};/**/
 
     private Scale scale;
 
@@ -235,14 +235,20 @@ public class ScaleTest {
         Note[] upNotes = scale.getAscendingNotes();
         Note[] downNotes = scale.getDescendingNotes();
 
+        System.out.print(upNotes[0].getOctave() + ": ");
+
         for (Note n : upNotes) {
             if (n != null) {
+//                System.out.print(n.getName() + n.getOctave().number + " ");
+                System.out.print(n.getPitch() + " ");
                 soundNote(n.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
             }
         }
 
+        System.out.println();
+
         // Top octave note (root)
-        Note top = new Note(upNotes[0].getNoteType(), Octave.values()[upNotes[0].getOctave().ordinal()+1]);
+        Note top = new Note(upNotes[0].getNoteType(), upNotes[0].getOctave().raiseBy(1));
         soundNote(top.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
 
         if (PLAY_SCALES_UP_DOWN) {

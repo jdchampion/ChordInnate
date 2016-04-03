@@ -99,7 +99,7 @@ public class Chord extends IntervalSet {
          * the entire IntervalSet.
          *
          * Since there are n-1 possible Chord inversions (permutations),
-         * we know that the n-2nd note would be what we're looking for.
+         * we know that the n-1st note would be what we're looking for.
          *
          * Consider:
          *

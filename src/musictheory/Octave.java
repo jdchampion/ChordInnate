@@ -13,7 +13,8 @@ public enum Octave {
      * Per MIDI standards, playback notes must fall within
      * a height range of 0 (C0) and 127 (G9).
      */
-    OCTAVE_MIN(0, 12),
+    OCTAVE_MIN(0, 0),
+    OCTAVE_ZERO(0, 12),
     OCTAVE_ONE(1, 24),
     OCTAVE_TWO(2, 36),
     OCTAVE_THREE(3, 48),
@@ -21,7 +22,8 @@ public enum Octave {
     OCTAVE_FIVE(5, 72),
     OCTAVE_SIX(6, 84),
     OCTAVE_SEVEN(7, 96),
-    OCTAVE_MAX(8, 108);
+    OCTAVE_EIGHT(8, 108),
+    OCTAVE_MAX(9, 120);
 
     final int number, height;
 
@@ -31,7 +33,7 @@ public enum Octave {
     }
 
     /**
-     *
+     * Gives back the desired raised Octave (if it is within range), without side effects.
      * @param numOctavesRaised the number of octaves to raise the current Octave by
      * @return the desired raised Octave if it is within range of the Octave enum ordinal.
      * Otherwise, OCTAVE_MAX
@@ -48,7 +50,7 @@ public enum Octave {
     }
 
     /**
-     *
+     * Gives back the desired lowered Octave (if it is within range), without side effects.
      * @param numOctavesLowered the number of octaves to lower the current Octave by
      * @return the desired lower Octave if it is within range of the Octave enum ordinal.
      * Otherwise, OCTAVE_MIN
