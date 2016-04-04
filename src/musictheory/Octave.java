@@ -39,6 +39,8 @@ public enum Octave {
      * Otherwise, OCTAVE_MAX
      */
     final Octave raiseBy(int numOctavesRaised) {
+        if (numOctavesRaised < 0) return this;
+
         int ordinal = this.ordinal() + numOctavesRaised;
         if (this.equals(OCTAVE_MAX) || ordinal >= OCTAVE_MAX.ordinal()) {
             return OCTAVE_MAX;
@@ -56,6 +58,8 @@ public enum Octave {
      * Otherwise, OCTAVE_MIN
      */
     final Octave lowerBy(int numOctavesLowered) {
+        if (numOctavesLowered < 0) return this;
+
         int ordinal = this.ordinal() - numOctavesLowered;
         if (this.equals(OCTAVE_MIN) || ordinal <= OCTAVE_MIN.ordinal()) {
             return OCTAVE_MIN;
