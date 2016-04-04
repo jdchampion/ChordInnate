@@ -337,7 +337,9 @@ class Theory {
      * @return
      */
     static final Scale transpose(Scale scale, NoteType note) throws Exception {
-        return new Scale(note, scale.getScaleType());
+        Scale s = new Scale(note, scale.getScaleType());
+        s.setOctave(scale.octave);
+        return s;
     }
 
     /**
@@ -347,7 +349,9 @@ class Theory {
      * @return
      */
     static final Chord transpose(Chord chord, NoteType note) throws Exception {
-        return new Chord(note, chord.getChordType());
+        Chord c =  new Chord(note, chord.getChordType());
+        c.setOctave(chord.octave);
+        return c;
     }
 }
 
