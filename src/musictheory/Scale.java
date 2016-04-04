@@ -94,8 +94,7 @@ public class Scale extends IntervalSet {
              * If this happens, finish filling in the remaining Octaves with a higher Octave (octave + 1).
              */
             if (super.noteTypes[i].relativePitch < super.noteTypes[i-1].relativePitch) {
-                super.notes[i].setOctave(octave.raiseBy(1));
-                for (int j = i + 1; j < numNotes; j++) {
+                for (int j = i; j < numNotes; j++) {
                     super.notes[j].setOctave(octave.raiseBy(1));
                 }
                 break;

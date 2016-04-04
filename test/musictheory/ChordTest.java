@@ -30,7 +30,7 @@ public class ChordTest {
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 100;
     private static final ChordType[] CHORDTYPES_TO_TEST =   /**/ChordType.values();/**/   /**{ChordType.MAJOR};/**/
     private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/   /**{NoteType.C};/**/
-    private static final Octave[] OCTAVES_TO_TEST =         /**Octave.values();/**/     /**/{Octave.OCTAVE_ONE};/**/
+    private static final Octave[] OCTAVES_TO_TEST =         /**Octave.values();/**/     /**/{Octave.OCTAVE_EIGHT, Octave.OCTAVE_MAX};/**/
 
     private Chord chord;
 
@@ -89,17 +89,25 @@ public class ChordTest {
         for (Octave o : OCTAVES_TO_TEST) {
             c.setNoteOctaves(o);
 
-            if (o.height <= chord.octaveRange.height) {
-                testSoundChord(chord);
+            System.out.print(notes[0].getOctave() + ": ");
+            for (Note n : notes) {
+                System.out.print(n.getName() + n.getOctave().number + " ");
+            }
+            System.out.print("( ");
+            for (Note n : notes) {
+                System.out.print(n.getPitch() + " ");
+            }
+            System.out.print(")\n");
 
-                // Ascending notes should have increasing pitch
-                for (int j = 1; j < notes.length; j++) {
-                    if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
-                        assertFalse(notes[j - 1].getPitch() < notes[j].getPitch());
-                    }
-                    else {
-                        assertTrue(notes[j - 1].getPitch() < notes[j].getPitch());
-                    }
+            testSoundChord(chord);
+
+            // Ascending notes should have increasing pitch
+            for (int j = 1; j < notes.length; j++) {
+                if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
+                    assertFalse(notes[j - 1].getPitch() < notes[j].getPitch());
+                }
+                else {
+                    assertTrue(notes[j - 1].getPitch() < notes[j].getPitch());
                 }
             }
         }
