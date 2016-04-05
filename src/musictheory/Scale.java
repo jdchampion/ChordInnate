@@ -241,7 +241,7 @@ public class Scale extends IntervalSet {
      *
      * @return
      */
-    public ScaleType getScaleType() {
+    ScaleType getScaleType() {
         return scaleType;
     }
 
@@ -249,7 +249,7 @@ public class Scale extends IntervalSet {
      *
      * @return
      */
-    public KeySignature getKeySignature() {
+    KeySignature getKeySignature() {
         return keySignature;
     }
 
@@ -257,7 +257,7 @@ public class Scale extends IntervalSet {
      *
      * @return
      */
-    public Step[] getSteps() {
+    Step[] getSteps() {
         return steps;
     }
 
@@ -265,13 +265,13 @@ public class Scale extends IntervalSet {
      *
      * @return
      */
-    public Note[] getAscendingNotes() { return super.notes; }
+    Note[] getAscendingNotes() { return super.notes; }
 
     /**
      *
      * @return
      */
-    public Note[] getDescendingNotes() {
+    Note[] getDescendingNotes() {
         Note[] descendingNotes = new Note[super.notes.length];
 
         for (int i = super.notes.length-1, j = 0; i >= 0; i--, j++) {
@@ -285,7 +285,7 @@ public class Scale extends IntervalSet {
      *
      * @return
      */
-    public NashvilleNumber[] getNashvilleNumbers() {
+    NashvilleNumber[] getNashvilleNumbers() {
         return scaleType.nashvilleNumbers;
     }
 
@@ -293,7 +293,7 @@ public class Scale extends IntervalSet {
      *
      * @return
      */
-    public Set<Chord> getDiatonicChordTypes() {
+    Set<Chord> getDiatonicChordTypes() {
         return diatonicChordTypes;
     }
 
@@ -301,7 +301,7 @@ public class Scale extends IntervalSet {
      *
      * @return
      */
-    public HashMap<Integer, ArrayList<ChordType>> getDiatonicChordTypesByRelativePitch() {
+    HashMap<Integer, ArrayList<ChordType>> getDiatonicChordTypesByRelativePitch() {
         return diatonicChordTypesByRelativePitch;
     }
 
@@ -310,7 +310,7 @@ public class Scale extends IntervalSet {
      * @param relativePitch
      * @return
      */
-    public NoteType getNoteTypeWithRelativePitch(int relativePitch) {
+    NoteType getNoteTypeWithRelativePitch(int relativePitch) {
         for (NoteType nt : super.noteTypes) {
             if (nt.relativePitch == relativePitch) {
                 return nt;

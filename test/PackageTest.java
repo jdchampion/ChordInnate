@@ -1,3 +1,4 @@
+import musictheory.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -47,6 +48,8 @@ public class PackageTest {
 
     @Test
     public void testPackage() throws Exception {
-
+        Note note = new Note(NoteType.C, Octave.OCTAVE_FIVE);
+        Scale scale = new Scale(NoteType.C, ScaleType.MAJOR);
+        Chord chord = new Chord(NoteType.C, ChordType.MAJOR);
     }
 }

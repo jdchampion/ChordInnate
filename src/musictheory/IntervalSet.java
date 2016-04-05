@@ -244,7 +244,7 @@ abstract class IntervalSet {
      *
      * @return the list of NoteTypes in this IntervalSet
      */
-    public NoteType[] getNoteTypes() {
+    NoteType[] getNoteTypes() {
         return noteTypes;
     }
 
@@ -252,7 +252,7 @@ abstract class IntervalSet {
      *
      * @return the NoteType designated as the root for this IntervalSet
      */
-    public NoteType getRootNoteType() {
+    NoteType getRootNoteType() {
         return rootNoteType;
     }
 
@@ -260,7 +260,7 @@ abstract class IntervalSet {
      *
      * @return the list of Notes in this IntervalSet
      */
-    public Note[] getNotes() {
+    Note[] getNotes() {
         return notes;
     }
 

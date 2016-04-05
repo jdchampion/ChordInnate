@@ -54,7 +54,7 @@ public class Note implements Comparable<Note> {
      *
      * @return
      */
-    public NoteType getNoteType() {
+    NoteType getNoteType() {
         return noteType;
     }
 
@@ -70,7 +70,7 @@ public class Note implements Comparable<Note> {
      *
      * @return
      */
-    String getName() {
+    public String getName() {
         return noteType.name;
     }
 
