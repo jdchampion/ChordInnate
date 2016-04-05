@@ -163,6 +163,21 @@ public class Chord extends IntervalSet {
     }
 
     /**
+     * Sets the Chord to the specified inversion number, if the number is a valid inversion number.
+     * If not, this method will set the Chord to the modulus of the specified inversion number.
+     * @param inversionNumber the inversion number to set this Chord to
+     */
+    public void setToInversion(int inversionNumber) {
+        if (inversion != 0) resetInversion();
+
+        int numInversions = inversionNumber % super.notes.length;
+
+        for (int i = 0; i < numInversions; i++) {
+            invert();
+        }
+    }
+
+    /**
      * Resets the Chord to an uninverted state, with its original octave.
      */
     protected void resetInversion() {

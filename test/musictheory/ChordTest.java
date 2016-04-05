@@ -23,8 +23,8 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ChordTest {
 
-    private final boolean PLAYBACK_COMPOUND = false;
-    private final boolean PLAYBACK_SEQUENTIAL = false;
+    private final boolean PLAYBACK_COMPOUND = true;
+    private final boolean PLAYBACK_SEQUENTIAL = true;
     private final int PLAYBACK_VOLUME = 127;
     private final int PLAYBACK_NOTE_ON_DURATION = 50;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 100;
@@ -155,6 +155,46 @@ public class ChordTest {
             }
 
             c.resetInversion();
+        }
+
+        System.out.println("==========================================");
+    }
+
+    @Test
+    public void testSetToInversion() throws Exception {
+        Note[] original = chord.getNotes();
+
+        // Use a copy constructor to manipulate the same Chord
+        Chord c = new Chord(chord);
+
+        for (int i = 0, k = 0; i < 2 * (original.length) + 1; i++, k = (k + 1) % original.length) {
+            c.setToInversion(i);
+
+            Note[] inverted = c.getNotes();
+
+            System.out.print(c.name + " : ");
+            for (Note m : c.notes) {
+                System.out.print(m.getName() + m.getOctave().number + " ");
+            }
+            System.out.println();
+
+            testSoundChord(c);
+
+            // Ensure that the correct Notes were raised by one octave
+            if (i % original.length+1 == 0) {
+                for (int j = 0; j < original.length; j++) {
+                    assertEquals(original[j].getPitch(), inverted[j].getPitch());
+                }
+            }
+            else {
+                for (int j = 0; j < k; j++) {
+                    // TODO: math for the Octave differences between original and inverted
+                    assertEquals(original[j].getPitch() % 12, inverted[j].getPitch() % 12);
+                }
+                for (int j = k; j < original.length; j++) {
+                    assertEquals(original[j].getPitch(), inverted[j].getPitch());
+                }
+            }
         }
 
         System.out.println("==========================================");
