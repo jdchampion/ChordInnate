@@ -170,9 +170,17 @@ public class Chord extends IntervalSet {
     public void setToInversion(int inversionNumber) {
         if (inversion != 0) resetInversion();
 
-        int numInversions = inversionNumber % super.notes.length;
+        if (inversionNumber >= 0) {
+            inversionNumber %= super.notes.length;
+        }
+        else {
+            // Get the modulus for negative inversionNumber
+            while (inversionNumber <= 0) {
+                inversionNumber += super.notes.length;
+            }
+        }
 
-        for (int i = 0; i < numInversions; i++) {
+        for (int i = 0; i < inversionNumber; i++) {
             invert();
         }
     }

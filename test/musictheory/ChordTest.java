@@ -23,8 +23,8 @@ import static org.junit.Assert.*;
 @RunWith(Parameterized.class)
 public class ChordTest {
 
-    private final boolean PLAYBACK_COMPOUND = true;
-    private final boolean PLAYBACK_SEQUENTIAL = true;
+    private final boolean PLAYBACK_COMPOUND = false;
+    private final boolean PLAYBACK_SEQUENTIAL = false;
     private final int PLAYBACK_VOLUME = 127;
     private final int PLAYBACK_NOTE_ON_DURATION = 50;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 100;
@@ -167,7 +167,8 @@ public class ChordTest {
         // Use a copy constructor to manipulate the same Chord
         Chord c = new Chord(chord);
 
-        for (int i = 0, k = 0; i < 2 * (original.length) + 1; i++, k = (k + 1) % original.length) {
+        // Test all inversions (including negative attempts) / wrap-around to non-inverted state
+        for (int i = (original.length * -1), k = 0; i < (original.length + 1); i++, k = (k + 1) % original.length) {
             c.setToInversion(i);
 
             Note[] inverted = c.getNotes();
@@ -180,8 +181,13 @@ public class ChordTest {
 
             testSoundChord(c);
 
+            int iter = i;
+            while (iter <= 0) {
+                iter += chord.notes.length;
+            }
+
             // Ensure that the correct Notes were raised by one octave
-            if (i % original.length+1 == 0) {
+            if (iter % original.length+1 == 0) {
                 for (int j = 0; j < original.length; j++) {
                     assertEquals(original[j].getPitch(), inverted[j].getPitch());
                 }
@@ -191,7 +197,7 @@ public class ChordTest {
                     // TODO: math for the Octave differences between original and inverted
                     assertEquals(original[j].getPitch() % 12, inverted[j].getPitch() % 12);
                 }
-                for (int j = k; j < original.length; j++) {
+                for (int j = iter; j < original.length; j++) {
                     assertEquals(original[j].getPitch(), inverted[j].getPitch());
                 }
             }
