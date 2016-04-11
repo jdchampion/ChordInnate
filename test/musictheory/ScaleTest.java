@@ -26,7 +26,7 @@ public class ScaleTest {
     private final int PLAYBACK_VOLUME = 127;
     private final int PLAYBACK_NOTE_ON_DURATION = 100;
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 0;
-    private static final ScaleType[] SCALETYPES_TO_TEST =   /**ScaleType.values();/**/      /**/{ScaleType.MAJOR};/**/
+    private static final ScaleType[] SCALETYPES_TO_TEST =   /**ScaleType.values();/**/      /**/{ScaleType.CHROMATIC};/**/
     private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/      /**{NoteType.C};/**/
     private static final Octave[] OCTAVES_TO_TEST =         /**/Octave.values();/**/         /**{Octave.FOUR};/**/
 
@@ -121,9 +121,12 @@ public class ScaleTest {
 
         for (Octave o : OCTAVES_TO_TEST) {
             scale = new Scale(scale.getRootNoteType(), scale.getScaleType(), o);
-            if (o.height <= scale.octaveRange.height) {
-                testSoundScale(scale);
+            System.out.print(scale.getRootNote().getOctave() + ": ");
+            for (Note n : scale.getAscendingNotes()) {
+                System.out.print(n.getPitch() + " ");
             }
+            System.out.println();
+            testSoundScale(scale);
         }
 
         System.out.println("==========================================");
@@ -155,17 +158,25 @@ public class ScaleTest {
         for (Octave o : OCTAVES_TO_TEST) {
             scale.setNoteOctaves(o);
 
-            if (o.height <= scale.octaveRange.height) {
-                testSoundScale(scale);
+            System.out.print(o + ": ");
+            for (Note n : notes) {
+                System.out.print(n.getName() + n.getOctave().number + " ");
+            }
+            System.out.print("( ");
+            for (Note n : notes) {
+                System.out.print(n.getPitch() + " ");
+            }
+            System.out.print(")\n");
 
-                // Ascending notes should have increasing pitch
-                for (int j = 1; j < notes.length; j++) {
-                    if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
-                        assertFalse(notes[j - 1].getPitch() < notes[j].getPitch());
-                    }
-                    else {
-                        assertTrue(notes[j - 1].getPitch() < notes[j].getPitch());
-                    }
+            testSoundScale(scale);
+
+            // Ascending notes should have increasing pitch
+            for (int j = 1; j < notes.length; j++) {
+                if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
+                    assertFalse(notes[j - 1].getPitch() < notes[j].getPitch());
+                }
+                else {
+                    assertTrue(notes[j - 1].getPitch() < notes[j].getPitch());
                 }
             }
         }
@@ -241,11 +252,8 @@ public class ScaleTest {
         Note[] upNotes = scale.getAscendingNotes();
         Note[] downNotes = scale.getDescendingNotes();
 
-        System.out.print(upNotes[0].getOctave() + ": ");
-
         for (Note n : upNotes) {
             if (n != null) {
-                System.out.print(n.getPitch() + " ");
                 soundNote(n.getPitch(), PLAYBACK_VOLUME, PLAYBACK_NOTE_ON_DURATION, PLAYBACK_WAIT_BETWEEN_NOTES);
             }
         }
@@ -261,8 +269,6 @@ public class ScaleTest {
                 }
             }
         }
-
-        System.out.println();
     }
 
     private void soundNote(int midiValue, int volume, int duration, int wait) {

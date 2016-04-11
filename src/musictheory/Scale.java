@@ -57,7 +57,8 @@ public class Scale extends IntervalSet {
     }
 
     public Scale(NoteType root, ScaleType scaleType, Octave octave) throws Exception {
-        super(root, scaleType.nashvilleNumbers, octave, root.name + " " + scaleType.name);
+        super(root, scaleType.nashvilleNumbers, Octave.OCTAVE_MIN, root.name + " " + scaleType.name);
+        super.setOctave(octave);
         this.scaleType = scaleType;
         this.keySignature = setKeySignature(this.rootNoteType);
         this.steps = setSteps();
@@ -83,8 +84,13 @@ public class Scale extends IntervalSet {
      */
     protected void setNoteOctaves(Octave octave) {
         int numNotes = super.notes.length;
-
         super.notes[0].setOctave(octave);
+
+        // Pre-emptively lower the Octave if the Scale will go beyond the playable range.
+        while (super.notes[0].getPitch() > 116) {
+            octave = octave.lowerBy(1);
+            super.notes[0].setOctave(octave);
+        }
 
         for (int i = 1; i < numNotes; i++) {
             /*
