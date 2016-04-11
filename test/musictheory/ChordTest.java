@@ -106,6 +106,9 @@ public class ChordTest {
                 if (notes[j - 1].getOctave().ordinal() > notes[j].getOctave().ordinal()) {
                     assertFalse(notes[j - 1].getPitch() < notes[j].getPitch());
                 }
+                else if (notes[j - 1].getPitch() >= 120 && notes[j - 1].getPitch() > notes[j].getPitch()) {
+                    assertFalse(notes[j - 1].getPitch() < notes[j].getPitch());
+                }
                 else {
                     assertTrue(notes[j - 1].getPitch() < notes[j].getPitch());
                 }

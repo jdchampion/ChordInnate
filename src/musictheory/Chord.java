@@ -39,26 +39,6 @@ public class Chord extends IntervalSet {
         int numNotes = super.notes.length;
         defaultOctaves = new Octave[numNotes];
 
-        /*
-         * FIXME: There are a few edge cases for OCTAVE_MAX and OCTAVE_EIGHT that fail ChordTest.testSetNoteOctaves().
-         * The failures are occurring because the program is trying to build a Chord with an Octave that is too high
-         * for the entire Chord to fit in the Octave spectrum. E.g., the highest potential NoteType would extend beyond
-         * a MIDI value of 127.
-         *
-         * Example: A#add9, at OCTAVE_EIGHT: A♯8 Cx9 E♯9 B♯9 (118 122 125 132), which is forced down to (118 122 125 120).
-         *
-         * The commented-out code below will allow the failed tests to pass, but it does so by lowering the starting
-         * Octave for the Chord, by 2 octaves. That would cause the undesirable side-effect of "falling down" 2 octaves
-         * when Chord.invert() is called on Chords fitting these edge cases.
-         *
-         * Instead, I want the program to recognize these edge cases, and simply force the Notes in the Chord that would
-         * go above 127 to stay where they are. Inversions would still be counted via inversion++, but since we're at the
-         * rightmost side of the piano, we do nothing. When inversion == 0, go back to defaultOctaves.
-         */
-//        if (octave.equals(Octave.OCTAVE_MAX) || octave.equals(octaveRange.lowerBy(1))) {
-//            octave = octave.lowerBy(2);
-//        }
-
         super.notes[0].setOctave(octave);
         defaultOctaves[0] = octave;
 
