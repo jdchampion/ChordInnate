@@ -77,7 +77,7 @@ public enum Octave {
      */
     static final Octave getFromIndex(int index) {
         Octave[] octaves = Octave.values();
-        return (index > 0 && index < octaves.length - 1)
+        return (index >= 0 && index <= octaves.length - 1)
                 ? octaves[index]
                 : null;
     }
