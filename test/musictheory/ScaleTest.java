@@ -28,7 +28,7 @@ public class ScaleTest {
     private final int PLAYBACK_WAIT_BETWEEN_NOTES = 0;
     private static final ScaleType[] SCALETYPES_TO_TEST =   /**ScaleType.values();/**/      /**/{ScaleType.CHROMATIC};/**/
     private static final NoteType[] NOTETYPES_TO_TEST =     /**/NoteType.values();/**/      /**{NoteType.C};/**/
-    private static final Octave[] OCTAVES_TO_TEST =         /**/Octave.values();/**/         /**{Octave.FOUR};/**/
+    private static final Octave[] OCTAVES_TO_TEST =         /**Octave.values();/**/         /**/{Octave.OCTAVE_FOUR};/**/
 
     private Scale scale;
 
