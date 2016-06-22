@@ -1,0 +1,30 @@
+package chordinnate.musictheory;
+
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+/**
+ * Created by Joseph on 6/16/16.
+ */
+public class TestPlayBack {
+    @Test
+    public void playPitch() throws Exception {
+        PlayBack playBack = new PlayBack();
+        for (Pitch pitch : Pitch.values()) {
+            System.out.println(pitch.name());
+            playBack.play(pitch);
+        }
+    }
+
+    @Test
+    public void playNote() throws Exception {
+        PlayBack playBack = new PlayBack();
+        Note note = new Note.Builder(Pitch.C_4, Duration.QUARTER)
+                .articulation(Articulation.STACCATO)
+                .build();
+
+        playBack.play(note);
+    }
+
+}
