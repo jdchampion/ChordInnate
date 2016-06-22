@@ -15,6 +15,7 @@ public class TestPlayBack {
             System.out.println(pitch.name());
             playBack.play(pitch);
         }
+        playBack.stop();
     }
 
     @Test
@@ -25,6 +26,7 @@ public class TestPlayBack {
                 .build();
 
         playBack.play(note);
+        playBack.stop();
     }
 
 }

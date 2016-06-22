@@ -16,22 +16,33 @@ public class PlayBack {
         try {
             synthesizer = MidiSystem.getSynthesizer();
             midiChannels = synthesizer.getChannels();
+            synthesizer.open();
         }
-        catch (MidiUnavailableException ex) {}
-        catch (Exception ex) {}
+        catch (MidiUnavailableException ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
+    }
+
+    public void stop() {
+        try {
+            midiChannels[0].allSoundOff();
+            synthesizer.close();
+        }
+        catch (Exception ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
     }
 
     public void play(Pitch pitch) {
         try {
-            synthesizer.open();
             int noteNumber = pitch.getAbsolutePitch();
             midiChannels[0].noteOn(noteNumber, 127);
             Thread.sleep(1000);
             midiChannels[0].noteOff(noteNumber);
-            synthesizer.close();
         }
-        catch (MidiUnavailableException ex) {}
-        catch (Exception ex) {}
+        catch (Exception ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
     }
 
     public void play(Note note) {
@@ -40,15 +51,14 @@ public class PlayBack {
                 * (articulation == null ? 1 : (articulation.getDelay() - articulation.getAttack()));
 
         try {
-            synthesizer.open();
             int noteNumber = note.getPitch().getAbsolutePitch();
             midiChannels[0].noteOn(noteNumber, 127);
-            System.out.println((long) (soundedLength * 1000));
-            Thread.sleep((long) (soundedLength * 1000));
+            System.out.println((long) (soundedLength * 1000));      // NOTE: "1000" is the assumed length (in ms) of the entire measure
+            Thread.sleep((long) (soundedLength * 1000));            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
             midiChannels[0].noteOff(noteNumber);
-            synthesizer.close();
         }
-        catch (MidiUnavailableException ex) {}
-        catch (Exception ex) {}
+        catch (Exception ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
     }
 }
