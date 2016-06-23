@@ -647,7 +647,6 @@ public enum Pitch
         }
     }
 
-    @NotNull
     @Override
     public Pitch transposeTo(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         return isTransposableTo(pitchClass, octave)
@@ -664,7 +663,6 @@ public enum Pitch
         return true;
     }
 
-    @NotNull
     @Override
     public Pitch transposeTo(@NotNull Pitch pitch) {
         return pitch;
