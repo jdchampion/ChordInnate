@@ -1,5 +1,7 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -504,12 +506,12 @@ public enum Pitch
     }
 
     @Override
-    public boolean isDiatonicTo(KeySignature keySignature) {
+    public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
         return this.PITCH_CLASS.isDiatonicTo(keySignature);
     }
 
     @Override
-    public boolean isEnharmonicTo(Pitch other) {
+    public boolean isEnharmonicTo(@NotNull Pitch other) {
         return this.PITCH_CLASS.isEnharmonicTo(other.PITCH_CLASS);
     }
 
@@ -520,14 +522,15 @@ public enum Pitch
     }
 
     @Override
-    public boolean isTransposableTo(PitchInterval pitchInterval, boolean direction) {
+    public boolean isTransposableTo(@NotNull PitchInterval pitchInterval, @NotNull boolean direction) {
         return direction
                 ? ABSOLUTE_PITCH + pitchInterval.getNumSemitones() <= 127
                 : ABSOLUTE_PITCH - pitchInterval.getNumSemitones() >= 0;
     }
 
+    @NotNull
     @Override
-    public Pitch transposeTo(PitchInterval pitchInterval, boolean direction) {
+    public Pitch transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
         if (isTransposableTo(pitchInterval, direction)) {
 
             // The returned Pitch will contain this PitchClass
@@ -606,19 +609,20 @@ public enum Pitch
     }
 
     @Override
-    public boolean isTransposableTo(Octave octave) {
+    public boolean isTransposableTo(@NotNull Octave octave) {
         return PITCH_CLASS.getOctaveRange().getMidiStart() >= octave.getMidiStart();
     }
 
+    @NotNull
     @Override
-    public Pitch transposeTo(Octave octave) {
+    public Pitch transposeTo(@NotNull Octave octave) {
         return isTransposableTo(octave)
                 ? Pitch.valueOf(PITCH_CLASS + "_" + octave.getOctaveNumber())
                 : null;
     }
 
     @Override
-    public boolean isTransposableTo(PitchClass pitchClass, Octave octave) {
+    public boolean isTransposableTo(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         try {
             Pitch candidate = Pitch.valueOf(pitchClass.name() + "_" + octave.getOctaveNumber());
 
@@ -645,15 +649,16 @@ public enum Pitch
         }
     }
 
+    @NotNull
     @Override
-    public Pitch transposeTo(PitchClass pitchClass, Octave octave) {
+    public Pitch transposeTo(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         return isTransposableTo(pitchClass, octave)
                 ? Pitch.valueOf(pitchClass.name() + "_" + octave.getOctaveNumber())
                 : null;
     }
 
     @Override
-    public boolean isTransposableTo(Pitch pitch) {
+    public boolean isTransposableTo(@NotNull Pitch pitch) {
         /*
          * Since Pitches are inherently bounded by this enumerated class,
          * they can all be transposed to the other Pitch.
@@ -661,8 +666,9 @@ public enum Pitch
         return true;
     }
 
+    @NotNull
     @Override
-    public Pitch transposeTo(Pitch pitch) {
+    public Pitch transposeTo(@NotNull Pitch pitch) {
         return pitch;
     }
 }

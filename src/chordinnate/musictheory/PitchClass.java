@@ -1,5 +1,7 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,7 +111,7 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
     }
 
     @Override
-    public boolean isEnharmonicTo(PitchClass other) {
+    public boolean isEnharmonicTo(@NotNull PitchClass other) {
         return this.BASE_MIDI_VALUE == other.BASE_MIDI_VALUE && this.OCTAVE_RANGE == other.OCTAVE_RANGE;
     }
 
@@ -120,7 +122,7 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
     }
 
     @Override
-    public boolean isDiatonicTo(KeySignature keySignature) {
+    public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
         return keySignature.contains(this.ENHARMONIC_SPELLING);
     }
 }

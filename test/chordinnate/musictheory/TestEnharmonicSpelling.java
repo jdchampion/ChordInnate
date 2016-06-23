@@ -117,50 +117,50 @@ public class TestEnharmonicSpelling {
     @Test
     public void getName() throws Exception {
         assertEquals("A", A.getName());
-        assertEquals("A♭♭", A_DOUBLE_FLAT.getName());
-        assertEquals("Ax", A_DOUBLE_SHARP.getName());
+        assertEquals("A𝄫", A_DOUBLE_FLAT.getName());
+        assertEquals("A𝄪", A_DOUBLE_SHARP.getName());
         assertEquals("A♭", A_FLAT.getName());
         assertEquals("A♮", A_NATURAL.getName());
         assertEquals("A♯", A_SHARP.getName());
 
         assertEquals("B", B.getName());
-        assertEquals("B♭♭", B_DOUBLE_FLAT.getName());
-        assertEquals("Bx", B_DOUBLE_SHARP.getName());
+        assertEquals("B𝄫", B_DOUBLE_FLAT.getName());
+        assertEquals("B𝄪", B_DOUBLE_SHARP.getName());
         assertEquals("B♭", B_FLAT.getName());
         assertEquals("B♮", B_NATURAL.getName());
         assertEquals("B♯", B_SHARP.getName());
 
         assertEquals("C", C.getName());
-        assertEquals("C♭♭", C_DOUBLE_FLAT.getName());
-        assertEquals("Cx", C_DOUBLE_SHARP.getName());
+        assertEquals("C𝄫", C_DOUBLE_FLAT.getName());
+        assertEquals("C𝄪", C_DOUBLE_SHARP.getName());
         assertEquals("C♭", C_FLAT.getName());
         assertEquals("C♮", C_NATURAL.getName());
         assertEquals("C♯", C_SHARP.getName());
 
         assertEquals("D", D.getName());
-        assertEquals("D♭♭", D_DOUBLE_FLAT.getName());
-        assertEquals("Dx", D_DOUBLE_SHARP.getName());
+        assertEquals("D𝄫", D_DOUBLE_FLAT.getName());
+        assertEquals("D𝄪", D_DOUBLE_SHARP.getName());
         assertEquals("D♭", D_FLAT.getName());
         assertEquals("D♮", D_NATURAL.getName());
         assertEquals("D♯", D_SHARP.getName());
 
         assertEquals("E", E.getName());
-        assertEquals("E♭♭", E_DOUBLE_FLAT.getName());
-        assertEquals("Ex", E_DOUBLE_SHARP.getName());
+        assertEquals("E𝄫", E_DOUBLE_FLAT.getName());
+        assertEquals("E𝄪", E_DOUBLE_SHARP.getName());
         assertEquals("E♭", E_FLAT.getName());
         assertEquals("E♮", E_NATURAL.getName());
         assertEquals("E♯", E_SHARP.getName());
 
         assertEquals("F", F.getName());
-        assertEquals("F♭♭", F_DOUBLE_FLAT.getName());
-        assertEquals("Fx", F_DOUBLE_SHARP.getName());
+        assertEquals("F𝄫", F_DOUBLE_FLAT.getName());
+        assertEquals("F𝄪", F_DOUBLE_SHARP.getName());
         assertEquals("F♭", F_FLAT.getName());
         assertEquals("F♮", F_NATURAL.getName());
         assertEquals("F♯", F_SHARP.getName());
 
         assertEquals("G", G.getName());
-        assertEquals("G♭♭", G_DOUBLE_FLAT.getName());
-        assertEquals("Gx", G_DOUBLE_SHARP.getName());
+        assertEquals("G𝄫", G_DOUBLE_FLAT.getName());
+        assertEquals("G𝄪", G_DOUBLE_SHARP.getName());
         assertEquals("G♭", G_FLAT.getName());
         assertEquals("G♮", G_NATURAL.getName());
         assertEquals("G♯", G_SHARP.getName());

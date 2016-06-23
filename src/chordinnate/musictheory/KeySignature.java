@@ -1,5 +1,7 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -183,15 +185,16 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
     }
 
     @Override
-    public boolean isRelativeMajorTo(KeySignature other) {
+    public boolean isRelativeMajorTo(@NotNull KeySignature other) {
         return getRelativeMajor().equals(other);
     }
 
     @Override
-    public boolean isRelativeMinorTo(KeySignature other) {
+    public boolean isRelativeMinorTo(@NotNull KeySignature other) {
         return getRelativeMinor().equals(other);
     }
 
+    @NotNull
     @Override
     public KeySignature getRelativeMajor() {
         return this.KEY_SIGNATURE_TYPE == MAJOR || (this.KEY_SIGNATURE_TYPE == THEORETICAL && this.name().contains("MAJOR"))
@@ -199,6 +202,7 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
                 : RELATIVE_KEY_SIGNATURES.get(this);
     }
 
+    @NotNull
     @Override
     public KeySignature getRelativeMinor() {
         return this.KEY_SIGNATURE_TYPE == MINOR || (this.KEY_SIGNATURE_TYPE == THEORETICAL && this.name().contains("MINOR"))
@@ -207,15 +211,16 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
     }
 
     @Override
-    public boolean isParallelMajorTo(KeySignature other) {
+    public boolean isParallelMajorTo(@NotNull KeySignature other) {
         return getParallelMajor().equals(other);
     }
 
     @Override
-    public boolean isParallelMinorTo(KeySignature other) {
+    public boolean isParallelMinorTo(@NotNull KeySignature other) {
         return getParallelMinor().equals(other);
     }
 
+    @NotNull
     @Override
     public KeySignature getParallelMajor() {
         return this.KEY_SIGNATURE_TYPE == MAJOR || (this.KEY_SIGNATURE_TYPE == THEORETICAL && this.name().contains("MAJOR"))
@@ -223,6 +228,7 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
                 : KeySignature.valueOf(KEY.toString() + "_" + MAJOR.toString());
     }
 
+    @NotNull
     @Override
     public KeySignature getParallelMinor() {
         return this.KEY_SIGNATURE_TYPE == MINOR || (this.KEY_SIGNATURE_TYPE == THEORETICAL && this.name().contains("MINOR"))

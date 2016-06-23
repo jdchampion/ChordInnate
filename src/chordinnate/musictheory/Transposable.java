@@ -1,13 +1,13 @@
 package chordinnate.musictheory;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Joseph on 4/14/16.
  */
 interface Transposable<T> {
-    boolean isTransposableTo(@NotNull PitchInterval pitchInterval, @NotNull boolean direction);
-    @NotNull T transposeTo(@NotNull PitchInterval pitchInterval, @NotNull boolean direction);
+    boolean isTransposableTo(@NotNull PitchInterval pitchInterval, boolean direction);
+    @NotNull T transposeTo(@NotNull PitchInterval pitchInterval, boolean direction);
     boolean isTransposableTo(@NotNull Octave octave);
     @NotNull T transposeTo(@NotNull Octave octave);
     boolean isTransposableTo(@NotNull PitchClass pitchClass, @NotNull Octave octave);
@@ -17,6 +17,6 @@ interface Transposable<T> {
 }
 
 interface TransposableIntervalSet<T> extends Transposable {
-    @NotNull T transposeChromaticBy(@NotNull PitchInterval pitchInterval, @NotNull boolean direction);
-    @NotNull T transposeScalarBy(@NotNull PitchInterval pitchInterval, @NotNull boolean direction);
+    @NotNull T transposeChromaticBy(@NotNull PitchInterval pitchInterval, boolean direction);
+    @NotNull T transposeScalarBy(@NotNull PitchInterval pitchInterval, boolean direction);
 }

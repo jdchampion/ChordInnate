@@ -1,6 +1,8 @@
 package chordinnate.musictheory;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.*;
 
@@ -8,6 +10,9 @@ import static org.junit.Assert.*;
  * Created by Joseph on 4/18/16.
  */
 public class TestPitch {
+    @Rule
+    public ExpectedException expectedException = ExpectedException.none();
+
     @Test
     public void getPitchClass() throws Exception {
 
@@ -182,12 +187,39 @@ public class TestPitch {
     }
 
     @Test
-    public void isTransposableToPitchClass() throws Exception {
-        // Transposition on null items is impossible
-        assertFalse(Pitch.C_0.isTransposableTo(PitchClass.C, null));
-        assertFalse(Pitch.C_0.isTransposableTo(null, Octave.OCTAVE_0));
-        assertFalse(Pitch.C_0.isTransposableTo(null, null));
+    public void illegalArguments() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
 
+        // Transposition on null items is impossible
+        Pitch.C_0.isTransposableTo(PitchClass.C, null);
+        Pitch.C_0.isTransposableTo(null, Octave.OCTAVE_0);
+        Pitch.C_0.isTransposableTo(null, null);
+        Pitch.C_0.transposeTo(PitchClass.C, null);
+        Pitch.C_0.transposeTo(null, Octave.OCTAVE_0);
+        Pitch.C_0.transposeTo(null, null);
+    }
+
+    @Test
+    public void illegalState() throws Exception {
+        expectedException.expect(IllegalStateException.class);
+
+        // Cannot transpose to Pitches that don't exist
+        Pitch.C_0.transposeTo(PitchClass.B, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.B_FLAT, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.A_FLAT, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.A, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.A_SHARP, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.G_SHARP, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.C_FLAT, Octave.OCTAVE_10);
+        Pitch.C_0.transposeTo(PitchClass.C_DOUBLE_FLAT, Octave.OCTAVE_10);
+    }
+
+    @Test
+    public void isTransposableToPitchClass() throws Exception {
         // Items out of MIDI range should not be transposable
         assertFalse(Pitch.A_0.isTransposableTo(PitchClass.A, Octave.OCTAVE_10));
 
@@ -197,21 +229,6 @@ public class TestPitch {
 
     @Test
     public void transposeToPitchClass() throws Exception {
-        // Non-transposable items should return null
-        assertNull(Pitch.C_0.transposeTo(null, null));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.B, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.B_FLAT, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.A_FLAT, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.A, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.A_SHARP, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.G_SHARP, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.C_FLAT, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.C_DOUBLE_FLAT, Octave.OCTAVE_10));
-
         // Basic testing
         assertEquals(Pitch.C_3, Pitch.C_4.transposeTo(PitchClass.C, Octave.OCTAVE_3));
         assertEquals(Pitch.A_3, Pitch.C_4.transposeTo(PitchClass.A, Octave.OCTAVE_3));

@@ -1,5 +1,7 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -208,7 +210,7 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
     }
 
     @Override
-    public boolean isEnharmonicTo(PitchInterval other) {
+    public boolean isEnharmonicTo(@NotNull PitchInterval other) {
         return this.NUM_SEMITONES == other.NUM_SEMITONES;
     }
 

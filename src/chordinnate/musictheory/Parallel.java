@@ -1,6 +1,6 @@
 package chordinnate.musictheory;
 
-import com.sun.istack.internal.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Joseph on 4/15/16.
