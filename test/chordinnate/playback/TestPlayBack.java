@@ -1,5 +1,9 @@
-package chordinnate.musictheory;
+package chordinnate.playback;
 
+import chordinnate.musictheory.Articulation;
+import chordinnate.musictheory.Duration;
+import chordinnate.musictheory.Note;
+import chordinnate.musictheory.Pitch;
 import chordinnate.playback.PlayBack;
 import org.junit.Test;
 
