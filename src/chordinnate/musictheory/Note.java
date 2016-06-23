@@ -1,5 +1,8 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by Joseph on 6/16/16.
  */
@@ -30,7 +33,7 @@ public class Note {
                 * (tuplet == null ? 1 : tuplet.getNumber());
     }
 
-    public Note(Pitch pitch, Duration duration) {
+    public Note(@NotNull Pitch pitch, @NotNull Duration duration) {
         this.pitch = pitch;
         this.duration = duration;
     }
@@ -53,14 +56,17 @@ public class Note {
         return duration;
     }
 
+    @Nullable
     public Articulation getArticulation() {
         return articulation;
     }
 
+    @Nullable
     public Tuplet getTuplet() {
         return tuplet;
     }
 
+    @Nullable
     public DotValue getDotValue() {
         return dotValue;
     }
@@ -81,7 +87,7 @@ public class Note {
         private DotValue dotValue;
         private boolean tied = false;
 
-        public Builder(Pitch pitch, Duration duration) {
+        public Builder(@NotNull Pitch pitch, @NotNull Duration duration) {
             this.pitch = pitch;
             this.duration = duration;
         }
