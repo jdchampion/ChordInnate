@@ -25,7 +25,9 @@ public class PlayBack {
 
     public void stop() {
         try {
-            midiChannels[0].allSoundOff();
+            for (MidiChannel midiChannel: midiChannels) {
+                midiChannel.allSoundOff();
+            }
             synthesizer.close();
         }
         catch (Exception ex) {
