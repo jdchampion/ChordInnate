@@ -53,8 +53,8 @@ public class PlayBack {
         try {
             int noteNumber = note.getPitch().getAbsolutePitch();
             midiChannels[0].noteOn(noteNumber, 127);
-            System.out.println((long) (soundedLength * 1000));      // NOTE: "1000" is the assumed length (in ms) of the entire measure
-            Thread.sleep((long) (soundedLength * 1000));            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
+            System.out.println((long) (soundedLength * 4000));      // NOTE: "4000" is the assumed length (in ms) of a Whole Note
+            Thread.sleep((long) (soundedLength * 4000));            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
             midiChannels[0].noteOff(noteNumber);
         }
         catch (Exception ex) {
