@@ -528,7 +528,6 @@ public enum Pitch
                 : ABSOLUTE_PITCH - pitchInterval.getNumSemitones() >= 0;
     }
 
-    @NotNull
     @Override
     public Pitch transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
         if (isTransposableTo(pitchInterval, direction)) {
@@ -613,7 +612,6 @@ public enum Pitch
         return PITCH_CLASS.getOctaveRange().getMidiStart() >= octave.getMidiStart();
     }
 
-    @NotNull
     @Override
     public Pitch transposeTo(@NotNull Octave octave) {
         return isTransposableTo(octave)

@@ -7,16 +7,16 @@ import org.jetbrains.annotations.NotNull;
  */
 interface Transposable<T> {
     boolean isTransposableTo(@NotNull PitchInterval pitchInterval, boolean direction);
-    @NotNull T transposeTo(@NotNull PitchInterval pitchInterval, boolean direction);
+    T transposeTo(@NotNull PitchInterval pitchInterval, boolean direction);
     boolean isTransposableTo(@NotNull Octave octave);
-    @NotNull T transposeTo(@NotNull Octave octave);
+    T transposeTo(@NotNull Octave octave);
     boolean isTransposableTo(@NotNull PitchClass pitchClass, @NotNull Octave octave);
-    @NotNull T transposeTo(@NotNull PitchClass pitchClass, @NotNull Octave octave);
+    T transposeTo(@NotNull PitchClass pitchClass, @NotNull Octave octave);
     boolean isTransposableTo(@NotNull Pitch pitch);
-    @NotNull T transposeTo(@NotNull Pitch pitch);
+    T transposeTo(@NotNull Pitch pitch);
 }
 
 interface TransposableIntervalSet<T> extends Transposable {
-    @NotNull T transposeChromaticBy(@NotNull PitchInterval pitchInterval, boolean direction);
-    @NotNull T transposeScalarBy(@NotNull PitchInterval pitchInterval, boolean direction);
+    T transposeChromaticBy(@NotNull PitchInterval pitchInterval, boolean direction);
+    T transposeScalarBy(@NotNull PitchInterval pitchInterval, boolean direction);
 }
