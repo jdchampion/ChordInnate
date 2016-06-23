@@ -1,6 +1,7 @@
 package chordinnate.musictheory;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -236,6 +237,7 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
                 : KeySignature.valueOf(KEY.toString() + "_" + MINOR.toString());
     }
 
+    @Nullable
     public KeySignature getNext() {
         switch (KEY_SIGNATURE_TYPE) {
             case MAJOR: {
@@ -265,6 +267,7 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
         return null;
     }
 
+    @Nullable
     public KeySignature getPrevious() {
         switch (KEY_SIGNATURE_TYPE) {
             case MAJOR: {

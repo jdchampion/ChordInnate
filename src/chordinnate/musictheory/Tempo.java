@@ -1,5 +1,7 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by Joseph on 6/22/16.
  */
@@ -118,6 +120,7 @@ public class Tempo {
      *
      * @return
      */
+    @Nullable
     public TempoMarking getClosestTempoMarking() {
         // The obvious solution: just look at what you already have.
         if (tempoMarking != null) {
@@ -131,6 +134,6 @@ public class Tempo {
             }
         }
 
-        return null; // returned on error
+        return null; // Returned on error
     }
 }

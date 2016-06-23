@@ -1,5 +1,7 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by Joseph on 4/14/16.
  */
@@ -29,6 +31,7 @@ public enum Accidental {
         return SEMITONE_MODIFIER;
     }
 
+    @Nullable
     public Accidental getNext() {
         int ordinal = this.ordinal();
         return ordinal < VALUES.length - 1
@@ -36,6 +39,7 @@ public enum Accidental {
                 : null;
     }
 
+    @Nullable
     public Accidental getPrevious() {
         int ordinal = this.ordinal();
         return ordinal > 0

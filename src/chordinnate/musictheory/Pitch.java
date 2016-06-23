@@ -1,5 +1,6 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -612,6 +613,7 @@ public enum Pitch
         return PITCH_CLASS.getOctaveRange().getMidiStart() >= octave.getMidiStart();
     }
 
+    @Nullable
     @Override
     public Pitch transposeTo(@NotNull Octave octave) {
         return isTransposableTo(octave)
@@ -647,6 +649,7 @@ public enum Pitch
         }
     }
 
+    @Nullable
     @Override
     public Pitch transposeTo(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         return isTransposableTo(pitchClass, octave)

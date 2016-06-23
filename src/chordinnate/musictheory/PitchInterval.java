@@ -1,6 +1,7 @@
 package chordinnate.musictheory;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -177,6 +178,7 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
      * @param rhs the ending PitchClass
      * @return the PitchInterval between lhs and rhs
      */
+    @Nullable
     public static PitchInterval getPitchIntervalBetween(PitchClass lhs, PitchClass rhs) {
         int intervallicDistance = PitchClass.getIntervallicDistanceBetween(lhs, rhs);
         ArrayList<PitchInterval> candidates = ENHARMONICS.get(intervallicDistance);

@@ -7,5 +7,5 @@ import org.jetbrains.annotations.NotNull;
  */
 interface Enharmonic<T> {
     boolean isEnharmonicTo(@NotNull T other);
-    @NotNull T[] getEnharmonics();
+    T[] getEnharmonics();
 }

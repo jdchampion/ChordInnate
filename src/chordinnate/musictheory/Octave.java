@@ -1,6 +1,8 @@
 package chordinnate.musictheory;
 
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by Joseph on 4/14/16.
  */
@@ -42,6 +44,7 @@ public enum Octave {
         return MIDISTART;
     }
 
+    @Nullable
     public Octave getNext() {
         int ordinal = this.ordinal();
         return ordinal < VALUES.length - 1
@@ -49,6 +52,7 @@ public enum Octave {
                 : null;
     }
 
+    @Nullable
     public Octave getPrevious() {
         int ordinal = this.ordinal();
         return ordinal > 0
@@ -56,6 +60,7 @@ public enum Octave {
                 : null;
     }
 
+    @Nullable
     public static Octave getOctave(int index) {
         return (index >= 0 && index <= VALUES.length - 1)
                 ? VALUES[index]

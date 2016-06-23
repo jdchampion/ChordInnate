@@ -1,5 +1,7 @@
 package chordinnate.musictheory;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Created by Joseph on 6/1/16.
  */
@@ -29,6 +31,7 @@ public enum Duration {
         return RATIO;
     }
 
+    @Nullable
     public Duration getNext() {
         int ordinal = this.ordinal();
         return ordinal < VALUES.length - 1
@@ -36,6 +39,7 @@ public enum Duration {
                 : null;
     }
 
+    @Nullable
     public Duration getPrevious() {
         int ordinal = this.ordinal();
         return ordinal > 0
@@ -43,6 +47,7 @@ public enum Duration {
                 : null;
     }
 
+    @Nullable
     public static Duration getDuration(int index) {
         return (index >= 0 && index <= VALUES.length - 1)
                 ? VALUES[index]
