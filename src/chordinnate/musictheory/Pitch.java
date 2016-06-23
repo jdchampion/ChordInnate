@@ -522,7 +522,7 @@ public enum Pitch
     }
 
     @Override
-    public boolean isTransposableTo(@NotNull PitchInterval pitchInterval, @NotNull boolean direction) {
+    public boolean isTransposableTo(@NotNull PitchInterval pitchInterval, boolean direction) {
         return direction
                 ? ABSOLUTE_PITCH + pitchInterval.getNumSemitones() <= 127
                 : ABSOLUTE_PITCH - pitchInterval.getNumSemitones() >= 0;
