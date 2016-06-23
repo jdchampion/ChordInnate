@@ -8,8 +8,8 @@ public class Note {
     private Duration duration;
     private Articulation articulation;
     private Tuplet tuplet;
-    private int dots = 0;
-    private double totalLength;         // Total duration, including triplet and dot modifiers.
+    private DotValue dotValue;
+    private double totalLength;         // Total duration, including Tuplet and DotValue modifiers.
     private boolean tied = false;       // Default to not being tied
 
     private Note(
@@ -17,16 +17,16 @@ public class Note {
             Duration duration,
             Articulation articulation,
             Tuplet tuplet,
-            int dots,
+            DotValue dotValue,
             boolean tied
     ) {
         this.pitch = pitch;
         this.duration = duration;
         this.articulation = articulation;
         this.tuplet = tuplet;
-        this.dots = dots;
+        this.dotValue = dotValue;
         this.tied = tied;
-        this.totalLength = (duration.getFractionalValue() + getDottedValue())
+        this.totalLength = (duration.getFractionalValue() + getDotSum())
                 * (tuplet == null ? 1 : tuplet.getNumber());
     }
 
@@ -35,10 +35,11 @@ public class Note {
         this.duration = duration;
     }
 
-    private double getDottedValue() {
+    private double getDotSum() {
         double value = 0;
         Duration tmp = duration.getPrevious();
-        for (int i = 0; i < dots; tmp = tmp.getPrevious(), i++) {
+        int numDots = dotValue.ordinal();
+        for (int i = 0; i < numDots; tmp = tmp.getPrevious(), i++) {
             value += tmp.getFractionalValue();
         }
         return value;
@@ -60,8 +61,8 @@ public class Note {
         return tuplet;
     }
 
-    public int getDots() {
-        return dots;
+    public DotValue getDotValue() {
+        return dotValue;
     }
 
     public boolean isTied() {
@@ -77,7 +78,7 @@ public class Note {
         private Duration duration;
         private Articulation articulation;
         private Tuplet tuplet;
-        private int dots = 0;
+        private DotValue dotValue;
         private boolean tied = false;
 
         public Builder(Pitch pitch, Duration duration) {
@@ -95,9 +96,12 @@ public class Note {
             return this;
         }
 
-        public Builder dots(int dots) {
-            if (this.duration.ordinal() - dots >= 0) {
-                this.dots = dots;
+        public Builder dotValue(DotValue dotValue) {
+            if (this.duration.ordinal() - dotValue.ordinal() >= 0) {
+                this.dotValue = dotValue;
+            }
+            else {
+                this.dotValue = DotValue.NONE;
             }
             return this;
         }
@@ -113,7 +117,7 @@ public class Note {
                     duration,
                     articulation,
                     tuplet,
-                    dots,
+                    dotValue,
                     tied
             );
         }
