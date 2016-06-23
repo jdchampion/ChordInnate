@@ -1,4 +1,8 @@
-package chordinnate.musictheory;
+package chordinnate.playback;
+
+import chordinnate.musictheory.Articulation;
+import chordinnate.musictheory.Note;
+import chordinnate.musictheory.Pitch;
 
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
