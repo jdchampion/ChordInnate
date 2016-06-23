@@ -9,7 +9,7 @@ public class Note {
     private Articulation articulation;
     private Tuplet tuplet;
     private DotValue dotValue;
-    private double totalLength;         // Total duration, including Tuplet and DotValue modifiers.
+    private double ratio;               // Ratio of the Note's total duration to a whole note's total duration
     private boolean tied = false;       // Default to not being tied
 
     private Note(
@@ -26,7 +26,7 @@ public class Note {
         this.tuplet = tuplet;
         this.dotValue = dotValue;
         this.tied = tied;
-        this.totalLength = (duration.getFractionalValue() + getDotSum())
+        this.ratio = (duration.getRatio() + getDotSum())
                 * (tuplet == null ? 1 : tuplet.getNumber());
     }
 
@@ -36,13 +36,13 @@ public class Note {
     }
 
     private double getDotSum() {
-        double value = 0;
+        double sum = 0;
         Duration tmp = duration.getPrevious();
         int numDots = dotValue.ordinal();
-        for (int i = 0; i < numDots; tmp = tmp.getPrevious(), i++) {
-            value += tmp.getFractionalValue();
+        for (int i = 0; i < numDots && tmp != null; tmp = tmp.getPrevious(), i++) {
+            sum += tmp.getRatio();
         }
-        return value;
+        return sum;
     }
 
     public Pitch getPitch() {
@@ -69,8 +69,8 @@ public class Note {
         return tied;
     }
 
-    public double getTotalLength() {
-        return totalLength;
+    public double getRatio() {
+        return ratio;
     }
 
     public static class Builder {

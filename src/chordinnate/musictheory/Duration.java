@@ -18,15 +18,15 @@ public enum Duration {
 
     ;
 
-    private final double FRACTIONAL_VALUE;
+    private final double RATIO;
     private static final Duration[] VALUES = Duration.values();
 
-    Duration(double fractionalValue) {
-        this.FRACTIONAL_VALUE = fractionalValue;
+    Duration(double ratio) {
+        this.RATIO = ratio;
     }
 
-    public double getFractionalValue() {
-        return FRACTIONAL_VALUE;
+    public double getRatio() {
+        return RATIO;
     }
 
     public Duration getNext() {
@@ -50,19 +50,18 @@ public enum Duration {
     }
 
     public static Duration shortest() {
-        return Duration.values()[0];
+        return VALUES[0];
     }
 
     public static Duration longest() {
-        Duration[] values = Duration.values();
-        return values[values.length];
+        return VALUES[VALUES.length - 1];
     }
 
     public boolean isShorterThan(Duration other) {
-        return this.FRACTIONAL_VALUE < other.FRACTIONAL_VALUE;
+        return this.RATIO < other.RATIO;
     }
 
     public boolean isLongerThan(Duration other) {
-        return this.FRACTIONAL_VALUE > other.FRACTIONAL_VALUE;
+        return this.RATIO > other.RATIO;
     }
 }

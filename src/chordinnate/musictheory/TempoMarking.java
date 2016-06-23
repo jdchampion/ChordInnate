@@ -55,6 +55,6 @@ public enum TempoMarking {
     }
 
     public static TempoMarking fastest() {
-        return VALUES[VALUES.length];
+        return VALUES[VALUES.length - 1];
     }
 }

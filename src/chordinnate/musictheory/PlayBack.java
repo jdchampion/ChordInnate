@@ -49,7 +49,7 @@ public class PlayBack {
 
     public void play(Note note) {
         Articulation articulation = note.getArticulation();
-        double soundedLength = note.getTotalLength()
+        double soundedLength = note.getRatio()
                 * (articulation == null ? 1 : (articulation.getDelay() - articulation.getAttack()));
 
         try {
