@@ -11,7 +11,7 @@ public class Tempo {
     private Duration currentBaseDuration;   // The note duration to base the Tempo on
     private DotValue dotValue;              // Modifier for the Duration's length
     private int currentBPM;                 // Beats per minute
-    private long millis;                    // Full length (in ms) of the note duration at the current tempo
+    private long millis;                    // Full length (in ms) of the note duration (unit of measurement) at the current tempo
     private double ratio;                   // Ratio of the Note's total duration to a whole note's total duration
 
     public Tempo(Duration duration, DotValue dotValue, int bpm) {
