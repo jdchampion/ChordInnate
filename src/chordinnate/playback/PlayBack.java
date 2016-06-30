@@ -53,17 +53,16 @@ public class PlayBack {
 
     public void play(Note note) {
         Articulation articulation = note.getArticulation();
-        double soundedLength = note.getRatio()
-                * (articulation == null ? 1 : (articulation.getDelay() - articulation.getAttack()))
-                * 4000; // NOTE: "4000" is the assumed full length (in ms) of a Whole Note, at the given Tempo
+        double fullLength = note.getRatio() * 2000; // NOTE: "2000" is the assumed full length (in ms) of a Whole Note, at the given Tempo
+        double soundedLength = fullLength
+                * (articulation == null ? 1 : articulation.getLength());
 
         try {
             int noteNumber = note.getPitch().getAbsolutePitch();
             midiChannels[0].noteOn(noteNumber, 127);
-            System.out.println((long) soundedLength);
             Thread.sleep((long) soundedLength);            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
             midiChannels[0].noteOff(noteNumber);
-            Thread.sleep((long) (note.getRatio() * 4000) - (long) soundedLength);
+            Thread.sleep((long) fullLength - (long) soundedLength);
         }
         catch (Exception ex) {
             System.err.println(ex.getLocalizedMessage());
