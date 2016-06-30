@@ -61,9 +61,17 @@ public class Note {
         return articulation;
     }
 
+    public boolean isTuplet() {
+        return tuplet != null;
+    }
+
     @Nullable
     public Tuplet getTuplet() {
         return tuplet;
+    }
+
+    public boolean isDotted() {
+        return dotValue != null;
     }
 
     @Nullable
