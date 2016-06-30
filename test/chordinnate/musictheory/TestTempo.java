@@ -37,4 +37,15 @@ public class TestTempo {
         tempo = new Tempo(Duration.QUARTER, DotValue.NONE, -1);
     }
 
+    @Test
+    public void allTempoMarkingChanges() throws Exception {
+        Tempo tempo = new Tempo(Duration.QUARTER, DotValue.NONE, 120);
+        for (TempoMarking tm : TempoMarking.values()) {
+            tempo.setTempoMarking(tm);
+
+            assertEquals(tm, tempo.getTempoMarking());
+            assertEquals(tm.getMinBPM(), tempo.getCurrentBPM());
+        }
+    }
+
 }

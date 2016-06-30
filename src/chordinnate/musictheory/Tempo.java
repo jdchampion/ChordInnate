@@ -24,20 +24,19 @@ public class Tempo {
             throw new IllegalArgumentException("Tempo must be between " + MIN_BPM + " and " + MAX_BPM + " BPM.");
         }
 
-        this.currentBaseDuration = duration;
-        this.dotValue = dotValue;
-        this.millis = bpmToMillis(bpm);
-        this.ratio = currentBaseDuration.getRatio() + getDotSum();
-    }
-
-    private double getDotSum() {
-        double sum = 0;
-        Duration tmp = currentBaseDuration.getPrevious();
-        int numDots = dotValue.ordinal();
-        for (int i = 0; i < numDots && tmp != null; tmp = tmp.getPrevious(), i++) {
-            sum += tmp.getRatio();
+        if (NoteUtils.isSupportedNoteLength(duration, dotValue)) {
+            this.currentBaseDuration = duration;
+            this.dotValue = dotValue;
+            this.millis = bpmToMillis(bpm);
+            this.ratio = NoteUtils.getRatio(currentBaseDuration, this.dotValue, null);
         }
-        return sum;
+        else {
+            throw new IllegalArgumentException(
+                    "Tempo is not a supported note length "
+                    + "(Duration: " + duration + ", "
+                    + "Dots: " + dotValue.ordinal() + ")"
+            );
+        }
     }
 
     private long bpmToMillis(int bpm) {
@@ -66,10 +65,10 @@ public class Tempo {
         this.millis = bpmToMillis(currentBPM);
     }
 
-    public void setDuration(Duration duration, DotValue dotValue) {
+    public void setBaseDuration(Duration duration, DotValue dotValue) {
         this.currentBaseDuration = duration;
         this.dotValue = dotValue;
-        this.ratio = currentBaseDuration.getRatio() + getDotSum();
+        this.ratio = NoteUtils.getRatio(currentBaseDuration, this.dotValue, null);
     }
 
     public int getCurrentBPM() {

@@ -29,23 +29,12 @@ public class Note {
         this.tuplet = tuplet;
         this.dotValue = dotValue;
         this.tied = tied;
-        this.ratio = (duration.getRatio() + getDotSum())
-                * (tuplet == null ? 1 : tuplet.getNumber());
+        this.ratio = NoteUtils.getRatio(duration, dotValue, tuplet);
     }
 
     public Note(@NotNull Pitch pitch, @NotNull Duration duration) {
         this.pitch = pitch;
         this.duration = duration;
-    }
-
-    private double getDotSum() {
-        double sum = 0;
-        Duration tmp = duration.getPrevious();
-        int numDots = dotValue.ordinal();
-        for (int i = 0; i < numDots && tmp != null; tmp = tmp.getPrevious(), i++) {
-            sum += tmp.getRatio();
-        }
-        return sum;
     }
 
     public Pitch getPitch() {
@@ -110,13 +99,18 @@ public class Note {
         }
 
         public Builder dotValue(DotValue dotValue) {
-            if (this.duration.ordinal() - dotValue.ordinal() >= 0) {
+            if (NoteUtils.isSupportedNoteLength(this.duration, dotValue)) {
                 this.dotValue = dotValue;
+                return this;
             }
             else {
-                this.dotValue = DotValue.NONE;
+                int numDots = dotValue.ordinal();
+                throw new IllegalArgumentException(
+                        "A " + duration + " note with " + numDots
+                        + (numDots == 1 ? " dot" : " dots")
+                        + " is currently not supported."
+                );
             }
-            return this;
         }
 
         public Builder tie() {
