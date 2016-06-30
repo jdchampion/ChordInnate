@@ -3,7 +3,7 @@ package chordinnate.musictheory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import static chordinnate.musictheory.EnharmonicSpelling.*;
@@ -97,7 +97,7 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
     private static final KeySignature[] VALUES = KeySignature.values();
 
     // There are certainly other ways to get the relatives, but I believe using a HashMap is the most straightforward.
-    private static final Map<KeySignature, KeySignature> RELATIVE_KEY_SIGNATURES = new HashMap<>(VALUES.length);
+    private static final Map<KeySignature, KeySignature> RELATIVE_KEY_SIGNATURES = new EnumMap<>(KeySignature.class);
         static {
             // Majors
             RELATIVE_KEY_SIGNATURES.put(B_FLAT_MAJOR, G_MINOR);

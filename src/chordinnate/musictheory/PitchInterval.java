@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -115,7 +116,7 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
             }
         }
 
-    private static final Map<PitchInterval, PitchInterval> INVERSIONS = new HashMap<>(PitchInterval.values().length);
+    private static final Map<PitchInterval, PitchInterval> INVERSIONS = new EnumMap<>(PitchInterval.class);
         static {
             for (PitchInterval pitchInterval : PitchInterval.values()) {
                 PitchIntervalQuality invertedPitchIntervalQuality = pitchInterval.PITCH_INTERVAL_QUALITY.getInversion();
