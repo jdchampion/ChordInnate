@@ -21,7 +21,7 @@ enum PitchIntervalQuality {
 
     private final String SHORT_NAME_SYMBOL, ROMAN_NUMERAL_SYMBOL;
 
-    private static final Map<PitchIntervalQuality, PitchIntervalQuality> INVERSIONS = new HashMap<>(PitchIntervalQuality.values().length);
+    private static final Map<PitchIntervalQuality, PitchIntervalQuality> INVERSIONS = new EnumMap<>(PitchIntervalQuality.class);
         static {
             INVERSIONS.put(MAJOR, MINOR);
             INVERSIONS.put(MINOR, MAJOR);
