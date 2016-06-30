@@ -11,7 +11,7 @@ public class Note {
     private Duration duration;
     private Articulation articulation;
     private Tuplet tuplet;
-    private DotValue dotValue;
+    private DotValue dotValue = DotValue.NONE; // Note constructor default has no dot
     private double ratio;               // Ratio of the Note's total duration to a whole note's total duration
     private boolean tied = false;       // Default to not being tied
 
@@ -71,10 +71,9 @@ public class Note {
     }
 
     public boolean isDotted() {
-        return dotValue != null;
+        return !dotValue.equals(DotValue.NONE);
     }
 
-    @Nullable
     public DotValue getDotValue() {
         return dotValue;
     }
@@ -92,7 +91,7 @@ public class Note {
         private Duration duration;
         private Articulation articulation;
         private Tuplet tuplet;
-        private DotValue dotValue;
+        private DotValue dotValue = DotValue.NONE;
         private boolean tied = false;
 
         public Builder(@NotNull Pitch pitch, @NotNull Duration duration) {
