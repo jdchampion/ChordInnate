@@ -10,32 +10,20 @@ public class Tempo {
             MIN_BPM = TempoMarking.slowest().getMinBPM(),
             MAX_BPM = TempoMarking.fastest().getMaxBPM();
     private TempoMarking tempoMarking;
-    private Duration currentBaseDuration;   // The note duration to base the Tempo on
-    private DotValue dotValue;              // Modifier for the Duration's length
+    private Beat currentSubdivision;
     private int currentBPM;                 // Beats per minute
     private long millis;                    // Full length (in ms) of the note duration (unit of measurement) at the current tempo
     private double ratio;                   // Ratio of the Note's total duration to a whole note's total duration
 
-    public Tempo(Duration duration, DotValue dotValue, int bpm) {
+    public Tempo(Beat subdivision, int bpm) {
         if (bpm >= MIN_BPM && bpm <= MAX_BPM) {
             this.currentBPM = bpm;
+            this.currentSubdivision = subdivision;
+            this.millis = bpmToMillis(bpm);
+            this.ratio = currentSubdivision.getRatio();
         }
         else {
             throw new IllegalArgumentException("Tempo must be between " + MIN_BPM + " and " + MAX_BPM + " BPM.");
-        }
-
-        if (NoteUtils.isSupportedNoteLength(duration, dotValue)) {
-            this.currentBaseDuration = duration;
-            this.dotValue = dotValue;
-            this.millis = bpmToMillis(bpm);
-            this.ratio = NoteUtils.getRatio(currentBaseDuration, this.dotValue, null);
-        }
-        else {
-            throw new IllegalArgumentException(
-                    "Tempo is not a supported note length "
-                    + "(Duration: " + duration + ", "
-                    + "Dots: " + dotValue.ordinal() + ")"
-            );
         }
     }
 
@@ -65,10 +53,9 @@ public class Tempo {
         this.millis = bpmToMillis(currentBPM);
     }
 
-    public void setBaseDuration(Duration duration, DotValue dotValue) {
-        this.currentBaseDuration = duration;
-        this.dotValue = dotValue;
-        this.ratio = NoteUtils.getRatio(currentBaseDuration, this.dotValue, null);
+    public void setSubdivision(Beat beat) {
+        this.currentSubdivision = beat;
+        this.ratio = beat.getRatio();
     }
 
     public int getCurrentBPM() {

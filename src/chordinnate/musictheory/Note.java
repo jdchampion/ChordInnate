@@ -8,41 +8,37 @@ import org.jetbrains.annotations.Nullable;
  */
 public class Note {
     private Pitch pitch;
-    private Duration duration;
+    private Beat beat;
     private Articulation articulation;
-    private Tuplet tuplet;
-    private DotValue dotValue = DotValue.NONE; // Note constructor default has no dot
-    private double ratio;               // Ratio of the Note's total duration to a whole note's total duration
     private boolean tied = false;       // Default to not being tied
 
     private Note(
             Pitch pitch,
-            Duration duration,
+            Beat beat,
             Articulation articulation,
-            Tuplet tuplet,
-            DotValue dotValue,
             boolean tied
     ) {
         this.pitch = pitch;
-        this.duration = duration;
+        this.beat = beat;
         this.articulation = articulation;
-        this.tuplet = tuplet;
-        this.dotValue = dotValue;
         this.tied = tied;
-        this.ratio = NoteUtils.getRatio(duration, dotValue, tuplet);
     }
 
-    public Note(@NotNull Pitch pitch, @NotNull Duration duration) {
+    public Note(@NotNull Pitch pitch, @NotNull Beat beat) {
         this.pitch = pitch;
-        this.duration = duration;
+        this.beat = beat;
     }
 
     public Pitch getPitch() {
         return pitch;
     }
 
+    public Beat getBeat() {
+        return beat;
+    }
+
     public Duration getDuration() {
-        return duration;
+        return beat.getDuration();
     }
 
     @Nullable
@@ -51,20 +47,20 @@ public class Note {
     }
 
     public boolean isTuplet() {
-        return tuplet != null;
+        return getTuplet() != null;
     }
 
     @Nullable
     public Tuplet getTuplet() {
-        return tuplet;
+        return beat.getTuplet();
     }
 
     public boolean isDotted() {
-        return !dotValue.equals(DotValue.NONE);
+        return !getDotValue().equals(DotValue.NONE);
     }
 
     public DotValue getDotValue() {
-        return dotValue;
+        return beat.getDotValue();
     }
 
     public boolean isTied() {
@@ -72,45 +68,23 @@ public class Note {
     }
 
     public double getRatio() {
-        return ratio;
+        return beat.getRatio();
     }
 
     public static class Builder {
         private Pitch pitch;
-        private Duration duration;
+        private Beat beat;
         private Articulation articulation;
-        private Tuplet tuplet;
-        private DotValue dotValue = DotValue.NONE;
         private boolean tied = false;
 
-        public Builder(@NotNull Pitch pitch, @NotNull Duration duration) {
+        public Builder(@NotNull Pitch pitch, @NotNull Beat beat) {
             this.pitch = pitch;
-            this.duration = duration;
+            this.beat = beat;
         }
 
         public Builder articulation(Articulation articulation) {
             this.articulation = articulation;
             return this;
-        }
-
-        public Builder tuplet(Tuplet tuplet) {
-            this.tuplet = tuplet;
-            return this;
-        }
-
-        public Builder dotValue(DotValue dotValue) {
-            if (NoteUtils.isSupportedNoteLength(this.duration, dotValue)) {
-                this.dotValue = dotValue;
-                return this;
-            }
-            else {
-                int numDots = dotValue.ordinal();
-                throw new IllegalArgumentException(
-                        "A " + duration + " note with " + numDots
-                        + (numDots == 1 ? " dot" : " dots")
-                        + " is currently not supported."
-                );
-            }
         }
 
         public Builder tie() {
@@ -121,10 +95,8 @@ public class Note {
         public Note build() {
             return new Note(
                     pitch,
-                    duration,
+                    beat,
                     articulation,
-                    tuplet,
-                    dotValue,
                     tied
             );
         }
