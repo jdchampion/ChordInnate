@@ -5,6 +5,7 @@ package chordinnate.musictheory;
  * References: https://en.wikipedia.org/wiki/Tuplet
  */
 enum Tuplet {
+    NONE(0),
     DUPLET(2),
     TRIPLET(3),
     QUADRUPLET(4),

@@ -47,7 +47,7 @@ public class Note {
     }
 
     public boolean isTuplet() {
-        return getTuplet() != null;
+        return getTuplet().equals(Tuplet.NONE);
     }
 
     @Nullable
