@@ -64,7 +64,7 @@ public final class PlayBack {
         Articulation articulation = note.getArticulation();
         double fullLength = note.getRatio() * 2000; // NOTE: "2000" is the assumed full length (in ms) of a Whole Note, at the given Tempo
         double soundedLength = fullLength
-                * (articulation == null ? 1 : articulation.getLength());
+                * (articulation == null ? 1 : articulation.getLengthModifier());
 
         try {
             int noteNumber = note.getPitch().getAbsolutePitch();
