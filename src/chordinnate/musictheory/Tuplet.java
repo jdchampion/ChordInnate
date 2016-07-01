@@ -4,7 +4,7 @@ package chordinnate.musictheory;
  * Created by Joseph on 6/16/16.
  * References: https://en.wikipedia.org/wiki/Tuplet
  */
-public enum Tuplet {
+enum Tuplet {
     DUPLET(2),
     TRIPLET(3),
     QUADRUPLET(4),
