@@ -498,7 +498,7 @@ public enum Beat {
 
     private double getRatio(Duration duration, DotValue dotValue, Tuplet tuplet) {
         return (duration.getRatio() + getDotSum(duration, dotValue))
-                * (tuplet.equals(Tuplet.NONE) ? 1 : tuplet.getNumber());
+                * (tuplet.equals(Tuplet.NONE) ? 1 : (2.0 / tuplet.getNumber()));
     }
 
     private double getDotSum(Duration duration, DotValue dotValue) {

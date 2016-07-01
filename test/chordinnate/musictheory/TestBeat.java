@@ -2,6 +2,7 @@ package chordinnate.musictheory;
 
 import org.junit.Test;
 
+import static chordinnate.musictheory.Beat.*;
 import static org.junit.Assert.*;
 
 /**
@@ -34,6 +35,27 @@ public class TestBeat {
         for (Beat beat: Beat.values()) {
             assertTrue(beat.getRatio() > 0);
         }
+    }
+
+    @Test
+    public void checkCompoundSums() throws Exception {
+        assertEquals(
+                HALF.getRatio(),
+                DOTTED_QUARTER.getRatio() + EIGHTH.getRatio(),
+                0
+        );
+
+        assertEquals(
+                HALF.getRatio(),
+                DOTTED_QUARTER.getRatio() + SIXTEENTH.getRatio() + SIXTEENTH.getRatio(),
+                0
+        );
+
+        assertEquals(
+                QUARTER.getRatio(),
+                TRIPLET_EIGHTH.getRatio() + TRIPLET_EIGHTH.getRatio() + TRIPLET_EIGHTH.getRatio(),
+                0.001
+        );
     }
 
 }
