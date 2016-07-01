@@ -12,11 +12,11 @@ import javax.sound.midi.Synthesizer;
 /**
  * Created by Joseph on 6/16/16.
  */
-public class PlayBack {
+public final class PlayBack {
     private static MidiChannel[] midiChannels;
     private static Synthesizer synthesizer;
 
-    public PlayBack() {
+    static {
         try {
             synthesizer = MidiSystem.getSynthesizer();
             midiChannels = synthesizer.getChannels();
@@ -27,7 +27,16 @@ public class PlayBack {
         }
     }
 
-    public void stop() {
+    public static void restart() {
+        try {
+            if (!synthesizer.isOpen()) synthesizer.open();
+        }
+        catch (MidiUnavailableException ex) {
+            System.err.println(ex.getLocalizedMessage());
+        }
+    }
+
+    public static void stop() {
         try {
             for (MidiChannel midiChannel: midiChannels) {
                 midiChannel.allSoundOff();
@@ -39,7 +48,7 @@ public class PlayBack {
         }
     }
 
-    public void play(Pitch pitch) {
+    public static void play(Pitch pitch) {
         try {
             int noteNumber = pitch.getAbsolutePitch();
             midiChannels[0].noteOn(noteNumber, 127);
@@ -51,7 +60,7 @@ public class PlayBack {
         }
     }
 
-    public void play(Note note) {
+    public static void play(Note note) {
         Articulation articulation = note.getArticulation();
         double fullLength = note.getRatio() * 2000; // NOTE: "2000" is the assumed full length (in ms) of a Whole Note, at the given Tempo
         double soundedLength = fullLength
