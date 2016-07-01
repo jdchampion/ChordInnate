@@ -8,14 +8,14 @@ package chordinnate.generator;
  *             http://student.ulb.ac.be/~ptaslaki/publications/phdThesis-Perouz.pdf
  *             http://www.noisylittlebugger.net/diy/bjorklund/Bjorklund_Working_Final/Bjorklund_algorithm_arduino.txt
  */
-public class Bjorklund {
-    private int steps;
-    private int pulses;
+final class Bjorklund {
+    private static int steps;
+    private static int pulses;
 
-    private int[] remainder;
-    private int[] count;
-    private int level;
-    private int stepstatus;
+    private static int[] remainder;
+    private static int[] count;
+    private static int level;
+    private static int stepstatus;
 
     private static boolean[] sequence;
 
@@ -25,7 +25,7 @@ public class Bjorklund {
      * @param num_pulses
      * @return
      */
-    public boolean[] compute_bitmap(int num_slots, int num_pulses) {
+    public static boolean[] compute_bitmap(int num_slots, int num_pulses) {
 
         stepstatus = 0;
         steps = num_slots;
@@ -62,7 +62,7 @@ public class Bjorklund {
      *
      * @param level
      */
-    private void build_string(int level) {
+    private static void build_string(int level) {
         if (level == -1) {
             sequence[stepstatus] = false;
             stepstatus++;
