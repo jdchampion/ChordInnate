@@ -526,4 +526,12 @@ public enum Beat {
     public double getRatio() {
         return RATIO;
     }
+
+    public boolean isDotted() {
+        return !DOT_VALUE.equals(DotValue.NONE);
+    }
+
+    public boolean isTuplet() {
+        return !TUPLET.equals(Tuplet.NONE);
+    }
 }

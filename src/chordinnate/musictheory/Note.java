@@ -47,7 +47,7 @@ public class Note {
     }
 
     public boolean isTuplet() {
-        return getTuplet().equals(Tuplet.NONE);
+        return beat.isTuplet();
     }
 
     @Nullable
@@ -56,7 +56,7 @@ public class Note {
     }
 
     public boolean isDotted() {
-        return !getDotValue().equals(DotValue.NONE);
+        return beat.isDotted();
     }
 
     public DotValue getDotValue() {
