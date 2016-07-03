@@ -7,6 +7,7 @@ package chordinnate.musictheory.time.meter;
  *             https://en.wikipedia.org/wiki/Time_signature
  *             http://donrathjr.com/compound-time-signatures/
  */
+@Deprecated
 public enum MeterProperty {
     /*
      * Time signature is not subdivided, or no time signature is used.

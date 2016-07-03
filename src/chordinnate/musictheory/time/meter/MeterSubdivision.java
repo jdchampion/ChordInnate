@@ -3,7 +3,7 @@ package chordinnate.musictheory.time.meter;
 /**
  * Created by Joseph on 7/1/16.
  */
-public enum MeterGrouping {
+public enum MeterSubdivision {
     DUPLE(2),
     TRIPLE(3),
     QUADRUPLE(4),
@@ -15,7 +15,7 @@ public enum MeterGrouping {
 
     public final int GROUPING;
 
-    MeterGrouping(int grouping) {
+    MeterSubdivision(int grouping) {
         this.GROUPING = grouping;
     }
 }

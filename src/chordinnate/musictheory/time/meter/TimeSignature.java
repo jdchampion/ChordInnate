@@ -13,13 +13,14 @@ import java.util.LinkedList;
  *             https://en.wikipedia.org/wiki/Time_signature
  *             http://donrathjr.com/compound-time-signatures/
  */
+@Deprecated
 public class TimeSignature {
     private double numerator;
     private Beat denominator;
     private double measureDuration;
-    private ArrayList<MeterGrouping>
-            possibleMeterGroupings,
-            actualMeterGroupings;
+    private ArrayList<MeterSubdivision>
+            possibleMeterSubdivisions,
+            actualMeterSubdivisions;
     private ArrayList<MeterProperty> meterProperties;
     private boolean[] stressPatternBool;
     private int[] stressPatternInt;
@@ -39,9 +40,9 @@ public class TimeSignature {
         this.denominator = denominator;
         this.measureDuration = (numerator * denominator.getRatio());
 
-        this.possibleMeterGroupings = new ArrayList<>();
+        this.possibleMeterSubdivisions = new ArrayList<>();
         inferPossibleMeterGroupings();
-        this.actualMeterGroupings = new ArrayList<>();
+        this.actualMeterSubdivisions = new ArrayList<>();
         // TODO: fill in actual MeterGroupings
 
         this.meterProperties = new ArrayList<>(MeterProperty.values().length);
@@ -49,15 +50,15 @@ public class TimeSignature {
 
         /*
            FIXME: arrays are not correct.
-           Expected for 9/8: {3,3,3} (using 3x MeterGrouping.TRIPLE)
+           Expected for 9/8: {3,3,3} (using 3x MeterSubdivision.TRIPLE)
            Actual for 9/8: {3} (using 1x TRIPLE)
-           Expected for 4/4: {4} (using 1x MeterGrouping.QUADRUPLE)
+           Expected for 4/4: {4} (using 1x MeterSubdivision.QUADRUPLE)
            Actual for 4/4: {2, 4} (using 1x DUPLE + 1x QUADRUPLE)
          */
         // Build the stress pattern from the MeterGroupings
-        this.stressPatternInt = new int[this.possibleMeterGroupings.size()];
+        this.stressPatternInt = new int[this.possibleMeterSubdivisions.size()];
         for (int i = 0; i < this.stressPatternInt.length; i++) {
-            this.stressPatternInt[i] = possibleMeterGroupings.get(i).GROUPING;
+            this.stressPatternInt[i] = possibleMeterSubdivisions.get(i).GROUPING;
         }
         this.stressPatternBool = boolStressPatternFromIntStressPattern();
     }
@@ -85,9 +86,9 @@ public class TimeSignature {
         this.meterProperties = new ArrayList<>(MeterProperty.values().length);
         addCommonMeterProperties();
 
-        this.possibleMeterGroupings = new ArrayList<>();
+        this.possibleMeterSubdivisions = new ArrayList<>();
         inferPossibleMeterGroupings();
-        this.actualMeterGroupings = new ArrayList<>();
+        this.actualMeterSubdivisions = new ArrayList<>();
         // TODO: fill in actual MeterGroupings
     }
 
@@ -111,7 +112,7 @@ public class TimeSignature {
         this.meterProperties = new ArrayList<>(MeterProperty.values().length);
         addCommonMeterProperties();
 
-        this.possibleMeterGroupings = new ArrayList<>();
+        this.possibleMeterSubdivisions = new ArrayList<>();
         inferPossibleMeterGroupings();
     }
 
@@ -121,9 +122,9 @@ public class TimeSignature {
 
     private void inferPossibleMeterGroupings() {
         boolean lt5 = numerator < 5.0;
-        for (MeterGrouping meterGrouping : MeterGrouping.values()) {
-            if (meterGrouping.GROUPING <= numerator) {
-                this.possibleMeterGroupings.add(meterGrouping);
+        for (MeterSubdivision meterSubdivision : MeterSubdivision.values()) {
+            if (meterSubdivision.GROUPING <= numerator) {
+                this.possibleMeterSubdivisions.add(meterSubdivision);
             }
         }
     }
@@ -251,8 +252,8 @@ public class TimeSignature {
         return denominator;
     }
 
-    public MeterGrouping[] getPossibleMeterGroupings() {
-        return possibleMeterGroupings.toArray(new MeterGrouping[possibleMeterGroupings.size()]);
+    public MeterSubdivision[] getPossibleMeterSubdivisions() {
+        return possibleMeterSubdivisions.toArray(new MeterSubdivision[possibleMeterSubdivisions.size()]);
     }
 
     public MeterProperty[] getMeterProperties() {
@@ -280,15 +281,15 @@ public class TimeSignature {
             /*
                Example:
                         BEFORE: 9/8 with stress pattern {3,3,3}
-                                - MeterGrouping = {TRIPLE}
+                                - MeterSubdivision = {TRIPLE}
                                 - MeterProperties = {ODD, PERFECT, COMPOUND}
 
                         AFTER:  9/8 with stress pattern {2,3,2,2}
-                                - MeterGrouping = {DUPLE, TRIPLE}
+                                - MeterSubdivision = {DUPLE, TRIPLE}
                                 - MeterProperties = {ODD, PERFECT, COMPOUND, COMPLEX, IRREGULAR, ASYMMETRICAL, ADDITIVE}
              */
             // Automatically update MeterGroupings and MeterProperties
-            possibleMeterGroupings = new ArrayList<>();
+            possibleMeterSubdivisions = new ArrayList<>();
             inferPossibleMeterGroupings();
             meterProperties = new ArrayList<>(MeterProperty.values().length);
             addCommonMeterProperties();
@@ -299,14 +300,14 @@ public class TimeSignature {
         return false;
     }
 
-    public boolean containsMeterGrouping(MeterGrouping meterGrouping) {
-        if (actualMeterGroupings == null) return false;
-        return actualMeterGroupings.contains(meterGrouping);
+    public boolean containsMeterGrouping(MeterSubdivision meterSubdivision) {
+        if (actualMeterSubdivisions == null) return false;
+        return actualMeterSubdivisions.contains(meterSubdivision);
     }
 
-    boolean possiblyContainsMeterGrouping(MeterGrouping meterGrouping) {
-        if (possibleMeterGroupings == null) return false;
-        return possibleMeterGroupings.contains(meterGrouping);
+    boolean possiblyContainsMeterGrouping(MeterSubdivision meterSubdivision) {
+        if (possibleMeterSubdivisions == null) return false;
+        return possibleMeterSubdivisions.contains(meterSubdivision);
     }
 
 }

@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Joseph on 7/1/16.
  */
+@Deprecated
 public class TestTimeSignature {
     @Test
     public void illegalArguments() throws Exception {
@@ -17,7 +18,7 @@ public class TestTimeSignature {
 
     @Test
     public void freeMeters() throws Exception {
-        // Free meters have no MeterGrouping
+        // Free meters have no MeterSubdivision
         assertTrue(new FreeMeter().is(MeterProperty.FREE));
     }
 
