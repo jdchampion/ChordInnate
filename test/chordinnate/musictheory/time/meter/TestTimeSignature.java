@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Joseph on 7/1/16.
  */
-public class TestMeter {
+public class TestTimeSignature {
     @Test
     public void illegalArguments() throws Exception {
         // Negative numerators in constructor

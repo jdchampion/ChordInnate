@@ -10,11 +10,6 @@ import org.jetbrains.annotations.NotNull;
 public class AlternatingMeter extends MixedMeter {
     public AlternatingMeter(@NotNull FixedMeter... meters) {
         super(meters);
-    }
-
-    @Override
-    public boolean is(@NotNull MeterProperty meterProperty) {
-        // TODO
-        return false;
+        meterProperties.add(MeterProperty.ALTERNATING);
     }
 }

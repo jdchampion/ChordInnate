@@ -13,9 +13,10 @@ import java.util.LinkedList;
  *             https://en.wikipedia.org/wiki/Time_signature
  *             http://donrathjr.com/compound-time-signatures/
  */
-public class TimeSignature extends Meter {
+public class TimeSignature {
     private double numerator;
     private Beat denominator;
+    private double measureDuration;
     private ArrayList<MeterGrouping>
             possibleMeterGroupings,
             actualMeterGroupings;
@@ -114,7 +115,6 @@ public class TimeSignature extends Meter {
         inferPossibleMeterGroupings();
     }
 
-    @Override
     public boolean is(MeterProperty meterProperty) {
         return meterProperties.contains(meterProperty);
     }

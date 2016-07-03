@@ -66,7 +66,6 @@ public enum MeterProperty {
      * Meter changes more than once.
      */
     MIXED,
-    CHANGING,
 
     /*
      * Meter alternates between EXACTLY two time signatures.
