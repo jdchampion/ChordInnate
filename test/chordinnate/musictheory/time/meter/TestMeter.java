@@ -1,12 +1,16 @@
-package chordinnate.musictheory;
+package chordinnate.musictheory.time.meter;
 
+import chordinnate.musictheory.time.meter.FreeMeter;
+import chordinnate.musictheory.time.meter.MeterProperty;
+import chordinnate.musictheory.time.meter.TimeSignature;
+import chordinnate.musictheory.time.rhythm.Beat;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  * Created by Joseph on 7/1/16.
  */
-public class TestTimeSignature {
+public class TestMeter {
     @Test
     public void illegalArguments() throws Exception {
         // Negative numerators in constructor
@@ -17,7 +21,7 @@ public class TestTimeSignature {
     @Test
     public void freeMeters() throws Exception {
         // Free meters have no MeterGrouping
-        assertTrue(new TimeSignature().is(MeterProperty.FREE));
+        assertTrue(new FreeMeter().is(MeterProperty.FREE));
     }
 
     @Test
@@ -133,11 +137,8 @@ public class TestTimeSignature {
 
     @Test
     public void setStressPattern() throws Exception {
-        TimeSignature ts = new TimeSignature();
-        assertFalse(ts.setStressPattern(2, 2, 2));
-
         // TODO: test more cases (TimeSignatures)
-        ts = new TimeSignature(8, Beat.EIGHTH);
+        TimeSignature ts = new TimeSignature(8, Beat.EIGHTH);
         boolean[] expected = {true, false, false, true, false, true, false, false};
         ts.setStressPattern(3, 2, 3);
         boolean[] actual = ts.getStressPattern();
