@@ -15,30 +15,48 @@ import java.util.LinkedList;
 public class TimeSignature {
     private double numerator;
     private Beat denominator;
-    private ArrayList<MeterGrouping> meterGroupings;
+    private ArrayList<MeterGrouping>
+            possibleMeterGroupings,
+            actualMeterGroupings;
     private ArrayList<MeterProperty> meterProperties;
     private double measureDuration;
     private boolean[] stressPatternBool;
     private int[] stressPatternInt;
 
+    public static final double MAX_NUMERATOR = 1024; // arbitrarily set
+
+    /**
+     * Constructor for free-meter TimeSignatures.
+     */
     public TimeSignature() {
-        this.numerator = 0.0;
+        this.numerator = MAX_NUMERATOR;
         this.denominator = null;
-        this.meterGroupings = null;
-        this.meterProperties = new ArrayList<>(2);
+        this.possibleMeterGroupings = null;
+        this.actualMeterGroupings = null;
+        this.meterProperties = new ArrayList<>();
         meterProperties.add(MeterProperty.FREE);
         this.measureDuration = Double.POSITIVE_INFINITY;
         this.stressPatternBool = null;
         this.stressPatternInt = null;
     }
 
+    /**
+     * Constructor for non-additive metered TimeSignatures (e.g., most TimeSignatures).
+     * @param numerator
+     * @param denominator
+     */
     public TimeSignature(double numerator, @NotNull Beat denominator) {
+        if (numerator < 0 || numerator > MAX_NUMERATOR) {
+            throw new IllegalArgumentException("Invalid numerator for the TimeSignature.");
+        }
         this.numerator = numerator;
         this.denominator = denominator;
         this.measureDuration = (numerator * denominator.getRatio());
 
-        this.meterGroupings = new ArrayList<>();
-        inferMeterGroupings();
+        this.possibleMeterGroupings = new ArrayList<>();
+        inferPossibleMeterGroupings();
+        this.actualMeterGroupings = new ArrayList<>();
+        // TODO: fill in actual MeterGroupings
 
         this.meterProperties = new ArrayList<>(MeterProperty.values().length);
         addCommonMeterProperties();
@@ -51,14 +69,23 @@ public class TimeSignature {
            Actual for 4/4: {2, 4} (using 1x DUPLE + 1x QUADRUPLE)
          */
         // Build the stress pattern from the MeterGroupings
-        this.stressPatternInt = new int[this.meterGroupings.size()];
+        this.stressPatternInt = new int[this.possibleMeterGroupings.size()];
         for (int i = 0; i < this.stressPatternInt.length; i++) {
-            this.stressPatternInt[i] = meterGroupings.get(i).getGrouping();
+            this.stressPatternInt[i] = possibleMeterGroupings.get(i).getGrouping();
         }
         this.stressPatternBool = boolStressPatternFromIntStressPattern();
     }
 
+    /**
+     * Constructor for additive metered TimeSignatures.
+     * @param numerator
+     * @param denominator
+     * @param stressPattern
+     */
     public TimeSignature(double numerator, @NotNull Beat denominator, @NotNull boolean[] stressPattern) {
+        if (numerator < 0 || numerator > MAX_NUMERATOR) {
+            throw new IllegalArgumentException("Invalid numerator for the TimeSignature.");
+        }
         this.numerator = numerator;
         this.denominator = denominator;
         this.measureDuration = (numerator * denominator.getRatio());
@@ -72,8 +99,10 @@ public class TimeSignature {
         this.meterProperties = new ArrayList<>(MeterProperty.values().length);
         addCommonMeterProperties();
 
-        this.meterGroupings = new ArrayList<>();
-        inferMeterGroupings();
+        this.possibleMeterGroupings = new ArrayList<>();
+        inferPossibleMeterGroupings();
+        this.actualMeterGroupings = new ArrayList<>();
+        // TODO: fill in actual MeterGroupings
     }
 
     public TimeSignature(double numerator, @NotNull Beat denominator, @NotNull int[] stressPattern) {
@@ -90,20 +119,25 @@ public class TimeSignature {
         this.meterProperties = new ArrayList<>(MeterProperty.values().length);
         addCommonMeterProperties();
 
-        this.meterGroupings = new ArrayList<>();
-        inferMeterGroupings();
+        this.possibleMeterGroupings = new ArrayList<>();
+        inferPossibleMeterGroupings();
     }
 
-    private void inferMeterGroupings() {
+    private void inferPossibleMeterGroupings() {
+        boolean lt5 = numerator < 5.0;
         for (MeterGrouping meterGrouping : MeterGrouping.values()) {
-            if (numerator % meterGrouping.getGrouping() == 0) {
-                this.meterGroupings.add(meterGrouping);
+            if (meterGrouping.getGrouping() <= numerator) {
+                this.possibleMeterGroupings.add(meterGrouping);
             }
         }
     }
 
     private boolean isFreeMetered() {
         return this.meterProperties.contains(MeterProperty.FREE);
+    }
+
+    private boolean isAdditive() {
+        return this.meterProperties.contains(MeterProperty.ADDITIVE);
     }
 
     private boolean safeToUseStressPattern(int[] stressPatternInt) {
@@ -221,8 +255,8 @@ public class TimeSignature {
         return denominator;
     }
 
-    public MeterGrouping[] getMeterGroupings() {
-        return meterGroupings.toArray(new MeterGrouping[meterGroupings.size()]);
+    public MeterGrouping[] getPossibleMeterGroupings() {
+        return possibleMeterGroupings.toArray(new MeterGrouping[possibleMeterGroupings.size()]);
     }
 
     public MeterProperty[] getMeterProperties() {
@@ -258,8 +292,8 @@ public class TimeSignature {
                                 - MeterProperties = {ODD, PERFECT, COMPOUND, COMPLEX, IRREGULAR, ASYMMETRICAL, ADDITIVE}
              */
             // Automatically update MeterGroupings and MeterProperties
-            meterGroupings = new ArrayList<>();
-            inferMeterGroupings();
+            possibleMeterGroupings = new ArrayList<>();
+            inferPossibleMeterGroupings();
             meterProperties = new ArrayList<>(MeterProperty.values().length);
             addCommonMeterProperties();
 
@@ -274,7 +308,13 @@ public class TimeSignature {
     }
 
     public boolean containsMeterGrouping(MeterGrouping meterGrouping) {
-        return meterGroupings.contains(meterGrouping);
+        if (actualMeterGroupings == null) return false;
+        return actualMeterGroupings.contains(meterGrouping);
+    }
+
+    boolean possiblyContainsMeterGrouping(MeterGrouping meterGrouping) {
+        if (possibleMeterGroupings == null) return false;
+        return possibleMeterGroupings.contains(meterGrouping);
     }
 
 }

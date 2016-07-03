@@ -132,24 +132,6 @@ public class TestTimeSignature {
     }
 
     @Test
-    public void dupleMeters() throws Exception {
-        TimeSignature ts = new TimeSignature(4, Beat.QUARTER);
-        assertTrue(ts.containsMeterGrouping(MeterGrouping.DUPLE));
-        assertFalse(ts.containsMeterGrouping(MeterGrouping.TRIPLE));
-        assertTrue(ts.containsMeterGrouping(MeterGrouping.QUADRUPLE));
-
-        ts = new TimeSignature(9, Beat.EIGHTH);
-        assertFalse(ts.containsMeterGrouping(MeterGrouping.DUPLE));
-        assertTrue(ts.containsMeterGrouping(MeterGrouping.TRIPLE));
-        assertFalse(ts.containsMeterGrouping(MeterGrouping.QUADRUPLE));
-
-        ts = new TimeSignature(12, Beat.EIGHTH);
-        assertTrue(ts.containsMeterGrouping(MeterGrouping.DUPLE));
-        assertTrue(ts.containsMeterGrouping(MeterGrouping.TRIPLE));
-        assertTrue(ts.containsMeterGrouping(MeterGrouping.QUADRUPLE));
-    }
-
-    @Test
     public void setStressPattern() throws Exception {
         TimeSignature ts = new TimeSignature();
         assertFalse(ts.setStressPattern(2, 2, 2));
