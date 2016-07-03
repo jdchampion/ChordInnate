@@ -9,7 +9,7 @@ package chordinnate.musictheory;
  */
 public enum MeterProperty {
     /*
-     * No time signature is used.
+     * Time signature is not subdivided, or no time signature is used.
      */
     FREE,
 
@@ -19,7 +19,7 @@ public enum MeterProperty {
     ODD,
 
     /*
-     * Time signature numerator IS divisible by 2 OR 3.
+     * Time signature numerator IS divisible by 2 XOR 3.
      */
     PERFECT,
 
@@ -39,9 +39,8 @@ public enum MeterProperty {
     COMPOUND,
 
     /*
-     * Includes simple (% 2) AND compound (% 3) beats in the time signature.
-     * This implies that the time signature numerator is AT LEAST 5,
-     * AND NOT divisible by 2 AND NOT divisible by 3.
+     * Includes simple (% 2) AND compound (% 3) stresses in the time signature.
+     * This implies that the time signature numerator is AT LEAST 5.
      */
     COMPLEX,
     IRREGULAR,
@@ -51,6 +50,7 @@ public enum MeterProperty {
      * Time signature numerator is rational BUT NOT an integer.
      */
     FRACTIONAL,
+    PARTIAL,
 
     /*
      * Time signature denominator is NOT a dyadic rational (i.e., a power of 2).
@@ -67,6 +67,7 @@ public enum MeterProperty {
      * Meter changes time signature on each bar OR nearly each bar.
      */
     MIXED,
+    CHANGING,
 
     /*
      * Meter alternates between EXACTLY two time signatures.
