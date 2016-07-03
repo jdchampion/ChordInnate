@@ -1,8 +1,5 @@
 package chordinnate.musictheory.time.meter;
 
-import chordinnate.musictheory.time.meter.FreeMeter;
-import chordinnate.musictheory.time.meter.MeterProperty;
-import chordinnate.musictheory.time.meter.TimeSignature;
 import chordinnate.musictheory.time.rhythm.Beat;
 import org.junit.Test;
 import static org.junit.Assert.*;
