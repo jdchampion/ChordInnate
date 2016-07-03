@@ -6,6 +6,8 @@ package chordinnate.musictheory.time.meter;
 public final class FreeMeter extends TransientMeter {
     public FreeMeter() {
         this.measureDuration = Double.POSITIVE_INFINITY;
+        this.differentMeters = null;
+        this.indexOfMeterBeingUsed = -1;
     }
 
     @Override

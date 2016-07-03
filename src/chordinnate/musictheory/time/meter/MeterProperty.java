@@ -63,7 +63,7 @@ public enum MeterProperty {
     ADDITIVE,
 
     /*
-     * Meter changes time signature on each bar OR nearly each bar.
+     * Meter changes more than once.
      */
     MIXED,
     CHANGING,
