@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * Meters that change time.
+ *
  * Created by Joseph on 7/3/16.
  */
 public class MixedMeter extends TransientMeter {

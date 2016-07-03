@@ -1,9 +1,11 @@
 package chordinnate.musictheory.time.meter;
 
 /**
+ * Meters for which there are no measurement (i.e., subdivisions) of time.
+ *
  * Created by Joseph on 7/2/16.
  */
-public final class FreeMeter extends TransientMeter {
+public class FreeMeter extends TransientMeter {
     public FreeMeter() {
         this.measureDuration = Double.POSITIVE_INFINITY;
         this.differentMeters = null;

@@ -3,6 +3,8 @@ package chordinnate.musictheory.time.meter;
 import java.util.ArrayList;
 
 /**
+ * Meters that contain two (2) or more measurements of time.
+ *
  * Created by Joseph on 7/2/16.
  */
 public abstract class TransientMeter extends Meter {
