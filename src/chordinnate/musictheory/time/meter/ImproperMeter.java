@@ -1,5 +1,7 @@
 package chordinnate.musictheory.time.meter;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Meters whose time signature uses fractional, partial, or irrational numbers in its measurement.
  * These time signatures are rare.
@@ -8,7 +10,7 @@ package chordinnate.musictheory.time.meter;
  */
 public class ImproperMeter extends FixedMeter {
     @Override
-    public boolean is(MeterProperty meterProperty) {
+    public boolean is(@NotNull MeterProperty meterProperty) {
         // TODO
         return false;
     }

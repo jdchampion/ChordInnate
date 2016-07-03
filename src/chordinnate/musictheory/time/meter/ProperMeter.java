@@ -1,5 +1,7 @@
 package chordinnate.musictheory.time.meter;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Meters whose time signature uses exclusively integers as its measurement of time.
  * This represents the most common time signatures.
@@ -8,7 +10,7 @@ package chordinnate.musictheory.time.meter;
  */
 public class ProperMeter extends FixedMeter {
     @Override
-    public boolean is(MeterProperty meterProperty) {
+    public boolean is(@NotNull MeterProperty meterProperty) {
         // TODO
         return false;
     }

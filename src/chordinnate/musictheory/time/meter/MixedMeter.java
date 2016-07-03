@@ -17,7 +17,7 @@ public class MixedMeter extends TransientMeter {
         this.measureDuration = updateMeasureDuration();
     }
     @Override
-    public boolean is(MeterProperty meterProperty) {
+    public boolean is(@NotNull MeterProperty meterProperty) {
         return false;
     }
 }

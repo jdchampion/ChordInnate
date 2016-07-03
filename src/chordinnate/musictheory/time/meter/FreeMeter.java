@@ -1,5 +1,7 @@
 package chordinnate.musictheory.time.meter;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Meters for which there are no measurement (i.e., subdivisions) of time.
  *
@@ -13,7 +15,7 @@ public class FreeMeter extends TransientMeter {
     }
 
     @Override
-    public boolean is(MeterProperty meterProperty) {
+    public boolean is(@NotNull MeterProperty meterProperty) {
         // Free meters are free. Obvious comment is obvious.
         return meterProperty.equals(MeterProperty.FREE);
     }
