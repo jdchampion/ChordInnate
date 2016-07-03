@@ -1,8 +1,7 @@
 package chordinnate.playback;
 
-import chordinnate.musictheory.Articulation;
-import chordinnate.musictheory.Note;
-import chordinnate.musictheory.Pitch;
+import chordinnate.musictheory.pitch.Pitch;
+import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
@@ -48,9 +47,9 @@ public final class PlayBack {
         }
     }
 
-    public static void play(Pitch pitch) {
+    public static void play(@NotNull Pitch pitch) {
         try {
-            int noteNumber = pitch.getAbsolutePitch();
+            int noteNumber = pitch.ABSOLUTE_PITCH;
             midiChannels[0].noteOn(noteNumber, 127);
             Thread.sleep(1000);
             midiChannels[0].noteOff(noteNumber);
@@ -60,14 +59,14 @@ public final class PlayBack {
         }
     }
 
-    public static void play(Note note) {
+    public static void play(@NotNull Note note) {
         Articulation articulation = note.getArticulation();
         double fullLength = note.getRatio() * 2000; // NOTE: "2000" is the assumed full length (in ms) of a Whole Note, at the given Tempo
         double soundedLength = fullLength
-                * (articulation == null ? 1 : articulation.getLengthModifier());
+                * (articulation == null ? 1 : articulation.LENGTH_MODIFIER);
 
         try {
-            int noteNumber = note.getPitch().getAbsolutePitch();
+            int noteNumber = note.getPitch().ABSOLUTE_PITCH;
             midiChannels[0].noteOn(noteNumber, 127);
             Thread.sleep((long) soundedLength);            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
             midiChannels[0].noteOff(noteNumber);
