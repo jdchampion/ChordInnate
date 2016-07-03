@@ -6,6 +6,6 @@ package chordinnate.musictheory.time.meter;
  *
  * Created by Joseph on 7/3/16.
  */
-public class ImproperMeter extends FixedMeter {
+public class ImproperMeter extends Meter {
 
 }

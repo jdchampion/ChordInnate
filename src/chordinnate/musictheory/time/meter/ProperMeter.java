@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * Created by Joseph on 7/3/16.
  */
-public class ProperMeter extends FixedMeter {
+public class ProperMeter extends Meter {
     public ProperMeter(int numerator, @NotNull Beat denominator) {
 
     }
