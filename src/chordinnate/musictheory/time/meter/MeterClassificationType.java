@@ -9,16 +9,26 @@ package chordinnate.musictheory.time.meter;
  */
 public enum MeterClassificationType {
     /*
+     * Time signature is not subdivided, or no time signature is used.
+     */
+    FREE,
+
+    /*
+     * Meter changes more than once.
+     */
+    MIXED,
+
+    /*
+     * Meter alternates between EXACTLY two time signatures.
+     */
+    ALTERNATING,
+
+    /*
      * Time signature numerator is some form of floating point number.
      */
     FRACTIONAL,
     PARTIAL,
     IRREGULAR,
-
-    /*
-     * Time signature is not subdivided, or no time signature is used.
-     */
-    FREE,
 
     /*
      * Time signature numerator IS divisible by 6.
@@ -63,19 +73,9 @@ public enum MeterClassificationType {
     ADDITIVE,
 
     /*
-     * Time signature numerator IS NOT divisible by 2 AND NOT divisible by 3.
+     * Time signature numerator IS divisible by 2 XOR divisible by 3.
      */
     ASYMMETRICAL,
-
-    /*
-     * Meter changes more than once.
-     */
-    MIXED,
-
-    /*
-     * Meter alternates between EXACTLY two time signatures.
-     */
-    ALTERNATING,
 
     ;
 }
