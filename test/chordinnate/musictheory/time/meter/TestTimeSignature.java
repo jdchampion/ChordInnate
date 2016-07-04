@@ -19,7 +19,7 @@ public class TestTimeSignature {
     @Test
     public void freeMeters() throws Exception {
         // Free meters have no MeterSubdivision
-        assertTrue(new FreeMeter().is(MeterProperty.FREE));
+        assertTrue(new FreeMeter().is(MeterClassificationType.FREE));
     }
 
     @Test
@@ -28,7 +28,7 @@ public class TestTimeSignature {
 
         for (int numerator : oddNumeratorsSubset) {
             for (Beat beat : Beat.values()) {
-                assertTrue(new TimeSignature(numerator, beat).is(MeterProperty.ODD));
+                assertTrue(new TimeSignature(numerator, beat).is(MeterClassificationType.ODD));
             }
         }
     }
@@ -39,7 +39,7 @@ public class TestTimeSignature {
 
         for (int numerator : validNumeratorsSubset) {
             for (Beat beat : Beat.values()) {
-                assertTrue(new TimeSignature(numerator, beat).is(MeterProperty.PERFECT));
+                assertTrue(new TimeSignature(numerator, beat).is(MeterClassificationType.PERFECT));
             }
         }
     }
@@ -50,7 +50,7 @@ public class TestTimeSignature {
 
         for (int numerator : validNumeratorsSubset) {
             for (Beat beat : Beat.values()) {
-                assertTrue(new TimeSignature(numerator, beat).is(MeterProperty.IMPERFECT));
+                assertTrue(new TimeSignature(numerator, beat).is(MeterClassificationType.IMPERFECT));
             }
         }
     }
@@ -61,7 +61,7 @@ public class TestTimeSignature {
 
         for (int numerator : validNumeratorsSubset) {
             for (Beat beat : Beat.values()) {
-                assertTrue(new TimeSignature(numerator, beat).is(MeterProperty.SIMPLE));
+                assertTrue(new TimeSignature(numerator, beat).is(MeterClassificationType.SIMPLE));
             }
         }
 
@@ -69,7 +69,7 @@ public class TestTimeSignature {
 
         for (int numerator : invalidNumeratorsSubset) {
             for (Beat beat : Beat.values()) {
-                assertFalse(new TimeSignature(numerator, beat).is(MeterProperty.SIMPLE));
+                assertFalse(new TimeSignature(numerator, beat).is(MeterClassificationType.SIMPLE));
             }
         }
     }
@@ -80,7 +80,7 @@ public class TestTimeSignature {
 
         for (int numerator : validNumeratorsSubset) {
             for (Beat beat : Beat.values()) {
-                assertTrue(new TimeSignature(numerator, beat).is(MeterProperty.COMPOUND));
+                assertTrue(new TimeSignature(numerator, beat).is(MeterClassificationType.COMPOUND));
             }
         }
     }
@@ -90,10 +90,10 @@ public class TestTimeSignature {
         TimeSignature ts;
 
         ts = new TimeSignature(9, Beat.EIGHTH, new boolean[]{true, false, true, false, false, true, false, true, false});
-        assertTrue(ts.is(MeterProperty.COMPLEX) && ts.is(MeterProperty.IRREGULAR) && ts.is(MeterProperty.ASYMMETRICAL));
+        assertTrue(ts.is(MeterClassificationType.COMPLEX) && ts.is(MeterClassificationType.IRREGULAR) && ts.is(MeterClassificationType.ASYMMETRICAL));
 
         ts = new TimeSignature(9, Beat.EIGHTH, new int[]{2, 3, 2, 2});
-        assertTrue(ts.is(MeterProperty.COMPLEX) && ts.is(MeterProperty.IRREGULAR) && ts.is(MeterProperty.ASYMMETRICAL));
+        assertTrue(ts.is(MeterClassificationType.COMPLEX) && ts.is(MeterClassificationType.IRREGULAR) && ts.is(MeterClassificationType.ASYMMETRICAL));
     }
 
     @Test
@@ -104,8 +104,8 @@ public class TestTimeSignature {
         for (double numerator : validNumeratorsSubset) {
             for (Beat beat : Beat.values()) {
                 ts = new TimeSignature(numerator, beat);
-                assertTrue(ts.is(MeterProperty.FRACTIONAL));
-                assertTrue(ts.is(MeterProperty.PARTIAL));
+                assertTrue(ts.is(MeterClassificationType.FRACTIONAL));
+                assertTrue(ts.is(MeterClassificationType.PARTIAL));
 
             }
         }
@@ -119,10 +119,10 @@ public class TestTimeSignature {
             for (Beat beat : Beat.values()) {
                 ts = new TimeSignature(numerator, beat);
                 if ((1 / beat.getRatio()) % 2 == 0) {
-                    assertFalse(ts.is(MeterProperty.IRRATIONAL));
+                    assertFalse(ts.is(MeterClassificationType.IRRATIONAL));
                 }
                 else {
-                    assertTrue(ts.is(MeterProperty.IRRATIONAL));
+                    assertTrue(ts.is(MeterClassificationType.IRRATIONAL));
                 }
             }
         }

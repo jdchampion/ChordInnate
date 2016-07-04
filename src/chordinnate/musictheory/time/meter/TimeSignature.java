@@ -21,7 +21,7 @@ public class TimeSignature {
     private ArrayList<MeterSubdivision>
             possibleMeterSubdivisions,
             actualMeterSubdivisions;
-    private ArrayList<MeterProperty> meterProperties;
+    private ArrayList<MeterClassificationType> meterProperties;
     private boolean[] stressPatternBool;
     private int[] stressPatternInt;
 
@@ -45,7 +45,7 @@ public class TimeSignature {
         this.actualMeterSubdivisions = new ArrayList<>();
         // TODO: fill in actual MeterGroupings
 
-        this.meterProperties = new ArrayList<>(MeterProperty.values().length);
+        this.meterProperties = new ArrayList<>(MeterClassificationType.values().length);
         addCommonMeterProperties();
 
         /*
@@ -83,7 +83,7 @@ public class TimeSignature {
         this.stressPatternBool = stressPattern;
         this.stressPatternInt = intStressPatternFromBoolStressPattern();
 
-        this.meterProperties = new ArrayList<>(MeterProperty.values().length);
+        this.meterProperties = new ArrayList<>(MeterClassificationType.values().length);
         addCommonMeterProperties();
 
         this.possibleMeterSubdivisions = new ArrayList<>();
@@ -109,15 +109,15 @@ public class TimeSignature {
         this.stressPatternInt = stressPattern;
         this.stressPatternBool = boolStressPatternFromIntStressPattern();
 
-        this.meterProperties = new ArrayList<>(MeterProperty.values().length);
+        this.meterProperties = new ArrayList<>(MeterClassificationType.values().length);
         addCommonMeterProperties();
 
         this.possibleMeterSubdivisions = new ArrayList<>();
         inferPossibleMeterGroupings();
     }
 
-    public boolean is(MeterProperty meterProperty) {
-        return meterProperties.contains(meterProperty);
+    public boolean is(MeterClassificationType meterClassificationType) {
+        return meterProperties.contains(meterClassificationType);
     }
 
     private void inferPossibleMeterGroupings() {
@@ -130,11 +130,11 @@ public class TimeSignature {
     }
 
     private boolean isFreeMetered() {
-        return this.meterProperties.contains(MeterProperty.FREE);
+        return this.meterProperties.contains(MeterClassificationType.FREE);
     }
 
     private boolean isAdditive() {
-        return this.meterProperties.contains(MeterProperty.ADDITIVE);
+        return this.meterProperties.contains(MeterClassificationType.ADDITIVE);
     }
 
     private boolean safeToUseStressPattern(int[] stressPatternInt) {
@@ -194,27 +194,27 @@ public class TimeSignature {
                 div2 = (numerator % 2.0 == 0.0),
                 div3 = (numerator % 3.0 == 0.0);
 
-        addPropertyIfTrue(MeterProperty.ODD, !div2);
-        meterProperties.add(div2 ^ div3 ? MeterProperty.PERFECT : MeterProperty.IMPERFECT);
-        addPropertyIfTrue(MeterProperty.SIMPLE, div2 && !div3);
-        addPropertyIfTrue(MeterProperty.COMPOUND, div3 && !div2);
+        addPropertyIfTrue(MeterClassificationType.ODD, !div2);
+        meterProperties.add(div2 ^ div3 ? MeterClassificationType.PERFECT : MeterClassificationType.IMPERFECT);
+        addPropertyIfTrue(MeterClassificationType.SIMPLE, div2 && !div3);
+        addPropertyIfTrue(MeterClassificationType.COMPOUND, div3 && !div2);
 
         boolean isComplex = isComplex();
 
-        if (isComplex) meterProperties.remove(MeterProperty.SIMPLE);    // can't be both simple and complex
+        if (isComplex) meterProperties.remove(MeterClassificationType.SIMPLE);    // can't be both simple and complex
 
-        addPropertyIfTrue(MeterProperty.COMPLEX, isComplex);
-        addPropertyIfTrue(MeterProperty.IRREGULAR, isComplex);
-        addPropertyIfTrue(MeterProperty.ASYMMETRICAL, isComplex);
+        addPropertyIfTrue(MeterClassificationType.COMPLEX, isComplex);
+        addPropertyIfTrue(MeterClassificationType.IRREGULAR, isComplex);
+        addPropertyIfTrue(MeterClassificationType.ASYMMETRICAL, isComplex);
 
         boolean isFractional = (Math.ceil(numerator) != Math.floor(numerator));
 
-        addPropertyIfTrue(MeterProperty.FRACTIONAL, isFractional);
-        addPropertyIfTrue(MeterProperty.PARTIAL, isFractional);
+        addPropertyIfTrue(MeterClassificationType.FRACTIONAL, isFractional);
+        addPropertyIfTrue(MeterClassificationType.PARTIAL, isFractional);
 
         boolean denomDiv2 = ((1 / denominator.getRatio()) % 2.0 == 0.0);
 
-        addPropertyIfTrue(MeterProperty.IRRATIONAL, !denomDiv2);
+        addPropertyIfTrue(MeterClassificationType.IRRATIONAL, !denomDiv2);
     }
 
 
@@ -240,8 +240,8 @@ public class TimeSignature {
         return div2 && div3;
     }
 
-    private void addPropertyIfTrue(MeterProperty meterProperty, boolean condition) {
-        if (condition) meterProperties.add(meterProperty);
+    private void addPropertyIfTrue(MeterClassificationType meterClassificationType, boolean condition) {
+        if (condition) meterProperties.add(meterClassificationType);
     }
 
     public double getNumerator() {
@@ -256,8 +256,8 @@ public class TimeSignature {
         return possibleMeterSubdivisions.toArray(new MeterSubdivision[possibleMeterSubdivisions.size()]);
     }
 
-    public MeterProperty[] getMeterProperties() {
-        return meterProperties.toArray(new MeterProperty[meterProperties.size()]);
+    public MeterClassificationType[] getMeterProperties() {
+        return meterProperties.toArray(new MeterClassificationType[meterProperties.size()]);
     }
 
     public double getMeasureDuration() {
@@ -291,7 +291,7 @@ public class TimeSignature {
             // Automatically update MeterGroupings and MeterProperties
             possibleMeterSubdivisions = new ArrayList<>();
             inferPossibleMeterGroupings();
-            meterProperties = new ArrayList<>(MeterProperty.values().length);
+            meterProperties = new ArrayList<>(MeterClassificationType.values().length);
             addCommonMeterProperties();
 
             return true;

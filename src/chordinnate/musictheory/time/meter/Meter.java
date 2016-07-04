@@ -8,14 +8,13 @@ import java.util.HashSet;
  * Created by Joseph on 7/2/16.
  */
 public abstract class Meter {
-    HashSet<MeterProperty> meterProperties;
-    double measureDuration;
+    HashSet<MeterClassificationType> meterClassificationTypes;
 
-    public double getMeasureDuration() {
-        return measureDuration;
+    Meter() {
+        this.meterClassificationTypes = new HashSet<>();
     }
 
-    public boolean is(@NotNull MeterProperty meterProperty) {
-        return meterProperties.contains(meterProperty);
+    public boolean is(@NotNull MeterClassificationType meterClassificationType) {
+        return meterClassificationTypes.contains(meterClassificationType);
     }
 }

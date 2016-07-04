@@ -7,8 +7,7 @@ package chordinnate.musictheory.time.meter;
  *             https://en.wikipedia.org/wiki/Time_signature
  *             http://donrathjr.com/compound-time-signatures/
  */
-@Deprecated
-public enum MeterProperty {
+public enum MeterClassificationType {
     /*
      * Time signature is not subdivided, or no time signature is used.
      */
@@ -47,7 +46,7 @@ public enum MeterProperty {
     ASYMMETRICAL,
 
     /*
-     * Time signature numerator is rational BUT NOT an integer.
+     * Time signature numerator is some form of floating point number.
      */
     FRACTIONAL,
     PARTIAL,

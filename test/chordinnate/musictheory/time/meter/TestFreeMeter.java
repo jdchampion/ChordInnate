@@ -11,12 +11,12 @@ public class TestFreeMeter {
     @Test
     public void is() throws Exception {
         FreeMeter freeMeter = new FreeMeter();
-        for (MeterProperty meterProperty : MeterProperty.values()) {
-            if (meterProperty.equals(MeterProperty.FREE)) {
-                assertTrue(freeMeter.is(meterProperty));
+        for (MeterClassificationType meterClassificationType : MeterClassificationType.values()) {
+            if (meterClassificationType.equals(MeterClassificationType.FREE)) {
+                assertTrue(freeMeter.is(meterClassificationType));
             }
             else {
-                assertFalse(freeMeter.is(meterProperty));
+                assertFalse(freeMeter.is(meterClassificationType));
             }
         }
     }

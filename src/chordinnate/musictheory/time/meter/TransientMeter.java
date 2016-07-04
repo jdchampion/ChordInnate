@@ -1,0 +1,20 @@
+package chordinnate.musictheory.time.meter;
+
+import java.util.LinkedList;
+
+/**
+ * Any meter that contains more than one (1) change in its measurement of time.
+ *
+ * Created by Joseph on 7/3/16.
+ */
+public abstract class TransientMeter extends Meter {
+    LinkedList<FixedMeterNode> meterPattern;
+
+    TransientMeter() {
+        this.meterPattern = new LinkedList<>();
+    }
+
+    public int getNumberOfMeterChanges() {
+        return meterPattern.size();
+    }
+}
