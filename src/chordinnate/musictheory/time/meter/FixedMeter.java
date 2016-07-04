@@ -24,5 +24,15 @@ public abstract class FixedMeter extends Meter {
 
     abstract boolean hasValidArguments(Number numerator, Number denominator);
 
-    public abstract void inferMeterClassifications();
+    abstract void inferMeterClassifications();
+
+    public void toggleAdditiveMeterClassification() {
+        MeterClassificationType additive = MeterClassificationType.ADDITIVE;
+        if (is(additive)) {
+            meterClassificationTypes.remove(additive);
+        }
+        else {
+            meterClassificationTypes.add(additive);
+        }
+    }
 }

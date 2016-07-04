@@ -9,29 +9,16 @@ package chordinnate.musictheory.time.meter;
  */
 public enum MeterClassificationType {
     /*
+     * Time signature numerator is some form of floating point number.
+     */
+    FRACTIONAL,
+    PARTIAL,
+    IRREGULAR,
+
+    /*
      * Time signature is not subdivided, or no time signature is used.
      */
     FREE,
-
-    /*
-     * Time signature numerator is odd.
-     */
-    ODD,
-
-    /*
-     * Time signature numerator IS divisible by 2 XOR 3.
-     */
-    PERFECT,
-
-    /*
-     * Time signature numerator IS NOT divisible by 2 AND NOT divisible by 3.
-     */
-    IMPERFECT,
-
-    /*
-     * Time signature numerator IS <= 5 AND (divisible by 2 OR divisible by 3).
-     */
-    SIMPLE,
 
     /*
      * Time signature numerator IS divisible by 6.
@@ -39,17 +26,30 @@ public enum MeterClassificationType {
     COMPOUND,
 
     /*
+     * Time signature numerator IS divisible by 2.
+     */
+    IMPERFECT,
+
+    /*
+     * Time signature numerator IS NOT divisible by 2.
+     */
+    ODD,
+
+    /*
+     * Time signature numerator IS divisible by 3.
+     * (3 --> trinity --> perfect)
+     */
+    PERFECT,
+
+    /*
+     * Time signature numerator IS <= 5 AND (divisible by 2 OR divisible by 3).
+     */
+    SIMPLE,
+
+    /*
      * Includes simple (% 2) AND compound (% 3) stresses in the time signature.
      */
     COMPLEX,
-    IRREGULAR,
-    ASYMMETRICAL,
-
-    /*
-     * Time signature numerator is some form of floating point number.
-     */
-    FRACTIONAL,
-    PARTIAL,
 
     /*
      * Time signature denominator is NOT a dyadic rational (i.e., a power of 2).
@@ -61,6 +61,11 @@ public enum MeterClassificationType {
      * Example: (3 + 2 + 3)/8 --> 8 beats per measure, 8th note gets the beat. Stress pattern = 3-2-3
      */
     ADDITIVE,
+
+    /*
+     * Time signature numerator IS NOT divisible by 2 AND NOT divisible by 3.
+     */
+    ASYMMETRICAL,
 
     /*
      * Meter changes more than once.

@@ -1,5 +1,7 @@
 package chordinnate.musictheory.time.meter;
 
+import chordinnate.musictheory.time.rhythm.Tuplet;
+
 /**
  * Meters whose time signature uses exclusively integers as its measurement of time.
  * This represents the most common time signatures.
@@ -17,12 +19,22 @@ public final class ProperMeter extends FixedMeter {
          * Numerator and denominator must both possess the following properties:
          * - nonzero
          * - nonnegative
+         *
+         * Denominator must possess the following properties:
+         * - no greater than the Tuplet with the highest NUMBER field
+         *   (this bounding is required to properly resolve it into a Beat object)
          */
-        return numerator.intValue() > 0 && denominator.intValue() > 0;
+        Tuplet highestSubdivision = Tuplet.values()[Tuplet.values().length - 1];
+
+        int denom = denominator.intValue();
+
+        return ((numerator.intValue() > 0 && denom > 0) &&
+                (denom < highestSubdivision.NUMBER)
+        );
     }
 
     @Override
-    public void inferMeterClassifications() {
+    void inferMeterClassifications() {
         // TODO
     }
 }
