@@ -10,4 +10,9 @@ public final class FreeMeter extends InfiniteMeter {
     public FreeMeter() {
         meterClassificationTypes.add(MeterClassificationType.FREE);
     }
+
+    @Override
+    boolean hasValidArguments(Number[] numerator, Number denominator) {
+        return false;
+    }
 }

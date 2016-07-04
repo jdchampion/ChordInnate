@@ -73,7 +73,7 @@ public enum MeterClassificationType {
     ADDITIVE,
 
     /*
-     * Time signature numerator IS divisible by 2 XOR divisible by 3.
+     * Time signature numerator IS > 6 AND (is divisible by 2 XNOR divisible by 3).
      */
     ASYMMETRICAL,
 

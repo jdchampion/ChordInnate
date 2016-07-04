@@ -27,7 +27,7 @@ public final class ImproperMeter extends FixedMeter {
          * - no greater than the Tuplet with the highest NUMBER field
          *   (this bounding is required to properly resolve it into a Beat object)
          */
-        double d1 = numeratorSum(), d2 = denominator.doubleValue();
+        double d1 = super.sumAll(numerator), d2 = denominator.doubleValue();
         int i1 = (int) d1, i2 = denominator.intValue();
         Tuplet highestSubdivision = Tuplet.values()[Tuplet.values().length - 1];
 
@@ -40,6 +40,24 @@ public final class ImproperMeter extends FixedMeter {
 
     @Override
     void inferMeterClassifications() {
-        // TODO
+        /*
+         * By definition of an ImproperMeter (i.e., contains fractional / partial / irrational numbers),
+         * we know that this Meter will be fractional, partial, and irregular.
+         */
+        meterClassificationTypes.add(MeterClassificationType.FRACTIONAL);
+        meterClassificationTypes.add(MeterClassificationType.PARTIAL);
+        meterClassificationTypes.add(MeterClassificationType.IRREGULAR);
+
+        /*
+         * Based on the flow chart, ImproperMeters are capable of possessing the following additional properties:
+         * - additive
+         * - irrational
+         * - asymmetrical
+         *
+         * Figure out which ones this Meter has.
+         */
+        super.inferAdditiveMeter();
+        super.inferIrrationalMeter();
+        super.inferAsymmetricalMeter();
     }
 }

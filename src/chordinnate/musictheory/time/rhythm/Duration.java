@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Created by Joseph on 6/1/16.
  */
-enum Duration {
+public enum Duration {
     /*
      * NOTE: Keep these ordered from smallest to largest.
      */
@@ -20,7 +20,7 @@ enum Duration {
 
     ;
 
-    final double RATIO;
+    public final double RATIO;
     private static final Duration[] VALUES = Duration.values();
 
     Duration(double ratio) {

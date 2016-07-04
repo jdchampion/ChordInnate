@@ -8,9 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * Created by Joseph on 7/3/16.
  */
 public abstract class FixedMeter extends Meter {
-    private Number[] numerator;
-    private Number denominator;
-    private double measureDuration;
+
 
     /**
      * Constructs a Meter whose time measurement remains constant.
@@ -26,36 +24,56 @@ public abstract class FixedMeter extends Meter {
         }
         this.numerator = numerator;
         this.denominator = denominator;
-        this.measureDuration = (numeratorSum() * denominator.doubleValue());
+        this.measureDuration = (sumAll(numerator) * denominator.doubleValue());
         inferMeterClassifications();
     }
 
-    double numeratorSum() {
+    double sumAll(Number... numbers) {
         double sum = 0;
-        for (Number number : numerator) {
+        for (Number number : numbers) {
             sum += number.doubleValue();
         }
         return sum;
     }
 
     /**
-     * Determines whether the constructor arguments were valid to construct this
-     * type of Meter when they were passed to it.
-     * @param numerator
-     * @param denominator
-     * @return
+     * Determines whether this Meter is irrational, and if so, classifies it as such.
      */
-    abstract boolean hasValidArguments(Number[] numerator, Number denominator);
-
-    abstract void inferMeterClassifications();
-
-    public void toggleAdditiveMeterClassification() {
-        MeterClassificationType additive = MeterClassificationType.ADDITIVE;
-        if (is(additive)) {
-            meterClassificationTypes.remove(additive);
-        }
-        else {
-            meterClassificationTypes.add(additive);
+    void inferIrrationalMeter() {
+        /*
+         * Meters are considered irrational if their denominator is a power of 2.
+         */
+        double d_ln_Denom = Math.log(denominator.doubleValue()) / Math.log(2);
+        if (Math.ceil(d_ln_Denom) != Math.floor(d_ln_Denom)) {
+            meterClassificationTypes.add(MeterClassificationType.IRRATIONAL);
         }
     }
+
+    /**
+     * Determines whether this Meter is asymmetrical, and if so, classifies it as such.
+     */
+    void inferAsymmetricalMeter() {
+        double num = sumAll(numerator);
+        // TODO: check logic
+        if ((num % 2 == 0) == (num % 3 == 0) && num > 6) {
+            meterClassificationTypes.add(MeterClassificationType.ASYMMETRICAL);
+        }
+    }
+
+
+
+    /**
+     * Determines and classifies this Meter into musical terms, based on its current properties.
+     */
+    abstract void inferMeterClassifications();
+
+//    public abstract void toggleAdditiveMeterClassification();
+
+    /**
+     * Gives back a new Meter based on the current Meter's denominator,
+     * thereby avoiding potential side effects.
+     * @param subdivisionPattern the new subdivision pattern.
+     * @return a new Meter with the provided subdivision pattern.
+     */
+//    public abstract Meter setSubdivisionPattern(Number... subdivisionPattern);
 }
