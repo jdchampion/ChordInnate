@@ -1,5 +1,7 @@
 package chordinnate.musictheory.time.rhythm;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Wrapper class for musical time measurement units.
  *
@@ -493,22 +495,18 @@ public enum Beat {
         this.DURATION = duration;
         this.DOT_VALUE = dotValue;
         this.TUPLET = tuplet;
-        this.RATIO = getRatio(duration, dotValue, tuplet);
+        this.RATIO = getTotalRatioFor(duration, dotValue, tuplet);
     }
 
-    private double getRatio(Duration duration, DotValue dotValue, Tuplet tuplet) {
-        return (duration.RATIO + getDotSum(duration, dotValue))
-                * (tuplet.equals(Tuplet.NONE) ? 1 : (2.0 / tuplet.NUMBER));
-    }
+    public static double getTotalRatioFor(@NotNull Duration duration, DotValue dotValue, Tuplet tuplet) {
+        boolean
+                noDotValue = dotValue == null,
+                noTuplet = tuplet == null;
 
-    private double getDotSum(Duration duration, DotValue dotValue) {
-        double sum = 0;
-        Duration tmp = duration.getPrevious();
-        int numDots = dotValue.ordinal();
-        for (int i = 0; i < numDots && tmp != null; tmp = tmp.getPrevious(), i++) {
-            sum += tmp.RATIO;
-        }
-        return sum;
+        if (noDotValue && noTuplet) return duration.RATIO;
+        if (noDotValue) return duration.RATIO * tuplet.RATIO;
+        if (noTuplet) return duration.RATIO * dotValue.RATIO;
+        return (duration.RATIO * dotValue.RATIO) * tuplet.RATIO;
     }
 
     public double getRatio() {

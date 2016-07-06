@@ -86,21 +86,23 @@ public class TestBeat {
 
         /*
          * Test all tuplet subdivisions.
-         * Since some of these will return
-         * a sum that is a repeating decimal
-         * (which continues beyond precision of java type "double"),
-         * the delta must accept a small amount of error
-         * (delta == 0.00000000001).
          */
         for (Duration duration : Duration.values()) {
             if (duration.equals(Duration.SIXTY_FOURTH)) continue;
             for (Tuplet tuplet : Tuplet.values()) {
                 if (tuplet.equals(Tuplet.NONE)) continue;
-                assertEquals(
-                        Beat.valueOf(duration + "").getRatio(),
-                        tupleSum(Beat.valueOf(tuplet + "_" + duration.getPrevious())),
-                        0.00000000001
-                );
+                System.out.print(Beat.valueOf(tuplet + "_" + duration) + ": ");
+                try {
+                    assertEquals(
+                            Beat.valueOf(tuplet + "_" + duration).getRatio(),
+                            duration.RATIO * tuplet.RATIO,
+                            0.00000000001
+                    );
+                    System.out.println(Beat.valueOf(tuplet + "_" + duration).getRatio() + " vs " + duration.RATIO * tuplet.RATIO);
+                }
+                catch(AssertionError e) {
+                    System.out.println(duration + "_" + tuplet + "");
+                }
             }
         }
 
@@ -108,23 +110,7 @@ public class TestBeat {
          * Assuming all tests pass above,
          * any combination of dots or tuplets
          * will return the correct lengths.
-         *
-         * As noted previously, certain tuplets
-         * will return repeating decimal values
-         * as their sums, so be sure to account
-         * for the precision.
          */
-    }
-
-    private double tupleSum(Beat beat) {
-        if (beat.TUPLET.equals(Tuplet.NONE) || !beat.DOT_VALUE.equals(DotValue.NONE)) {
-            throw new IllegalArgumentException("tupleSum() can only handle pure Tuplets");
-        }
-        double sum = 0;
-        for (int i = 0; i < beat.TUPLET.NUMBER; i++) {
-            sum += beat.getRatio();
-        }
-        return sum;
     }
 
 }
