@@ -24,19 +24,12 @@ public enum MeterClassificationType {
     ALTERNATING,
 
     /*
-     * Time signature numerator is some form of floating point number.
+     * Time signature numerator is divisible by 2 OR divisible by 3.
      */
-    FRACTIONAL,
-    PARTIAL,
-    IRREGULAR,
+    MULTPLICATIVE,
 
     /*
-     * Time signature numerator IS divisible by 6.
-     */
-    COMPOUND,
-
-    /*
-     * Time signature numerator IS divisible by 2.
+     * Time signature numerator is divisible by 2.
      */
     IMPERFECT,
 
@@ -46,36 +39,74 @@ public enum MeterClassificationType {
     ODD,
 
     /*
-     * Time signature numerator IS divisible by 3.
-     * (3 --> trinity --> perfect)
-     */
-    PERFECT,
-
-    /*
-     * Time signature numerator IS <= 5 AND (divisible by 2 OR divisible by 3).
+     * Time signature numerator is < 6 AND (divisible by 2 XOR 3).
      */
     SIMPLE,
 
     /*
-     * Includes simple (% 2) AND compound (% 3) stresses in the time signature.
+     * Further classification of a simple meter.
+     * Duple: Beat values can be evenly grouped into 2.
+     * Triple: Beat values can be evenly grouped into 3.
+     * Quadruple: Beat values can be evenly grouped into 4.
      */
-    COMPLEX,
+    SIMPLE_DUPLE,
+    SIMPLE_TRIPLE,
+    SIMPLE_QUADRUPLE,
 
     /*
-     * Time signature denominator is NOT a dyadic rational (i.e., a power of 2).
+     * Time signature numerator is divisible by 3.
      */
-    IRRATIONAL,
+    PERFECT,
 
     /*
-     * Time signature numerator is indicated with a stress pattern for the meter.
+     * Time signature numerator is > 3 AND divisible by 3.
+     */
+    COMPOUND,
+
+    /*
+     * Further classification of a compound meter.
+     * Duple: Beat values can be evenly grouped into 2.
+     * Triple: Beat values can be evenly grouped into 3.
+     * Quadruple: Beat values can be evenly grouped into 4.
+     */
+    COMPOUND_DUPLE,
+    COMPOUND_TRIPLE,
+    COMPOUND_QUADRUPLE,
+
+    /*
+     * Time signature numerator is indicated with a subdivision pattern for the meter.
      * Example: (3 + 2 + 3)/8 --> 8 beats per measure, 8th note gets the beat. Stress pattern = 3-2-3
      */
     ADDITIVE,
 
     /*
-     * Time signature numerator IS > 6 AND (is divisible by 2 XNOR divisible by 3).
+     * Time signature contains both perfect (% 3) AND imperfect (% 2) subdivisions,
+     * BUT NOT divisible by 3.
      */
+    COMPLEX,
+
+    /*
+     * Meter is both odd AND complex.
+     */
+    IRREGULAR,
     ASYMMETRICAL,
+
+    /*
+     * Time signature denominator is NOT a dyadic rational (log2(x) == int).
+     */
+    IRRATIONAL,
+
+    /*
+     * Time signature numerator is written as a floating point number
+     * that is a dyadic (log2(x) == int) or triadic (log3(x) == int) rational.
+     */
+    PARTIAL,
+
+    /*
+     * Time signature numerator is written as a fraction
+     * whose fractional denominator is a dyadic (log2(x) == int) or triadic (log3(x) == int) rational.
+     */
+    FRACTIONAL,
 
     ;
 }

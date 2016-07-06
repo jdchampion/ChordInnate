@@ -10,10 +10,6 @@ import java.util.LinkedList;
 public abstract class TransientMeter extends Meter {
     LinkedList<FixedMeterNode> meterPattern;
 
-    TransientMeter() {
-        this.meterPattern = new LinkedList<>();
-    }
-
     public int getNumberOfMeterChanges() {
         return meterPattern.size();
     }

@@ -15,6 +15,8 @@ public class TestBjorklund {
                 printBitmap(i, j);
             }
         }
+
+        printBitmap(9, 3);
     }
 
     private void printBitmap(int slots, int pulses) {
