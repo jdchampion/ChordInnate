@@ -13,6 +13,9 @@ public class Note {
     private Beat beat;
     private Articulation articulation;
     private boolean tied = false;       // Default to not being tied
+    private double
+            fullLength,                 // The full value of the Beat in this Note
+            soundedLength;              // The amount of the full Beat value that is actually sounded
 
     private Note(
             Pitch pitch,
@@ -24,6 +27,9 @@ public class Note {
         this.beat = beat;
         this.articulation = articulation;
         this.tied = tied;
+        this.fullLength = beat.getRatio();
+        this.soundedLength = fullLength
+                * (articulation == null ? 1 : articulation.LENGTH_MODIFIER);
     }
 
     public Note(@NotNull Pitch pitch, @NotNull Beat beat) {
@@ -56,8 +62,12 @@ public class Note {
         return tied;
     }
 
-    public double getRatio() {
-        return beat.getRatio();
+    public double getFullLength() {
+        return fullLength;
+    }
+
+    public double getSoundedLength() {
+        return soundedLength;
     }
 
     public static class Builder {
