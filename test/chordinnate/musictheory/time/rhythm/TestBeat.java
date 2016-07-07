@@ -93,8 +93,8 @@ public class TestBeat {
                 if (tuplet.equals(Tuplet.NONE)) continue;
                 assertEquals(
                         Beat.valueOf(tuplet + "_" + duration).getRatio(),
-                        duration.RATIO * tuplet.RATIO,
-                        0.00000000001
+                        (tuplet.NUMBER - 1) * duration.RATIO * tuplet.RATIO,
+                        0
                 );
             }
         }

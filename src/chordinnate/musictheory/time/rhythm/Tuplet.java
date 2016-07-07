@@ -5,7 +5,7 @@ package chordinnate.musictheory.time.rhythm;
  * References: https://en.wikipedia.org/wiki/Tuplet
  */
 public enum Tuplet {
-    NONE(0, 1.0),
+    NONE(0, 1),
     DUPLET(2, 0.5),
     TRIPLET(3, 1.0/3.0),
     QUADRUPLET(4, 0.25),

@@ -1,6 +1,7 @@
 package chordinnate.playback;
 
 import chordinnate.musictheory.pitch.Pitch;
+import chordinnate.musictheory.time.tempo.Tempo;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.MidiChannel;
@@ -20,12 +21,16 @@ public final class PlayBack {
             synthesizer = MidiSystem.getSynthesizer();
             midiChannels = synthesizer.getChannels();
             synthesizer.open();
+            Thread.sleep(1000); // allows the synthesizer to finish initialization before playing
         }
-        catch (MidiUnavailableException ex) {
+        catch (Exception ex) {
             System.err.println(ex.getLocalizedMessage());
         }
     }
 
+    /**
+     * Restarts the Synthesizer if it has been stopped.
+     */
     public static void restart() {
         try {
             if (!synthesizer.isOpen()) synthesizer.open();
@@ -35,6 +40,9 @@ public final class PlayBack {
         }
     }
 
+    /**
+     * Stops the Synthesizer.
+     */
     public static void stop() {
         try {
             for (MidiChannel midiChannel: midiChannels) {
@@ -47,6 +55,10 @@ public final class PlayBack {
         }
     }
 
+    /**
+     * Plays back the specified Pitch for one (1) second.
+     * @param pitch
+     */
     public static void play(@NotNull Pitch pitch) {
         try {
             int noteNumber = pitch.ABSOLUTE_PITCH;
@@ -59,21 +71,20 @@ public final class PlayBack {
         }
     }
 
-    public static void play(@NotNull Note note) {
-        long fullLength = (long) (note.getFullLength() * 500); // NOTE: "500" is the assumed full length (in ms) of a Quarter Note, at the given Tempo
-        long soundedLength = (long) (note.getSoundedLength() * 500);
+    /**
+     * Plays back the specified Note.
+     * @param tempo
+     * @param note
+     */
+    public static void play(@NotNull Tempo tempo, @NotNull Note note) {
+        long fullLength = tempo.getMillisFor(note.getBeat());
+        long soundedLength = (long) (fullLength * note.getSoundedLength());
         long difference = fullLength - soundedLength;
 
         try {
-            Articulation articulation = note.getArticulation();
-            System.out.println(
-                    (articulation == null ? "" : (articulation + " ")) +
-                            note.getPitch() + " " + note.getBeat() + " at tempo = 120 bpm:");
-            System.out.println("Full length: " + fullLength + " ms");
-            System.out.println("Sounded length: " + soundedLength + " ms");
             int noteNumber = note.getPitch().ABSOLUTE_PITCH;
             midiChannels[0].noteOn(noteNumber, 127);
-            Thread.sleep(soundedLength);            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
+            Thread.sleep(soundedLength);
             midiChannels[0].noteOff(noteNumber);
             Thread.sleep(difference);
         }

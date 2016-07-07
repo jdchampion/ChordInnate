@@ -500,13 +500,13 @@ public enum Beat {
 
     public static double getTotalRatioFor(@NotNull Duration duration, DotValue dotValue, Tuplet tuplet) {
         boolean
-                noDotValue = dotValue == null,
-                noTuplet = tuplet == null;
+                noDotValue = dotValue == null || dotValue.equals(DotValue.NONE),
+                noTuplet = tuplet == null || tuplet.equals(Tuplet.NONE);
 
         if (noDotValue && noTuplet) return duration.RATIO;
-        if (noDotValue) return duration.RATIO * tuplet.RATIO;
+        if (noDotValue) return (tuplet.NUMBER - 1) * duration.RATIO * tuplet.RATIO;
         if (noTuplet) return duration.RATIO * dotValue.RATIO;
-        return (duration.RATIO * dotValue.RATIO) * tuplet.RATIO;
+        return ((tuplet.NUMBER - 1) * duration.RATIO * dotValue.RATIO) * tuplet.RATIO;
     }
 
     public double getRatio() {

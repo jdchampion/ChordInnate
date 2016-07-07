@@ -123,4 +123,8 @@ public class Tempo {
 
         return null; // Returned on error
     }
+
+    public long getMillisFor(Beat beat) {
+        return (long) (millis * (beat.getRatio() / currentSubdivision.getRatio()));
+    }
 }
