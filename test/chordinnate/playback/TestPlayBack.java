@@ -23,6 +23,14 @@ public class TestPlayBack {
                 .articulation(Articulation.STACCATO)
                 .build();
 
+        long fullLength = (long) (note.getFullLength() * 500); // NOTE: "500" is the assumed full length (in ms) of a Quarter Note, at the given Tempo
+        long soundedLength = (long) (note.getSoundedLength() * 500);
+        Articulation articulation = note.getArticulation();
+        System.out.println(
+                (articulation == null ? "" : (articulation + " ")) +
+                        note.getPitch() + " " + note.getBeat() + " at tempo = 120 bpm:");
+        System.out.println("Full length: " + fullLength + " ms");
+        System.out.println("Sounded length: " + soundedLength + " ms");
         PlayBack.play(note);
         PlayBack.stop();
     }

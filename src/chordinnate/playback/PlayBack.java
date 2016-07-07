@@ -65,12 +65,6 @@ public final class PlayBack {
         long difference = fullLength - soundedLength;
 
         try {
-            Articulation articulation = note.getArticulation();
-            System.out.println(
-                    (articulation == null ? "" : (articulation + " ")) +
-                            note.getPitch() + " " + note.getBeat() + " at tempo = 120 bpm:");
-            System.out.println("Full length: " + fullLength + " ms");
-            System.out.println("Sounded length: " + soundedLength + " ms");
             int noteNumber = note.getPitch().ABSOLUTE_PITCH;
             midiChannels[0].noteOn(noteNumber, 127);
             Thread.sleep(soundedLength);            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
