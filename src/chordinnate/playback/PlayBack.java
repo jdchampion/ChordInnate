@@ -1,8 +1,7 @@
 package chordinnate.playback;
 
-import chordinnate.musictheory.Articulation;
-import chordinnate.musictheory.Note;
-import chordinnate.musictheory.Pitch;
+import chordinnate.musictheory.pitch.Pitch;
+import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiSystem;
@@ -48,9 +47,9 @@ public final class PlayBack {
         }
     }
 
-    public static void play(Pitch pitch) {
+    public static void play(@NotNull Pitch pitch) {
         try {
-            int noteNumber = pitch.getAbsolutePitch();
+            int noteNumber = pitch.ABSOLUTE_PITCH;
             midiChannels[0].noteOn(noteNumber, 127);
             Thread.sleep(1000);
             midiChannels[0].noteOff(noteNumber);
@@ -60,18 +59,23 @@ public final class PlayBack {
         }
     }
 
-    public static void play(Note note) {
-        Articulation articulation = note.getArticulation();
-        double fullLength = note.getRatio() * 2000; // NOTE: "2000" is the assumed full length (in ms) of a Whole Note, at the given Tempo
-        double soundedLength = fullLength
-                * (articulation == null ? 1 : articulation.getLengthModifier());
+    public static void play(@NotNull Note note) {
+        long fullLength = (long) (note.getFullLength() * 500); // NOTE: "500" is the assumed full length (in ms) of a Quarter Note, at the given Tempo
+        long soundedLength = (long) (note.getSoundedLength() * 500);
+        long difference = fullLength - soundedLength;
 
         try {
-            int noteNumber = note.getPitch().getAbsolutePitch();
+            Articulation articulation = note.getArticulation();
+            System.out.println(
+                    (articulation == null ? "" : (articulation + " ")) +
+                            note.getPitch() + " " + note.getBeat() + " at tempo = 120 bpm:");
+            System.out.println("Full length: " + fullLength + " ms");
+            System.out.println("Sounded length: " + soundedLength + " ms");
+            int noteNumber = note.getPitch().ABSOLUTE_PITCH;
             midiChannels[0].noteOn(noteNumber, 127);
-            Thread.sleep((long) soundedLength);            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
+            Thread.sleep(soundedLength);            // TODO: implement Tempo, TimeSignature, Measure; use Measure.getMillis()
             midiChannels[0].noteOff(noteNumber);
-            Thread.sleep((long) fullLength - (long) soundedLength);
+            Thread.sleep(difference);
         }
         catch (Exception ex) {
             System.err.println(ex.getLocalizedMessage());

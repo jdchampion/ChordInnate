@@ -1,6 +1,7 @@
 package chordinnate.playback;
 
-import chordinnate.musictheory.*;
+import chordinnate.musictheory.pitch.Pitch;
+import chordinnate.musictheory.time.rhythm.Beat;
 import org.junit.Test;
 
 /**
