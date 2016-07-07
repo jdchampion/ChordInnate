@@ -15,7 +15,7 @@ public class TestPlayBack {
             System.out.println(pitch.name());
             PlayBack.play(pitch);
         }
-        PlayBack.stop();
+//        PlayBack.stop();
     }
 
     @Test
@@ -57,8 +57,7 @@ public class TestPlayBack {
             PlayBack.play(tempo, n3);
             PlayBack.play(tempo, n4);
         }
-
-        PlayBack.stop();
+//        PlayBack.stop();
     }
 
 }

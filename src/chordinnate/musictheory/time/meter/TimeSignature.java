@@ -6,7 +6,7 @@ import chordinnate.musictheory.time.rhythm.Duration;
  * Created by Joseph on 7/6/16.
  */
 public class TimeSignature {
-    public FixedMeter meter;
+    FixedMeter meter;
 
     /**
      * Constructs a TimeSignature whose numerator and denominator are both integers.
