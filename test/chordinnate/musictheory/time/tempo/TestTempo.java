@@ -37,4 +37,14 @@ public class TestTempo {
         }
     }
 
+    @Test
+    public void getMillis() throws Exception {
+        Tempo tempo = new Tempo(Beat.QUARTER, 120);
+        assertEquals(500, tempo.getMillisFor(Beat.QUARTER));
+        tempo = new Tempo(Beat.QUARTER, 240);
+        assertEquals(250, tempo.getMillisFor(Beat.QUARTER));
+        tempo = new Tempo(Beat.QUARTER, 60);
+        assertEquals(1000, tempo.getMillisFor(Beat.QUARTER));
+    }
+
 }

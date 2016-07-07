@@ -10,9 +10,9 @@ package chordinnate.playback;
 public enum Articulation {
     // Duration Articulations
     TENUTO(1, 1),
-    MARCATO(0.33, 1.3),
-    STACCATO(0.33, 1),
-    STACCATISSIMO(0.165, 1),
+    MARCATO(1.0/3.0, 1.3),
+    STACCATO(1.0/3.0, 1),
+    STACCATISSIMO(1.0/4.5, 1),
     ACCENT(0.5, 1.15),
     LEGATO(1, 1),
 

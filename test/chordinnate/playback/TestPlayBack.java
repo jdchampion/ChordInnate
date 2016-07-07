@@ -2,6 +2,7 @@ package chordinnate.playback;
 
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.time.rhythm.Beat;
+import chordinnate.musictheory.time.tempo.Tempo;
 import org.junit.Test;
 
 /**
@@ -19,19 +20,31 @@ public class TestPlayBack {
 
     @Test
     public void playNote() throws Exception {
-        Note note = new Note.Builder(Pitch.C_4, Beat.QUARTER)
-                .articulation(Articulation.STACCATO)
-                .build();
+        for (Articulation articulation : Articulation.values()) {
+            Note note = new Note.Builder(Pitch.C_4, Beat.QUARTER)
+                    .articulation(articulation)
+                    .build();
 
-        long fullLength = (long) (note.getFullLength() * 500); // NOTE: "500" is the assumed full length (in ms) of a Quarter Note, at the given Tempo
-        long soundedLength = (long) (note.getSoundedLength() * 500);
-        Articulation articulation = note.getArticulation();
-        System.out.println(
-                (articulation == null ? "" : (articulation + " ")) +
-                        note.getPitch() + " " + note.getBeat() + " at tempo = 120 bpm:");
-        System.out.println("Full length: " + fullLength + " ms");
-        System.out.println("Sounded length: " + soundedLength + " ms");
-        PlayBack.play(note);
+            Tempo tempo = new Tempo(Beat.QUARTER, 120);
+            long fullLength = tempo.getMillisFor(note.getBeat());
+            long soundedLength = (long) (note.getSoundedLength() * fullLength);
+            long difference = fullLength - soundedLength;
+//            Articulation articulation = note.getArticulation();
+            Pitch pitch = note.getPitch();
+            Beat beat = note.getBeat();
+            System.out.println(
+                    (articulation == null ? "" : (articulation + " ")) +
+                            pitch + " " + beat + " at tempo = 120 bpm:");
+            System.out.println("Full length: " + fullLength + " ms");
+            System.out.println("Sounded length: " + soundedLength + " ms");
+            System.out.println("Unsounded length: " + difference + " ms\n");
+
+            PlayBack.play(tempo, note);
+            PlayBack.play(tempo, note);
+            PlayBack.play(tempo, note);
+            PlayBack.play(tempo, note);
+        }
+
         PlayBack.stop();
     }
 

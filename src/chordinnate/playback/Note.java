@@ -13,9 +13,7 @@ public class Note {
     private Beat beat;
     private Articulation articulation;
     private boolean tied = false;       // Default to not being tied
-    private double
-            fullLength,                 // The full value of the Beat in this Note
-            soundedLength;              // The amount of the full Beat value that is actually sounded
+    private double soundedLength;       // The amount of the full Beat value that is actually sounded
 
     private Note(
             Pitch pitch,
@@ -27,14 +25,13 @@ public class Note {
         this.beat = beat;
         this.articulation = articulation;
         this.tied = tied;
-        this.fullLength = beat.getRatio();
-        this.soundedLength = fullLength
-                * (articulation == null ? 1 : articulation.LENGTH_MODIFIER);
+        this.soundedLength = (articulation == null ? 1 : articulation.LENGTH_MODIFIER);
     }
 
     public Note(@NotNull Pitch pitch, @NotNull Beat beat) {
         this.pitch = pitch;
         this.beat = beat;
+        this.soundedLength = beat.getRatio();
     }
 
     public Pitch getPitch() {
@@ -62,36 +59,32 @@ public class Note {
         return tied;
     }
 
-    public double getFullLength() {
-        return fullLength;
-    }
-
-    public double getSoundedLength() {
+    double getSoundedLength() {
         return soundedLength;
     }
 
-    public static class Builder {
+    static class Builder {
         private Pitch pitch;
         private Beat beat;
         private Articulation articulation;
         private boolean tied = false;
 
-        public Builder(@NotNull Pitch pitch, @NotNull Beat beat) {
+        Builder(@NotNull Pitch pitch, @NotNull Beat beat) {
             this.pitch = pitch;
             this.beat = beat;
         }
 
-        public Builder articulation(Articulation articulation) {
+        Builder articulation(Articulation articulation) {
             this.articulation = articulation;
             return this;
         }
 
-        public Builder tie() {
+        Builder tie() {
             this.tied = true;
             return this;
         }
 
-        public Note build() {
+        Note build() {
             return new Note(
                     pitch,
                     beat,
