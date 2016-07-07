@@ -30,6 +30,9 @@ public abstract class CompleteMeter extends FixedMeter {
      * @param subdivisions
      */
     void verifyMatch(int numerator, MeterSubdivision[] subdivisions) {
+        if (subdivisions.length == 0) {
+            throw new IllegalArgumentException("No subdivisions provided");
+        }
         if (sumAll(subdivisions) != numerator) {
             throw new IllegalArgumentException("Numerator and subdivisons do not match");
         }
