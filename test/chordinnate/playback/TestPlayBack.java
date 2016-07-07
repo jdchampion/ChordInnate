@@ -20,18 +20,26 @@ public class TestPlayBack {
 
     @Test
     public void playNote() throws Exception {
+        Tempo tempo = new Tempo(Beat.QUARTER, 60);
         for (Articulation articulation : Articulation.values()) {
-            Note note = new Note.Builder(Pitch.C_4, Beat.QUARTER)
+            Note
+                    n1 = new Note.Builder(Pitch.G_4, Beat.TRIPLET_EIGHTH)
                     .articulation(articulation)
-                    .build();
+                    .build(),
 
-            Tempo tempo = new Tempo(Beat.QUARTER, 120);
-            long fullLength = tempo.getMillisFor(note.getBeat());
-            long soundedLength = (long) (note.getSoundedLength() * fullLength);
+                    n2 = new Note(Pitch.E_FLAT_4, Beat.DOTTED_HALF),
+
+                    n3 = new Note.Builder(Pitch.F_4, Beat.TRIPLET_EIGHTH)
+                            .articulation(articulation)
+                            .build(),
+
+                    n4 = new Note(Pitch.D_4, Beat.DOTTED_HALF);
+
+            long fullLength = tempo.getMillisFor(n1.getBeat());
+            long soundedLength = (long) (n1.getSoundedLength() * fullLength);
             long difference = fullLength - soundedLength;
-//            Articulation articulation = note.getArticulation();
-            Pitch pitch = note.getPitch();
-            Beat beat = note.getBeat();
+            Pitch pitch = n1.getPitch();
+            Beat beat = n1.getBeat();
             System.out.println(
                     (articulation == null ? "" : (articulation + " ")) +
                             pitch + " " + beat + " at tempo = 120 bpm:");
@@ -39,10 +47,15 @@ public class TestPlayBack {
             System.out.println("Sounded length: " + soundedLength + " ms");
             System.out.println("Unsounded length: " + difference + " ms\n");
 
-            PlayBack.play(tempo, note);
-            PlayBack.play(tempo, note);
-            PlayBack.play(tempo, note);
-            PlayBack.play(tempo, note);
+            // Play the opening for Beethoven's Symphony No. 5
+            PlayBack.play(tempo, n1);
+            PlayBack.play(tempo, n1);
+            PlayBack.play(tempo, n1);
+            PlayBack.play(tempo, n2);
+            PlayBack.play(tempo, n3);
+            PlayBack.play(tempo, n3);
+            PlayBack.play(tempo, n3);
+            PlayBack.play(tempo, n4);
         }
 
         PlayBack.stop();

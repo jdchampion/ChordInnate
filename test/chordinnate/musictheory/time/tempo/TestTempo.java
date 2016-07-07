@@ -1,8 +1,6 @@
 package chordinnate.musictheory.time.tempo;
 
 import chordinnate.musictheory.time.rhythm.Beat;
-import chordinnate.musictheory.time.tempo.Tempo;
-import chordinnate.musictheory.time.tempo.TempoMarking;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -41,6 +39,12 @@ public class TestTempo {
     public void getMillis() throws Exception {
         Tempo tempo = new Tempo(Beat.QUARTER, 120);
         assertEquals(500, tempo.getMillisFor(Beat.QUARTER));
+        assertEquals(250, tempo.getMillisFor(Beat.EIGHTH));
+        assertEquals(125, tempo.getMillisFor(Beat.SIXTEENTH));
+        assertEquals(62, tempo.getMillisFor(Beat.THIRTY_SECOND));
+        assertEquals(166, tempo.getMillisFor(Beat.TRIPLET_EIGHTH));
+        assertEquals(500, tempo.getMillisFor(Beat.DOTTED_TRIPLET_QUARTER));
+
         tempo = new Tempo(Beat.QUARTER, 240);
         assertEquals(250, tempo.getMillisFor(Beat.QUARTER));
         tempo = new Tempo(Beat.QUARTER, 60);

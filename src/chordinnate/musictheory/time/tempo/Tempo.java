@@ -125,6 +125,6 @@ public class Tempo {
     }
 
     public long getMillisFor(Beat beat) {
-        return (long) (millis * (this.ratio / beat.getRatio()));
+        return (long) (millis * (beat.getRatio() / currentSubdivision.getRatio()));
     }
 }

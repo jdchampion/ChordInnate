@@ -73,9 +73,10 @@ public final class PlayBack {
 
     /**
      * Plays back the specified Note.
+     * @param tempo
      * @param note
      */
-    public static void play(Tempo tempo, @NotNull Note note) {
+    public static void play(@NotNull Tempo tempo, @NotNull Note note) {
         long fullLength = tempo.getMillisFor(note.getBeat());
         long soundedLength = (long) (fullLength * note.getSoundedLength());
         long difference = fullLength - soundedLength;
