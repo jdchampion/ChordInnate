@@ -136,7 +136,7 @@ public enum ChordType {
     ),
     HALF_DIMINISHED(
             "ø",
-            new NashvilleNumber[] {ONE, FLAT_THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN} // TODO identical to m7b5 but has different symbol
+            new NashvilleNumber[] {ONE, FLAT_THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN}
     ),
     MINOR_SEVEN_SHARP_FIVE(
             "m7"+SHARP.SYMBOL+"5",
