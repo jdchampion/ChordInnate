@@ -26,5 +26,6 @@ public final class AdditiveCompleteMeter extends CompleteMeter {
 
         inferCommonMeterClassifications();
         this.meterClassificationTypes.add(MeterClassificationType.ADDITIVE); // By definition of an additive meter
+        inferSubdivisions();
     }
 }

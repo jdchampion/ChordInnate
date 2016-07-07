@@ -7,7 +7,6 @@ import chordinnate.musictheory.time.rhythm.Duration;
  */
 public class TimeSignature {
     public FixedMeter meter;
-    Duration duration;
 
     /**
      * Constructs a TimeSignature whose numerator and denominator are both integers.
@@ -38,7 +37,6 @@ public class TimeSignature {
                 throw new IllegalArgumentException(
                         "Unsupported beat value for the Time Signature (" + denominator + ")");
             }
-            this.duration = beatValue;
             this.meter = new NonAdditiveCompleteMeter(numerator, beatValue);
         }
         else {
