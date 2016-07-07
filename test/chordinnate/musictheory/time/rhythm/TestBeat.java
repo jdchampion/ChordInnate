@@ -91,18 +91,11 @@ public class TestBeat {
             if (duration.equals(Duration.SIXTY_FOURTH)) continue;
             for (Tuplet tuplet : Tuplet.values()) {
                 if (tuplet.equals(Tuplet.NONE)) continue;
-                System.out.print(Beat.valueOf(tuplet + "_" + duration) + ": ");
-                try {
-                    assertEquals(
-                            Beat.valueOf(tuplet + "_" + duration).getRatio(),
-                            duration.RATIO * tuplet.RATIO,
-                            0.00000000001
-                    );
-                    System.out.println(Beat.valueOf(tuplet + "_" + duration).getRatio() + " vs " + duration.RATIO * tuplet.RATIO);
-                }
-                catch(AssertionError e) {
-                    System.out.println(duration + "_" + tuplet + "");
-                }
+                assertEquals(
+                        Beat.valueOf(tuplet + "_" + duration).getRatio(),
+                        duration.RATIO * tuplet.RATIO,
+                        0.00000000001
+                );
             }
         }
 
