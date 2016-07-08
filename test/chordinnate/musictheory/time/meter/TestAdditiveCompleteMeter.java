@@ -10,6 +10,7 @@ import static org.junit.Assert.*;
  * Created by Joseph on 7/6/16.
  */
 public class TestAdditiveCompleteMeter {
+    // TODO: more formal testing
     @Test
     public void is() throws Exception {
         AdditiveCompleteMeter

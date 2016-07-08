@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
  * Created by Joseph on 7/6/16.
  */
 public class TestNonAdditiveCompleteMeter {
+    // TODO: more formal testing
     @Test
     public void is() throws Exception {
         NonAdditiveCompleteMeter

@@ -2,7 +2,6 @@ package chordinnate.musictheory.pitch.interval.set;
 
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
-import chordinnate.musictheory.pitch.interval.set.ScaleType;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -50,11 +49,11 @@ public class TestScaleType {
          */
 
         // TODO: move these tests to TestScale
-        verifyScale(ScaleType.MAJOR, new Pitch[] {C_4, D_4, E_4, F_4, G_4, A_4, B_4});
-        verifyScale(ScaleType.MAJOR, new Pitch[] {F_SHARP_4, G_SHARP_4, A_SHARP_4, B_4, C_SHARP_5, D_SHARP_5, E_SHARP_5});
-        verifyScale(ScaleType.HARMONIC_MINOR, new Pitch[] {C_4, D_4, E_FLAT_4, F_4, G_4, A_FLAT_4, B_4});
-        verifyScale(ScaleType.HARMONIC_MINOR, new Pitch[] {B_FLAT_3, C_4, D_FLAT_4, E_FLAT_4, F_4, G_FLAT_4, A_4});
-        verifyScale(ScaleType.BLUES, new Pitch[] {C_4, E_FLAT_4, F_4, F_SHARP_4, G_4, B_FLAT_4});
+        verifyScale(ScaleType.MAJOR, C_4, D_4, E_4, F_4, G_4, A_4, B_4);
+        verifyScale(ScaleType.MAJOR, F_SHARP_4, G_SHARP_4, A_SHARP_4, B_4, C_SHARP_5, D_SHARP_5, E_SHARP_5);
+        verifyScale(ScaleType.HARMONIC_MINOR, C_4, D_4, E_FLAT_4, F_4, G_4, A_FLAT_4, B_4);
+        verifyScale(ScaleType.HARMONIC_MINOR, B_FLAT_3, C_4, D_FLAT_4, E_FLAT_4, F_4, G_FLAT_4, A_4);
+        verifyScale(ScaleType.BLUES, C_4, E_FLAT_4, F_4, F_SHARP_4, G_4, B_FLAT_4);
     }
 
     @Test
@@ -78,7 +77,7 @@ public class TestScaleType {
      * @param scaleType
      * @param expectedPitches
      */
-    private void verifyScale(ScaleType scaleType, Pitch[] expectedPitches) {
+    private void verifyScale(ScaleType scaleType, Pitch... expectedPitches) {
         PitchInterval[] pitchIntervals = scaleType.getPitchIntervals();
         Pitch root = expectedPitches[0];
 

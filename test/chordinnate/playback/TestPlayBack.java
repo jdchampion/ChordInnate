@@ -21,6 +21,7 @@ public class TestPlayBack {
     @Test
     public void playNote() throws Exception {
         Tempo tempo = new Tempo(Beat.QUARTER, 60);
+        int bpm = tempo.getCurrentBPM();
         for (Articulation articulation : Articulation.values()) {
             Note
                     n1 = new Note.Builder(Pitch.G_4, Beat.TRIPLET_EIGHTH)
@@ -42,7 +43,7 @@ public class TestPlayBack {
             Beat beat = n1.getBeat();
             System.out.println(
                     (articulation == null ? "" : (articulation + " ")) +
-                            pitch + " " + beat + " at tempo = 120 bpm:");
+                            pitch + " " + beat + " at tempo = " + bpm + " bpm:");
             System.out.println("Full length: " + fullLength + " ms");
             System.out.println("Sounded length: " + soundedLength + " ms");
             System.out.println("Unsounded length: " + difference + " ms\n");

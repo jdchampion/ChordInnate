@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
  * Created by Joseph on 7/6/16.
  */
 public class TestTimeSignature {
-    // TODO fill in tests
+    // TODO: more formal testing
     @Test
     public void quickVisualTest() throws Exception {
         TimeSignature timeSignature = new TimeSignature(5, 8);

@@ -179,127 +179,127 @@ public enum Pitch
     E_10(PitchClass.E, Octave.OCTAVE_10),                                                         // 140
 
     E_SHARP_0(PitchClass.E_SHARP, Octave.OCTAVE_0),                                               // 141
-    E_SHARP_1(PitchClass.E_SHARP, Octave.OCTAVE_1),
-    E_SHARP_2(PitchClass.E_SHARP, Octave.OCTAVE_2),
-    E_SHARP_3(PitchClass.E_SHARP, Octave.OCTAVE_3),
-    E_SHARP_4(PitchClass.E_SHARP, Octave.OCTAVE_4),
-    E_SHARP_5(PitchClass.E_SHARP, Octave.OCTAVE_5),
-    E_SHARP_6(PitchClass.E_SHARP, Octave.OCTAVE_6),
-    E_SHARP_7(PitchClass.E_SHARP, Octave.OCTAVE_7),
-    E_SHARP_8(PitchClass.E_SHARP, Octave.OCTAVE_8),
-    E_SHARP_9(PitchClass.E_SHARP, Octave.OCTAVE_9),
+    E_SHARP_1(PitchClass.E_SHARP, Octave.OCTAVE_1),                                               // 142
+    E_SHARP_2(PitchClass.E_SHARP, Octave.OCTAVE_2),                                               // 143
+    E_SHARP_3(PitchClass.E_SHARP, Octave.OCTAVE_3),                                               // 144
+    E_SHARP_4(PitchClass.E_SHARP, Octave.OCTAVE_4),                                               // 145
+    E_SHARP_5(PitchClass.E_SHARP, Octave.OCTAVE_5),                                               // 146
+    E_SHARP_6(PitchClass.E_SHARP, Octave.OCTAVE_6),                                               // 147
+    E_SHARP_7(PitchClass.E_SHARP, Octave.OCTAVE_7),                                               // 148
+    E_SHARP_8(PitchClass.E_SHARP, Octave.OCTAVE_8),                                               // 149
+    E_SHARP_9(PitchClass.E_SHARP, Octave.OCTAVE_9),                                               // 150
     E_SHARP_10(PitchClass.E_SHARP, Octave.OCTAVE_10),                                             // 151
 
     E_DOUBLE_SHARP_0(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_0),                                 // 152
-    E_DOUBLE_SHARP_1(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_1),
-    E_DOUBLE_SHARP_2(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_2),
-    E_DOUBLE_SHARP_3(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_3),
-    E_DOUBLE_SHARP_4(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_4),
-    E_DOUBLE_SHARP_5(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_5),
-    E_DOUBLE_SHARP_6(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_6),
-    E_DOUBLE_SHARP_7(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_7),
-    E_DOUBLE_SHARP_8(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_8),
-    E_DOUBLE_SHARP_9(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_9),
+    E_DOUBLE_SHARP_1(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_1),                                 // 153
+    E_DOUBLE_SHARP_2(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_2),                                 // 154
+    E_DOUBLE_SHARP_3(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_3),                                 // 155
+    E_DOUBLE_SHARP_4(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_4),                                 // 156
+    E_DOUBLE_SHARP_5(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_5),                                 // 157
+    E_DOUBLE_SHARP_6(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_6),                                 // 158
+    E_DOUBLE_SHARP_7(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_7),                                 // 159
+    E_DOUBLE_SHARP_8(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_8),                                 // 160
+    E_DOUBLE_SHARP_9(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_9),                                 // 161
     E_DOUBLE_SHARP_10(PitchClass.E_DOUBLE_SHARP, Octave.OCTAVE_10),                               // 162
 
 
 
     F_DOUBLE_FLAT_0(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_0),                                   // 163
-    F_DOUBLE_FLAT_1(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_1),
-    F_DOUBLE_FLAT_2(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_2),
-    F_DOUBLE_FLAT_3(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_3),
-    F_DOUBLE_FLAT_4(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_4),
-    F_DOUBLE_FLAT_5(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_5),
-    F_DOUBLE_FLAT_6(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_6),
-    F_DOUBLE_FLAT_7(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_7),
-    F_DOUBLE_FLAT_8(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_8),
-    F_DOUBLE_FLAT_9(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_9),
+    F_DOUBLE_FLAT_1(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_1),                                   // 164
+    F_DOUBLE_FLAT_2(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_2),                                   // 165
+    F_DOUBLE_FLAT_3(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_3),                                   // 166
+    F_DOUBLE_FLAT_4(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_4),                                   // 167
+    F_DOUBLE_FLAT_5(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_5),                                   // 168
+    F_DOUBLE_FLAT_6(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_6),                                   // 169
+    F_DOUBLE_FLAT_7(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_7),                                   // 170
+    F_DOUBLE_FLAT_8(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_8),                                   // 171
+    F_DOUBLE_FLAT_9(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_9),                                   // 172
     F_DOUBLE_FLAT_10(PitchClass.F_DOUBLE_FLAT, Octave.OCTAVE_10),                                 // 173
 
     F_FLAT_0(PitchClass.F_FLAT, Octave.OCTAVE_0),                                                 // 174
-    F_FLAT_1(PitchClass.F_FLAT, Octave.OCTAVE_1),
-    F_FLAT_2(PitchClass.F_FLAT, Octave.OCTAVE_2),
-    F_FLAT_3(PitchClass.F_FLAT, Octave.OCTAVE_3),
-    F_FLAT_4(PitchClass.F_FLAT, Octave.OCTAVE_4),
-    F_FLAT_5(PitchClass.F_FLAT, Octave.OCTAVE_5),
-    F_FLAT_6(PitchClass.F_FLAT, Octave.OCTAVE_6),
-    F_FLAT_7(PitchClass.F_FLAT, Octave.OCTAVE_7),
-    F_FLAT_8(PitchClass.F_FLAT, Octave.OCTAVE_8),
-    F_FLAT_9(PitchClass.F_FLAT, Octave.OCTAVE_9),
+    F_FLAT_1(PitchClass.F_FLAT, Octave.OCTAVE_1),                                                 // 175
+    F_FLAT_2(PitchClass.F_FLAT, Octave.OCTAVE_2),                                                 // 176
+    F_FLAT_3(PitchClass.F_FLAT, Octave.OCTAVE_3),                                                 // 177
+    F_FLAT_4(PitchClass.F_FLAT, Octave.OCTAVE_4),                                                 // 178
+    F_FLAT_5(PitchClass.F_FLAT, Octave.OCTAVE_5),                                                 // 179
+    F_FLAT_6(PitchClass.F_FLAT, Octave.OCTAVE_6),                                                 // 180
+    F_FLAT_7(PitchClass.F_FLAT, Octave.OCTAVE_7),                                                 // 181
+    F_FLAT_8(PitchClass.F_FLAT, Octave.OCTAVE_8),                                                 // 182
+    F_FLAT_9(PitchClass.F_FLAT, Octave.OCTAVE_9),                                                 // 183
     F_FLAT_10(PitchClass.F_FLAT, Octave.OCTAVE_10),                                               // 184
 
     F_0(PitchClass.F, Octave.OCTAVE_0),                                                           // 185
-    F_1(PitchClass.F, Octave.OCTAVE_1),
-    F_2(PitchClass.F, Octave.OCTAVE_2),
-    F_3(PitchClass.F, Octave.OCTAVE_3),
-    F_4(PitchClass.F, Octave.OCTAVE_4),
-    F_5(PitchClass.F, Octave.OCTAVE_5),
-    F_6(PitchClass.F, Octave.OCTAVE_6),
-    F_7(PitchClass.F, Octave.OCTAVE_7),
-    F_8(PitchClass.F, Octave.OCTAVE_8),
-    F_9(PitchClass.F, Octave.OCTAVE_9),
+    F_1(PitchClass.F, Octave.OCTAVE_1),                                                           // 186
+    F_2(PitchClass.F, Octave.OCTAVE_2),                                                           // 187
+    F_3(PitchClass.F, Octave.OCTAVE_3),                                                           // 188
+    F_4(PitchClass.F, Octave.OCTAVE_4),                                                           // 189
+    F_5(PitchClass.F, Octave.OCTAVE_5),                                                           // 190
+    F_6(PitchClass.F, Octave.OCTAVE_6),                                                           // 191
+    F_7(PitchClass.F, Octave.OCTAVE_7),                                                           // 192
+    F_8(PitchClass.F, Octave.OCTAVE_8),                                                           // 193
+    F_9(PitchClass.F, Octave.OCTAVE_9),                                                           // 194
     F_10(PitchClass.F, Octave.OCTAVE_10),                                                         // 195
 
     F_SHARP_0(PitchClass.F_SHARP, Octave.OCTAVE_0),                                               // 196
-    F_SHARP_1(PitchClass.F_SHARP, Octave.OCTAVE_1),
-    F_SHARP_2(PitchClass.F_SHARP, Octave.OCTAVE_2),
-    F_SHARP_3(PitchClass.F_SHARP, Octave.OCTAVE_3),
-    F_SHARP_4(PitchClass.F_SHARP, Octave.OCTAVE_4),
-    F_SHARP_5(PitchClass.F_SHARP, Octave.OCTAVE_5),
-    F_SHARP_6(PitchClass.F_SHARP, Octave.OCTAVE_6),
-    F_SHARP_7(PitchClass.F_SHARP, Octave.OCTAVE_7),
-    F_SHARP_8(PitchClass.F_SHARP, Octave.OCTAVE_8),
-    F_SHARP_9(PitchClass.F_SHARP, Octave.OCTAVE_9),
+    F_SHARP_1(PitchClass.F_SHARP, Octave.OCTAVE_1),                                               // 197
+    F_SHARP_2(PitchClass.F_SHARP, Octave.OCTAVE_2),                                               // 198
+    F_SHARP_3(PitchClass.F_SHARP, Octave.OCTAVE_3),                                               // 199
+    F_SHARP_4(PitchClass.F_SHARP, Octave.OCTAVE_4),                                               // 200
+    F_SHARP_5(PitchClass.F_SHARP, Octave.OCTAVE_5),                                               // 201
+    F_SHARP_6(PitchClass.F_SHARP, Octave.OCTAVE_6),                                               // 202
+    F_SHARP_7(PitchClass.F_SHARP, Octave.OCTAVE_7),                                               // 203
+    F_SHARP_8(PitchClass.F_SHARP, Octave.OCTAVE_8),                                               // 204
+    F_SHARP_9(PitchClass.F_SHARP, Octave.OCTAVE_9),                                               // 205
     F_SHARP_10(PitchClass.F_SHARP, Octave.OCTAVE_10),                                             // 206
 
     // Fx10 is out of playable MIDI range, so it has been removed
     F_DOUBLE_SHARP_0(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_0),                                 // 207
-    F_DOUBLE_SHARP_1(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_1),
-    F_DOUBLE_SHARP_2(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_2),
-    F_DOUBLE_SHARP_3(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_3),
-    F_DOUBLE_SHARP_4(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_4),
-    F_DOUBLE_SHARP_5(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_5),
-    F_DOUBLE_SHARP_6(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_6),
-    F_DOUBLE_SHARP_7(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_7),
-    F_DOUBLE_SHARP_8(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_8),
+    F_DOUBLE_SHARP_1(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_1),                                 // 208
+    F_DOUBLE_SHARP_2(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_2),                                 // 209
+    F_DOUBLE_SHARP_3(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_3),                                 // 210
+    F_DOUBLE_SHARP_4(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_4),                                 // 211
+    F_DOUBLE_SHARP_5(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_5),                                 // 212
+    F_DOUBLE_SHARP_6(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_6),                                 // 213
+    F_DOUBLE_SHARP_7(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_7),                                 // 214
+    F_DOUBLE_SHARP_8(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_8),                                 // 215
     F_DOUBLE_SHARP_9(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_9),                                 // 216
 
 
 
     G_DOUBLE_FLAT_0(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_0),                                   // 217
-    G_DOUBLE_FLAT_1(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_1),
-    G_DOUBLE_FLAT_2(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_2),
-    G_DOUBLE_FLAT_3(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_3),
-    G_DOUBLE_FLAT_4(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_4),
-    G_DOUBLE_FLAT_5(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_5),
-    G_DOUBLE_FLAT_6(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_6),
-    G_DOUBLE_FLAT_7(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_7),
-    G_DOUBLE_FLAT_8(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_8),
-    G_DOUBLE_FLAT_9(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_9),
+    G_DOUBLE_FLAT_1(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_1),                                   // 218
+    G_DOUBLE_FLAT_2(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_2),                                   // 219
+    G_DOUBLE_FLAT_3(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_3),                                   // 220
+    G_DOUBLE_FLAT_4(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_4),                                   // 221
+    G_DOUBLE_FLAT_5(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_5),                                   // 222
+    G_DOUBLE_FLAT_6(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_6),                                   // 223
+    G_DOUBLE_FLAT_7(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_7),                                   // 224
+    G_DOUBLE_FLAT_8(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_8),                                   // 225
+    G_DOUBLE_FLAT_9(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_9),                                   // 226
     G_DOUBLE_FLAT_10(PitchClass.G_DOUBLE_FLAT, Octave.OCTAVE_10),                                 // 227
 
     G_FLAT_0(PitchClass.G_FLAT, Octave.OCTAVE_0),                                                 // 228
-    G_FLAT_1(PitchClass.G_FLAT, Octave.OCTAVE_1),
-    G_FLAT_2(PitchClass.G_FLAT, Octave.OCTAVE_2),
-    G_FLAT_3(PitchClass.G_FLAT, Octave.OCTAVE_3),
-    G_FLAT_4(PitchClass.G_FLAT, Octave.OCTAVE_4),
-    G_FLAT_5(PitchClass.G_FLAT, Octave.OCTAVE_5),
-    G_FLAT_6(PitchClass.G_FLAT, Octave.OCTAVE_6),
-    G_FLAT_7(PitchClass.G_FLAT, Octave.OCTAVE_7),
-    G_FLAT_8(PitchClass.G_FLAT, Octave.OCTAVE_8),
-    G_FLAT_9(PitchClass.G_FLAT, Octave.OCTAVE_9),
+    G_FLAT_1(PitchClass.G_FLAT, Octave.OCTAVE_1),                                                 // 229
+    G_FLAT_2(PitchClass.G_FLAT, Octave.OCTAVE_2),                                                 // 230
+    G_FLAT_3(PitchClass.G_FLAT, Octave.OCTAVE_3),                                                 // 231
+    G_FLAT_4(PitchClass.G_FLAT, Octave.OCTAVE_4),                                                 // 232
+    G_FLAT_5(PitchClass.G_FLAT, Octave.OCTAVE_5),                                                 // 233
+    G_FLAT_6(PitchClass.G_FLAT, Octave.OCTAVE_6),                                                 // 234
+    G_FLAT_7(PitchClass.G_FLAT, Octave.OCTAVE_7),                                                 // 235
+    G_FLAT_8(PitchClass.G_FLAT, Octave.OCTAVE_8),                                                 // 236
+    G_FLAT_9(PitchClass.G_FLAT, Octave.OCTAVE_9),                                                 // 237
     G_FLAT_10(PitchClass.G_FLAT, Octave.OCTAVE_10),                                               // 238
 
     G_0(PitchClass.G, Octave.OCTAVE_0),                                                           // 239
-    G_1(PitchClass.G, Octave.OCTAVE_1),
-    G_2(PitchClass.G, Octave.OCTAVE_2),
-    G_3(PitchClass.G, Octave.OCTAVE_3),
-    G_4(PitchClass.G, Octave.OCTAVE_4),
-    G_5(PitchClass.G, Octave.OCTAVE_5),
-    G_6(PitchClass.G, Octave.OCTAVE_6),
-    G_7(PitchClass.G, Octave.OCTAVE_7),
-    G_8(PitchClass.G, Octave.OCTAVE_8),
-    G_9(PitchClass.G, Octave.OCTAVE_9),
+    G_1(PitchClass.G, Octave.OCTAVE_1),                                                           // 240
+    G_2(PitchClass.G, Octave.OCTAVE_2),                                                           // 241
+    G_3(PitchClass.G, Octave.OCTAVE_3),                                                           // 242
+    G_4(PitchClass.G, Octave.OCTAVE_4),                                                           // 243
+    G_5(PitchClass.G, Octave.OCTAVE_5),                                                           // 244
+    G_6(PitchClass.G, Octave.OCTAVE_6),                                                           // 245
+    G_7(PitchClass.G, Octave.OCTAVE_7),                                                           // 246
+    G_8(PitchClass.G, Octave.OCTAVE_8),                                                           // 247
+    G_9(PitchClass.G, Octave.OCTAVE_9),                                                           // 248
     G_10(PitchClass.G, Octave.OCTAVE_10),                                                         // 249
 
     /*
@@ -313,143 +313,143 @@ public enum Pitch
      */
 
     G_SHARP_0(PitchClass.G_SHARP, Octave.OCTAVE_0),                                               // 250
-    G_SHARP_1(PitchClass.G_SHARP, Octave.OCTAVE_1),
-    G_SHARP_2(PitchClass.G_SHARP, Octave.OCTAVE_2),
-    G_SHARP_3(PitchClass.G_SHARP, Octave.OCTAVE_3),
-    G_SHARP_4(PitchClass.G_SHARP, Octave.OCTAVE_4),
-    G_SHARP_5(PitchClass.G_SHARP, Octave.OCTAVE_5),
-    G_SHARP_6(PitchClass.G_SHARP, Octave.OCTAVE_6),
-    G_SHARP_7(PitchClass.G_SHARP, Octave.OCTAVE_7),
-    G_SHARP_8(PitchClass.G_SHARP, Octave.OCTAVE_8),
+    G_SHARP_1(PitchClass.G_SHARP, Octave.OCTAVE_1),                                               // 251
+    G_SHARP_2(PitchClass.G_SHARP, Octave.OCTAVE_2),                                               // 252
+    G_SHARP_3(PitchClass.G_SHARP, Octave.OCTAVE_3),                                               // 253
+    G_SHARP_4(PitchClass.G_SHARP, Octave.OCTAVE_4),                                               // 254
+    G_SHARP_5(PitchClass.G_SHARP, Octave.OCTAVE_5),                                               // 255
+    G_SHARP_6(PitchClass.G_SHARP, Octave.OCTAVE_6),                                               // 256
+    G_SHARP_7(PitchClass.G_SHARP, Octave.OCTAVE_7),                                               // 257
+    G_SHARP_8(PitchClass.G_SHARP, Octave.OCTAVE_8),                                               // 258
     G_SHARP_9(PitchClass.G_SHARP, Octave.OCTAVE_9),                                               // 259
 
     G_DOUBLE_SHARP_0(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_0),                                 // 260
-    G_DOUBLE_SHARP_1(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_1),
-    G_DOUBLE_SHARP_2(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_2),
-    G_DOUBLE_SHARP_3(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_3),
-    G_DOUBLE_SHARP_4(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_4),
-    G_DOUBLE_SHARP_5(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_5),
-    G_DOUBLE_SHARP_6(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_6),
-    G_DOUBLE_SHARP_7(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_7),
-    G_DOUBLE_SHARP_8(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_8),
+    G_DOUBLE_SHARP_1(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_1),                                 // 261
+    G_DOUBLE_SHARP_2(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_2),                                 // 262
+    G_DOUBLE_SHARP_3(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_3),                                 // 263
+    G_DOUBLE_SHARP_4(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_4),                                 // 264
+    G_DOUBLE_SHARP_5(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_5),                                 // 265
+    G_DOUBLE_SHARP_6(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_6),                                 // 266
+    G_DOUBLE_SHARP_7(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_7),                                 // 267
+    G_DOUBLE_SHARP_8(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_8),                                 // 268
     G_DOUBLE_SHARP_9(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_9),                                 // 269
 
 
 
     A_DOUBLE_FLAT_0(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_0),                                   // 270
-    A_DOUBLE_FLAT_1(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_1),
-    A_DOUBLE_FLAT_2(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_2),
-    A_DOUBLE_FLAT_3(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_3),
-    A_DOUBLE_FLAT_4(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_4),
-    A_DOUBLE_FLAT_5(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_5),
-    A_DOUBLE_FLAT_6(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_6),
-    A_DOUBLE_FLAT_7(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_7),
-    A_DOUBLE_FLAT_8(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_8),
-    A_DOUBLE_FLAT_9(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_9),
+    A_DOUBLE_FLAT_1(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_1),                                   // 271
+    A_DOUBLE_FLAT_2(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_2),                                   // 272
+    A_DOUBLE_FLAT_3(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_3),                                   // 273
+    A_DOUBLE_FLAT_4(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_4),                                   // 274
+    A_DOUBLE_FLAT_5(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_5),                                   // 275
+    A_DOUBLE_FLAT_6(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_6),                                   // 276
+    A_DOUBLE_FLAT_7(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_7),                                   // 277
+    A_DOUBLE_FLAT_8(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_8),                                   // 278
+    A_DOUBLE_FLAT_9(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_9),                                   // 279
     A_DOUBLE_FLAT_10(PitchClass.A_DOUBLE_FLAT, Octave.OCTAVE_10),                                 // 280
 
     A_FLAT_0(PitchClass.A_FLAT, Octave.OCTAVE_0),                                                 // 281
-    A_FLAT_1(PitchClass.A_FLAT, Octave.OCTAVE_1),
-    A_FLAT_2(PitchClass.A_FLAT, Octave.OCTAVE_2),
-    A_FLAT_3(PitchClass.A_FLAT, Octave.OCTAVE_3),
-    A_FLAT_4(PitchClass.A_FLAT, Octave.OCTAVE_4),
-    A_FLAT_5(PitchClass.A_FLAT, Octave.OCTAVE_5),
-    A_FLAT_6(PitchClass.A_FLAT, Octave.OCTAVE_6),
-    A_FLAT_7(PitchClass.A_FLAT, Octave.OCTAVE_7),
-    A_FLAT_8(PitchClass.A_FLAT, Octave.OCTAVE_8),
+    A_FLAT_1(PitchClass.A_FLAT, Octave.OCTAVE_1),                                                 // 282
+    A_FLAT_2(PitchClass.A_FLAT, Octave.OCTAVE_2),                                                 // 283
+    A_FLAT_3(PitchClass.A_FLAT, Octave.OCTAVE_3),                                                 // 284
+    A_FLAT_4(PitchClass.A_FLAT, Octave.OCTAVE_4),                                                 // 285
+    A_FLAT_5(PitchClass.A_FLAT, Octave.OCTAVE_5),                                                 // 286
+    A_FLAT_6(PitchClass.A_FLAT, Octave.OCTAVE_6),                                                 // 287
+    A_FLAT_7(PitchClass.A_FLAT, Octave.OCTAVE_7),                                                 // 288
+    A_FLAT_8(PitchClass.A_FLAT, Octave.OCTAVE_8),                                                 // 289
     A_FLAT_9(PitchClass.A_FLAT, Octave.OCTAVE_9),                                                 // 290
 
     A_0(PitchClass.A, Octave.OCTAVE_0),                                                           // 291
-    A_1(PitchClass.A, Octave.OCTAVE_1),
-    A_2(PitchClass.A, Octave.OCTAVE_2),
-    A_3(PitchClass.A, Octave.OCTAVE_3),
-    A_4(PitchClass.A, Octave.OCTAVE_4),
-    A_5(PitchClass.A, Octave.OCTAVE_5),
-    A_6(PitchClass.A, Octave.OCTAVE_6),
-    A_7(PitchClass.A, Octave.OCTAVE_7),
-    A_8(PitchClass.A, Octave.OCTAVE_8),
+    A_1(PitchClass.A, Octave.OCTAVE_1),                                                           // 292
+    A_2(PitchClass.A, Octave.OCTAVE_2),                                                           // 293
+    A_3(PitchClass.A, Octave.OCTAVE_3),                                                           // 294
+    A_4(PitchClass.A, Octave.OCTAVE_4),                                                           // 295
+    A_5(PitchClass.A, Octave.OCTAVE_5),                                                           // 296
+    A_6(PitchClass.A, Octave.OCTAVE_6),                                                           // 297
+    A_7(PitchClass.A, Octave.OCTAVE_7),                                                           // 298
+    A_8(PitchClass.A, Octave.OCTAVE_8),                                                           // 299
     A_9(PitchClass.A, Octave.OCTAVE_9),                                                           // 300
 
     A_SHARP_0(PitchClass.A_SHARP, Octave.OCTAVE_0),                                               // 301
-    A_SHARP_1(PitchClass.A_SHARP, Octave.OCTAVE_1),
-    A_SHARP_2(PitchClass.A_SHARP, Octave.OCTAVE_2),
-    A_SHARP_3(PitchClass.A_SHARP, Octave.OCTAVE_3),
-    A_SHARP_4(PitchClass.A_SHARP, Octave.OCTAVE_4),
-    A_SHARP_5(PitchClass.A_SHARP, Octave.OCTAVE_5),
-    A_SHARP_6(PitchClass.A_SHARP, Octave.OCTAVE_6),
-    A_SHARP_7(PitchClass.A_SHARP, Octave.OCTAVE_7),
-    A_SHARP_8(PitchClass.A_SHARP, Octave.OCTAVE_8),
+    A_SHARP_1(PitchClass.A_SHARP, Octave.OCTAVE_1),                                               // 302
+    A_SHARP_2(PitchClass.A_SHARP, Octave.OCTAVE_2),                                               // 303
+    A_SHARP_3(PitchClass.A_SHARP, Octave.OCTAVE_3),                                               // 304
+    A_SHARP_4(PitchClass.A_SHARP, Octave.OCTAVE_4),                                               // 305
+    A_SHARP_5(PitchClass.A_SHARP, Octave.OCTAVE_5),                                               // 306
+    A_SHARP_6(PitchClass.A_SHARP, Octave.OCTAVE_6),                                               // 307
+    A_SHARP_7(PitchClass.A_SHARP, Octave.OCTAVE_7),                                               // 308
+    A_SHARP_8(PitchClass.A_SHARP, Octave.OCTAVE_8),                                               // 309
     A_SHARP_9(PitchClass.A_SHARP, Octave.OCTAVE_9),                                               // 310
 
     A_DOUBLE_SHARP_0(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_0),                                 // 311
-    A_DOUBLE_SHARP_1(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_1),
-    A_DOUBLE_SHARP_2(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_2),
-    A_DOUBLE_SHARP_3(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_3),
-    A_DOUBLE_SHARP_4(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_4),
-    A_DOUBLE_SHARP_5(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_5),
-    A_DOUBLE_SHARP_6(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_6),
-    A_DOUBLE_SHARP_7(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_7),
-    A_DOUBLE_SHARP_8(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_8),
+    A_DOUBLE_SHARP_1(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_1),                                 // 312
+    A_DOUBLE_SHARP_2(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_2),                                 // 313
+    A_DOUBLE_SHARP_3(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_3),                                 // 314
+    A_DOUBLE_SHARP_4(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_4),                                 // 315
+    A_DOUBLE_SHARP_5(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_5),                                 // 316
+    A_DOUBLE_SHARP_6(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_6),                                 // 317
+    A_DOUBLE_SHARP_7(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_7),                                 // 318
+    A_DOUBLE_SHARP_8(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_8),                                 // 319
     A_DOUBLE_SHARP_9(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_9),                                 // 320
 
 
 
     B_DOUBLE_FLAT_0(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_0),                                   // 321
-    B_DOUBLE_FLAT_1(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_1),
-    B_DOUBLE_FLAT_2(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_2),
-    B_DOUBLE_FLAT_3(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_3),
-    B_DOUBLE_FLAT_4(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_4),
-    B_DOUBLE_FLAT_5(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_5),
-    B_DOUBLE_FLAT_6(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_6),
-    B_DOUBLE_FLAT_7(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_7),
-    B_DOUBLE_FLAT_8(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_8),
+    B_DOUBLE_FLAT_1(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_1),                                   // 322
+    B_DOUBLE_FLAT_2(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_2),                                   // 323
+    B_DOUBLE_FLAT_3(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_3),                                   // 324
+    B_DOUBLE_FLAT_4(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_4),                                   // 325
+    B_DOUBLE_FLAT_5(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_5),                                   // 326
+    B_DOUBLE_FLAT_6(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_6),                                   // 327
+    B_DOUBLE_FLAT_7(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_7),                                   // 328
+    B_DOUBLE_FLAT_8(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_8),                                   // 329
     B_DOUBLE_FLAT_9(PitchClass.B_DOUBLE_FLAT, Octave.OCTAVE_9),                                   // 330
 
     B_FLAT_0(PitchClass.B_FLAT, Octave.OCTAVE_0),                                                 // 331
-    B_FLAT_1(PitchClass.B_FLAT, Octave.OCTAVE_1),
-    B_FLAT_2(PitchClass.B_FLAT, Octave.OCTAVE_2),
-    B_FLAT_3(PitchClass.B_FLAT, Octave.OCTAVE_3),
-    B_FLAT_4(PitchClass.B_FLAT, Octave.OCTAVE_4),
-    B_FLAT_5(PitchClass.B_FLAT, Octave.OCTAVE_5),
-    B_FLAT_6(PitchClass.B_FLAT, Octave.OCTAVE_6),
-    B_FLAT_7(PitchClass.B_FLAT, Octave.OCTAVE_7),
-    B_FLAT_8(PitchClass.B_FLAT, Octave.OCTAVE_8),
+    B_FLAT_1(PitchClass.B_FLAT, Octave.OCTAVE_1),                                                 // 332
+    B_FLAT_2(PitchClass.B_FLAT, Octave.OCTAVE_2),                                                 // 333
+    B_FLAT_3(PitchClass.B_FLAT, Octave.OCTAVE_3),                                                 // 334
+    B_FLAT_4(PitchClass.B_FLAT, Octave.OCTAVE_4),                                                 // 335
+    B_FLAT_5(PitchClass.B_FLAT, Octave.OCTAVE_5),                                                 // 336
+    B_FLAT_6(PitchClass.B_FLAT, Octave.OCTAVE_6),                                                 // 337
+    B_FLAT_7(PitchClass.B_FLAT, Octave.OCTAVE_7),                                                 // 338
+    B_FLAT_8(PitchClass.B_FLAT, Octave.OCTAVE_8),                                                 // 339
     B_FLAT_9(PitchClass.B_FLAT, Octave.OCTAVE_9),                                                 // 340
 
     B_0(PitchClass.B, Octave.OCTAVE_0),                                                           // 341
-    B_1(PitchClass.B, Octave.OCTAVE_1),
-    B_2(PitchClass.B, Octave.OCTAVE_2),
-    B_3(PitchClass.B, Octave.OCTAVE_3),
-    B_4(PitchClass.B, Octave.OCTAVE_4),
-    B_5(PitchClass.B, Octave.OCTAVE_5),
-    B_6(PitchClass.B, Octave.OCTAVE_6),
-    B_7(PitchClass.B, Octave.OCTAVE_7),
-    B_8(PitchClass.B, Octave.OCTAVE_8),
+    B_1(PitchClass.B, Octave.OCTAVE_1),                                                           // 342
+    B_2(PitchClass.B, Octave.OCTAVE_2),                                                           // 343
+    B_3(PitchClass.B, Octave.OCTAVE_3),                                                           // 344
+    B_4(PitchClass.B, Octave.OCTAVE_4),                                                           // 345
+    B_5(PitchClass.B, Octave.OCTAVE_5),                                                           // 346
+    B_6(PitchClass.B, Octave.OCTAVE_6),                                                           // 347
+    B_7(PitchClass.B, Octave.OCTAVE_7),                                                           // 348
+    B_8(PitchClass.B, Octave.OCTAVE_8),                                                           // 349
     B_9(PitchClass.B, Octave.OCTAVE_9),                                                           // 350
 
     B_SHARP_0(PitchClass.B_SHARP, Octave.OCTAVE_0),                                               // 351
-    B_SHARP_1(PitchClass.B_SHARP, Octave.OCTAVE_1),
-    B_SHARP_2(PitchClass.B_SHARP, Octave.OCTAVE_2),
-    B_SHARP_3(PitchClass.B_SHARP, Octave.OCTAVE_3),
-    B_SHARP_4(PitchClass.B_SHARP, Octave.OCTAVE_4),
-    B_SHARP_5(PitchClass.B_SHARP, Octave.OCTAVE_5),
-    B_SHARP_6(PitchClass.B_SHARP, Octave.OCTAVE_6),
-    B_SHARP_7(PitchClass.B_SHARP, Octave.OCTAVE_7),
-    B_SHARP_8(PitchClass.B_SHARP, Octave.OCTAVE_8),
-    B_SHARP_9(PitchClass.B_SHARP, Octave.OCTAVE_9),
-    B_SHARP_10(PitchClass.B_SHARP, Octave.OCTAVE_10),                                             // 360
+    B_SHARP_1(PitchClass.B_SHARP, Octave.OCTAVE_1),                                               // 352
+    B_SHARP_2(PitchClass.B_SHARP, Octave.OCTAVE_2),                                               // 353
+    B_SHARP_3(PitchClass.B_SHARP, Octave.OCTAVE_3),                                               // 354
+    B_SHARP_4(PitchClass.B_SHARP, Octave.OCTAVE_4),                                               // 355
+    B_SHARP_5(PitchClass.B_SHARP, Octave.OCTAVE_5),                                               // 356
+    B_SHARP_6(PitchClass.B_SHARP, Octave.OCTAVE_6),                                               // 357
+    B_SHARP_7(PitchClass.B_SHARP, Octave.OCTAVE_7),                                               // 358
+    B_SHARP_8(PitchClass.B_SHARP, Octave.OCTAVE_8),                                               // 359
+    B_SHARP_9(PitchClass.B_SHARP, Octave.OCTAVE_9),                                               // 360
+    B_SHARP_10(PitchClass.B_SHARP, Octave.OCTAVE_10),                                             // 361
 
-    B_DOUBLE_SHARP_0(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_0),                                 // 361
-    B_DOUBLE_SHARP_1(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_1),
-    B_DOUBLE_SHARP_2(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_2),
-    B_DOUBLE_SHARP_3(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_3),
-    B_DOUBLE_SHARP_4(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_4),
-    B_DOUBLE_SHARP_5(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_5),
-    B_DOUBLE_SHARP_6(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_6),
-    B_DOUBLE_SHARP_7(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_7),
-    B_DOUBLE_SHARP_8(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_8),
-    B_DOUBLE_SHARP_9(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_9),
-    B_DOUBLE_SHARP_10(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_10),                               // 371
+    B_DOUBLE_SHARP_0(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_0),                                 // 362
+    B_DOUBLE_SHARP_1(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_1),                                 // 363
+    B_DOUBLE_SHARP_2(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_2),                                 // 364
+    B_DOUBLE_SHARP_3(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_3),                                 // 365
+    B_DOUBLE_SHARP_4(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_4),                                 // 366
+    B_DOUBLE_SHARP_5(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_5),                                 // 367
+    B_DOUBLE_SHARP_6(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_6),                                 // 368
+    B_DOUBLE_SHARP_7(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_7),                                 // 369
+    B_DOUBLE_SHARP_8(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_8),                                 // 370
+    B_DOUBLE_SHARP_9(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_9),                                 // 371
+    B_DOUBLE_SHARP_10(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_10),                               // 372
     ;
 
     public final PitchClass PITCH_CLASS;
@@ -613,7 +613,7 @@ public enum Pitch
     @Override
     public boolean isTransposableTo(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         try {
-            Pitch candidate = Pitch.valueOf(pitchClass.name() + "_" + octave.NUMBER);
+            Pitch.valueOf(pitchClass.name() + "_" + octave.NUMBER);
 
             /*
              * Reaching this return statement without throwing an Exception

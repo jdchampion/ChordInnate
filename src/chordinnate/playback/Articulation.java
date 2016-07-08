@@ -16,17 +16,6 @@ public enum Articulation {
     ACCENT(0.5, 1.15),
     LEGATO(1, 1),
 
-    // TODO: Effect Articulations (may create a separate enum for these)
-//    FALL(1, 1),
-//    QUICK_FALL(0.5, 1),
-//    SHAKE(1, 1),
-//    GLISSANDO(1, 1),
-//    RIP(1, 1),
-//    DOIT(1, 1),
-//    SCOOP(1, 1),
-//    BEND(1, 1),
-//    TURN(1, 1),
-
     ;
 
     final double

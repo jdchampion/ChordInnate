@@ -1,11 +1,12 @@
 package chordinnate.musictheory.general;
 
-import org.jetbrains.annotations.Nullable;
+import chordinnate.SequentiallyOrdered;
+import chordinnate.Util;
 
 /**
  * Created by Joseph on 4/14/16.
  */
-public enum Accidental {
+public enum Accidental implements SequentiallyOrdered {
     DOUBLE_FLAT("\uD834\uDD2B", -2),
     FLAT("\u266d", -1),
     NATURAL("\u266e", 0),
@@ -16,26 +17,18 @@ public enum Accidental {
     public final String SYMBOL;
     public final int SEMITONE_MODIFIER;
 
-    private static final Accidental[] VALUES = Accidental.values();
-
     Accidental(String symbol, int semitoneModifier) {
         this.SYMBOL = symbol;
         this.SEMITONE_MODIFIER = semitoneModifier;
     }
 
-    @Nullable
-    Accidental getNext() {
-        int ordinal = this.ordinal();
-        return ordinal < VALUES.length - 1
-                ? VALUES[ordinal + 1]
-                : null;
+    @Override
+    public Accidental getNext() {
+        return (Accidental) Util.getNext(this, Accidental.values());
     }
 
-    @Nullable
-    Accidental getPrevious() {
-        int ordinal = this.ordinal();
-        return ordinal > 0
-                ? VALUES[ordinal - 1]
-                : null;
+    @Override
+    public Accidental getPrevious() {
+        return (Accidental) Util.getPrevious(this, Accidental.values());
     }
 }

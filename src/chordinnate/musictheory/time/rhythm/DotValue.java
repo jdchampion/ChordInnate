@@ -1,9 +1,12 @@
 package chordinnate.musictheory.time.rhythm;
 
+import chordinnate.SequentiallyOrdered;
+import chordinnate.Util;
+
 /**
  * Created by Joseph on 6/22/16.
  */
-enum DotValue {
+enum DotValue implements SequentiallyOrdered {
     /*
      * NOTE: Keep these in order from least to greatest.
      */
@@ -22,5 +25,17 @@ enum DotValue {
 
     DotValue(double ratio) {
         this.RATIO = ratio;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public DotValue getNext() {
+        return (DotValue) Util.getNext(this, DotValue.values());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public DotValue getPrevious() {
+        return (DotValue) Util.getPrevious(this, DotValue.values());
     }
 }

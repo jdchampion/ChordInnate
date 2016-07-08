@@ -1,6 +1,5 @@
 package chordinnate.musictheory.general;
 
-import chordinnate.musictheory.general.Accidental;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -13,10 +12,10 @@ public class TestAccidental {
     @Test
     public void getSymbol() throws Exception {
         assertEquals("\uD834\uDD2B", Accidental.DOUBLE_FLAT.SYMBOL);
-        assertEquals("\u266d", Accidental.FLAT.SYMBOL);
+        assertEquals("♭", Accidental.FLAT.SYMBOL);
         assertEquals("♮", Accidental.NATURAL.SYMBOL);
         assertEquals("", Accidental.NONE.SYMBOL);
-        assertEquals("\u266f", Accidental.SHARP.SYMBOL);
+        assertEquals("♯", Accidental.SHARP.SYMBOL);
         assertEquals("\uD834\uDD2A", Accidental.DOUBLE_SHARP.SYMBOL);
     }
 
