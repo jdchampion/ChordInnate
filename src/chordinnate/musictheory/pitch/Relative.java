@@ -8,6 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public interface Relative<T> {
     boolean isRelativeMajorTo(@NotNull T other);
     boolean isRelativeMinorTo(@NotNull T other);
-    @NotNull T getRelativeMajor();
-    @NotNull T getRelativeMinor();
+    T getRelativeMajor();
+    T getRelativeMinor();
 }

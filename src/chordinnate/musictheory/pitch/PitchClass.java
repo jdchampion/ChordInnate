@@ -93,11 +93,11 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
         this.OCTAVE_RANGE = baseMidiValue < 8 ? Octave.OCTAVE_10 : Octave.OCTAVE_9;
     }
 
-    public boolean hasAccidental(Accidental accidental) {
+    public boolean hasAccidental(@NotNull Accidental accidental) {
         return this.ENHARMONIC_SPELLING.ACCIDENTAL.equals(accidental);
     }
 
-    public static int getIntervallicDistanceBetween(PitchClass lhs, PitchClass rhs) {
+    public static int getIntervallicDistanceBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
         int intervallicDistance = rhs.BASE_MIDI_VALUE - lhs.BASE_MIDI_VALUE;
         return intervallicDistance >= 0 ? intervallicDistance : 12 + intervallicDistance;
     }

@@ -3,6 +3,7 @@ package chordinnate.musictheory.pitch.interval;
 
 import chordinnate.SequentiallyOrdered;
 import chordinnate.Util;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -54,11 +55,11 @@ public enum Octave implements SequentiallyOrdered {
         return (Octave) Util.get(index, Octave.values());
     }
 
-    public static int semitoneDistanceBetween(Octave lhs, Octave rhs) {
+    public static int semitoneDistanceBetween(@NotNull Octave lhs, @NotNull Octave rhs) {
         return Math.abs(lhs.MIDI_START - rhs.MIDI_START);
     }
 
-    public static int numOctavesBetween(Octave lhs, Octave rhs) {
+    public static int numOctavesBetween(@NotNull Octave lhs, @NotNull Octave rhs) {
         return Math.abs(lhs.ordinal() - rhs.ordinal());
     }
 

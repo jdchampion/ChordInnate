@@ -22,11 +22,13 @@ public enum Accidental implements SequentiallyOrdered {
         this.SEMITONE_MODIFIER = semitoneModifier;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Accidental getNext() {
         return (Accidental) Util.getNext(this, Accidental.values());
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Accidental getPrevious() {
         return (Accidental) Util.getPrevious(this, Accidental.values());

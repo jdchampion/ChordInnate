@@ -8,6 +8,6 @@ import org.jetbrains.annotations.NotNull;
 public interface Parallel<T> {
     boolean isParallelMajorTo(@NotNull T other);
     boolean isParallelMinorTo(@NotNull T other);
-    @NotNull T getParallelMajor();
-    @NotNull T getParallelMinor();
+    T getParallelMajor();
+    T getParallelMinor();
 }

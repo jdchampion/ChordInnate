@@ -158,7 +158,7 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
         this.SIGNATURE = signature;
     }
 
-    public boolean contains(EnharmonicSpelling enharmonicSpelling) {
+    public boolean contains(@NotNull EnharmonicSpelling enharmonicSpelling) {
         if (this.equals(NO_KEY_SIGNATURE)) return false;
 
         for (EnharmonicSpelling e : SIGNATURE) {
@@ -178,7 +178,6 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
         return getRelativeMinor().equals(other);
     }
 
-    @NotNull
     @Override
     public KeySignature getRelativeMajor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MAJOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MAJOR"))
@@ -186,7 +185,6 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
                 : RELATIVE_KEY_SIGNATURES.get(this);
     }
 
-    @NotNull
     @Override
     public KeySignature getRelativeMinor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MINOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MINOR"))
@@ -204,7 +202,6 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
         return getParallelMinor().equals(other);
     }
 
-    @NotNull
     @Override
     public KeySignature getParallelMajor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MAJOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MAJOR"))
@@ -212,7 +209,6 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
                 : KeySignature.valueOf(KEY.toString() + "_" + KeySignatureType.MAJOR.toString());
     }
 
-    @NotNull
     @Override
     public KeySignature getParallelMinor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MINOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MINOR"))
