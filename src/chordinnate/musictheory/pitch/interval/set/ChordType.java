@@ -62,18 +62,15 @@ public enum ChordType {
     ),
     MAJOR_THIRTEEN(
             "maj13",
-            ONE, THREE, FIVE, NashvilleNumber.SEVEN,
-            NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
+            ONE, THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
     ),
     MAJOR_NINE_SHARP_ELEVEN(
             "maj9"+SHARP.SYMBOL+"11",
-            ONE, THREE, FIVE, NashvilleNumber.SEVEN,
-            NashvilleNumber.NINE, SHARP_ELEVEN
+            ONE, THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE, SHARP_ELEVEN
     ),
     MAJOR_THIRTEEN_SHARP_ELEVEN(
             "maj13"+SHARP.SYMBOL+"11",
-            ONE, THREE, FIVE, NashvilleNumber.SEVEN,
-            NashvilleNumber.NINE, SHARP_ELEVEN, NashvilleNumber.THIRTEEN
+            ONE, THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE, SHARP_ELEVEN, NashvilleNumber.THIRTEEN
     ),
     SIX(
             "6",
@@ -81,8 +78,7 @@ public enum ChordType {
     ),
     SIX_ADD_NINE(
             "6add9",
-            ONE, THREE, FIVE, NashvilleNumber.SIX,
-            NashvilleNumber.NINE
+            ONE, THREE, FIVE, NashvilleNumber.SIX, NashvilleNumber.NINE
     ),
     MAJOR_SEVEN_SHARP_FIVE(
             "maj7"+SHARP.SYMBOL+"5",
@@ -94,18 +90,15 @@ public enum ChordType {
     ),
     MINOR_NINE(
             "m9",
-            ONE, FLAT_THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE
+            ONE, FLAT_THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE
     ),
     MINOR_ELEVEN(
             "m11",
-            ONE, FLAT_THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE, NashvilleNumber.ELEVEN
+            ONE, FLAT_THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN
     ),
     MINOR_THIRTEEN(
             "m13",
-            ONE, FLAT_THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
+            ONE, FLAT_THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
     ),
     MINOR_SIX(
             "m6",
@@ -113,13 +106,11 @@ public enum ChordType {
     ),
     MINOR_ADD_NINE(
             "madd9",
-            ONE, FLAT_THREE, FIVE,
-            NashvilleNumber.NINE
+            ONE, FLAT_THREE, FIVE, NashvilleNumber.NINE
     ),
     MINOR_SIX_ADD_NINE(
             "m6add9",
-            ONE, FLAT_THREE, FIVE, NashvilleNumber.SIX,
-            NashvilleNumber.NINE
+            ONE, FLAT_THREE, FIVE, NashvilleNumber.SIX, NashvilleNumber.NINE
     ),
     MINOR_MAJOR_SEVEN(
             "mM7",
@@ -127,8 +118,7 @@ public enum ChordType {
     ),
     MINOR_MAJOR_NINE(
             "mM9",
-            ONE, FLAT_THREE, FIVE, NashvilleNumber.SEVEN,
-            NashvilleNumber.NINE
+            ONE, FLAT_THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE
     ),
     MINOR_SEVEN_FLAT_FIVE(
             "m7"+FLAT.SYMBOL+"5",
@@ -144,18 +134,15 @@ public enum ChordType {
     ),
     NINE(
             "9",
-            ONE, THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE
+            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE
     ),
     ELEVEN(
             "11",
-            ONE, THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE, NashvilleNumber.ELEVEN
+            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN
     ),
     THIRTEEN(
             "13",
-            ONE, THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
+            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
     ),
     SEVEN_SUSPENDED_FOUR(
             "7sus4",
@@ -171,58 +158,47 @@ public enum ChordType {
     ),
     SEVEN_FLAT_NINE(
             "7"+FLAT.SYMBOL+"9",
-            ONE, THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.FLAT_NINE
+            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE
     ),
     SEVEN_SHARP_NINE(
             "7"+SHARP.SYMBOL+"9",
-            ONE, THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.SHARP_NINE
+            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.SHARP_NINE
     ),
     SEVEN_FLAT_FIVE_FLAT_NINE(
             "7"+FLAT.SYMBOL+"5"+FLAT.SYMBOL+"9",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN,
-            NashvilleNumber.FLAT_NINE
+            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE
     ),
     SEVEN_FLAT_FIVE_SHARP_NINE(
             "7"+FLAT.SYMBOL+"5"+SHARP.SYMBOL+"9",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN,
-            NashvilleNumber.SHARP_NINE
+            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN, NashvilleNumber.SHARP_NINE
     ),
     SEVEN_SHARP_FIVE_FLAT_NINE(
             "7"+SHARP.SYMBOL+"5"+FLAT.SYMBOL+"9",
-            ONE, THREE, SHARP_FIVE, FLAT_SEVEN,
-            NashvilleNumber.FLAT_NINE
+            ONE, THREE, SHARP_FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE
     ),
     SEVEN_SHARP_FIVE_SHARP_NINE(
             "7"+SHARP.SYMBOL+"5"+SHARP.SYMBOL+"9",
-            ONE, THREE, SHARP_FIVE, FLAT_SEVEN,
-            NashvilleNumber.SHARP_NINE
+            ONE, THREE, SHARP_FIVE, FLAT_SEVEN, NashvilleNumber.SHARP_NINE
     ),
     NINE_FLAT_FIVE(
             "9"+FLAT.SYMBOL+"5",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE
+            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN, NashvilleNumber.NINE
     ),
     NINE_SHARP_FIVE(
             "9"+SHARP.SYMBOL+"5",
-            ONE, THREE, SHARP_FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE
+            ONE, THREE, SHARP_FIVE, FLAT_SEVEN, NashvilleNumber.NINE
     ),
     THIRTEEN_SHARP_ELEVEN(
             "13"+SHARP.SYMBOL+"11",
-            ONE, THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.NINE, SHARP_ELEVEN, NashvilleNumber.THIRTEEN
+            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, SHARP_ELEVEN, NashvilleNumber.THIRTEEN
     ),
     THIRTEEN_FLAT_NINE(
             "13"+FLAT.SYMBOL+"9",
-            ONE, THREE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.FLAT_NINE, NashvilleNumber.THIRTEEN
+            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE, NashvilleNumber.THIRTEEN
     ),
     ELEVEN_FLAT_NINE(
             "11"+FLAT.SYMBOL+"9",
-            ONE, FIVE, FLAT_SEVEN,
-            NashvilleNumber.FLAT_NINE, NashvilleNumber.ELEVEN
+            ONE, FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE, NashvilleNumber.ELEVEN
     ),
     POWER_CHORD(
             "5",

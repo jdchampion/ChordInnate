@@ -1,15 +1,15 @@
 package chordinnate.musictheory.pitch.interval;
 
 
-import chordinnate.SequentiallyOrdered;
-import chordinnate.Util;
+import chordinnate.util.Sequential;
+import chordinnate.util.SequentialUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Joseph on 4/14/16.
  */
-public enum Octave implements SequentiallyOrdered {
+public enum Octave implements Sequential {
 
     /*
      * The purpose for the Octave enumerated type is to
@@ -41,18 +41,18 @@ public enum Octave implements SequentiallyOrdered {
     @SuppressWarnings("unchecked")
     @Override
     public Octave getNext() {
-        return (Octave) Util.getNext(this, Octave.values());
+        return (Octave) SequentialUtil.getNext(this, Octave.values());
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Octave getPrevious() {
-        return (Octave) Util.getPrevious(this, Octave.values());
+        return (Octave) SequentialUtil.getPrevious(this, Octave.values());
     }
 
     @Nullable
     public static Octave getOctave(int index) {
-        return (Octave) Util.get(index, Octave.values());
+        return (Octave) SequentialUtil.get(index, Octave.values());
     }
 
     public static int semitoneDistanceBetween(@NotNull Octave lhs, @NotNull Octave rhs) {

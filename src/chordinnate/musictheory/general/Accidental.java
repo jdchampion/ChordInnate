@@ -1,12 +1,12 @@
 package chordinnate.musictheory.general;
 
-import chordinnate.SequentiallyOrdered;
-import chordinnate.Util;
+import chordinnate.util.Sequential;
+import chordinnate.util.SequentialUtil;
 
 /**
  * Created by Joseph on 4/14/16.
  */
-public enum Accidental implements SequentiallyOrdered {
+public enum Accidental implements Sequential {
     DOUBLE_FLAT("\uD834\uDD2B", -2),
     FLAT("\u266d", -1),
     NATURAL("\u266e", 0),
@@ -25,12 +25,12 @@ public enum Accidental implements SequentiallyOrdered {
     @SuppressWarnings("unchecked")
     @Override
     public Accidental getNext() {
-        return (Accidental) Util.getNext(this, Accidental.values());
+        return (Accidental) SequentialUtil.getNext(this, Accidental.values());
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Accidental getPrevious() {
-        return (Accidental) Util.getPrevious(this, Accidental.values());
+        return (Accidental) SequentialUtil.getPrevious(this, Accidental.values());
     }
 }

@@ -1,9 +1,9 @@
-package chordinnate;
+package chordinnate.util;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class Util {
+public final class SequentialUtil {
     @Nullable
     public static Enum<?> getNext(@NotNull Enum<?> type, @NotNull Enum<?>[] values) {
         int ordinal = type.ordinal();

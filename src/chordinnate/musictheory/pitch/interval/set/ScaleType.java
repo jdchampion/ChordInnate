@@ -1,5 +1,6 @@
 package chordinnate.musictheory.pitch.interval.set;
 
+import chordinnate.musictheory.general.Accidental;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 
 import static chordinnate.musictheory.pitch.interval.PitchInterval.*;
@@ -528,6 +529,247 @@ public enum ScaleType {
             "Cushak",
             NON_WESTERN,
             PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    DASTGAH_MAHUR(
+            "Dastgah Mahur",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SEVENTH
+    ),
+    DASTGAH_RAST_PANJGAH(
+            "Dastgah Rast Panjgah",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SEVENTH
+    ),
+    DEUTERUS_AUTHENTICUS(
+            "Deuterus Authenticus",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    DEUTERUS_PLAGIS(
+            "Deuterus Plagis",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    DIATONIC_MAJOR(
+            "Diatonic Major",
+            ScaleTypeProperty.MAJOR,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SEVENTH
+    ),
+    DIATONIC_MINOR(
+            "Diatonic Minor",
+            ScaleTypeProperty.MINOR,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    DIMINISHED(
+            "Diminished",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, MAJOR_SIXTH, MAJOR_SEVENTH
+    ),
+    DIMINISHED_BLUES(
+            "Diminished Blues",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, MAJOR_THIRD, AUGMENTED_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DIMINISHED_FLAT_NINE(
+            "Diminished "+ Accidental.FLAT.SYMBOL + "9", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, DIMINISHED_SEVENTH
+    ),
+    DIMINISHED_LOCRIAN(
+            "Diminished Locrian",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, DIMINISHED_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, DIMINISHED_SEVENTH
+    ),
+    DIMINISHED_WHOLE_TONE(
+            "Diminished Whole-Tone",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, DIMINISHED_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    DIMINISHED_WHOLE_TONE_II(
+            "Diminished Whole-Tone II",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, AUGMENTED_SECOND, MAJOR_THIRD, AUGMENTED_FOURTH, AUGMENTED_FIFTH, MINOR_SEVENTH
+    ),
+    DOMINANT_SEVENTH(
+            "Dominant 7th",  // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DOMINANT_BEBOP(
+            "Dominant Bebop",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH, MAJOR_SEVENTH
+    ),
+    DOMINANT_DIMINISHED(
+            "Dominant Diminished",
+            NON_WESTERN,
+            PERFECT_UNISON, AUGMENTED_UNISON, AUGMENTED_SECOND, MAJOR_THIRD, AUGMENTED_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_AEOLIAN_MIXED(
+            "Dorian/Aeolian Mixed",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_BEBOP(
+            "Dorian Bebop",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_FLAT_TWO(
+            "Dorian " + Accidental.FLAT.SYMBOL + "2", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_FLAT_TWO_FLAT_FIVE(
+            "Dorian " + Accidental.FLAT.SYMBOL + "2" + Accidental.FLAT.SYMBOL + "5", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_FLAT_FIVE(
+            "Dorian " + Accidental.FLAT.SYMBOL + "5", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_FLAT_NINE(
+            "Dorian " + Accidental.FLAT.SYMBOL + "9", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_GREEK(
+            "Dorian Greek",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_MINOR(
+            "Dorian Minor",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_PENTATONIC(
+            "Dorian Pentatonic",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SEVENTH
+    ),
+    DORIAN_SHARP_FOUR(
+            "Dorian " + Accidental.SHARP.SYMBOL + "4", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, AUGMENTED_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    DORIAN_SHARP_ELEVEN(
+            "Dorian " + Accidental.SHARP.SYMBOL + "11", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            NON_WESTERN,
+            MAJOR_SECOND, MINOR_THIRD, AUGMENTED_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+
+    ),
+    DORICO_FLAMENCO(
+            "Dorico Flamenco",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    DOUBLE_HARMONIC_MAJOR(
+            "Double Harmonic Major",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MAJOR_SEVENTH
+    ),
+    DOUBLE_HARMONIC_MINOR(
+            "Double Harmonic Minor",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, AUGMENTED_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MAJOR_SEVENTH
+    ),
+    DOUBLE_PHRYGIAN_HEXATONIC(
+            "Double-Phrygian Hexatonic",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MAJOR_SIXTH
+    ),
+    EGYPTIAN(
+            "Egyptian",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SEVENTH
+    ),
+    EIGHT_NOTE_CHINESE(
+            "Eight-Note Chinese",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH, MAJOR_SEVENTH
+    ),
+    EIGHT_NOTE_DIMINISHED(
+            "Eight-Note Diminished",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, MAJOR_SIXTH, MAJOR_SEVENTH
+    ),
+    EIGHT_NOTE_SPANISH(
+            "Eight-Note Spanish",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, AUGMENTED_SECOND, MAJOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    ENIGMATIC(
+            "Enigmatic",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MAJOR_THIRD, AUGMENTED_FOURTH, AUGMENTED_FIFTH, AUGMENTED_SIXTH, MAJOR_SEVENTH
+    ),
+    ETHIOPIAN(
+            "Ethiopian",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MAJOR_SEVENTH
+    ),
+    ESKIMO_HEPTATONIC(
+            "Eskimo Heptatonic",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
+    ),
+    ESKIMO_HEXATONIC_I(
+            "Eskimo Hexatonic I",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SEVENTH
+    ),
+    ESKIMO_HEXATONIC_II_ALASKA_POINT_HOPE(
+            "Eskimo Hexatonic II (Alaska: Point Hope)",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SIXTH, MAJOR_SEVENTH
+    ),
+    ESKIMO_TETRATONIC_ALASKA_BETHEL(
+            "Eskimo Tetratonic (Alaska: Bethel)",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FIFTH
+    ),
+    ESPLAS(
+            "Esplá's",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, MAJOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    EZEL(
+            "Ezel",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    FIFTH_MODE(
+            "Fifth Mode",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, AUGMENTED_SIXTH
+    ),
+    FIVE_NOTE_PROMETHEUS(
+            "Five-Note Prometheus",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH
+    ),
+    FOUR_SEMITONE_I(
+            "Four Semitone I",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_THIRD, MINOR_SIXTH
+    ),
+    FOUR_SEMITONE_II(
+            "Four Semitone II",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH
+    ),
+    FREYGISH(
+            "Freygish",
+            NON_WESTERN,
+            PERFECT_UNISON, MINOR_SECOND, AUGMENTED_SECOND, MAJOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, MINOR_SEVENTH
+    ),
+    FULL_MINOR(
+            "Full Minor",
+            NON_WESTERN,
+            PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SIXTH, MAJOR_SIXTH, MINOR_SEVENTH, MAJOR_SEVENTH
     ),
 
     ;
