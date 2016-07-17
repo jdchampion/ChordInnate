@@ -1,6 +1,5 @@
 package chordinnate.musictheory.pitch.interval;
 
-import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
 import org.junit.Test;
 
@@ -272,7 +271,6 @@ public class TestPitchInterval {
 
     @Test
     public void getPitchIntervalBetween() throws Exception {
-        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(Pitch.C_4, Pitch.E_4));
         assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.C, PitchClass.E));
         assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.E, PitchClass.C));
         assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.C_SHARP, PitchClass.E_SHARP));

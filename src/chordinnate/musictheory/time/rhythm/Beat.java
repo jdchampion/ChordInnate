@@ -498,10 +498,10 @@ public enum Beat {
         this.RATIO = getTotalRatioFor(duration, dotValue, tuplet);
     }
 
-    public static double getTotalRatioFor(@NotNull Duration duration, DotValue dotValue, Tuplet tuplet) {
+    public static double getTotalRatioFor(@NotNull Duration duration, @NotNull DotValue dotValue, @NotNull Tuplet tuplet) {
         boolean
-                noDotValue = dotValue == null || dotValue.equals(DotValue.NONE),
-                noTuplet = tuplet == null || tuplet.equals(Tuplet.NONE);
+                noDotValue = dotValue.equals(DotValue.NONE),
+                noTuplet = tuplet.equals(Tuplet.NONE);
 
         if (noDotValue && noTuplet) return duration.RATIO;
         if (noDotValue) return (tuplet.NUMBER - 1) * duration.RATIO * tuplet.RATIO;

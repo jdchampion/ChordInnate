@@ -525,6 +525,7 @@ public enum Pitch
                 : ABSOLUTE_PITCH - pitchInterval.NUM_SEMITONES >= 0;
     }
 
+    @Nullable
     @Override
     public Pitch transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
         if (isTransposableTo(pitchInterval, direction)) {

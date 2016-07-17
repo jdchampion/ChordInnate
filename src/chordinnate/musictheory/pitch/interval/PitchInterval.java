@@ -1,7 +1,6 @@
 package chordinnate.musictheory.pitch.interval;
 
 import chordinnate.musictheory.pitch.Enharmonic;
-import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.notation.Letter;
 import chordinnate.musictheory.pitch.interval.notation.RomanNumeral;
@@ -151,10 +150,7 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
      */
     private static int getVectorDistanceTo(Letter lhs, Letter rhs, boolean direction) {
         int thisOrdinal = lhs.ordinal(), otherOrdinal = rhs.ordinal();
-        if (thisOrdinal == otherOrdinal) {
-            return 0;
-        }
-        else if (thisOrdinal < otherOrdinal) {
+        if (thisOrdinal < otherOrdinal) {
             return direction
                     ? otherOrdinal - thisOrdinal
                     : (7 - (otherOrdinal - thisOrdinal)) * -1;
@@ -165,24 +161,8 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
                     : (thisOrdinal - otherOrdinal) * -1;
         }
         else {
-            return -1; // This case is actually unreachable
+            return 0;
         }
-    }
-
-    public static PitchInterval getPitchIntervalBetween(@NotNull Pitch lhs, @NotNull Pitch rhs) {
-        /*
-         * WARNING: although this wrapper function returns the expected PitchInterval,
-         * it does NOT take into account the Octave difference between the two Pitches.
-         * This is because the PitchInterval enum values do not extend beyond the scope
-         * of a single octave.
-         *
-         * Example: C4 -> E4 will return the same PitchInterval as C8 -> E4 or C4 -> E8
-         *
-         * Depending on the use of this function, this may be undesired behavior
-         * or an unexpected result. Use Octave.getNumOctavesBetween() in conjunction
-         * with the results of this method to account for the Octave difference.
-         */
-        return getPitchIntervalBetween(lhs.PITCH_CLASS, rhs.PITCH_CLASS);
     }
 
     @Override

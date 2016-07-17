@@ -10,12 +10,11 @@ package chordinnate.generator;
  */
 final class Bjorklund {
     private static int steps;
-    private static int pulses;
 
     private static int[] remainder;
     private static int[] count;
     private static int level;
-    private static int stepstatus;
+    private static int stepStatus;
 
     private static boolean[] sequence;
 
@@ -23,39 +22,39 @@ final class Bjorklund {
 
     /**
      *
-     * @param num_slots
-     * @param num_pulses
+     * @param numSlots
+     * @param numPulses
      * @return
      */
-    public static boolean[] compute_bitmap(int num_slots, int num_pulses) {
+    public static boolean[] computeBitmap(int numSlots, int numPulses) {
 
-        stepstatus = 0;
-        steps = num_slots;
+        stepStatus = 0;
+        steps = numSlots;
 
         remainder = new int[steps];
         count = new int[steps];
 
         sequence = new boolean[steps];
 
-        if (num_pulses > num_slots) {
-            num_pulses = num_slots;
+        if (numPulses > numSlots) {
+            numPulses = numSlots;
         }
 
-        int divisor = num_slots - num_pulses;
-        steps = num_slots; pulses = num_pulses;
-        remainder[0] = num_pulses;
+        int divisor = numSlots - numPulses;
+        steps = numSlots;
+        remainder[0] = numPulses;
 
         level = 0;
         do {
             count[level] = divisor / remainder[level];
-            remainder[level+1] = divisor % remainder[level];
+            remainder[level + 1] = divisor % remainder[level];
             divisor = remainder[level];
             level++;
         }
         while (remainder[level] > 1);
 
         count[level] = divisor;
-        build_string(level);
+        buildString(level);
 
         return sequence;
     }
@@ -64,21 +63,21 @@ final class Bjorklund {
      *
      * @param level
      */
-    private static void build_string(int level) {
+    private static void buildString(int level) {
         if (level == -1) {
-            sequence[stepstatus] = false;
-            stepstatus++;
+            sequence[stepStatus] = false;
+            stepStatus++;
         }
         else if (level == -2) {
-            sequence[stepstatus] = true;
-            stepstatus++;
+            sequence[stepStatus] = true;
+            stepStatus++;
         }
         else {
             for (int i = 0; i < count[level]; i++) {
-                build_string(level - 1);
+                buildString(level - 1);
             }
             if (remainder[level] != 0) {
-                build_string(level - 2);
+                buildString(level - 2);
             }
         }
 

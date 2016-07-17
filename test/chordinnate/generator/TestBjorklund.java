@@ -2,8 +2,6 @@ package chordinnate.generator;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Joseph on 6/22/16.
  */
@@ -21,7 +19,7 @@ public class TestBjorklund {
 
     private void printBitmap(int slots, int pulses) {
         System.out.print("Bjorklund(" + slots + ", " + pulses + "): ");
-        boolean[] bitmap = Bjorklund.compute_bitmap(slots, pulses);
+        boolean[] bitmap = Bjorklund.computeBitmap(slots, pulses);
         for (boolean b : bitmap) System.out.print(b ? 1 : 0);
         System.out.println();
     }

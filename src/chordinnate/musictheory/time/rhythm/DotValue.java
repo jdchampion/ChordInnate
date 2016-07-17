@@ -21,7 +21,11 @@ enum DotValue implements Sequential {
 
     ;
 
-    final double RATIO; // ratio of the total amount
+    /*
+     * Ratio of the total amount of the associated Beat.
+     * Formula for calculating: summation(i = 0 to n) [0.5 ^ n]
+     */
+    final double RATIO;
 
     DotValue(double ratio) {
         this.RATIO = ratio;
