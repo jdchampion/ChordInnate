@@ -21,11 +21,4 @@ public final class SequentialUtil {
                 ? values[ordinal - 1]
                 : null;
     }
-
-    @Nullable
-    public static <T> T get(int index, @NotNull T[] values) {
-        return (index >= 0 && index <= values.length - 1)
-                ? values[index]
-                : null;
-    }
 }

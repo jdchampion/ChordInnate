@@ -150,10 +150,7 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
      */
     private static int getVectorDistanceTo(Letter lhs, Letter rhs, boolean direction) {
         int thisOrdinal = lhs.ordinal(), otherOrdinal = rhs.ordinal();
-        if (thisOrdinal == otherOrdinal) {
-            return 0;
-        }
-        else if (thisOrdinal < otherOrdinal) {
+        if (thisOrdinal < otherOrdinal) {
             return direction
                     ? otherOrdinal - thisOrdinal
                     : (7 - (otherOrdinal - thisOrdinal)) * -1;
@@ -164,7 +161,7 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
                     : (thisOrdinal - otherOrdinal) * -1;
         }
         else {
-            return -1; // This case is actually unreachable
+            return 0;
         }
     }
 
