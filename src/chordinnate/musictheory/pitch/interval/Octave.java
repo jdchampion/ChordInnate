@@ -4,7 +4,6 @@ package chordinnate.musictheory.pitch.interval;
 import chordinnate.util.Sequential;
 import chordinnate.util.SequentialUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Joseph on 4/14/16.
@@ -48,11 +47,6 @@ public enum Octave implements Sequential {
     @Override
     public Octave getPrevious() {
         return (Octave) SequentialUtil.getPrevious(this, Octave.values());
-    }
-
-    @Nullable
-    public static Octave getOctave(int index) {
-        return (Octave) SequentialUtil.get(index, Octave.values());
     }
 
     public static int semitoneDistanceBetween(@NotNull Octave lhs, @NotNull Octave rhs) {

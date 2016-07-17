@@ -14,19 +14,20 @@ import org.jetbrains.annotations.NotNull;
 public final class Scale extends SerialIntervalSet implements TransposableIntervalSet {
     ScaleType scaleType;
     Pitch lowest, highest;
+    String name;
 
-    public Scale(EnharmonicSpelling root, ScaleType scaleType) {
+    public Scale(@NotNull EnharmonicSpelling root, @NotNull ScaleType scaleType) {
         this.scaleType = scaleType;
         EnharmonicSpelling r = root.apply(Accidental.NONE);
         PitchInterval[] pitchIntervals = scaleType.getPitchIntervals();
         this.lowest = Pitch.valueOf(r.name() + "_0");
         Pitch tmp = lowest.transposeTo(pitchIntervals[pitchIntervals.length - 1], true);
-        this.maxPlayableOctave = lowest.PITCH_CLASS.isEnharmonicTo(PitchClass.C)
-                ? Octave.OCTAVE_10
+        Octave range = lowest.PITCH_CLASS.OCTAVE_RANGE.NUMBER < tmp.PITCH_CLASS.OCTAVE_RANGE.NUMBER
+                ? lowest.PITCH_CLASS.OCTAVE_RANGE
                 : tmp.PITCH_CLASS.OCTAVE_RANGE;
-        this.pitches = new Pitch[maxPlayableOctave.NUMBER * pitchIntervals.length];
+        this.pitches = new Pitch[range.NUMBER * pitchIntervals.length];
         int i = 0;
-        for (Octave o = Octave.OCTAVE_0; !o.equals(maxPlayableOctave); o = o.getNext()) {
+        for (Octave o = Octave.OCTAVE_0; !o.equals(range); o = o.getNext()) {
             pitches[i] = lowest.transposeTo(o);
             for (int j = 1; j < pitchIntervals.length; j++) {
                 pitches[i + j] = pitches[i].transposeTo(pitchIntervals[j % pitchIntervals.length], true);
@@ -34,9 +35,11 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
             i += pitchIntervals.length;
         }
         this.highest = pitches[pitches.length - 1];
+        this.maxPlayableOctave = range.getPrevious();
+        this.name = lowest.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scaleType.NAME;
     }
 
-    public Scale(PitchClass root, ScaleType scaleType) {
+    public Scale(@NotNull PitchClass root, @NotNull ScaleType scaleType) {
         this(root.ENHARMONIC_SPELLING, scaleType);
     }
 
@@ -44,10 +47,10 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
     public Pitch[] getPitchesForOctave(@NotNull Octave octave) {
         Pitch test = highest.transposeTo(octave);
         if (test == null) {
-            throw new IllegalArgumentException("Octave " + octave.NUMBER + " is out of range for this Scale");
+            throw new IllegalArgumentException("Octave " + octave.NUMBER + " is out of range for " + name);
         }
-        else if (test.ABSOLUTE_PITCH >= highest.ABSOLUTE_PITCH) {
-            throw new IllegalArgumentException("Octave " + octave.NUMBER + " is out of range for this Scale");
+        else if (test.OCTAVE.NUMBER > maxPlayableOctave.NUMBER) {
+            throw new IllegalArgumentException("Octave " + octave.NUMBER + " is out of range for " + name);
         }
         // Return the desired octave (i.e., a subarray from this.pitches)
         Pitch[] octavePitches = new Pitch[this.scaleType.length()];

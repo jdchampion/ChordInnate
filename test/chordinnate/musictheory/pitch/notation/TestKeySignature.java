@@ -10,16 +10,6 @@ import static chordinnate.musictheory.pitch.notation.KeySignature.*;
  */
 public class TestKeySignature {
     @Test
-    public void getKey() throws Exception {
-        // TODO
-    }
-
-    @Test
-    public void getKeySignatureType() throws Exception {
-        // TODO
-    }
-
-    @Test
     public void contains() throws Exception {
         // TODO
     }

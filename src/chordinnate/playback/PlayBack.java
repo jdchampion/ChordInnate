@@ -28,10 +28,12 @@ public final class PlayBack {
         }
     }
 
+    private PlayBack() {}
+
     /**
      * Restarts the Synthesizer if it has been stopped.
      */
-    public static void restart() {
+    private static void restart() {
         try {
             if (!synthesizer.isOpen()) synthesizer.open();
         }
@@ -60,6 +62,7 @@ public final class PlayBack {
      * @param pitch
      */
     public static void play(@NotNull Pitch pitch) {
+        restart();
         try {
             int noteNumber = pitch.ABSOLUTE_PITCH;
             midiChannels[0].noteOn(noteNumber, 127);
@@ -77,6 +80,7 @@ public final class PlayBack {
      * @param note
      */
     public static void play(@NotNull Tempo tempo, @NotNull Note note) {
+        restart();
         long fullLength = tempo.getMillisFor(note.getBeat());
         long soundedLength = (long) (fullLength * note.getSoundedLength());
         long difference = fullLength - soundedLength;
