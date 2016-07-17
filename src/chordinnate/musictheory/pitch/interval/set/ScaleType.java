@@ -790,4 +790,8 @@ public enum ScaleType {
         System.arraycopy(PITCH_INTERVALS, 0, pitchIntervals, 0, PITCH_INTERVALS.length);
         return pitchIntervals;
     }
+
+    public int length() {
+        return PITCH_INTERVALS.length;
+    }
 }

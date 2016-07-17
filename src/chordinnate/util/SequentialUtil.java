@@ -4,6 +4,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public final class SequentialUtil {
+    private SequentialUtil() {}
+
     @Nullable
     public static Enum<?> getNext(@NotNull Enum<?> type, @NotNull Enum<?>[] values) {
         int ordinal = type.ordinal();

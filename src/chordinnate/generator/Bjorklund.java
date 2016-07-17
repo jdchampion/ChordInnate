@@ -19,6 +19,8 @@ final class Bjorklund {
 
     private static boolean[] sequence;
 
+    private Bjorklund() {}
+
     /**
      *
      * @param num_slots

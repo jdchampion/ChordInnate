@@ -12,9 +12,9 @@ import static chordinnate.musictheory.pitch.interval.notation.NashvilleNumber.*;
  *             by Thomas Benjamin, Michael Horvit, Timothy Koozin, Robert Nelson
  *             (p. 254)
  */
-public class MajorProgressionGraph1 extends ChordProgression {
+public final class MajorProgressionGraph1 extends ChordProgression {
 
-    public MajorProgressionGraph1() {
+    private MajorProgressionGraph1() {
         NashvilleNumber[] intervals = {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN};
 
         for (NashvilleNumber i : intervals) {

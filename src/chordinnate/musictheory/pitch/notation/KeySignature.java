@@ -1,7 +1,5 @@
 package chordinnate.musictheory.pitch.notation;
 
-import chordinnate.musictheory.pitch.Parallel;
-import chordinnate.musictheory.pitch.Relative;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,9 +13,9 @@ import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
  * Reference: https://en.wikipedia.org/wiki/Relative_key
  *            https://en.wikipedia.org/wiki/Theoretical_key
  */
-public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignature> {
+public enum KeySignature {
     // No key signature
-    NO_KEY_SIGNATURE(null, KeySignatureType.NONE, null),
+    NO_KEY_SIGNATURE(null, KeySignatureType.NONE),
 
     // Major, non-accidental
     C_MAJOR(C, KeySignatureType.MAJOR),
@@ -168,48 +166,24 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
         return false;
     }
 
-    @Override
-    public boolean isRelativeMajorTo(@NotNull KeySignature other) {
-        return getRelativeMajor().equals(other);
-    }
-
-    @Override
-    public boolean isRelativeMinorTo(@NotNull KeySignature other) {
-        return getRelativeMinor().equals(other);
-    }
-
-    @Override
     public KeySignature getRelativeMajor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MAJOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MAJOR"))
                 ? this
                 : RELATIVE_KEY_SIGNATURES.get(this);
     }
 
-    @Override
     public KeySignature getRelativeMinor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MINOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MINOR"))
                 ? this
                 : RELATIVE_KEY_SIGNATURES.get(this);
     }
 
-    @Override
-    public boolean isParallelMajorTo(@NotNull KeySignature other) {
-        return getParallelMajor().equals(other);
-    }
-
-    @Override
-    public boolean isParallelMinorTo(@NotNull KeySignature other) {
-        return getParallelMinor().equals(other);
-    }
-
-    @Override
     public KeySignature getParallelMajor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MAJOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MAJOR"))
                 ? this
                 : KeySignature.valueOf(KEY.toString() + "_" + KeySignatureType.MAJOR.toString());
     }
 
-    @Override
     public KeySignature getParallelMinor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MINOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MINOR"))
                 ? this
@@ -242,8 +216,8 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
             }
             case NONE:
                 return NO_KEY_SIGNATURE;
+            default: return null;
         }
-        return null;
     }
 
     @Nullable
@@ -270,8 +244,8 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
             }
             case NONE:
                 return NO_KEY_SIGNATURE;
+            default: return null;
         }
-        return null;
     }
 
 }
