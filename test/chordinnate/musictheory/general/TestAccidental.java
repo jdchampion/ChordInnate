@@ -29,24 +29,4 @@ public class TestAccidental {
         assertEquals(2, Accidental.DOUBLE_SHARP.SEMITONE_MODIFIER);
     }
 
-    @Test
-    public void getNext() throws Exception {
-        assertNotNull(Accidental.DOUBLE_FLAT.getNext());
-        assertNotNull(Accidental.FLAT.getNext());
-        assertNotNull(Accidental.NATURAL.getNext());
-        assertNotNull(Accidental.NONE.getNext());
-        assertNotNull(Accidental.SHARP.getNext());
-        assertNull(Accidental.DOUBLE_SHARP.getNext());
-    }
-
-    @Test
-    public void getPrevious() throws Exception {
-        assertNull(Accidental.DOUBLE_FLAT.getPrevious());
-        assertNotNull(Accidental.FLAT.getPrevious());
-        assertNotNull(Accidental.NATURAL.getPrevious());
-        assertNotNull(Accidental.NONE.getPrevious());
-        assertNotNull(Accidental.SHARP.getPrevious());
-        assertNotNull(Accidental.DOUBLE_SHARP.getPrevious());
-    }
-
 }
