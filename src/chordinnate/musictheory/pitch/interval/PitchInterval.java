@@ -124,7 +124,7 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
      * @return the PitchInterval between lhs and rhs
      */
     @Nullable
-    public static PitchInterval getPitchIntervalBetween(PitchClass lhs, PitchClass rhs) {
+    public static PitchInterval getPitchIntervalBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
         int intervallicDistance = PitchClass.getIntervallicDistanceBetween(lhs, rhs);
         ArrayList<PitchInterval> candidates = ENHARMONICS.get(intervallicDistance);
 
@@ -169,7 +169,7 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
         }
     }
 
-    public static PitchInterval getPitchIntervalBetween(Pitch lhs, Pitch rhs) {
+    public static PitchInterval getPitchIntervalBetween(@NotNull Pitch lhs, @NotNull Pitch rhs) {
         /*
          * WARNING: although this wrapper function returns the expected PitchInterval,
          * it does NOT take into account the Octave difference between the two Pitches.

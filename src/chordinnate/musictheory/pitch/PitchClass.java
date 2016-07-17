@@ -2,6 +2,7 @@ package chordinnate.musictheory.pitch;
 
 import chordinnate.musictheory.general.Accidental;
 import chordinnate.musictheory.pitch.interval.Octave;
+import chordinnate.musictheory.pitch.interval.set.IntervalSet;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
 import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.jetbrains.annotations.NotNull;
@@ -93,11 +94,11 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
         this.OCTAVE_RANGE = baseMidiValue < 8 ? Octave.OCTAVE_10 : Octave.OCTAVE_9;
     }
 
-    public boolean hasAccidental(Accidental accidental) {
+    public boolean hasAccidental(@NotNull Accidental accidental) {
         return this.ENHARMONIC_SPELLING.ACCIDENTAL.equals(accidental);
     }
 
-    public static int getIntervallicDistanceBetween(PitchClass lhs, PitchClass rhs) {
+    public static int getIntervallicDistanceBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
         int intervallicDistance = rhs.BASE_MIDI_VALUE - lhs.BASE_MIDI_VALUE;
         return intervallicDistance >= 0 ? intervallicDistance : 12 + intervallicDistance;
     }
@@ -116,5 +117,11 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
     @Override
     public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
         return keySignature.contains(this.ENHARMONIC_SPELLING);
+    }
+
+    @Override
+    public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
+        // TODO
+        return false;
     }
 }

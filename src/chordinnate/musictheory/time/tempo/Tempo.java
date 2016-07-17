@@ -1,6 +1,7 @@
 package chordinnate.musictheory.time.tempo;
 
 import chordinnate.musictheory.time.rhythm.Beat;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -16,7 +17,7 @@ public class Tempo {
     private long millis;                    // Full length (in ms) of the beat duration (unit of measurement) at the current tempo
     private double ratio;                   // Ratio of the beat's total duration to a whole note's total duration
 
-    public Tempo(Beat subdivision, int bpm) {
+    public Tempo(@NotNull Beat subdivision, int bpm) {
         if (bpm >= MIN_BPM && bpm <= MAX_BPM) {
             this.currentBPM = bpm;
             this.currentSubdivision = subdivision;
@@ -36,7 +37,7 @@ public class Tempo {
         return tempoMarking;
     }
 
-    public void setTempoMarking(TempoMarking tempoMarking) {
+    public void setTempoMarking(@NotNull TempoMarking tempoMarking) {
         this.tempoMarking = tempoMarking;
 
         /*
@@ -54,7 +55,7 @@ public class Tempo {
         this.millis = bpmToMillis(currentBPM);
     }
 
-    public void setSubdivision(Beat beat) {
+    public void setSubdivision(@NotNull Beat beat) {
         this.currentSubdivision = beat;
         this.ratio = beat.getRatio();
     }
@@ -125,6 +126,6 @@ public class Tempo {
     }
 
     public long getMillisFor(Beat beat) {
-        return (long) (millis * (beat.getRatio() / currentSubdivision.getRatio()));
+        return beat == null ? 0 : (long) (millis * (beat.getRatio() / currentSubdivision.getRatio()));
     }
 }

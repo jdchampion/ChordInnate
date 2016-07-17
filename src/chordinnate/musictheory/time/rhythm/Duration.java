@@ -1,5 +1,6 @@
 package chordinnate.musictheory.time.rhythm;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -58,11 +59,11 @@ public enum Duration {
         return VALUES[VALUES.length - 1];
     }
 
-    public boolean isShorterThan(Duration other) {
+    public boolean isShorterThan(@NotNull Duration other) {
         return this.RATIO < other.RATIO;
     }
 
-    public boolean isLongerThan(Duration other) {
+    public boolean isLongerThan(@NotNull Duration other) {
         return this.RATIO > other.RATIO;
     }
 }

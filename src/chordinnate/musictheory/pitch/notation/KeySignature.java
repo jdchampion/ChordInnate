@@ -1,7 +1,5 @@
 package chordinnate.musictheory.pitch.notation;
 
-import chordinnate.musictheory.pitch.Parallel;
-import chordinnate.musictheory.pitch.Relative;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,69 +13,69 @@ import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
  * Reference: https://en.wikipedia.org/wiki/Relative_key
  *            https://en.wikipedia.org/wiki/Theoretical_key
  */
-public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignature> {
+public enum KeySignature {
     // No key signature
-    NO_KEY_SIGNATURE(null, KeySignatureType.NONE, null),
+    NO_KEY_SIGNATURE(null, KeySignatureType.NONE),
 
     // Major, non-accidental
-    C_MAJOR(C, KeySignatureType.MAJOR, new EnharmonicSpelling[]{}),
+    C_MAJOR(C, KeySignatureType.MAJOR),
 
     // Major, flat
-    F_MAJOR(F, KeySignatureType.MAJOR, new EnharmonicSpelling[]{B_FLAT}),
-    B_FLAT_MAJOR(B_FLAT, KeySignatureType.MAJOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT}),
-    E_FLAT_MAJOR(E_FLAT, KeySignatureType.MAJOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT}),
-    A_FLAT_MAJOR(A_FLAT, KeySignatureType.MAJOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT}),
-    D_FLAT_MAJOR(D_FLAT, KeySignatureType.MAJOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT}),
-    G_FLAT_MAJOR(G_FLAT, KeySignatureType.MAJOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT}),
-    C_FLAT_MAJOR(C_FLAT, KeySignatureType.MAJOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    F_FLAT_MAJOR(F_FLAT, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{B_DOUBLE_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    B_DOUBLE_FLAT_MAJOR(B_DOUBLE_FLAT, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    E_DOUBLE_FLAT_MAJOR(E_DOUBLE_FLAT, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_DOUBLE_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    A_DOUBLE_FLAT_MAJOR(A_DOUBLE_FLAT, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_DOUBLE_FLAT, D_DOUBLE_FLAT, G_FLAT, C_FLAT, F_FLAT}),
+    F_MAJOR(F, KeySignatureType.MAJOR, B_FLAT),
+    B_FLAT_MAJOR(B_FLAT, KeySignatureType.MAJOR, B_FLAT, E_FLAT),
+    E_FLAT_MAJOR(E_FLAT, KeySignatureType.MAJOR, B_FLAT, E_FLAT, A_FLAT),
+    A_FLAT_MAJOR(A_FLAT, KeySignatureType.MAJOR, B_FLAT, E_FLAT, A_FLAT, D_FLAT),
+    D_FLAT_MAJOR(D_FLAT, KeySignatureType.MAJOR, B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT),
+    G_FLAT_MAJOR(G_FLAT, KeySignatureType.MAJOR, B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT),
+    C_FLAT_MAJOR(C_FLAT, KeySignatureType.MAJOR, B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT),
+    F_FLAT_MAJOR(F_FLAT, KeySignatureType.THEORETICAL, B_DOUBLE_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT),
+    B_DOUBLE_FLAT_MAJOR(B_DOUBLE_FLAT, KeySignatureType.THEORETICAL, B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT),
+    E_DOUBLE_FLAT_MAJOR(E_DOUBLE_FLAT, KeySignatureType.THEORETICAL, B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_DOUBLE_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT),
+    A_DOUBLE_FLAT_MAJOR(A_DOUBLE_FLAT, KeySignatureType.THEORETICAL, B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_DOUBLE_FLAT, D_DOUBLE_FLAT, G_FLAT, C_FLAT, F_FLAT),
 
     // Major, sharp
-    G_MAJOR(G, KeySignatureType.MAJOR, new EnharmonicSpelling[]{F_SHARP}),
-    D_MAJOR(D, KeySignatureType.MAJOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP}),
-    A_MAJOR(A, KeySignatureType.MAJOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP}),
-    E_MAJOR(E, KeySignatureType.MAJOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP}),
-    B_MAJOR(B, KeySignatureType.MAJOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP}),
-    F_SHARP_MAJOR(F_SHARP, KeySignatureType.MAJOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP}),
-    C_SHARP_MAJOR(C_SHARP, KeySignatureType.MAJOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    G_SHARP_MAJOR(G_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    D_SHARP_MAJOR(D_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    A_SHARP_MAJOR(A_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    E_SHARP_MAJOR(E_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_DOUBLE_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    B_SHARP_MAJOR(B_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_DOUBLE_SHARP, A_DOUBLE_SHARP, E_SHARP, B_SHARP}),
+    G_MAJOR(G, KeySignatureType.MAJOR, F_SHARP),
+    D_MAJOR(D, KeySignatureType.MAJOR, F_SHARP, C_SHARP),
+    A_MAJOR(A, KeySignatureType.MAJOR, F_SHARP, C_SHARP, G_SHARP),
+    E_MAJOR(E, KeySignatureType.MAJOR, F_SHARP, C_SHARP, G_SHARP, D_SHARP),
+    B_MAJOR(B, KeySignatureType.MAJOR, F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP),
+    F_SHARP_MAJOR(F_SHARP, KeySignatureType.MAJOR, F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP),
+    C_SHARP_MAJOR(C_SHARP, KeySignatureType.MAJOR, F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    G_SHARP_MAJOR(G_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    D_SHARP_MAJOR(D_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    A_SHARP_MAJOR(A_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    E_SHARP_MAJOR(E_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_DOUBLE_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    B_SHARP_MAJOR(B_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_DOUBLE_SHARP, A_DOUBLE_SHARP, E_SHARP, B_SHARP),
 
     // Minor, non-accidental
-    A_MINOR(A, KeySignatureType.MINOR, new EnharmonicSpelling[]{}),
+    A_MINOR(A, KeySignatureType.MINOR),
 
     // Minor, flat
-    D_MINOR(D, KeySignatureType.MINOR, new EnharmonicSpelling[]{B_FLAT}),
-    G_MINOR(G, KeySignatureType.MINOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT}),
-    C_MINOR(C, KeySignatureType.MINOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT}),
-    F_MINOR(F, KeySignatureType.MINOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT}),
-    B_FLAT_MINOR(B_FLAT, KeySignatureType.MINOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT}),
-    E_FLAT_MINOR(E_FLAT, KeySignatureType.MINOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT}),
-    A_FLAT_MINOR(A_FLAT, KeySignatureType.MINOR, new EnharmonicSpelling[]{B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    D_FLAT_MINOR(D_FLAT, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{B_DOUBLE_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    G_FLAT_MINOR(G_FLAT, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    C_FLAT_MINOR(C_FLAT, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_DOUBLE_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT}),
-    F_FLAT_MINOR(F_FLAT, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_DOUBLE_FLAT, D_DOUBLE_FLAT, G_FLAT, C_FLAT, F_FLAT}),
+    D_MINOR(D, KeySignatureType.MINOR, B_FLAT),
+    G_MINOR(G, KeySignatureType.MINOR, B_FLAT, E_FLAT),
+    C_MINOR(C, KeySignatureType.MINOR, B_FLAT, E_FLAT, A_FLAT),
+    F_MINOR(F, KeySignatureType.MINOR, B_FLAT, E_FLAT, A_FLAT, D_FLAT),
+    B_FLAT_MINOR(B_FLAT, KeySignatureType.MINOR, B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT),
+    E_FLAT_MINOR(E_FLAT, KeySignatureType.MINOR, B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT),
+    A_FLAT_MINOR(A_FLAT, KeySignatureType.MINOR, B_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT),
+    D_FLAT_MINOR(D_FLAT, KeySignatureType.THEORETICAL, B_DOUBLE_FLAT, E_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT),
+    G_FLAT_MINOR(G_FLAT, KeySignatureType.THEORETICAL, B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT),
+    C_FLAT_MINOR(C_FLAT, KeySignatureType.THEORETICAL, B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_DOUBLE_FLAT, D_FLAT, G_FLAT, C_FLAT, F_FLAT),
+    F_FLAT_MINOR(F_FLAT, KeySignatureType.THEORETICAL, B_DOUBLE_FLAT, E_DOUBLE_FLAT, A_DOUBLE_FLAT, D_DOUBLE_FLAT, G_FLAT, C_FLAT, F_FLAT),
 
     // Minor, sharp
-    E_MINOR(E, KeySignatureType.MINOR, new EnharmonicSpelling[]{F_SHARP}),
-    B_MINOR(B, KeySignatureType.MINOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP}),
-    F_SHARP_MINOR(F_SHARP, KeySignatureType.MINOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP}),
-    C_SHARP_MINOR(C_SHARP, KeySignatureType.MINOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP}),
-    G_SHARP_MINOR(G_SHARP, KeySignatureType.MINOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP}),
-    D_SHARP_MINOR(D_SHARP, KeySignatureType.MINOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP}),
-    A_SHARP_MINOR(A_SHARP, KeySignatureType.MINOR, new EnharmonicSpelling[]{F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    E_SHARP_MINOR(E_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    B_SHARP_MINOR(B_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    F_DOUBLE_SHARP_MINOR(F_DOUBLE_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    C_DOUBLE_SHARP_MINOR(C_DOUBLE_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_DOUBLE_SHARP, A_SHARP, E_SHARP, B_SHARP}),
-    G_DOUBLE_SHARP_MINOR(G_DOUBLE_SHARP, KeySignatureType.THEORETICAL, new EnharmonicSpelling[]{F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_DOUBLE_SHARP, A_DOUBLE_SHARP, E_SHARP, B_SHARP}),
+    E_MINOR(E, KeySignatureType.MINOR, F_SHARP),
+    B_MINOR(B, KeySignatureType.MINOR, F_SHARP, C_SHARP),
+    F_SHARP_MINOR(F_SHARP, KeySignatureType.MINOR, F_SHARP, C_SHARP, G_SHARP),
+    C_SHARP_MINOR(C_SHARP, KeySignatureType.MINOR, F_SHARP, C_SHARP, G_SHARP, D_SHARP),
+    G_SHARP_MINOR(G_SHARP, KeySignatureType.MINOR, F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP),
+    D_SHARP_MINOR(D_SHARP, KeySignatureType.MINOR, F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP),
+    A_SHARP_MINOR(A_SHARP, KeySignatureType.MINOR, F_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    E_SHARP_MINOR(E_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    B_SHARP_MINOR(B_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    F_DOUBLE_SHARP_MINOR(F_DOUBLE_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    C_DOUBLE_SHARP_MINOR(C_DOUBLE_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_DOUBLE_SHARP, A_SHARP, E_SHARP, B_SHARP),
+    G_DOUBLE_SHARP_MINOR(G_DOUBLE_SHARP, KeySignatureType.THEORETICAL, F_DOUBLE_SHARP, C_DOUBLE_SHARP, G_DOUBLE_SHARP, D_DOUBLE_SHARP, A_DOUBLE_SHARP, E_SHARP, B_SHARP),
 
     ;
 
@@ -152,13 +150,13 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
             RELATIVE_KEY_SIGNATURES.put(NO_KEY_SIGNATURE, NO_KEY_SIGNATURE);
         }
 
-    KeySignature(EnharmonicSpelling key, KeySignatureType keySignatureType, EnharmonicSpelling[] signature) {
+    KeySignature(EnharmonicSpelling key, KeySignatureType keySignatureType, EnharmonicSpelling... signature) {
         this.KEY = key;
         this.KEY_SIGNATURE_TYPE = keySignatureType;
         this.SIGNATURE = signature;
     }
 
-    public boolean contains(EnharmonicSpelling enharmonicSpelling) {
+    public boolean contains(@NotNull EnharmonicSpelling enharmonicSpelling) {
         if (this.equals(NO_KEY_SIGNATURE)) return false;
 
         for (EnharmonicSpelling e : SIGNATURE) {
@@ -168,52 +166,24 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
         return false;
     }
 
-    @Override
-    public boolean isRelativeMajorTo(@NotNull KeySignature other) {
-        return getRelativeMajor().equals(other);
-    }
-
-    @Override
-    public boolean isRelativeMinorTo(@NotNull KeySignature other) {
-        return getRelativeMinor().equals(other);
-    }
-
-    @NotNull
-    @Override
     public KeySignature getRelativeMajor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MAJOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MAJOR"))
                 ? this
                 : RELATIVE_KEY_SIGNATURES.get(this);
     }
 
-    @NotNull
-    @Override
     public KeySignature getRelativeMinor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MINOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MINOR"))
                 ? this
                 : RELATIVE_KEY_SIGNATURES.get(this);
     }
 
-    @Override
-    public boolean isParallelMajorTo(@NotNull KeySignature other) {
-        return getParallelMajor().equals(other);
-    }
-
-    @Override
-    public boolean isParallelMinorTo(@NotNull KeySignature other) {
-        return getParallelMinor().equals(other);
-    }
-
-    @NotNull
-    @Override
     public KeySignature getParallelMajor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MAJOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MAJOR"))
                 ? this
                 : KeySignature.valueOf(KEY.toString() + "_" + KeySignatureType.MAJOR.toString());
     }
 
-    @NotNull
-    @Override
     public KeySignature getParallelMinor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MINOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MINOR"))
                 ? this
@@ -246,8 +216,8 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
             }
             case NONE:
                 return NO_KEY_SIGNATURE;
+            default: return null;
         }
-        return null;
     }
 
     @Nullable
@@ -274,8 +244,8 @@ public enum KeySignature implements Relative<KeySignature>, Parallel<KeySignatur
             }
             case NONE:
                 return NO_KEY_SIGNATURE;
+            default: return null;
         }
-        return null;
     }
 
 }

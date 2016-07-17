@@ -1,12 +1,15 @@
 package chordinnate.musictheory.pitch.interval;
 
 
+import chordinnate.util.Sequential;
+import chordinnate.util.SequentialUtil;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Joseph on 4/14/16.
  */
-public enum Octave {
+public enum Octave implements Sequential {
 
     /*
      * The purpose for the Octave enumerated type is to
@@ -29,41 +32,34 @@ public enum Octave {
     OCTAVE_10(10, 120);
 
     public final int NUMBER, MIDI_START;
-    private static final Octave[] VALUES = Octave.values();
 
     Octave(int octaveNumber, int midiStart) {
         this.NUMBER = octaveNumber;
         this.MIDI_START = midiStart;
     }
 
-    @Nullable
+    @SuppressWarnings("unchecked")
+    @Override
     public Octave getNext() {
-        int ordinal = this.ordinal();
-        return ordinal < VALUES.length - 1
-                ? VALUES[ordinal + 1]
-                : null;
+        return (Octave) SequentialUtil.getNext(this, Octave.values());
     }
 
-    @Nullable
+    @SuppressWarnings("unchecked")
+    @Override
     public Octave getPrevious() {
-        int ordinal = this.ordinal();
-        return ordinal > 0
-                ? VALUES[ordinal - 1]
-                : null;
+        return (Octave) SequentialUtil.getPrevious(this, Octave.values());
     }
 
     @Nullable
     public static Octave getOctave(int index) {
-        return (index >= 0 && index <= VALUES.length - 1)
-                ? VALUES[index]
-                : null;
+        return (Octave) SequentialUtil.get(index, Octave.values());
     }
 
-    public static int semitoneDistanceBetween(Octave lhs, Octave rhs) {
+    public static int semitoneDistanceBetween(@NotNull Octave lhs, @NotNull Octave rhs) {
         return Math.abs(lhs.MIDI_START - rhs.MIDI_START);
     }
 
-    public static int numOctavesBetween(Octave lhs, Octave rhs) {
+    public static int numOctavesBetween(@NotNull Octave lhs, @NotNull Octave rhs) {
         return Math.abs(lhs.ordinal() - rhs.ordinal());
     }
 

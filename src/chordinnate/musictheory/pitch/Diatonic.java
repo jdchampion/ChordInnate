@@ -1,5 +1,6 @@
 package chordinnate.musictheory.pitch;
 
+import chordinnate.musictheory.pitch.interval.set.IntervalSet;
 import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,6 +9,5 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Diatonic {
     boolean isDiatonicTo(@NotNull KeySignature keySignature);
-    // TODO
-    // boolean isDiatonicTo(@NotNull IntervalSet intervalSet);
+    boolean isDiatonicTo(@NotNull IntervalSet intervalSet);
 }

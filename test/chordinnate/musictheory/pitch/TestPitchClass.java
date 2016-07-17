@@ -12,22 +12,22 @@ import static chordinnate.musictheory.pitch.PitchClass.*;
 public class TestPitchClass {
     @Test
     public void getEnharmonicSpelling() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void getBasePitch() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void hasAccidental() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void getIntervallicDistanceBetween() throws Exception {
-
+        // TODO
     }
 
     @Test

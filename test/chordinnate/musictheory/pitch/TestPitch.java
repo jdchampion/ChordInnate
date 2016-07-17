@@ -17,7 +17,7 @@ public class TestPitch {
 
     @Test
     public void getPitchClass() throws Exception {
-
+        // TODO
     }
 
     @Test
@@ -37,43 +37,48 @@ public class TestPitch {
 
     @Test
     public void getAbsolutePitch() throws Exception {
-        // All Pitches should have an absolute pitch (MIDI value) = (12 * octave) + base
+        /*
+         * All Pitches should have an absolute pitch (MIDI value) = (12 * octave) + base,
+         * none of which should go beyond 127 as the highest pitch.
+         */
         for (Pitch pitch : Pitch.values()) {
             assertEquals(
                     (12 * pitch.OCTAVE.NUMBER + pitch.PITCH_CLASS.BASE_MIDI_VALUE),
                     pitch.ABSOLUTE_PITCH
             );
+
+            assertTrue(pitch.ABSOLUTE_PITCH < 128);
         }
     }
 
     @Test
     public void isDiatonicTo() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void isEnharmonicTo() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void getEnharmonics() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void transposeChromaticBy() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void transposeScalarBy() throws Exception {
-
+        // TODO
     }
 
     @Test
     public void isTransposableToPitchInterval() throws Exception {
-
+        // TODO
     }
 
     @Test
@@ -188,6 +193,7 @@ public class TestPitch {
         assertEquals(Pitch.C_4, Pitch.C_10.transposeTo(Octave.OCTAVE_4));
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void illegalArguments() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
@@ -222,7 +228,6 @@ public class TestPitch {
         assertNull(Pitch.C_0.transposeTo(PitchClass.A_DOUBLE_SHARP, Octave.OCTAVE_10));
         assertNull(Pitch.C_0.transposeTo(PitchClass.G_SHARP, Octave.OCTAVE_10));
         assertNull(Pitch.C_0.transposeTo(PitchClass.G_DOUBLE_SHARP, Octave.OCTAVE_10));
-        assertNull(Pitch.C_0.transposeTo(PitchClass.F_DOUBLE_SHARP, Octave.OCTAVE_10));
         assertNull(Pitch.C_0.transposeTo(PitchClass.C_FLAT, Octave.OCTAVE_10));
         assertNull(Pitch.C_0.transposeTo(PitchClass.C_DOUBLE_FLAT, Octave.OCTAVE_10));
 
@@ -235,12 +240,15 @@ public class TestPitch {
 
     @Test
     public void isTransposableToPitch() throws Exception {
-
+        // Pitches should always be transposable to another Pitch
+        for (Pitch p1 : Pitch.values()) {
+            for (Pitch p2 : Pitch.values()) assertTrue(p1.isTransposableTo(p2));
+        }
     }
 
     @Test
     public void transposeToPitch() throws Exception {
-
+        // TODO
     }
 
 }
