@@ -11,10 +11,9 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Created by Joseph on 7/15/16.
  */
-public final class Scale extends SerialIntervalSet implements TransposableIntervalSet {
+public final class Scale extends SerialIntervalSet
+        implements TransposableIntervalSet, Invertible {
     ScaleType scaleType;
-    Pitch lowest, highest;
-    String name;
 
     public Scale(@NotNull EnharmonicSpelling root, @NotNull ScaleType scaleType) {
         this.scaleType = scaleType;
@@ -80,5 +79,10 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
         if (isTransposableTo(pitchClass, octave)) {
             for (Pitch p : pitches) p.transposeTo(pitchClass, octave);
         }
+    }
+
+    @Override
+    public void invert() {
+        // TODO
     }
 }
