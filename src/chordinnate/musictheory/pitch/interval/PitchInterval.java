@@ -124,8 +124,8 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
      */
     @Nullable
     public static PitchInterval getPitchIntervalBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
-        int intervallicDistance = PitchClass.getIntervallicDistanceBetween(lhs, rhs);
-        ArrayList<PitchInterval> candidates = ENHARMONICS.get(intervallicDistance);
+        int semitoneDistance = PitchClass.getSemitoneDistanceBetween(lhs, rhs);
+        ArrayList<PitchInterval> candidates = ENHARMONICS.get(semitoneDistance);
 
         int letterDistance = 1
                 + getVectorDistanceTo(lhs.ENHARMONIC_SPELLING.LETTER,
@@ -137,16 +137,16 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
             }
         }
 
-        return null;
+        return null; // returned on error
     }
 
     /**
      * Finds the vector distance required to travel left or right on the enumerated list
      * to reach the other Letter.
-     * @param lhs
-     * @param rhs
-     * @param direction
-     * @return
+     * @param lhs the starting Letter
+     * @param rhs the ending Letter
+     * @param direction the direction which to travel (true = right; false = left)
+     * @return the number of indices to move left or right to get to the next Letter
      */
     private static int getVectorDistanceTo(Letter lhs, Letter rhs, boolean direction) {
         int thisOrdinal = lhs.ordinal(), otherOrdinal = rhs.ordinal();
