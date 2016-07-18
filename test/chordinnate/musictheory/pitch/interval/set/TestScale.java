@@ -38,11 +38,6 @@ public class TestScale {
     }
 
     @Test
-    public void invert() throws Exception {
-        // TODO
-    }
-
-    @Test
     public void verifyScale() throws Exception {
         verifyScale(new Scale(C, ScaleType.MAJOR), C, D, E, F, G, A, B);
         verifyScale(new Scale(F_SHARP, ScaleType.MAJOR), F_SHARP, G_SHARP, A_SHARP, B, C_SHARP, D_SHARP, E_SHARP);
