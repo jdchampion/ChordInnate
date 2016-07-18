@@ -271,14 +271,37 @@ public class TestPitchInterval {
 
     @Test
     public void getPitchIntervalBetween() throws Exception {
-        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.C, PitchClass.E));
-        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.E, PitchClass.C));
-        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.C_SHARP, PitchClass.E_SHARP));
-        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.E_SHARP, PitchClass.C_SHARP));
-        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.B_FLAT));
-        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.B_FLAT, PitchClass.G_FLAT));
-        assertEquals(PitchInterval.PERFECT_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C_FLAT));
-        assertEquals(PitchInterval.AUGMENTED_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C));
-        assertEquals(PitchInterval.DIMINISHED_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C_DOUBLE_FLAT));
+        assertEquals(PitchInterval.PERFECT_OCTAVE, PitchInterval.getPitchIntervalBetween(PitchClass.C, PitchClass.C, true));
+        assertEquals(PitchInterval.PERFECT_OCTAVE, PitchInterval.getPitchIntervalBetween(PitchClass.C, PitchClass.C, false));
+
+        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.C, PitchClass.E, true));
+        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.C, PitchClass.E, false));
+        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.E, PitchClass.C, true));
+        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.E, PitchClass.C, false));
+
+        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.C_SHARP, PitchClass.E_SHARP, true));
+        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.C_SHARP, PitchClass.E_SHARP, false));
+        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.E_SHARP, PitchClass.C_SHARP, true));
+        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.E_SHARP, PitchClass.C_SHARP, false));
+
+        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.B_FLAT, true));
+        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.B_FLAT, false));
+        assertEquals(PitchInterval.MINOR_SIXTH, PitchInterval.getPitchIntervalBetween(PitchClass.B_FLAT, PitchClass.G_FLAT, true));
+        assertEquals(PitchInterval.MAJOR_THIRD, PitchInterval.getPitchIntervalBetween(PitchClass.B_FLAT, PitchClass.G_FLAT, false));
+
+        assertEquals(PitchInterval.PERFECT_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C_FLAT, true));
+        assertEquals(PitchInterval.PERFECT_FIFTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C_FLAT, false));
+        assertEquals(PitchInterval.PERFECT_FIFTH, PitchInterval.getPitchIntervalBetween(PitchClass.C_FLAT, PitchClass.G_FLAT, true));
+        assertEquals(PitchInterval.PERFECT_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.C_FLAT, PitchClass.G_FLAT, false));
+
+        assertEquals(PitchInterval.AUGMENTED_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C, true));
+        assertEquals(PitchInterval.DIMINISHED_FIFTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C, false));
+        assertEquals(PitchInterval.DIMINISHED_FIFTH, PitchInterval.getPitchIntervalBetween(PitchClass.C, PitchClass.G_FLAT, true));
+        assertEquals(PitchInterval.AUGMENTED_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.C, PitchClass.G_FLAT, false));
+
+        assertEquals(PitchInterval.DIMINISHED_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C_DOUBLE_FLAT, true));
+        assertEquals(PitchInterval.AUGMENTED_FIFTH, PitchInterval.getPitchIntervalBetween(PitchClass.G_FLAT, PitchClass.C_DOUBLE_FLAT, false));
+        assertEquals(PitchInterval.AUGMENTED_FIFTH, PitchInterval.getPitchIntervalBetween(PitchClass.C_DOUBLE_FLAT, PitchClass.G_FLAT, true));
+        assertEquals(PitchInterval.DIMINISHED_FOURTH, PitchInterval.getPitchIntervalBetween(PitchClass.C_DOUBLE_FLAT, PitchClass.G_FLAT, false));
     }
 }
