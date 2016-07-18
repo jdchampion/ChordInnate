@@ -120,16 +120,21 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
      * Finds the PitchInterval starting from lhs and ending at rhs.
      * @param lhs the starting PitchClass
      * @param rhs the ending PitchClass
-     * @return the PitchInterval between lhs and rhs
+     * @param direction the desired direction to transpose from lhs to rhs
+     * @return the PitchInterval between lhs and rhs.
+     * Identical PitchClasses for lhs and rhs will always return PitchInterval.PERFECT_OCTAVE
      */
     @Nullable
-    public static PitchInterval getPitchIntervalBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
-        int intervallicDistance = PitchClass.getIntervallicDistanceBetween(lhs, rhs);
-        ArrayList<PitchInterval> candidates = ENHARMONICS.get(intervallicDistance);
+    public static PitchInterval getPitchIntervalBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs, boolean direction) {
+        int semitoneDistance = direction
+                ? PitchClass.getSemitoneDistanceBetween(lhs, rhs)
+                : PitchClass.getSemitoneDistanceBetween(rhs, lhs);
+        ArrayList<PitchInterval> candidates = ENHARMONICS.get(semitoneDistance);
 
-        int letterDistance = 1
-                + getVectorDistanceTo(lhs.ENHARMONIC_SPELLING.LETTER,
-                rhs.ENHARMONIC_SPELLING.LETTER, true);
+        int letterDistance = 1 + (direction
+                ? getVectorDistanceTo(lhs.ENHARMONIC_SPELLING.LETTER, rhs.ENHARMONIC_SPELLING.LETTER)
+                : getVectorDistanceTo(rhs.ENHARMONIC_SPELLING.LETTER, lhs.ENHARMONIC_SPELLING.LETTER)
+        );
 
         for (PitchInterval candidate : candidates) {
             if (candidate.NUMBER == letterDistance) {
@@ -137,32 +142,19 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
             }
         }
 
-        return null;
+        return null; // returned on error
     }
 
     /**
-     * Finds the vector distance required to travel left or right on the enumerated list
+     * Finds the vector distance required to travel left to right on the enumerated list
      * to reach the other Letter.
-     * @param lhs
-     * @param rhs
-     * @param direction
-     * @return
+     * @param lhs the starting Letter
+     * @param rhs the ending Letter
+     * @return the number of indices to move left or right to get to the next Letter
      */
-    private static int getVectorDistanceTo(Letter lhs, Letter rhs, boolean direction) {
+    private static int getVectorDistanceTo(Letter lhs, Letter rhs) {
         int thisOrdinal = lhs.ordinal(), otherOrdinal = rhs.ordinal();
-        if (thisOrdinal < otherOrdinal) {
-            return direction
-                    ? otherOrdinal - thisOrdinal
-                    : (7 - (otherOrdinal - thisOrdinal)) * -1;
-        }
-        else if (thisOrdinal > otherOrdinal) {
-            return direction
-                    ? 7 - (thisOrdinal - otherOrdinal)
-                    : (thisOrdinal - otherOrdinal) * -1;
-        }
-        else {
-            return 0;
-        }
+        return (thisOrdinal < otherOrdinal) ? otherOrdinal - thisOrdinal : 7 - (thisOrdinal - otherOrdinal);
     }
 
     @Override

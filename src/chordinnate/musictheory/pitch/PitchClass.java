@@ -94,13 +94,24 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
         this.OCTAVE_RANGE = baseMidiValue < 8 ? Octave.OCTAVE_10 : Octave.OCTAVE_9;
     }
 
+    /**
+     * Checks whether the PitchClass contains the specified Accidental.
+     * @param accidental the Accidental to check
+     * @return true if the Accidental is found, otherwise false
+     */
     public boolean hasAccidental(@NotNull Accidental accidental) {
         return this.ENHARMONIC_SPELLING.ACCIDENTAL.equals(accidental);
     }
 
-    public static int getIntervallicDistanceBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
-        int intervallicDistance = rhs.BASE_MIDI_VALUE - lhs.BASE_MIDI_VALUE;
-        return intervallicDistance >= 0 ? intervallicDistance : 12 + intervallicDistance;
+    /**
+     * Finds the number of semitones between lhs and rhs.
+     * @param lhs the starting PitchClass
+     * @param rhs the ending PitchClass
+     * @return the difference in semitones between lhs and rhs
+     */
+    public static int getSemitoneDistanceBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
+        int semitoneDistance = rhs.BASE_MIDI_VALUE - lhs.BASE_MIDI_VALUE;
+        return semitoneDistance >= 0 ? semitoneDistance : 12 + semitoneDistance;
     }
 
     @Override
@@ -116,7 +127,25 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
 
     @Override
     public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
-        return keySignature.contains(this.ENHARMONIC_SPELLING);
+        if (keySignature.contains(this.ENHARMONIC_SPELLING)) {
+            return true;
+        }
+        else {
+            if (this.hasAccidental(Accidental.NONE) || this.hasAccidental(Accidental.NATURAL)) { // not found, natural
+                if (keySignature.SIGNATURE.length == 0) { // KeySignature contains no items
+                    return true;
+                }
+                else { // KeySignature contains 1+ items
+                    for (EnharmonicSpelling e : keySignature.SIGNATURE) {
+                        if (this.ENHARMONIC_SPELLING.LETTER == e.LETTER) return false;
+                    }
+                    return true;
+                }
+            }
+            else { // not found, not natural
+                return false;
+            }
+        }
     }
 
     @Override
