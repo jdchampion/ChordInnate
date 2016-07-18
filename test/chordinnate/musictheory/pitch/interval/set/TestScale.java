@@ -58,6 +58,8 @@ public class TestScale {
                 lowPitches = scale.getPitchesForOctave(Octave.OCTAVE_0),
                 highPitches = scale.getPitchesForOctave(scale.maxPlayableOctave);
 
+        assertEquals("Scale length is not the expected length", scale.scaleType.length(), expected.length);
+
         assertEquals(lowPitches.length, highPitches.length);
         int range = lowPitches.length;
 

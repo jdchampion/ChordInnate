@@ -229,6 +229,9 @@ public enum ChordType {
             if (PITCH_INTERVALS[i].NUM_SEMITONES < PITCH_INTERVALS[i - 1].NUM_SEMITONES) {
                 BASE_OCTAVES[i] = Octave.OCTAVE_1;
             }
+            else {
+                BASE_OCTAVES[i] = Octave.OCTAVE_0;
+            }
         }
     }
 
@@ -244,5 +247,9 @@ public enum ChordType {
         Octave[] octaves = new Octave[BASE_OCTAVES.length];
         System.arraycopy(BASE_OCTAVES, 0, octaves, 0, BASE_OCTAVES.length);
         return octaves;
+    }
+
+    public int length() {
+        return PITCH_INTERVALS.length;
     }
 }
