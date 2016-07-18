@@ -186,8 +186,8 @@ public class TestPitchInterval {
         assertEquals("vii", PitchInterval.MINOR_SEVENTH.ROMAN_NUMERAL_NAME);
         assertEquals("VI+", PitchInterval.AUGMENTED_SIXTH.ROMAN_NUMERAL_NAME);
         assertEquals("VII", PitchInterval.MAJOR_SEVENTH.ROMAN_NUMERAL_NAME);
-        assertEquals("viii˚", PitchInterval.DIMINISHED_OCTAVE.ROMAN_NUMERAL_NAME);
-        assertEquals("VIII", PitchInterval.PERFECT_OCTAVE.ROMAN_NUMERAL_NAME);
+        assertEquals("i˚", PitchInterval.DIMINISHED_OCTAVE.ROMAN_NUMERAL_NAME);
+        assertEquals("I", PitchInterval.PERFECT_OCTAVE.ROMAN_NUMERAL_NAME);
         assertEquals("VII+", PitchInterval.AUGMENTED_SEVENTH.ROMAN_NUMERAL_NAME);
     }
 
