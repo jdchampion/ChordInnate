@@ -8,7 +8,7 @@ import org.apache.commons.math3.fraction.Fraction;
  *
  * Created by Joseph on 7/5/16.
  */
-public final class FractionalMeter extends IncompleteMeter {
+final class FractionalMeter extends IncompleteMeter {
     Fraction numerator;
     int denominator;
 }

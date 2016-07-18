@@ -21,7 +21,6 @@ import chordinnate.musictheory.time.tempo.Tempo;
 import chordinnate.musictheory.time.tempo.TempoMarking;
 import chordinnate.playback.*;
 import chordinnate.util.SequentialUtil;
-import org.jetbrains.annotations.NotNull;
 import org.jgrapht.graph.DefaultEdge;
 import org.junit.Test;
 
@@ -70,10 +69,7 @@ public class TestOutsidePackage {
         MajorProgressionGraph1 majorProgressionGraph1; // static class -- no constructor necessary
         Chord chord = new Chord(pitchClass, chordType);
         Scale scale = new Scale(pitchClass, scaleType);
-        AdditiveCompleteMeter additiveCompleteMeter; // constructor not accessible
-        FractionalMeter fractionalMeter; // constructor not accessible
         FreeMeter freeMeter = new FreeMeter();
-        NonAdditiveCompleteMeter nonAdditiveCompleteMeter; // constructor not accessible
         PlayBack playBack; // static class -- no constructor necessary
         // FIXME: SequentialUtil should not be accessible outside src.chordinnate
         SequentialUtil sequentialUtil; // static class -- no constructor necessary
@@ -93,31 +89,6 @@ public class TestOutsidePackage {
         IntervalSet intervalSet2 = new Scale(pitchClass, scaleType);
         NonSerialIntervalSet nonSerialIntervalSet = new Chord(pitchClass, chordType);
         SerialIntervalSet serialIntervalSet = new Scale(pitchClass, scaleType);
-        // FIXME: CompleteMeter, FixedMeter, IncompleteMeter, TransientMeter constructors should not be accessible
-        CompleteMeter completeMeter = new CompleteMeter() {
-            @Override
-            public boolean is(@NotNull MeterClassificationType meterClassificationType) {
-                return super.is(meterClassificationType);
-            }
-        };
-        FixedMeter fixedMeter = new FixedMeter() {
-            @Override
-            public boolean is(@NotNull MeterClassificationType meterClassificationType) {
-                return super.is(meterClassificationType);
-            }
-        };
-        IncompleteMeter incompleteMeter = new IncompleteMeter() {
-            @Override
-            public boolean is(@NotNull MeterClassificationType meterClassificationType) {
-                return super.is(meterClassificationType);
-            }
-        };
-        TransientMeter transientMeter = new TransientMeter() {
-            @Override
-            public int getNumberOfMeterChanges() {
-                return super.getNumberOfMeterChanges();
-            }
-        };
 
         /*
          * Publicly accessible class types

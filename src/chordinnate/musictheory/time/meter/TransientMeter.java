@@ -7,7 +7,7 @@ import java.util.LinkedList;
  *
  * Created by Joseph on 7/3/16.
  */
-public abstract class TransientMeter extends Meter {
+abstract class TransientMeter extends Meter {
     LinkedList<FixedMeterNode> meterPattern;
 
     public int getNumberOfMeterChanges() {

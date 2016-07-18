@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * Created by Joseph on 7/5/16.
  */
-public final class AdditiveCompleteMeter extends CompleteMeter {
+final class AdditiveCompleteMeter extends CompleteMeter {
     /**
      * Constructs a Meter with integers for both numerator and denominator.
      * The numerator will be displayed as a summation of integers, matching the provided subdivision pattern.
