@@ -120,16 +120,21 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
      * Finds the PitchInterval starting from lhs and ending at rhs.
      * @param lhs the starting PitchClass
      * @param rhs the ending PitchClass
-     * @return the PitchInterval between lhs and rhs
+     * @param direction the desired direction to transpose from lhs to rhs
+     * @return the PitchInterval between lhs and rhs.
+     * Identical PitchClasses for lhs and rhs will always return PitchInterval.PERFECT_OCTAVE
      */
     @Nullable
-    public static PitchInterval getPitchIntervalBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
-        int semitoneDistance = PitchClass.getSemitoneDistanceBetween(lhs, rhs);
+    public static PitchInterval getPitchIntervalBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs, boolean direction) {
+        int semitoneDistance = direction
+                ? PitchClass.getSemitoneDistanceBetween(lhs, rhs)
+                : PitchClass.getSemitoneDistanceBetween(rhs, lhs);
         ArrayList<PitchInterval> candidates = ENHARMONICS.get(semitoneDistance);
 
-        int letterDistance = 1
-                + getVectorDistanceTo(lhs.ENHARMONIC_SPELLING.LETTER,
-                rhs.ENHARMONIC_SPELLING.LETTER);
+        int letterDistance = 1 + (direction
+                ? getVectorDistanceTo(lhs.ENHARMONIC_SPELLING.LETTER, rhs.ENHARMONIC_SPELLING.LETTER)
+                : getVectorDistanceTo(rhs.ENHARMONIC_SPELLING.LETTER, lhs.ENHARMONIC_SPELLING.LETTER)
+        );
 
         for (PitchInterval candidate : candidates) {
             if (candidate.NUMBER == letterDistance) {
