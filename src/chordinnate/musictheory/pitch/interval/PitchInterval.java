@@ -60,9 +60,9 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
     AUGMENTED_SIXTH(10, PitchIntervalQuality.AUGMENTED, 6, VI),
 
     MAJOR_SEVENTH(11, PitchIntervalQuality.MAJOR, 7, VII),
-    DIMINISHED_OCTAVE(11, PitchIntervalQuality.DIMINISHED, 8, viii),
+    DIMINISHED_OCTAVE(11, PitchIntervalQuality.DIMINISHED, 8, i),
 
-    PERFECT_OCTAVE(12, PitchIntervalQuality.PERFECT, 8, VIII),
+    PERFECT_OCTAVE(12, PitchIntervalQuality.PERFECT, 8, I),
     AUGMENTED_SEVENTH(12, PitchIntervalQuality.AUGMENTED, 7, VII);
 
     public final int NUM_SEMITONES;
@@ -90,14 +90,13 @@ public enum PitchInterval implements Enharmonic<PitchInterval> {
 
                 String invertedEnumSuffix = "";
                 switch (pitchInterval.ROMAN_NUMERAL) {
-                    case I: case i: invertedEnumSuffix = "OCTAVE"; break;
+                    case I: case i: invertedEnumSuffix = (pitchInterval.NUMBER == 1 ? "OCTAVE" : "UNISON"); break;
                     case II: case ii: invertedEnumSuffix = "SEVENTH"; break;
                     case III: case iii: invertedEnumSuffix = "SIXTH"; break;
                     case IV: case iv: invertedEnumSuffix = "FIFTH"; break;
                     case V: case v: invertedEnumSuffix = "FOURTH"; break;
                     case VI: case vi: invertedEnumSuffix = "THIRD"; break;
                     case VII: case vii: invertedEnumSuffix = "SECOND"; break;
-                    case VIII: case viii: invertedEnumSuffix = "UNISON"; break;
                 }
                 INVERSIONS.put(pitchInterval, PitchInterval.valueOf(invertedPitchIntervalQuality + "_" + invertedEnumSuffix));
             }

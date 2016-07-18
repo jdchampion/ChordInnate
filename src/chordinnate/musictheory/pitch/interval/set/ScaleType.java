@@ -571,7 +571,7 @@ public enum ScaleType {
             PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, MAJOR_THIRD, AUGMENTED_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
     ),
     DIMINISHED_FLAT_NINE(
-            "Diminished "+ Accidental.FLAT.SYMBOL + "9", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            "Diminished "+ Accidental.FLAT.SYMBOL + "9",
             NON_WESTERN,
             PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MINOR_SIXTH, DIMINISHED_SEVENTH
     ),
@@ -591,7 +591,7 @@ public enum ScaleType {
             PERFECT_UNISON, MINOR_SECOND, AUGMENTED_SECOND, MAJOR_THIRD, AUGMENTED_FOURTH, AUGMENTED_FIFTH, MINOR_SEVENTH
     ),
     DOMINANT_SEVENTH(
-            "Dominant 7th",  // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            "Dominant 7th",
             NON_WESTERN,
             PERFECT_UNISON, MAJOR_SECOND, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
     ),
@@ -616,22 +616,22 @@ public enum ScaleType {
             PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, MAJOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
     ),
     DORIAN_FLAT_TWO(
-            "Dorian " + Accidental.FLAT.SYMBOL + "2", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            "Dorian " + Accidental.FLAT.SYMBOL + "2",
             NON_WESTERN,
             PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
     ),
     DORIAN_FLAT_TWO_FLAT_FIVE(
-            "Dorian " + Accidental.FLAT.SYMBOL + "2" + Accidental.FLAT.SYMBOL + "5", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            "Dorian " + Accidental.FLAT.SYMBOL + "2" + Accidental.FLAT.SYMBOL + "5",
             NON_WESTERN,
             PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
     ),
     DORIAN_FLAT_FIVE(
-            "Dorian " + Accidental.FLAT.SYMBOL + "5", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            "Dorian " + Accidental.FLAT.SYMBOL + "5",
             NON_WESTERN,
             PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
     ),
     DORIAN_FLAT_NINE(
-            "Dorian " + Accidental.FLAT.SYMBOL + "9", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            "Dorian " + Accidental.FLAT.SYMBOL + "9",
             NON_WESTERN,
             PERFECT_UNISON, MINOR_SECOND, MINOR_THIRD, PERFECT_FOURTH, DIMINISHED_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
     ),
@@ -651,12 +651,12 @@ public enum ScaleType {
             PERFECT_UNISON, MAJOR_SECOND, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SEVENTH
     ),
     DORIAN_SHARP_FOUR(
-            "Dorian " + Accidental.SHARP.SYMBOL + "4", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            "Dorian " + Accidental.SHARP.SYMBOL + "4",
             NON_WESTERN,
             PERFECT_UNISON, MAJOR_SECOND, MINOR_THIRD, AUGMENTED_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
     ),
     DORIAN_SHARP_ELEVEN(
-            "Dorian " + Accidental.SHARP.SYMBOL + "11", // FIXME(?): this name will throw an exception in the test class because it doesn't match the enum name
+            "Dorian " + Accidental.SHARP.SYMBOL + "11",
             NON_WESTERN,
             MAJOR_SECOND, MINOR_THIRD, AUGMENTED_FOURTH, PERFECT_FIFTH, MAJOR_SIXTH, MINOR_SEVENTH
 

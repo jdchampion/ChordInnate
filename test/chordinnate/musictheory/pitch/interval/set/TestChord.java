@@ -9,9 +9,9 @@ import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
 import static org.junit.Assert.*;
 
 /**
- * Created by Joseph on 7/15/16.
+ * Created by Joseph on 7/17/16.
  */
-public class TestScale {
+public class TestChord {
     @Test
     public void getPitchesForOctave() throws Exception {
         // TODO
@@ -38,27 +38,29 @@ public class TestScale {
     }
 
     @Test
-    public void verifyScale() throws Exception {
-        verifyScale(new Scale(C, ScaleType.MAJOR), C, D, E, F, G, A, B);
-        verifyScale(new Scale(F_SHARP, ScaleType.MAJOR), F_SHARP, G_SHARP, A_SHARP, B, C_SHARP, D_SHARP, E_SHARP);
-        verifyScale(new Scale(G, ScaleType.MAJOR), G, A, B, C, D, E, F_SHARP);
-        verifyScale(new Scale(B, ScaleType.MAJOR), B, C_SHARP, D_SHARP, E, F_SHARP, G_SHARP, A_SHARP);
-        verifyScale(new Scale(C, ScaleType.HARMONIC_MINOR), C, D, E_FLAT, F, G, A_FLAT, B);
-        verifyScale(new Scale(B_FLAT, ScaleType.HARMONIC_MINOR), B_FLAT, C, D_FLAT, E_FLAT, F, G_FLAT, A);
-        verifyScale(new Scale(C, ScaleType.BLUES), C, E_FLAT, F, F_SHARP, G, B_FLAT);
+    public void invert() throws Exception {
+        // TODO
+    }
+
+    @Test
+    public void verifyChord() throws Exception {
+        this.verifyChord(new Chord(C, ChordType.MAJOR), C, E, G);
+        this.verifyChord(new Chord(F, ChordType.MAJOR), F, A, C);
+        this.verifyChord(new Chord(F, ChordType.MAJOR_SEVEN), F, A, C, E);
+        this.verifyChord(new Chord(F, ChordType.SEVEN), F, A, C, E_FLAT);
     }
 
     /**
-     * Helper method for testing the returned Pitch values for a given ScaleType.
-     * @param scale
+     * Helper method for testing the returned Pitch values for a given ChordType.
+     * @param chord
      * @param expected
      */
-    private void verifyScale(Scale scale, EnharmonicSpelling... expected) {
+    private void verifyChord(Chord chord, EnharmonicSpelling... expected) {
         Pitch[]
-                lowPitches = scale.getPitchesForOctave(Octave.OCTAVE_0),
-                highPitches = scale.getPitchesForOctave(scale.maxPlayableOctave);
+                lowPitches = chord.getPitchesForOctave(Octave.OCTAVE_0),
+                highPitches = chord.getPitchesForOctave(chord.maxPlayableOctave);
 
-        assertEquals("Scale length is not the expected length", scale.scaleType.length(), expected.length);
+        assertEquals("Chord length is not the expected length", chord.chordType.length(), expected.length);
 
         assertEquals(lowPitches.length, highPitches.length);
         int range = lowPitches.length;
@@ -68,4 +70,5 @@ public class TestScale {
             assertEquals(expected[i], highPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
         }
     }
+
 }

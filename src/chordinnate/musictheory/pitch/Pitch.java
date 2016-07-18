@@ -1,5 +1,6 @@
 package chordinnate.musictheory.pitch;
 
+import chordinnate.musictheory.general.Accidental;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.interval.set.IntervalSet;
@@ -582,14 +583,11 @@ public enum Pitch
                 transposedPitchClass = candidates[indexWithShortestDistance];
             }
 
-            // Substitute the non-natural equivalent for transposed PitchClasses with natural Accidentals.
-            String name = transposedPitchClass.name();
-            if (name.contains("_NATURAL")) {
-                name = name.substring(0, name.indexOf("_NATURAL"));
-            }
-
-            // Decide which Octave to use for the returned Pitch.
-            Pitch candidate = Pitch.valueOf(name + "_" + OCTAVE.NUMBER);
+            /*
+             * Substitute the non-natural equivalent for transposed PitchClasses with natural Accidentals,
+             * and decide which Octave to use for the returned Pitch.
+             */
+            Pitch candidate = Pitch.valueOf(transposedPitchClass.ENHARMONIC_SPELLING.apply(Accidental.NONE) + "_" + OCTAVE.NUMBER);
             if (candidate.PITCH_CLASS.equals(PITCH_CLASS) || candidate.ABSOLUTE_PITCH == ABSOLUTE_PITCH) {
                 return VALUES[direction ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
             }
