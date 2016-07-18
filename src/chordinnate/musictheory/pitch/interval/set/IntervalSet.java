@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 public abstract class IntervalSet {
     Octave maxPlayableOctave;
     Pitch[] pitches;
+    Pitch lowest, highest;
+    String name;
 
     public abstract Pitch[] getPitchesForOctave(@NotNull Octave octave);
 }

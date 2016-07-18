@@ -10,11 +10,6 @@ import static chordinnate.musictheory.pitch.notation.KeySignature.*;
  */
 public class TestKeySignature {
     @Test
-    public void contains() throws Exception {
-        // TODO
-    }
-
-    @Test
     public void getRelativeMajorTo() throws Exception {
         assertEquals(B_SHARP_MAJOR, B_SHARP_MAJOR.getRelativeMajor());
         assertEquals(B_SHARP_MAJOR, G_DOUBLE_SHARP_MINOR.getRelativeMajor());
