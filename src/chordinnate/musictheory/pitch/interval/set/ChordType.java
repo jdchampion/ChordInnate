@@ -1,9 +1,10 @@
 package chordinnate.musictheory.pitch.interval.set;
 
-import chordinnate.musictheory.pitch.interval.notation.NashvilleNumber;
+import chordinnate.musictheory.pitch.interval.Octave;
+import chordinnate.musictheory.pitch.interval.PitchInterval;
 
 import static chordinnate.musictheory.general.Accidental.*;
-import static chordinnate.musictheory.pitch.interval.notation.NashvilleNumber.*;
+import static chordinnate.musictheory.pitch.interval.PitchInterval.*;
 
 /**
  * Created by Joseph on 1/8/16.
@@ -14,219 +15,234 @@ import static chordinnate.musictheory.pitch.interval.notation.NashvilleNumber.*;
 public enum ChordType {
     MAJOR(
             "maj",
-            ONE, THREE, FIVE
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH
     ),
     MAJOR_SEVEN(
             "maj7",
-            ONE, THREE, FIVE, NashvilleNumber.SEVEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH
     ),
     SEVEN(
             "7",
-            ONE, THREE, FIVE, FLAT_SEVEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH
     ),
     ADD_NINE(
             "add9",
-            ONE, THREE, FIVE, NashvilleNumber.NINE
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SECOND
     ),
     MINOR(
             "m",
-            ONE, FLAT_THREE, FIVE
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH
     ),
     MINOR_SEVEN(
             "m7",
-            ONE, FLAT_THREE, FIVE, FLAT_SEVEN
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH
     ),
     DIMINISHED(
             "dim",
-            ONE, FLAT_THREE, NashvilleNumber.FLAT_FIVE
+            PERFECT_UNISON, MINOR_THIRD, DIMINISHED_FIFTH
     ),
     DIMINISHED_SEVEN(
             "dim7",
-            ONE, FLAT_THREE, NashvilleNumber.FLAT_FIVE, NashvilleNumber.SIX
+            PERFECT_UNISON, MINOR_THIRD, DIMINISHED_FIFTH, MAJOR_SIXTH
     ),
     AUGMENTED(
             "aug",
-            ONE, THREE, SHARP_FIVE
+            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH
     ),
     SUSPENDED_FOUR(
             "sus4",
-            ONE, FOUR, FIVE
+            PERFECT_UNISON, PERFECT_FOURTH, PERFECT_FIFTH
     ),
     SUSPENDED_TWO(
             "sus2",
-            ONE, TWO, FIVE
+            PERFECT_UNISON, MAJOR_SECOND, PERFECT_FIFTH
     ),
     MAJOR_NINE(
             "maj9",
-            ONE, THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND
     ),
     MAJOR_THIRTEEN(
             "maj13",
-            ONE, THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH, MAJOR_SIXTH
     ),
     MAJOR_NINE_SHARP_ELEVEN(
             "maj9"+SHARP.SYMBOL+"11",
-            ONE, THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE, SHARP_ELEVEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND, AUGMENTED_FOURTH
     ),
     MAJOR_THIRTEEN_SHARP_ELEVEN(
             "maj13"+SHARP.SYMBOL+"11",
-            ONE, THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE, SHARP_ELEVEN, NashvilleNumber.THIRTEEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND, AUGMENTED_FOURTH, MAJOR_SIXTH
     ),
     SIX(
             "6",
-            ONE, THREE, FIVE, NashvilleNumber.SIX
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SIXTH
     ),
     SIX_ADD_NINE(
             "6add9",
-            ONE, THREE, FIVE, NashvilleNumber.SIX, NashvilleNumber.NINE
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SECOND
     ),
     MAJOR_SEVEN_SHARP_FIVE(
             "maj7"+SHARP.SYMBOL+"5",
-            ONE, THREE, NashvilleNumber.SHARP_FIVE, NashvilleNumber.SEVEN
+            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MAJOR_SEVENTH
     ),
     MAJOR_SEVEN_FLAT_FIVE(
             "maj7"+FLAT.SYMBOL+"5",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE, NashvilleNumber.SEVEN
+            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MAJOR_SEVENTH
     ),
     MINOR_NINE(
             "m9",
-            ONE, FLAT_THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND
     ),
     MINOR_ELEVEN(
             "m11",
-            ONE, FLAT_THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH
     ),
     MINOR_THIRTEEN(
             "m13",
-            ONE, FLAT_THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH, MAJOR_SIXTH
     ),
     MINOR_SIX(
             "m6",
-            ONE, FLAT_THREE, FIVE, NashvilleNumber.SIX
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SIXTH
     ),
     MINOR_ADD_NINE(
             "madd9",
-            ONE, FLAT_THREE, FIVE, NashvilleNumber.NINE
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SECOND
     ),
     MINOR_SIX_ADD_NINE(
             "m6add9",
-            ONE, FLAT_THREE, FIVE, NashvilleNumber.SIX, NashvilleNumber.NINE
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SECOND
     ),
     MINOR_MAJOR_SEVEN(
             "mM7",
-            ONE, FLAT_THREE, FIVE, NashvilleNumber.SEVEN
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH
     ),
     MINOR_MAJOR_NINE(
             "mM9",
-            ONE, FLAT_THREE, FIVE, NashvilleNumber.SEVEN, NashvilleNumber.NINE
+            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND
     ),
     MINOR_SEVEN_FLAT_FIVE(
             "m7"+FLAT.SYMBOL+"5",
-            ONE, FLAT_THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN
+            PERFECT_UNISON, MINOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH
     ),
     HALF_DIMINISHED(
             "ø",
-            ONE, FLAT_THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN
+            PERFECT_UNISON, MINOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH
     ),
     MINOR_SEVEN_SHARP_FIVE(
             "m7"+SHARP.SYMBOL+"5",
-            ONE, FLAT_THREE, SHARP_FIVE, FLAT_SEVEN
+            PERFECT_UNISON, MINOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH
     ),
     NINE(
             "9",
-            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND
     ),
     ELEVEN(
             "11",
-            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH
     ),
     THIRTEEN(
             "13",
-            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, NashvilleNumber.ELEVEN, NashvilleNumber.THIRTEEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH, MAJOR_SIXTH
     ),
     SEVEN_SUSPENDED_FOUR(
             "7sus4",
-            ONE, FOUR, FIVE, FLAT_SEVEN
+            PERFECT_UNISON, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SEVENTH
     ),
     SEVEN_FLAT_FIVE(
             "7"+FLAT.SYMBOL+"5",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN
+            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH
     ),
     SEVEN_SHARP_FIVE(
             "7"+SHARP.SYMBOL+"5",
-            ONE, THREE, SHARP_FIVE, FLAT_SEVEN
+            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH
     ),
     SEVEN_FLAT_NINE(
             "7"+FLAT.SYMBOL+"9",
-            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND
     ),
     SEVEN_SHARP_NINE(
             "7"+SHARP.SYMBOL+"9",
-            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.SHARP_NINE
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, AUGMENTED_SECOND
     ),
     SEVEN_FLAT_FIVE_FLAT_NINE(
             "7"+FLAT.SYMBOL+"5"+FLAT.SYMBOL+"9",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE
+            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND
     ),
     SEVEN_FLAT_FIVE_SHARP_NINE(
             "7"+FLAT.SYMBOL+"5"+SHARP.SYMBOL+"9",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN, NashvilleNumber.SHARP_NINE
+            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH, AUGMENTED_SECOND
     ),
     SEVEN_SHARP_FIVE_FLAT_NINE(
             "7"+SHARP.SYMBOL+"5"+FLAT.SYMBOL+"9",
-            ONE, THREE, SHARP_FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE
+            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND
     ),
     SEVEN_SHARP_FIVE_SHARP_NINE(
             "7"+SHARP.SYMBOL+"5"+SHARP.SYMBOL+"9",
-            ONE, THREE, SHARP_FIVE, FLAT_SEVEN, NashvilleNumber.SHARP_NINE
+            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH, AUGMENTED_SECOND
     ),
     NINE_FLAT_FIVE(
             "9"+FLAT.SYMBOL+"5",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE, FLAT_SEVEN, NashvilleNumber.NINE
+            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH, MAJOR_SECOND
     ),
     NINE_SHARP_FIVE(
             "9"+SHARP.SYMBOL+"5",
-            ONE, THREE, SHARP_FIVE, FLAT_SEVEN, NashvilleNumber.NINE
+            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH, MAJOR_SECOND
     ),
     THIRTEEN_SHARP_ELEVEN(
             "13"+SHARP.SYMBOL+"11",
-            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.NINE, SHARP_ELEVEN, NashvilleNumber.THIRTEEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, AUGMENTED_FOURTH, MAJOR_SIXTH
     ),
     THIRTEEN_FLAT_NINE(
             "13"+FLAT.SYMBOL+"9",
-            ONE, THREE, FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE, NashvilleNumber.THIRTEEN
+            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND, MAJOR_SIXTH
     ),
     ELEVEN_FLAT_NINE(
             "11"+FLAT.SYMBOL+"9",
-            ONE, FIVE, FLAT_SEVEN, NashvilleNumber.FLAT_NINE, NashvilleNumber.ELEVEN
+            PERFECT_UNISON, PERFECT_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND, PERFECT_FOURTH
     ),
     POWER_CHORD(
             "5",
-            ONE, FIVE
+            PERFECT_UNISON, PERFECT_FIFTH
     ),
     SUSPENDED_TWO_SUSPENDED_FOUR(
             "sus2sus4",
-            ONE, TWO, FOUR, FIVE
+            PERFECT_UNISON, MAJOR_SECOND, PERFECT_FOURTH, PERFECT_FIFTH
     ),
     FLAT_FIVE(
             "-5",
-            ONE, THREE, NashvilleNumber.FLAT_FIVE
+            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH
     ),
 
     ;
 
     public final String SYMBOL;
-    private final NashvilleNumber[] NASHVILLE_NUMBERS;
+    private final PitchInterval[] PITCH_INTERVALS;
+    private final Octave[] BASE_OCTAVES;
 
-    ChordType(String chordSymbol, NashvilleNumber... nashvilleNumbers) {
+    ChordType(String chordSymbol, PitchInterval... pitchIntervals) {
         this.SYMBOL = chordSymbol;
-        this.NASHVILLE_NUMBERS = nashvilleNumbers;
+        this.PITCH_INTERVALS = pitchIntervals;
+        this.BASE_OCTAVES = new Octave[pitchIntervals.length];
+        BASE_OCTAVES[0] = Octave.OCTAVE_0;
+        for (int i = 1; i < BASE_OCTAVES.length; i++) {
+            if (PITCH_INTERVALS[i].NUM_SEMITONES < PITCH_INTERVALS[i - 1].NUM_SEMITONES) {
+                BASE_OCTAVES[i] = Octave.OCTAVE_1;
+            }
+        }
     }
 
-    public NashvilleNumber[] getNashvilleNumbers() {
+    public PitchInterval[] getPitchIntervals() {
         // Return a copy of the array (to protect against mutation)
-        NashvilleNumber[] nashvilleNumbers = new NashvilleNumber[NASHVILLE_NUMBERS.length];
-        System.arraycopy(NASHVILLE_NUMBERS, 0, nashvilleNumbers, 0, NASHVILLE_NUMBERS.length);
-        return nashvilleNumbers;
+        PitchInterval[] pitchIntervals = new PitchInterval[PITCH_INTERVALS.length];
+        System.arraycopy(PITCH_INTERVALS, 0, pitchIntervals, 0, PITCH_INTERVALS.length);
+        return pitchIntervals;
+    }
+
+    public Octave[] getBaseOctaves() {
+        // Return a copy of the array (to protect against mutation)
+        Octave[] octaves = new Octave[BASE_OCTAVES.length];
+        System.arraycopy(BASE_OCTAVES, 0, octaves, 0, BASE_OCTAVES.length);
+        return octaves;
     }
 }
