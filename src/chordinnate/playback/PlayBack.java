@@ -1,6 +1,7 @@
 package chordinnate.playback;
 
 import chordinnate.musictheory.pitch.Pitch;
+import chordinnate.musictheory.time.rhythm.Beat;
 import chordinnate.musictheory.time.tempo.Tempo;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,6 +16,7 @@ import javax.sound.midi.Synthesizer;
 public final class PlayBack {
     private static MidiChannel[] midiChannels;
     private static Synthesizer synthesizer;
+    private static Tempo currentTempo;
 
     static {
         try {
@@ -28,7 +30,9 @@ public final class PlayBack {
         }
     }
 
-    private PlayBack() {}
+    private PlayBack() {
+        currentTempo = new Tempo(Beat.QUARTER, 120);
+    }
 
     /**
      * Restarts the Synthesizer if it has been stopped.
@@ -58,8 +62,16 @@ public final class PlayBack {
     }
 
     /**
+     * Sets the current Tempo for playback.
+     * @param tempo the Tempo to set
+     */
+    public static void setTempo(Tempo tempo) {
+        currentTempo = tempo;
+    }
+
+    /**
      * Plays back the specified Pitch for one (1) second.
-     * @param pitch
+     * @param pitch the Pitch to play
      */
     public static void play(@NotNull Pitch pitch) {
         restart();
@@ -75,13 +87,12 @@ public final class PlayBack {
     }
 
     /**
-     * Plays back the specified Note.
-     * @param tempo
-     * @param note
+     * Plays back the specified Note, at the current Tempo.
+     * @param note the Note to play
      */
-    public static void play(@NotNull Tempo tempo, @NotNull Note note) {
+    public static void play(@NotNull Note note) {
         restart();
-        long fullLength = tempo.getMillisFor(note.getBeat());
+        long fullLength = currentTempo.getMillisFor(note.getBeat());
         long soundedLength = (long) (fullLength * note.getSoundedLength());
         long difference = fullLength - soundedLength;
 
