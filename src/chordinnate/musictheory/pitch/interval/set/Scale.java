@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public final class Scale extends SerialIntervalSet implements TransposableIntervalSet {
     ScaleType scaleType;
+    String name;
 
     public Scale(@NotNull EnharmonicSpelling root, @NotNull ScaleType scaleType) {
         super.commonInitializations(root, scaleType.getPitchIntervals());

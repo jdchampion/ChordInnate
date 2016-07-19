@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public final class Chord extends NonSerialIntervalSet
         implements TransposableIntervalSet, Invertible {
     ChordType chordType;
+    String name;
     Octave[] uninvertedOctaves;
 
     public Chord(@NotNull EnharmonicSpelling root, @NotNull ChordType chordType) {

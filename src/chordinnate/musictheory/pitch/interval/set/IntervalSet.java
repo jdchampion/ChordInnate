@@ -18,7 +18,6 @@ public abstract class IntervalSet implements Diatonic {
     EnumMap<Octave, Pitch[]> pitchesByOctave;
     Pitch lowestDiatonic, highestDiatonic;
     Octave maxPlayableOctave;
-    String name;
 
     void commonInitializations(EnharmonicSpelling root, PitchInterval[] pitchIntervals) {
         this.pitchesByOctave = new EnumMap<>(Octave.class);
