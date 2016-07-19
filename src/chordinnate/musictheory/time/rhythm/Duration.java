@@ -1,13 +1,12 @@
 package chordinnate.musictheory.time.rhythm;
 
-import chordinnate.util.Sequential;
 import chordinnate.util.SequentialUtil;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Joseph on 6/1/16.
  */
-public enum Duration implements Sequential {
+public enum Duration {
     /*
      * NOTE: Keep these ordered from smallest to largest.
      */
@@ -23,23 +22,20 @@ public enum Duration implements Sequential {
     ;
 
     public final double RATIO;
-    private static final Duration[] VALUES = Duration.values();
 
     Duration(double ratio) {
         this.RATIO = ratio;
     }
 
-    @SuppressWarnings("unchecked")
     @Nullable
-    @Override
+    @SuppressWarnings("unchecked")
     public Duration getNext() {
-        return (Duration) SequentialUtil.getNext(this, VALUES);
+        return (Duration) SequentialUtil.getNext(this);
     }
 
-    @SuppressWarnings("unchecked")
     @Nullable
-    @Override
+    @SuppressWarnings("unchecked")
     public Duration getPrevious() {
-        return (Duration) SequentialUtil.getPrevious(this, VALUES);
+        return (Duration) SequentialUtil.getPrevious(this);
     }
 }
