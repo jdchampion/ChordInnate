@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * Created by Joseph on 7/5/16.
  */
-public final class NonAdditiveCompleteMeter extends CompleteMeter {
+final class NonAdditiveCompleteMeter extends CompleteMeter {
     /**
      * Constructs a Meter with integers for both numerator and denominator.
      * The beat subdivision will be automatically inferred.
