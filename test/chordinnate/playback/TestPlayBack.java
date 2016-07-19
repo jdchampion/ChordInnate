@@ -47,15 +47,17 @@ public class TestPlayBack {
             System.out.println("Sounded length: " + soundedLength + " ms");
             System.out.println("Unsounded length: " + difference + " ms\n");
 
+            PlayBack.setTempo(tempo);
+
             // Play the opening for Beethoven's Symphony No. 5
-            PlayBack.play(tempo, n1);
-            PlayBack.play(tempo, n1);
-            PlayBack.play(tempo, n1);
-            PlayBack.play(tempo, n2);
-            PlayBack.play(tempo, n3);
-            PlayBack.play(tempo, n3);
-            PlayBack.play(tempo, n3);
-            PlayBack.play(tempo, n4);
+            PlayBack.play(n1);
+            PlayBack.play(n1);
+            PlayBack.play(n1);
+            PlayBack.play(n2);
+            PlayBack.play(n3);
+            PlayBack.play(n3);
+            PlayBack.play(n3);
+            PlayBack.play(n4);
         }
     }
 
