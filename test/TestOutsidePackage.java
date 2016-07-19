@@ -87,8 +87,6 @@ public class TestOutsidePackage {
         };
         IntervalSet intervalSet1 = new Chord(pitchClass, chordType);
         IntervalSet intervalSet2 = new Scale(pitchClass, scaleType);
-        NonSerialIntervalSet nonSerialIntervalSet = new Chord(pitchClass, chordType);
-        SerialIntervalSet serialIntervalSet = new Scale(pitchClass, scaleType);
 
         /*
          * Publicly accessible class types

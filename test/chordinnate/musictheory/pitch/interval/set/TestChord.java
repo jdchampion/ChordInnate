@@ -5,6 +5,7 @@ import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.junit.Test;
 
 import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
@@ -45,7 +46,43 @@ public class TestChord {
 
     @Test
     public void invert() throws Exception {
-        // TODO
+        Chord c = new Chord(C, ChordType.MAJOR);
+        assertEquals(0, c.inversion);
+        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
+        assertEquals("Cmaj", c.name);
+        c.invert();
+        assertEquals(1, c.inversion);
+        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
+        assertEquals("Cmaj/E", c.name);
+        c.invert();
+        assertEquals(2, c.inversion);
+        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_1, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
+        assertEquals("Cmaj/G", c.name);
+        c.invert();
+        assertEquals(0, c.inversion);
+        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
+        assertEquals("Cmaj", c.name);
+    }
+
+    @Test
+    public void isDiatonicToKeySignature() throws Exception {
+        Chord c = new Chord(C, ChordType.MAJOR);
+
+        assertTrue(c.isDiatonicTo(KeySignature.C_MAJOR));
+        assertTrue(c.isDiatonicTo(KeySignature.A_MINOR));
+
+        assertFalse(c.isDiatonicTo(KeySignature.D_MAJOR));
+    }
+
+    @Test
+    public void isDiatonicToIntervalSet() throws Exception {
+        Chord c = new Chord(C, ChordType.MAJOR);
+        Scale cMajorScale = new Scale(C, ScaleType.MAJOR);
+        Scale aNatualMinor = new Scale(A, ScaleType.MELODIC_MINOR_DESCENDING);
+
+        assertTrue(c.isDiatonicTo(c));
+        assertTrue(c.isDiatonicTo(cMajorScale));
+        assertTrue(c.isDiatonicTo(aNatualMinor));
     }
 
     /**

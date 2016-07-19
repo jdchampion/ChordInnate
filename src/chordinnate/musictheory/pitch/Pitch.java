@@ -504,8 +504,7 @@ public enum Pitch
 
     @Override
     public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
-        // TODO
-        return false;
+        return this.PITCH_CLASS.isDiatonicTo(intervalSet);
     }
 
     @Override

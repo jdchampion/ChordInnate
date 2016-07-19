@@ -1,12 +1,11 @@
 package chordinnate.musictheory.time.rhythm;
 
-import chordinnate.util.Sequential;
 import chordinnate.util.SequentialUtil;
 
 /**
  * Created by Joseph on 6/22/16.
  */
-enum DotValue implements Sequential {
+enum DotValue {
     /*
      * NOTE: Keep these in order from least to greatest.
      */
@@ -32,14 +31,12 @@ enum DotValue implements Sequential {
     }
 
     @SuppressWarnings("unchecked")
-    @Override
     public DotValue getNext() {
-        return (DotValue) SequentialUtil.getNext(this, DotValue.values());
+        return (DotValue) SequentialUtil.getNext(this);
     }
 
     @SuppressWarnings("unchecked")
-    @Override
     public DotValue getPrevious() {
-        return (DotValue) SequentialUtil.getPrevious(this, DotValue.values());
+        return (DotValue) SequentialUtil.getPrevious(this);
     }
 }

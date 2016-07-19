@@ -1,5 +1,9 @@
 package chordinnate.musictheory.pitch;
 
+import chordinnate.musictheory.pitch.interval.set.Chord;
+import chordinnate.musictheory.pitch.interval.set.ChordType;
+import chordinnate.musictheory.pitch.interval.set.Scale;
+import chordinnate.musictheory.pitch.interval.set.ScaleType;
 import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.junit.Test;
 
@@ -25,6 +29,8 @@ public class TestPitchClass {
 
     @Test
     public void isDiatonicToKeySignature() throws Exception {
+        for (PitchClass p : PitchClass.values()) assertTrue(p.isDiatonicTo(KeySignature.NO_KEY_SIGNATURE));
+
         PitchClass[]
                 cMajor = {C, D, E, F, G, A, B},
 
@@ -134,7 +140,16 @@ public class TestPitchClass {
 
     @Test
     public void isDiatonicToIntervalSet() throws Exception {
-        // TODO
+        Scale cMajor = new Scale(C, ScaleType.MAJOR),
+                dMajor = new Scale(D, ScaleType.MAJOR);
+
+        Chord cMaj = new Chord(C, ChordType.MAJOR),
+                dMaj = new Chord(D, ChordType.MAJOR);
+
+        assertTrue(C.isDiatonicTo(cMajor));
+        assertTrue(C.isDiatonicTo(cMaj));
+        assertFalse(C.isDiatonicTo(dMajor));
+        assertFalse(C.isDiatonicTo(dMaj));
     }
 
     @Test

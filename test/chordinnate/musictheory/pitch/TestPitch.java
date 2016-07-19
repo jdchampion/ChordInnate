@@ -2,6 +2,10 @@ package chordinnate.musictheory.pitch;
 
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
+import chordinnate.musictheory.pitch.interval.set.Chord;
+import chordinnate.musictheory.pitch.interval.set.ChordType;
+import chordinnate.musictheory.pitch.interval.set.Scale;
+import chordinnate.musictheory.pitch.interval.set.ScaleType;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -15,9 +19,18 @@ public class TestPitch {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
+    @SuppressWarnings("ConstantConditions")
     @Test
-    public void getPitchClass() throws Exception {
-        // TODO
+    public void illegalArguments() throws Exception {
+        expectedException.expect(IllegalArgumentException.class);
+
+        // Transposition on null items is impossible
+        Pitch.C_0.isTransposableTo(PitchClass.C, null);
+        Pitch.C_0.isTransposableTo(null, Octave.OCTAVE_0);
+        Pitch.C_0.isTransposableTo(null, null);
+        Pitch.C_0.transposeTo(PitchClass.C, null);
+        Pitch.C_0.transposeTo(null, Octave.OCTAVE_0);
+        Pitch.C_0.transposeTo(null, null);
     }
 
     @Test
@@ -52,33 +65,81 @@ public class TestPitch {
     }
 
     @Test
-    public void isDiatonicTo() throws Exception {
-        // TODO
+    public void isDiatonicToIntervalSet() throws Exception {
+        Scale cMajor = new Scale(PitchClass.C, ScaleType.MAJOR),
+                dMajor = new Scale(PitchClass.D, ScaleType.MAJOR);
+
+        Chord cMaj = new Chord(PitchClass.C, ChordType.MAJOR),
+                dMaj = new Chord(PitchClass.D, ChordType.MAJOR);
+
+        Pitch c0 = Pitch.C_0, c10 = Pitch.C_10;
+
+        assertTrue(c0.isDiatonicTo(cMajor));
+        assertTrue(c0.isDiatonicTo(cMaj));
+        assertFalse(c0.isDiatonicTo(dMajor));
+        assertFalse(c0.isDiatonicTo(dMaj));
+
+        assertTrue(c10.isDiatonicTo(cMajor));
+        assertTrue(c10.isDiatonicTo(cMaj));
+        assertFalse(c10.isDiatonicTo(dMajor));
+        assertFalse(c10.isDiatonicTo(dMaj));
     }
 
     @Test
     public void isEnharmonicTo() throws Exception {
-        // TODO
-    }
+        // White keys
+        assertTrue(Pitch.C_0.isEnharmonicTo(Pitch.B_SHARP_0));
+        assertTrue(Pitch.C_0.isEnharmonicTo(Pitch.D_DOUBLE_FLAT_0));
+        assertTrue(Pitch.D_0.isEnharmonicTo(Pitch.C_DOUBLE_SHARP_0));
+        assertTrue(Pitch.D_0.isEnharmonicTo(Pitch.E_DOUBLE_FLAT_0));
+        assertTrue(Pitch.E_0.isEnharmonicTo(Pitch.D_DOUBLE_SHARP_0));
+        assertTrue(Pitch.E_0.isEnharmonicTo(Pitch.F_FLAT_0));
+        assertTrue(Pitch.G_0.isEnharmonicTo(Pitch.F_DOUBLE_SHARP_0));
+        assertTrue(Pitch.G_0.isEnharmonicTo(Pitch.A_DOUBLE_FLAT_0));
+        assertTrue(Pitch.A_0.isEnharmonicTo(Pitch.G_DOUBLE_SHARP_0));
+        assertTrue(Pitch.A_0.isEnharmonicTo(Pitch.B_DOUBLE_FLAT_0));
 
-    @Test
-    public void getEnharmonics() throws Exception {
-        // TODO
-    }
+        // Black keys
 
-    @Test
-    public void transposeChromaticBy() throws Exception {
-        // TODO
-    }
+        // C# == Db
+        assertTrue(Pitch.C_SHARP_0.isEnharmonicTo(Pitch.D_FLAT_0));
+        assertTrue(Pitch.D_FLAT_0.isEnharmonicTo(Pitch.C_SHARP_0));
 
-    @Test
-    public void transposeScalarBy() throws Exception {
-        // TODO
-    }
+        // D# == Eb == Fbb
+        assertTrue(Pitch.D_SHARP_0.isEnharmonicTo(Pitch.E_FLAT_0));
+        assertTrue(Pitch.D_SHARP_0.isEnharmonicTo(Pitch.F_DOUBLE_FLAT_0));
+        assertTrue(Pitch.E_FLAT_0.isEnharmonicTo(Pitch.D_SHARP_0));
+        assertTrue(Pitch.E_FLAT_0.isEnharmonicTo(Pitch.F_DOUBLE_FLAT_0));
+        assertTrue(Pitch.F_DOUBLE_FLAT_0.isEnharmonicTo(Pitch.D_SHARP_0));
+        assertTrue(Pitch.F_DOUBLE_FLAT_0.isEnharmonicTo(Pitch.E_FLAT_0));
 
-    @Test
-    public void isTransposableToPitchInterval() throws Exception {
-        // TODO
+        // E# == F == Gbb
+        assertTrue(Pitch.E_SHARP_0.isEnharmonicTo(Pitch.F_0));
+        assertTrue(Pitch.E_SHARP_0.isEnharmonicTo(Pitch.G_DOUBLE_FLAT_0));
+        assertTrue(Pitch.F_0.isEnharmonicTo(Pitch.E_SHARP_0));
+        assertTrue(Pitch.F_0.isEnharmonicTo(Pitch.G_DOUBLE_FLAT_0));
+        assertTrue(Pitch.G_DOUBLE_FLAT_0.isEnharmonicTo(Pitch.E_SHARP_0));
+        assertTrue(Pitch.G_DOUBLE_FLAT_0.isEnharmonicTo(Pitch.F_0));
+
+        // Ex == F# == Gb
+        assertTrue(Pitch.E_DOUBLE_SHARP_0.isEnharmonicTo(Pitch.F_SHARP_0));
+        assertTrue(Pitch.E_DOUBLE_SHARP_0.isEnharmonicTo(Pitch.G_FLAT_0));
+        assertTrue(Pitch.F_SHARP_0.isEnharmonicTo(Pitch.E_DOUBLE_SHARP_0));
+        assertTrue(Pitch.F_SHARP_0.isEnharmonicTo(Pitch.G_FLAT_0));
+        assertTrue(Pitch.G_FLAT_0.isEnharmonicTo(Pitch.E_DOUBLE_SHARP_0));
+        assertTrue(Pitch.G_FLAT_0.isEnharmonicTo(Pitch.F_SHARP_0));
+
+        // G# == Ab
+        assertTrue(Pitch.G_SHARP_0.isEnharmonicTo(Pitch.A_FLAT_0));
+        assertTrue(Pitch.A_FLAT_0.isEnharmonicTo(Pitch.G_SHARP_0));
+
+        // A# == Bb == Cbb
+        assertTrue(Pitch.A_SHARP_0.isEnharmonicTo(Pitch.B_FLAT_0));
+        assertTrue(Pitch.A_SHARP_0.isEnharmonicTo(Pitch.C_DOUBLE_FLAT_0));
+        assertTrue(Pitch.B_FLAT_0.isEnharmonicTo(Pitch.A_SHARP_0));
+        assertTrue(Pitch.B_FLAT_0.isEnharmonicTo(Pitch.C_DOUBLE_FLAT_0));
+        assertTrue(Pitch.C_DOUBLE_FLAT_0.isEnharmonicTo(Pitch.A_SHARP_0));
+        assertTrue(Pitch.C_DOUBLE_FLAT_0.isEnharmonicTo(Pitch.B_FLAT_0));
     }
 
     @Test
@@ -193,20 +254,6 @@ public class TestPitch {
         assertEquals(Pitch.C_4, Pitch.C_10.transposeTo(Octave.OCTAVE_4));
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Test
-    public void illegalArguments() throws Exception {
-        expectedException.expect(IllegalArgumentException.class);
-
-        // Transposition on null items is impossible
-        Pitch.C_0.isTransposableTo(PitchClass.C, null);
-        Pitch.C_0.isTransposableTo(null, Octave.OCTAVE_0);
-        Pitch.C_0.isTransposableTo(null, null);
-        Pitch.C_0.transposeTo(PitchClass.C, null);
-        Pitch.C_0.transposeTo(null, Octave.OCTAVE_0);
-        Pitch.C_0.transposeTo(null, null);
-    }
-
     @Test
     public void isTransposableToPitchClass() throws Exception {
         // Items out of MIDI range should not be transposable
@@ -248,7 +295,9 @@ public class TestPitch {
 
     @Test
     public void transposeToPitch() throws Exception {
-        // TODO
+        for (Pitch p1 : Pitch.values()) {
+            for (Pitch p2 : Pitch.values()) assertEquals(p2, p1.transposeTo(p2));
+        }
     }
 
 }

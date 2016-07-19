@@ -127,7 +127,10 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
 
     @Override
     public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
-        if (keySignature.contains(this.ENHARMONIC_SPELLING)) {
+        if (keySignature.equals(KeySignature.NO_KEY_SIGNATURE)) {
+            return true;
+        }
+        else if (keySignature.contains(this.ENHARMONIC_SPELLING)) {
             return true;
         }
         else {
@@ -150,7 +153,11 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
 
     @Override
     public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
-        // TODO
+        for (Pitch pitch : intervalSet.getPitchesForOctave(this.OCTAVE_RANGE.getPrevious())) {
+            if (pitch.PITCH_CLASS.equals(this)) {
+                return true;
+            }
+        }
         return false;
     }
 }
