@@ -1,6 +1,7 @@
 package chordinnate.musictheory.pitch.interval.set;
 
 import chordinnate.musictheory.general.Accidental;
+import chordinnate.musictheory.pitch.Diatonic;
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
@@ -13,7 +14,7 @@ import java.util.EnumMap;
 /**
  * Created by Joseph on 7/15/16.
  */
-public abstract class IntervalSet {
+public abstract class IntervalSet implements Diatonic {
     EnumMap<Octave, Pitch[]> pitchesByOctave;
     Pitch lowestDiatonic, highestDiatonic;
     Octave maxPlayableOctave;

@@ -5,6 +5,7 @@ import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.junit.Test;
 
 import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
@@ -46,6 +47,27 @@ public class TestChord {
     @Test
     public void invert() throws Exception {
         // TODO
+    }
+
+    @Test
+    public void isDiatonicToKeySignature() throws Exception {
+        Chord c = new Chord(C, ChordType.MAJOR);
+
+        assertTrue(c.isDiatonicTo(KeySignature.C_MAJOR));
+        assertTrue(c.isDiatonicTo(KeySignature.A_MINOR));
+
+        assertFalse(c.isDiatonicTo(KeySignature.D_MAJOR));
+    }
+
+    @Test
+    public void isDiatonicToIntervalSet() throws Exception {
+        Chord c = new Chord(C, ChordType.MAJOR);
+        Scale cMajorScale = new Scale(C, ScaleType.MAJOR);
+        Scale aNatualMinor = new Scale(A, ScaleType.MELODIC_MINOR_DESCENDING);
+
+        assertTrue(c.isDiatonicTo(c));
+        assertTrue(c.isDiatonicTo(cMajorScale));
+        assertTrue(c.isDiatonicTo(aNatualMinor));
     }
 
     /**

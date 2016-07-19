@@ -5,6 +5,7 @@ import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.junit.Test;
 
 import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
@@ -42,6 +43,27 @@ public class TestScale {
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
         transposed.transposeTo(PitchClass.C);
         verifyScale(transposed, C, D, E, F, G, A, B);
+    }
+
+    @Test
+    public void isDiatonicToKeySignature() throws Exception {
+        Scale s = new Scale(C, ScaleType.MAJOR);
+
+        assertTrue(s.isDiatonicTo(KeySignature.C_MAJOR));
+        assertTrue(s.isDiatonicTo(KeySignature.A_MINOR));
+
+        assertFalse(s.isDiatonicTo(KeySignature.D_MAJOR));
+    }
+
+    @Test
+    public void isDiatonicToIntervalSet() throws Exception {
+        Scale s = new Scale(C, ScaleType.MAJOR);
+        Chord c = new Chord(C, ChordType.MAJOR);
+        Scale aNaturalMinor = new Scale(A, ScaleType.MELODIC_MINOR_DESCENDING);
+
+        assertTrue(s.isDiatonicTo(s));
+        assertFalse(s.isDiatonicTo(c));     // Scales are not diatonic to Chords that contain fewer Pitches than them
+        assertTrue(s.isDiatonicTo(aNaturalMinor));
     }
 
     /**

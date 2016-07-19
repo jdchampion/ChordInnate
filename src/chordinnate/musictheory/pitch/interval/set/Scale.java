@@ -4,6 +4,7 @@ import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -34,5 +35,22 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
         Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchClass, lowestDiatonic.OCTAVE);
         super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, scaleType.getPitchIntervals());
         this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scaleType.NAME;
+    }
+
+    @Override
+    public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
+        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
+            if (!pitch.isDiatonicTo(keySignature)) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
+        Pitch[] pitchesToCheck = this.getPitchesForOctave(lowestDiatonic.OCTAVE);
+        for (Pitch pitch : pitchesToCheck) {
+            if (!pitch.isDiatonicTo(intervalSet)) return false;
+        }
+        return true;
     }
 }
