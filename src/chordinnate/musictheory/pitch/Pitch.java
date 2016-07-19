@@ -599,8 +599,9 @@ public enum Pitch
             }
             else return candidate;
         }
-
-        return null; // Returned on error
+        else {
+            return null; // Returned on error
+        }
     }
 
     @Override
