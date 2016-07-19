@@ -2,6 +2,7 @@ package chordinnate.musictheory.pitch.interval.set;
 
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
+import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
 import chordinnate.musictheory.pitch.notation.KeySignature;
@@ -52,5 +53,12 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
             if (!pitch.isDiatonicTo(intervalSet)) return false;
         }
         return true;
+    }
+
+    public Pitch[] getPitchesForOctave(@NotNull Octave octave) {
+        // Return the desired octave (i.e., a subarray from super.pitchesByOctave)
+        Pitch[] source = super.pitchesByOctave.get(octave), destination = new Pitch[source.length];
+        System.arraycopy(source, 0, destination, 0, destination.length);
+        return destination;
     }
 }

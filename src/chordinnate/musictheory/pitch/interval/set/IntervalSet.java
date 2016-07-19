@@ -6,7 +6,6 @@ import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -44,10 +43,5 @@ public abstract class IntervalSet implements Diatonic {
                 : highestDiatonic.OCTAVE;
     }
 
-    public Pitch[] getPitchesForOctave(@NotNull Octave octave) {
-        // Return the desired octave (i.e., a subarray from this.pitches)
-        Pitch[] source = pitchesByOctave.get(octave), destination = new Pitch[source.length];
-        System.arraycopy(source, 0, destination, 0, destination.length);
-        return destination;
-    }
+    public abstract Pitch[] getPitchesForOctave(Octave octave);
 }

@@ -46,7 +46,22 @@ public class TestChord {
 
     @Test
     public void invert() throws Exception {
-        // TODO
+        Chord c = new Chord(C, ChordType.MAJOR);
+        assertEquals(0, c.inversion);
+        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
+        assertEquals("Cmaj", c.name);
+        c.invert();
+        assertEquals(1, c.inversion);
+        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
+        assertEquals("Cmaj/E", c.name);
+        c.invert();
+        assertEquals(2, c.inversion);
+        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_1, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
+        assertEquals("Cmaj/G", c.name);
+        c.invert();
+        assertEquals(0, c.inversion);
+        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
+        assertEquals("Cmaj", c.name);
     }
 
     @Test
