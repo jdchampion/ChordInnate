@@ -47,8 +47,7 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
 
     @Override
     public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
-        Pitch[] pitchesToCheck = this.getPitchesForOctave(lowestDiatonic.OCTAVE);
-        for (Pitch pitch : pitchesToCheck) {
+        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
             if (!pitch.isDiatonicTo(intervalSet)) return false;
         }
         return true;
