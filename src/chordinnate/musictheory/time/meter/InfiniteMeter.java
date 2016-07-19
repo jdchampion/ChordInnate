@@ -6,7 +6,7 @@ package chordinnate.musictheory.time.meter;
  *
  * Created by Joseph on 7/3/16.
  */
-public abstract class InfiniteMeter extends Meter {
+abstract class InfiniteMeter extends Meter {
     private double measureDuration;
 
     InfiniteMeter() {

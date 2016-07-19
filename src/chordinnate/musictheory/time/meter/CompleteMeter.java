@@ -10,7 +10,7 @@ import java.util.LinkedList;
  *
  * Created by Joseph on 7/3/16.
  */
-public abstract class CompleteMeter extends FixedMeter {
+abstract class CompleteMeter extends FixedMeter {
     int numerator; // Defined in constructor
 
     /*
