@@ -10,21 +10,21 @@ import static org.junit.Assert.*;
  */
 public class TestBeat {
     @Test
-    public void getDuration() throws Exception {
+    public void testField_DURATION() throws Exception {
         for (Beat beat: Beat.values()) {
             assertNotNull(beat.DURATION);
         }
     }
 
     @Test
-    public void getDotValue() throws Exception {
+    public void testField_DOT_VALUE() throws Exception {
         for (Beat beat: Beat.values()) {
             assertNotNull(beat.DOT_VALUE);
         }
     }
 
     @Test
-    public void getTuplet() throws Exception {
+    public void testField_TUPLET() throws Exception {
         for (Beat beat: Beat.values()) {
             assertNotNull(beat.TUPLET);
         }

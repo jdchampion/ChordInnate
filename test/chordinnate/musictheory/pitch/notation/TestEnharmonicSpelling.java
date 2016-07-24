@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class TestEnharmonicSpelling {
     @Test
-    public void getLetter() throws Exception {
+    public void testField_LETTER() throws Exception {
         assertEquals(Letter.A, A.LETTER);
         assertEquals(Letter.A, A_DOUBLE_FLAT.LETTER);
         assertEquals(Letter.A, A_DOUBLE_SHARP.LETTER);
@@ -63,7 +63,7 @@ public class TestEnharmonicSpelling {
     }
 
     @Test
-    public void getAccidental() throws Exception {
+    public void testField_ACCIDENTAL() throws Exception {
         assertEquals(NONE, A.ACCIDENTAL);
         assertEquals(DOUBLE_FLAT, A_DOUBLE_FLAT.ACCIDENTAL);
         assertEquals(DOUBLE_SHARP, A_DOUBLE_SHARP.ACCIDENTAL);
@@ -115,7 +115,7 @@ public class TestEnharmonicSpelling {
     }
 
     @Test
-    public void getName() throws Exception {
+    public void testField_NAME() throws Exception {
         assertEquals("A", A.NAME);
         assertEquals("A𝄫", A_DOUBLE_FLAT.NAME);
         assertEquals("A𝄪", A_DOUBLE_SHARP.NAME);

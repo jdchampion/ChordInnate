@@ -25,7 +25,7 @@ public class TestTempo {
     }
 
     @Test
-    public void allTempoMarkingChanges() throws Exception {
+    public void setTempoMarking() throws Exception {
         Tempo tempo = new Tempo(Beat.QUARTER, 120);
         for (TempoMarking tm : TempoMarking.values()) {
             tempo.setTempoMarking(tm);
@@ -36,7 +36,7 @@ public class TestTempo {
     }
 
     @Test
-    public void getMillis() throws Exception {
+    public void getMillisForBeat() throws Exception {
         Tempo tempo = new Tempo(Beat.QUARTER, 120);
         assertEquals(500, tempo.getMillisFor(Beat.QUARTER));
         assertEquals(250, tempo.getMillisFor(Beat.EIGHTH));
