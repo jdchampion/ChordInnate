@@ -1,7 +1,7 @@
 # ChordInnate
 
 ### What is ChordInnate?
-**ChordInnate** is essentially a music theory engine and API. Similar to how a physics engine simulates object interactions, ChordInnate performs operations on musical components. This can be useful for studying music theory in a sandbox environment, or to provide intelligence for an algorithmic music generator.
+**ChordInnate** is essentially a music theory engine and API. Similar to how a physics engine simulates physical objects and their interactions, ChordInnate models the structure, operation, and interactions of musical components. This can be useful for studying music theory in a sandbox environment, or to provide intelligence for an algorithmic music generator.
 
 
 Here's a list of ChordInnate's features (with more to come):
