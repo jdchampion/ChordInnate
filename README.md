@@ -24,6 +24,6 @@ Here's a list of ChordInnate's features (with more to come):
 ### Project History and Motivation for Development
 ChordInnate has been an ongoing project since the completion of my freshman year of Computer Science (2013). As a student making a jump from the arts to the sciences, I sought a challenging engineering project that would allow me to hone both my musical and technical skills.
 
-The project originally began as a basic music generator, focusing on chord progressions. By the end of Summer 2013, a working prototype had been developed. While it was exciting to have met my goal, it was clear to me that the program's generation algorithm required more sophistication than `java.util.Random`. *It just didn't sound __that good__*. 
+The project originally began as a basic music generator, focusing on chord progressions. By the end of Summer 2013, a working prototype had been developed. While it was exciting to have met my goal, it was clear to me that the program's generation algorithm required more sophistication than `java.util.Random` -- *It just didn't __sound__ all that great!* 
 
 Since then, ChordInnate has undergone several iterations, shaping it into an *engine* that can be used for generating music. I've incorporated many software engineering concepts and principles that I've encountered during my studies at university, and continue to enjoy improving my skills with this project.
