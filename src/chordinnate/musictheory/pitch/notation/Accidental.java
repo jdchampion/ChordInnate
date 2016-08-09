@@ -1,4 +1,4 @@
-package chordinnate.musictheory.general;
+package chordinnate.musictheory.pitch.notation;
 
 /**
  * Created by Joseph on 4/14/16.

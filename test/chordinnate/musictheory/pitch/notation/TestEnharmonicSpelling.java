@@ -2,7 +2,7 @@ package chordinnate.musictheory.pitch.notation;
 
 import org.junit.Test;
 
-import static chordinnate.musictheory.general.Accidental.*;
+import static chordinnate.musictheory.pitch.notation.Accidental.*;
 import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
 import static org.junit.Assert.*;
 

@@ -1,6 +1,6 @@
 package chordinnate.musictheory.pitch.interval.set;
 
-import chordinnate.musictheory.general.Accidental;
+import chordinnate.musictheory.pitch.notation.Accidental;
 import chordinnate.musictheory.pitch.Diatonic;
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.interval.Octave;
