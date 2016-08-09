@@ -1,11 +1,9 @@
 package chordinnate.musictheory.pitch.notation;
 
-import chordinnate.musictheory.general.Accidental;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import static chordinnate.musictheory.general.Accidental.*;
+import static chordinnate.musictheory.pitch.notation.Accidental.*;
 
 /**
  * Created by Joseph on 4/14/16.
