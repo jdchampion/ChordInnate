@@ -12,7 +12,7 @@ import static chordinnate.musictheory.pitch.interval.notation.RomanNumeral.*;
  */
 public class TestPitchInterval {
     @Test
-    public void getNumSemitones() throws Exception {
+    public void testField_NUM_SEMITONES() throws Exception {
         assertEquals(0, PitchInterval.PERFECT_UNISON.NUM_SEMITONES);
         assertEquals(0, PitchInterval.DIMINISHED_SECOND.NUM_SEMITONES);
         assertEquals(1, PitchInterval.MINOR_SECOND.NUM_SEMITONES);
@@ -42,7 +42,7 @@ public class TestPitchInterval {
     }
 
     @Test
-    public void getNumber() throws Exception {
+    public void testField_NUMBER() throws Exception {
         assertEquals(1, PitchInterval.PERFECT_UNISON.NUMBER);
         assertEquals(2, PitchInterval.DIMINISHED_SECOND.NUMBER);
         assertEquals(2, PitchInterval.MINOR_SECOND.NUMBER);
@@ -72,7 +72,7 @@ public class TestPitchInterval {
     }
 
     @Test
-    public void getPitchIntervalQuality() throws Exception {
+    public void testField_PITCH_INTERVAL_QUALITY() throws Exception {
         assertEquals(PERFECT, PitchInterval.PERFECT_UNISON.PITCH_INTERVAL_QUALITY);
         assertEquals(DIMINISHED, PitchInterval.DIMINISHED_SECOND.PITCH_INTERVAL_QUALITY);
         assertEquals(MINOR, PitchInterval.MINOR_SECOND.PITCH_INTERVAL_QUALITY);
@@ -102,7 +102,7 @@ public class TestPitchInterval {
     }
 
     @Test
-    public void getRomanNumeral() throws Exception {
+    public void testField_ROMAN_NUMERAL() throws Exception {
         assertEquals(I, PitchInterval.PERFECT_UNISON.ROMAN_NUMERAL);
         assertEquals(ii, PitchInterval.DIMINISHED_SECOND.ROMAN_NUMERAL);
         assertEquals(ii, PitchInterval.MINOR_SECOND.ROMAN_NUMERAL);
@@ -132,7 +132,7 @@ public class TestPitchInterval {
     }
 
     @Test
-    public void getShortName() throws Exception {
+    public void testField_SHORT_NAME() throws Exception {
         assertEquals("P1", PitchInterval.PERFECT_UNISON.SHORT_NAME);
         assertEquals("d2", PitchInterval.DIMINISHED_SECOND.SHORT_NAME);
         assertEquals("m2", PitchInterval.MINOR_SECOND.SHORT_NAME);
@@ -162,7 +162,7 @@ public class TestPitchInterval {
     }
 
     @Test
-    public void getRomanNumeralName() throws Exception {
+    public void testField_ROMAN_NUMERAL_NAME() throws Exception {
         assertEquals("I", PitchInterval.PERFECT_UNISON.ROMAN_NUMERAL_NAME);
         assertEquals("ii˚", PitchInterval.DIMINISHED_SECOND.ROMAN_NUMERAL_NAME);
         assertEquals("ii", PitchInterval.MINOR_SECOND.ROMAN_NUMERAL_NAME);

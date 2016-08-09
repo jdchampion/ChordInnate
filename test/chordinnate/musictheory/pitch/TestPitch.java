@@ -34,7 +34,7 @@ public class TestPitch {
     }
 
     @Test
-    public void getOctave() throws Exception {
+    public void testField_NUMBER() throws Exception {
         /*
          * The Octave for each Pitch should match the number indicated in the name of the Pitch.
          * Example: the Pitch "F_SHARP_5" should contain OCTAVE_5
@@ -49,7 +49,7 @@ public class TestPitch {
     }
 
     @Test
-    public void getAbsolutePitch() throws Exception {
+    public void testField_ABSOLUTE_PITCH() throws Exception {
         /*
          * All Pitches should have an absolute pitch (MIDI value) = (12 * octave) + base,
          * none of which should go beyond 127 as the highest pitch.

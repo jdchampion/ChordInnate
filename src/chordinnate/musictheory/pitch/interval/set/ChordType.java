@@ -3,7 +3,7 @@ package chordinnate.musictheory.pitch.interval.set;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchInterval;
 
-import static chordinnate.musictheory.general.Accidental.*;
+import static chordinnate.musictheory.pitch.notation.Accidental.*;
 import static chordinnate.musictheory.pitch.interval.PitchInterval.*;
 
 /**

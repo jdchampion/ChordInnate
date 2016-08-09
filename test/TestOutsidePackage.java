@@ -1,6 +1,6 @@
 import chordinnate.generator.ChordProgression;
 import chordinnate.generator.MajorProgressionGraph1;
-import chordinnate.musictheory.general.Accidental;
+import chordinnate.musictheory.pitch.notation.Accidental;
 import chordinnate.musictheory.general.Texture;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.PitchIntervalQuality;
