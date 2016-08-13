@@ -586,7 +586,7 @@ public enum Pitch
              * Substitute the non-natural equivalent for transposed PitchClasses with natural Accidentals,
              * and decide which Octave to use for the returned Pitch.
              */
-            Pitch candidate = Pitch.valueOf(transposedPitchClass.ENHARMONIC_SPELLING.apply(Accidental.NONE) + "_" + OCTAVE.NUMBER);
+            Pitch candidate = Pitch.valueOf(transposedPitchClass.ENHARMONIC_SPELLING.apply(Accidental.NONE).name() + "_" + OCTAVE.NUMBER);
             if (candidate.PITCH_CLASS.equals(PITCH_CLASS) || candidate.ABSOLUTE_PITCH == ABSOLUTE_PITCH) {
                 return VALUES[direction ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
             }
@@ -612,7 +612,7 @@ public enum Pitch
     @Override
     public Pitch transposeTo(@NotNull Octave octave) {
         return isTransposableTo(octave)
-                ? Pitch.valueOf(PITCH_CLASS + "_" + octave.NUMBER)
+                ? Pitch.valueOf(PITCH_CLASS.name() + "_" + octave.NUMBER)
                 : null;
     }
 

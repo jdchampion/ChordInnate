@@ -133,7 +133,7 @@ public enum EnharmonicSpelling {
      * @return the EnharmonicSpelling matching the two properties in the above description
      */
     private EnharmonicSpelling getHelper(int vector, Accidental accidental) {
-        String enumName = LETTER.getLetterByVectorTraversal(vector) + ((accidental.equals(NONE)) ? "" : "_" + accidental.toString());
+        String enumName = LETTER.getLetterByVectorTraversal(vector).name() + ((accidental.equals(NONE)) ? "" : "_" + accidental.name());
         return EnharmonicSpelling.valueOf(enumName);
     }
 
