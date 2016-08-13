@@ -12,7 +12,7 @@ public class TestPlayBack {
     @Test
     public void playPitch() throws Exception {
         for (Pitch pitch : Pitch.values()) {
-            System.out.println(pitch.name());
+            System.out.println(pitch.toString());
             PlayBack.play(pitch);
         }
     }

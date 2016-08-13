@@ -78,7 +78,7 @@ public enum EnharmonicSpelling {
     EnharmonicSpelling(Letter letter, Accidental accidental) {
         this.LETTER = letter;
         this.ACCIDENTAL = accidental;
-        this.NAME = letter + accidental.SYMBOL;
+        this.NAME = letter.toString() + accidental.SYMBOL;
     }
 
     public EnharmonicSpelling apply(Accidental accidental) {
