@@ -78,7 +78,7 @@ public enum EnharmonicSpelling {
     EnharmonicSpelling(Letter letter, Accidental accidental) {
         this.LETTER = letter;
         this.ACCIDENTAL = accidental;
-        this.NAME = letter + accidental.SYMBOL;
+        this.NAME = letter.toString() + accidental.SYMBOL;
     }
 
     public EnharmonicSpelling apply(Accidental accidental) {
@@ -133,7 +133,7 @@ public enum EnharmonicSpelling {
      * @return the EnharmonicSpelling matching the two properties in the above description
      */
     private EnharmonicSpelling getHelper(int vector, Accidental accidental) {
-        String enumName = LETTER.getLetterByVectorTraversal(vector) + ((accidental.equals(NONE)) ? "" : "_" + accidental.toString());
+        String enumName = LETTER.getLetterByVectorTraversal(vector).name() + ((accidental.equals(NONE)) ? "" : "_" + accidental.name());
         return EnharmonicSpelling.valueOf(enumName);
     }
 

@@ -181,13 +181,13 @@ public enum KeySignature {
     public KeySignature getParallelMajor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MAJOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MAJOR"))
                 ? this
-                : KeySignature.valueOf(KEY.toString() + "_" + KeySignatureType.MAJOR.toString());
+                : KeySignature.valueOf(KEY.name() + "_" + KeySignatureType.MAJOR.name());
     }
 
     public KeySignature getParallelMinor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MINOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MINOR"))
                 ? this
-                : KeySignature.valueOf(KEY.toString() + "_" + KeySignatureType.MINOR.toString());
+                : KeySignature.valueOf(KEY.name() + "_" + KeySignatureType.MINOR.name());
     }
 
     @Nullable
