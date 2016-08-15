@@ -12,6 +12,7 @@ import static chordinnate.musictheory.pitch.interval.set.ScaleTypeProperty.*;
  * References: http://pianoencyclopedia.com/scales/
  *             http://www.earmaster.com/music-theory-online/ch04/chapter-4-8.html
  */
+@Deprecated
 public enum ScaleType {
     // NOTE: SCALE TYPES MUST BE LISTED IN ASCENDING ORDER (EVEN IF THEY ARE CONSIDERED "DESCENDING" SCALES)
 

@@ -8,35 +8,94 @@ import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
 import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Joseph on 7/15/16.
+ * References: http://pianoencyclopedia.com/scales/
+ *             http://www.earmaster.com/music-theory-online/ch04/chapter-4-8.html
  */
 public final class Scale extends SerialIntervalSet implements TransposableIntervalSet {
-    ScaleType scaleType;
-    String name;
+    String typeName, fullName;
+    String origin;
 
-    public Scale(@NotNull EnharmonicSpelling root, @NotNull ScaleType scaleType) {
-        super.commonInitializations(root, scaleType.getPitchIntervals());
-        this.scaleType = scaleType;
-        this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scaleType.NAME;
+    private static final int STARTING_INDEX = 1;
+    private static Map<Integer, String> INDEX_TO_SCALE_NAME;
+    private static Map<String, PitchInterval[]> SCALE_NAME_TO_PITCH_INTERVALS;
+    private static Map<String, String> SCALE_NAME_TO_ORIGIN;
+
+    private static Connection connection;
+    private static PreparedStatement preparedStatement;
+    private static ResultSet resultSet;
+
+    static {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/scales", "root", "");
+            preparedStatement = connection.prepareStatement("SELECT Name, Intervals, Origin FROM supported_scales");
+            int fetchSize = preparedStatement.getFetchSize();
+            INDEX_TO_SCALE_NAME = new HashMap<>(fetchSize);
+            SCALE_NAME_TO_PITCH_INTERVALS = new HashMap<>(fetchSize);
+            SCALE_NAME_TO_ORIGIN = new HashMap<>(fetchSize);
+            resultSet = preparedStatement.executeQuery();
+            int index = STARTING_INDEX;
+            while (resultSet.next()) {
+                String name = resultSet.getString("Name");
+                String[] intervals = resultSet.getString("Intervals").split(", ");
+                PitchInterval[] pitchIntervals = new PitchInterval[intervals.length];
+                for (int i = 0; i < pitchIntervals.length; i++) {
+                    pitchIntervals[i] = PitchInterval.valueOf(intervals[i]);
+                }
+                String origin = resultSet.getString("Origin");
+                INDEX_TO_SCALE_NAME.put(index, name);
+                SCALE_NAME_TO_PITCH_INTERVALS.put(name, pitchIntervals);
+                SCALE_NAME_TO_ORIGIN.put(name, origin);
+                index++;
+            }
+            preparedStatement.close();
+            resultSet.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public Scale(@NotNull PitchClass root, @NotNull ScaleType scaleType) {
-        this(root.ENHARMONIC_SPELLING, scaleType);
+    private PitchInterval[] getPitchIntervals(String name) {
+        // Return a copy of the array (to protect against mutation)
+        PitchInterval[] source = SCALE_NAME_TO_PITCH_INTERVALS.get(name);
+        PitchInterval[] pitchIntervals = new PitchInterval[source.length];
+        System.arraycopy(source, 0, pitchIntervals, 0, source.length);
+        return pitchIntervals;
+    }
+
+    public Scale(@NotNull EnharmonicSpelling root, @NotNull String scaleTypeName) {
+        super.commonInitializations(root, getPitchIntervals(scaleTypeName));
+        this.typeName = scaleTypeName;
+        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
+    }
+
+    public Scale(@NotNull PitchClass root, @NotNull String scaleTypeName) {
+        super.commonInitializations(root.ENHARMONIC_SPELLING, getPitchIntervals(scaleTypeName));
+        this.typeName = scaleTypeName;
+        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
     }
 
     @Override
     public void transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
         Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, scaleType.getPitchIntervals());
-        this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scaleType.NAME;
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getPitchIntervals(typeName));
+        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
     }
 
     @Override
     public void transposeTo(@NotNull PitchClass pitchClass) {
         Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchClass, lowestDiatonic.OCTAVE);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, scaleType.getPitchIntervals());
-        this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scaleType.NAME;
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getPitchIntervals(typeName));
+        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
     }
 
     @Override
@@ -55,10 +114,23 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
         return true;
     }
 
+    public static List<String> getSupportedScaleNames() {
+        int numScales = INDEX_TO_SCALE_NAME.size();
+        List<String> names = new ArrayList<>(numScales);
+        for (int i = STARTING_INDEX; i < numScales; i++) {
+            names.add(i + ". " + INDEX_TO_SCALE_NAME.get(i));
+        }
+        return names;
+    }
+
     public Pitch[] getPitchesForOctave(@NotNull Octave octave) {
         // Return the desired octave (i.e., a subarray from super.pitchesByOctave)
         Pitch[] source = super.pitchesByOctave.get(octave), destination = new Pitch[source.length];
         System.arraycopy(source, 0, destination, 0, destination.length);
         return destination;
+    }
+
+    public int length() {
+        return super.pitchesByOctave.get(Octave.OCTAVE_0).length;
     }
 }

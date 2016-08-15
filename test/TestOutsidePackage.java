@@ -42,7 +42,6 @@ public class TestOutsidePackage {
         NashvilleNumber nashvilleNumber = NashvilleNumber.ONE;
         RomanNumeral romanNumeral = RomanNumeral.I;
         ChordType chordType = ChordType.MAJOR;
-        ScaleType scaleType = ScaleType.MAJOR;
         Octave octave = Octave.OCTAVE_4;
         PitchInterval pitchInterval = PitchInterval.PERFECT_FIFTH;
         PitchIntervalQuality pitchIntervalQuality = PitchIntervalQuality.PERFECT;
@@ -68,7 +67,7 @@ public class TestOutsidePackage {
 
         MajorProgressionGraph1 majorProgressionGraph1; // static class -- no constructor necessary
         Chord chord = new Chord(pitchClass, chordType);
-        Scale scale = new Scale(pitchClass, scaleType);
+        Scale scale = new Scale(pitchClass, "Major");
         FreeMeter freeMeter = new FreeMeter();
         PlayBack playBack; // static class -- no constructor necessary
         // FIXME: SequentialUtil should not be accessible outside src.chordinnate
@@ -86,7 +85,7 @@ public class TestOutsidePackage {
             }
         };
         IntervalSet intervalSet1 = new Chord(pitchClass, chordType);
-        IntervalSet intervalSet2 = new Scale(pitchClass, scaleType);
+        IntervalSet intervalSet2 = new Scale(pitchClass, "Major");
 
         /*
          * Publicly accessible class types
@@ -117,10 +116,8 @@ public class TestOutsidePackage {
         pitchClass.getEnharmonics();
         pitchInterval.getEnharmonics();
         pitchInterval.getInversion();
-        scaleType.length();
         chordType.length();
 
-        scaleType.getPitchIntervals();
         chordType.getPitchIntervals();
         chordType.getBaseOctaves();
         scale.getPitchesForOctave(octave);
