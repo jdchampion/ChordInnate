@@ -6,7 +6,7 @@
 
 Here's a list of ChordInnate's features (with more to come):
 - **Pitch**
-  - 150+ scale types and 50+ chord types
+  - 1000+ scale types and 50+ chord types
   - all standard major & minor key signatures, with additional (limited) support for theoretical keys
   - transpose pitches by interval, pitch class, or a specific pitch
   - transpose scales and chords to any supported key
