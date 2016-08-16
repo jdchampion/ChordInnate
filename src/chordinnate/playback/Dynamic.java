@@ -7,7 +7,7 @@ package chordinnate.playback;
  *             https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html
  */
 public enum Dynamic {
-    PIANISSISSISSIMO("ppp", 8),
+    PIANISSISSISSIMO("pppp", 8),
     PIANISSISSIMO("ppp", 20),
     PIANISSIMO("pp", 31),
     PIANO("p", 42),
