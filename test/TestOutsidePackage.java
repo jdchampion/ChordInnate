@@ -86,6 +86,12 @@ public class TestOutsidePackage {
         };
         IntervalSet intervalSet1 = new Chord(pitchClass, chordType);
         IntervalSet intervalSet2 = new Scale(pitchClass, "Major");
+        intervalSet1.isDiatonicTo(keySignature);
+        intervalSet1.isDiatonicTo(intervalSet2);
+        intervalSet1.getPitchesForOctave(octave);
+        intervalSet2.isDiatonicTo(keySignature);
+        intervalSet2.isDiatonicTo(intervalSet2);
+        intervalSet2.getPitchesForOctave(octave);
 
         /*
          * Publicly accessible class types
@@ -117,10 +123,14 @@ public class TestOutsidePackage {
         pitchInterval.getEnharmonics();
         pitchInterval.getInversion();
         chordType.length();
-
         chordType.getPitchIntervals();
         chordType.getBaseOctaves();
         scale.getPitchesForOctave(octave);
+        scale.isDiatonicTo(keySignature);
+        scale.isDiatonicTo(scale);
+        scale.getTypeName();
+        scale.getFullName();
+        scale.getOrigin();
         chord.getPitchesForOctave(octave);
     }
 }

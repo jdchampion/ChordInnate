@@ -23,6 +23,12 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
     String typeName, fullName;
     String origin;
 
+    private static final String DATABASE_USERNAME = "";
+    private static final String DATABASE_PASSWORD = "";
+    private static final String DATABASE_DRIVER = "org.sqlite.JDBC";
+    private static final String DATABASE_PROTOCOL = "jdbc:sqlite:";
+    private static final String DATABASE_DIRECTORY = "src/resources/sqlite/scales.db";
+
     private static final int STARTING_INDEX = 1;
     private static Map<Integer, String> INDEX_TO_SCALE_NAME;
     private static Map<String, PitchInterval[]> SCALE_NAME_TO_PITCH_INTERVALS;
@@ -34,8 +40,9 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
 
     static {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/scales", "root", "");
+            Class.forName(DATABASE_DRIVER);
+            connection = DriverManager
+                    .getConnection(DATABASE_PROTOCOL + DATABASE_DIRECTORY, DATABASE_USERNAME, DATABASE_PASSWORD);
             preparedStatement = connection.prepareStatement("SELECT Name, Intervals, Origin FROM supported_scales");
             int fetchSize = preparedStatement.getFetchSize();
             INDEX_TO_SCALE_NAME = new HashMap<>(fetchSize);
@@ -76,26 +83,11 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
         super.commonInitializations(root, getPitchIntervals(scaleTypeName));
         this.typeName = scaleTypeName;
         this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
+        this.origin = SCALE_NAME_TO_ORIGIN.get(typeName);
     }
 
     public Scale(@NotNull PitchClass root, @NotNull String scaleTypeName) {
-        super.commonInitializations(root.ENHARMONIC_SPELLING, getPitchIntervals(scaleTypeName));
-        this.typeName = scaleTypeName;
-        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
-    }
-
-    @Override
-    public void transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
-        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getPitchIntervals(typeName));
-        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
-    }
-
-    @Override
-    public void transposeTo(@NotNull PitchClass pitchClass) {
-        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchClass, lowestDiatonic.OCTAVE);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getPitchIntervals(typeName));
-        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
+        this(root.ENHARMONIC_SPELLING, scaleTypeName);
     }
 
     @Override
@@ -114,13 +106,39 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
         return true;
     }
 
+    @Override
+    public void transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
+        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getPitchIntervals(typeName));
+        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
+    }
+
+    @Override
+    public void transposeTo(@NotNull PitchClass pitchClass) {
+        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchClass, lowestDiatonic.OCTAVE);
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getPitchIntervals(typeName));
+        this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
+    }
+
     public static List<String> getSupportedScaleNames() {
-        int numScales = INDEX_TO_SCALE_NAME.size();
+        int numScales = INDEX_TO_SCALE_NAME.size() + 1;
         List<String> names = new ArrayList<>(numScales);
         for (int i = STARTING_INDEX; i < numScales; i++) {
             names.add(i + ". " + INDEX_TO_SCALE_NAME.get(i));
         }
         return names;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getOrigin() {
+        return origin;
     }
 
     public Pitch[] getPitchesForOctave(@NotNull Octave octave) {
