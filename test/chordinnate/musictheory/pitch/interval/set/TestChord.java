@@ -77,8 +77,8 @@ public class TestChord {
     @Test
     public void isDiatonicToIntervalSet() throws Exception {
         Chord c = new Chord(C, ChordType.MAJOR);
-        Scale cMajorScale = new Scale(C, ScaleType.MAJOR);
-        Scale aNatualMinor = new Scale(A, ScaleType.MELODIC_MINOR_DESCENDING);
+        Scale cMajorScale = new Scale(C, "Major");
+        Scale aNatualMinor = new Scale(A, "Melodic Minor descending");
 
         assertTrue(c.isDiatonicTo(c));
         assertTrue(c.isDiatonicTo(cMajorScale));

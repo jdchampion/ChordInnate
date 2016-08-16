@@ -3,7 +3,6 @@ package chordinnate.musictheory.pitch;
 import chordinnate.musictheory.pitch.interval.set.Chord;
 import chordinnate.musictheory.pitch.interval.set.ChordType;
 import chordinnate.musictheory.pitch.interval.set.Scale;
-import chordinnate.musictheory.pitch.interval.set.ScaleType;
 import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.junit.Test;
 
@@ -140,8 +139,8 @@ public class TestPitchClass {
 
     @Test
     public void isDiatonicToIntervalSet() throws Exception {
-        Scale cMajor = new Scale(C, ScaleType.MAJOR),
-                dMajor = new Scale(D, ScaleType.MAJOR);
+        Scale cMajor = new Scale(C, "Major"),
+                dMajor = new Scale(D, "Major");
 
         Chord cMaj = new Chord(C, ChordType.MAJOR),
                 dMaj = new Chord(D, ChordType.MAJOR);

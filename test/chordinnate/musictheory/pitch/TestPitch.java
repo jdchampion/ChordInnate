@@ -5,7 +5,6 @@ import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.interval.set.Chord;
 import chordinnate.musictheory.pitch.interval.set.ChordType;
 import chordinnate.musictheory.pitch.interval.set.Scale;
-import chordinnate.musictheory.pitch.interval.set.ScaleType;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -43,7 +42,7 @@ public class TestPitch {
             String pitchName = pitch.name();
             assertEquals(
                     (int) Integer.valueOf(pitchName.substring(pitchName.lastIndexOf("_") + 1)),
-                            pitch.OCTAVE.NUMBER
+                    pitch.OCTAVE.NUMBER
             );
         }
     }
@@ -66,8 +65,8 @@ public class TestPitch {
 
     @Test
     public void isDiatonicToIntervalSet() throws Exception {
-        Scale cMajor = new Scale(PitchClass.C, ScaleType.MAJOR),
-                dMajor = new Scale(PitchClass.D, ScaleType.MAJOR);
+        Scale cMajor = new Scale(PitchClass.C, "Major"),
+                dMajor = new Scale(PitchClass.D, "Major");
 
         Chord cMaj = new Chord(PitchClass.C, ChordType.MAJOR),
                 dMaj = new Chord(PitchClass.D, ChordType.MAJOR);

@@ -49,6 +49,22 @@ public final class Chord extends NonSerialIntervalSet
     }
 
     @Override
+    public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
+        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
+            if (!pitch.isDiatonicTo(keySignature)) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
+        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
+            if (!pitch.isDiatonicTo(intervalSet)) return false;
+        }
+        return true;
+    }
+
+    @Override
     public void transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
         Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
         super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getPitchIntervals());
@@ -82,22 +98,6 @@ public final class Chord extends NonSerialIntervalSet
             name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL
                     + "/" + super.pitchesByOctave.get(lowestDiatonic.OCTAVE)[++inversion].PITCH_CLASS.ENHARMONIC_SPELLING.NAME;
         }
-    }
-
-    @Override
-    public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
-        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
-            if (!pitch.isDiatonicTo(keySignature)) return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
-        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
-            if (!pitch.isDiatonicTo(intervalSet)) return false;
-        }
-        return true;
     }
 
     @Override
