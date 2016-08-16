@@ -121,7 +121,7 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
     }
 
     public static List<String> getSupportedScaleNames() {
-        int numScales = INDEX_TO_SCALE_NAME.size() + 1;
+        int numScales = STARTING_INDEX + INDEX_TO_SCALE_NAME.size();
         List<String> names = new ArrayList<>(numScales);
         for (int i = STARTING_INDEX; i < numScales; i++) {
             names.add(i + ". " + INDEX_TO_SCALE_NAME.get(i));

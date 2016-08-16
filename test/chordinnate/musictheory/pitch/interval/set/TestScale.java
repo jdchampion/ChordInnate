@@ -69,7 +69,7 @@ public class TestScale {
     }
 
     /**
-     * Helper method for testing the returned Pitch values for a given ScaleType.
+     * Helper method for testing the returned Pitch values for a given Scale.
      * @param scale
      * @param expected
      */
