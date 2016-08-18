@@ -1,11 +1,11 @@
 package chordinnate.musictheory.pitch.interval.set;
 
 import chordinnate.musictheory.pitch.interval.Interval;
-import chordinnate.musictheory.pitch.notation.Accidental;
+import chordinnate.musictheory.pitch.Accidental;
 import chordinnate.musictheory.pitch.Diatonic;
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.interval.Octave;
-import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.EnharmonicSpelling;
 
 import java.util.ArrayList;
 import java.util.EnumMap;

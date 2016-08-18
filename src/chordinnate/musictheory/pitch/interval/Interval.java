@@ -2,8 +2,7 @@ package chordinnate.musictheory.pitch.interval;
 
 
 import chordinnate.musictheory.pitch.PitchClass;
-import chordinnate.musictheory.pitch.interval.notation.RomanNumeral;
-import chordinnate.musictheory.pitch.notation.Letter;
+import chordinnate.musictheory.pitch.Letter;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -87,6 +86,12 @@ public class Interval {
     public static final Interval AUGMENTED_SEVENTH_DOWN = new Interval("A7", false);
     public static final Interval AUGMENTED_OCTAVE_DOWN = new Interval("A8", false);
 
+    /**
+     * Special constructor reserved for the "identity" Intervals
+     * (i.e., PERFECT_UNISON, PERFECT_OCTAVE_UP and PERFECT_OCTAVE_DOWN).
+     * @param diatonic
+     * @param dir
+     */
     private Interval(int diatonic, int dir) {
         this.INTERVAL_QUALITY = IntervalQuality.PERFECT;
         this.NUM_SEMITONES = diatonic == 8 ? 12 : 0;

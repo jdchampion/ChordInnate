@@ -36,7 +36,7 @@ public enum IntervalQuality {
         this.ALIASES = aliases;
     }
 
-    public static IntervalQuality getIntervalQuality(String s) {
+    static IntervalQuality getIntervalQuality(String s) {
         for (IntervalQuality i : IntervalQuality.values()) {
             if (i.ALIASES.matcher(s).matches()) return i;
         }

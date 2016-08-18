@@ -1,11 +1,8 @@
 package chordinnate.musictheory.pitch;
 
-import chordinnate.musictheory.pitch.notation.Accidental;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.interval.set.IntervalSet;
-import chordinnate.musictheory.pitch.notation.KeySignature;
-import chordinnate.musictheory.pitch.notation.Letter;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 

@@ -4,11 +4,11 @@ import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.Interval;
-import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
-import chordinnate.musictheory.pitch.notation.KeySignature;
+import chordinnate.musictheory.pitch.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.KeySignature;
 import org.junit.Test;
 
-import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
+import static chordinnate.musictheory.pitch.EnharmonicSpelling.*;
 import static org.junit.Assert.*;
 
 /**

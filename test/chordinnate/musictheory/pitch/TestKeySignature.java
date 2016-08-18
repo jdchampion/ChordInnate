@@ -1,9 +1,9 @@
-package chordinnate.musictheory.pitch.notation;
+package chordinnate.musictheory.pitch;
 
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static chordinnate.musictheory.pitch.notation.KeySignature.*;
+import static chordinnate.musictheory.pitch.KeySignature.*;
 
 /**
  * Created by Joseph on 4/14/16.

@@ -1,9 +1,11 @@
-package chordinnate.musictheory.pitch.notation;
+package chordinnate.musictheory.pitch;
 
+import chordinnate.musictheory.pitch.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.Letter;
 import org.junit.Test;
 
-import static chordinnate.musictheory.pitch.notation.Accidental.*;
-import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
+import static chordinnate.musictheory.pitch.Accidental.*;
+import static chordinnate.musictheory.pitch.EnharmonicSpelling.*;
 import static org.junit.Assert.*;
 
 /**

@@ -1,11 +1,9 @@
 package chordinnate.musictheory.pitch.interval;
 
 
-import chordinnate.musictheory.pitch.interval.notation.Degree;
-
 import java.util.EnumMap;
 
-import static chordinnate.musictheory.pitch.interval.notation.Degree.*;
+import static chordinnate.musictheory.pitch.interval.Degree.*;
 
 /**
  * Created by Joseph on 8/16/16.

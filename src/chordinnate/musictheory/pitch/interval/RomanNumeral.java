@@ -1,9 +1,9 @@
-package chordinnate.musictheory.pitch.interval.notation;
+package chordinnate.musictheory.pitch.interval;
 
 /**
  * Created by Joseph on 4/14/16.
  */
-public enum RomanNumeral {
+enum RomanNumeral {
     I {
         @Override
         public String toString() {

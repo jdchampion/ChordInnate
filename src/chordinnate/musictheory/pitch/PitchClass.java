@@ -1,10 +1,7 @@
 package chordinnate.musictheory.pitch;
 
-import chordinnate.musictheory.pitch.notation.Accidental;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.set.IntervalSet;
-import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
-import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
