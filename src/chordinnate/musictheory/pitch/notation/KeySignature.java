@@ -1,9 +1,11 @@
 package chordinnate.musictheory.pitch.notation;
 
+import chordinnate.musictheory.pitch.PitchClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
@@ -150,6 +152,15 @@ public enum KeySignature {
             RELATIVE_KEY_SIGNATURES.put(NO_KEY_SIGNATURE, NO_KEY_SIGNATURE);
         }
 
+    private static final Map<Integer, Accidental> SEMITONE_TO_ACCIDENTAL = new HashMap<>(12);
+        static {
+            for (PitchClass pitchClass : PitchClass.values()) {
+                if (Math.abs(pitchClass.ENHARMONIC_SPELLING.ACCIDENTAL.SEMITONE_MODIFIER) < 2) {
+                    SEMITONE_TO_ACCIDENTAL.put(pitchClass.BASE_MIDI_VALUE, pitchClass.ENHARMONIC_SPELLING.ACCIDENTAL);
+                }
+            }
+        }
+
     KeySignature(EnharmonicSpelling key, KeySignatureType keySignatureType, EnharmonicSpelling... signature) {
         this.KEY = key;
         this.KEY_SIGNATURE_TYPE = keySignatureType;
@@ -164,6 +175,10 @@ public enum KeySignature {
         }
 
         return false;
+    }
+
+    public static KeySignature majorKeyOf(@NotNull EnharmonicSpelling root) {
+        return KeySignature.valueOf(root.name() + "_MAJOR");
     }
 
     public KeySignature getRelativeMajor() {

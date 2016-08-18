@@ -3,7 +3,7 @@ package chordinnate.musictheory.pitch.interval.set;
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.interval.Octave;
-import chordinnate.musictheory.pitch.interval.PitchInterval;
+import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
 import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.junit.Test;
@@ -27,11 +27,11 @@ public class TestChord {
     }
 
     @Test
-    public void transposeToPitchInterval() throws Exception {
+    public void transposeToInterval() throws Exception {
         Chord transposed = new Chord(C, ChordType.MAJOR);
-        transposed.transposeTo(PitchInterval.MAJOR_SECOND, true);
+        transposed.transposeTo(Interval.MAJOR_SECOND_UP);
         verifyChord(transposed, D, F_SHARP, A);
-        transposed.transposeTo(PitchInterval.MAJOR_SECOND, false);
+        transposed.transposeTo(Interval.MAJOR_SECOND_DOWN);
         verifyChord(transposed, C, E, G);
     }
 

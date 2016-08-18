@@ -2,8 +2,8 @@ package chordinnate.musictheory.pitch.interval.set;
 
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
+import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.interval.Octave;
-import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
 import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +31,7 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
 
     private static final int STARTING_INDEX = 1;
     private static Map<Integer, String> INDEX_TO_SCALE_NAME;
-    private static Map<String, PitchInterval[]> SCALE_NAME_TO_PITCH_INTERVALS;
+    private static Map<String, Interval[]> SCALE_NAME_TO_PITCH_INTERVALS;
     private static Map<String, String> SCALE_NAME_TO_ORIGIN;
 
     private static Connection connection;
@@ -53,9 +53,9 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
             while (resultSet.next()) {
                 String name = resultSet.getString("Name");
                 String[] intervals = resultSet.getString("Intervals").split(", ");
-                PitchInterval[] pitchIntervals = new PitchInterval[intervals.length];
+                Interval[] pitchIntervals = new Interval[intervals.length];
                 for (int i = 0; i < pitchIntervals.length; i++) {
-                    pitchIntervals[i] = PitchInterval.valueOf(intervals[i]);
+                    pitchIntervals[i] = new Interval(intervals[i], true); // TODO: change this to use a static final Interval
                 }
                 String origin = resultSet.getString("Origin");
                 INDEX_TO_SCALE_NAME.put(index, name);
@@ -71,16 +71,16 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
         }
     }
 
-    private PitchInterval[] getPitchIntervals(String name) {
+    private Interval[] getIntervals(String name) {
         // Return a copy of the array (to protect against mutation)
-        PitchInterval[] source = SCALE_NAME_TO_PITCH_INTERVALS.get(name);
-        PitchInterval[] pitchIntervals = new PitchInterval[source.length];
+        Interval[] source = SCALE_NAME_TO_PITCH_INTERVALS.get(name);
+        Interval[] pitchIntervals = new Interval[source.length];
         System.arraycopy(source, 0, pitchIntervals, 0, source.length);
         return pitchIntervals;
     }
 
     public Scale(@NotNull EnharmonicSpelling root, @NotNull String scaleTypeName) {
-        super.commonInitializations(root, getPitchIntervals(scaleTypeName));
+        super.commonInitializations(root, getIntervals(scaleTypeName));
         this.typeName = scaleTypeName;
         this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
         this.origin = SCALE_NAME_TO_ORIGIN.get(typeName);
@@ -107,16 +107,16 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
     }
 
     @Override
-    public void transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
-        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getPitchIntervals(typeName));
+    public void transposeTo(@NotNull Interval pitchInterval) {
+        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval);
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getIntervals(typeName));
         this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
     }
 
     @Override
     public void transposeTo(@NotNull PitchClass pitchClass) {
         Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchClass, lowestDiatonic.OCTAVE);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getPitchIntervals(typeName));
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getIntervals(typeName));
         this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
     }
 

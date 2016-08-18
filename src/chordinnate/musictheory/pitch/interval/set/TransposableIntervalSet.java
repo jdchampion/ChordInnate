@@ -2,17 +2,16 @@ package chordinnate.musictheory.pitch.interval.set;
 
 import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.Transposable;
-import chordinnate.musictheory.pitch.interval.PitchInterval;
+import chordinnate.musictheory.pitch.interval.Interval;
 import org.jetbrains.annotations.NotNull;
 
 interface TransposableIntervalSet extends Transposable {
     /**
-     * Performs a transposition to the specified PitchInterval in the specified direction,
+     * Performs a transposition to the specified Interval,
      * with side effects to the IntervalSet.
      * @param pitchInterval the desired PitchInterval to transpose to
-     * @param direction the direction of transposition (true = up; false = down)
      */
-    void transposeTo(@NotNull PitchInterval pitchInterval, boolean direction);
+    void transposeTo(@NotNull Interval pitchInterval);
 
     /**
      * Performs a transposition to the specified PitchClass,

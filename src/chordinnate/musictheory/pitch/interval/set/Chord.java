@@ -2,8 +2,8 @@ package chordinnate.musictheory.pitch.interval.set;
 
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
+import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.interval.Octave;
-import chordinnate.musictheory.pitch.interval.PitchInterval;
 import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
 import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.jetbrains.annotations.NotNull;
@@ -65,8 +65,8 @@ public final class Chord extends NonSerialIntervalSet
     }
 
     @Override
-    public void transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
-        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
+    public void transposeTo(@NotNull Interval pitchInterval) {
+        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval);
         super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getPitchIntervals());
         this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
     }
@@ -91,7 +91,7 @@ public final class Chord extends NonSerialIntervalSet
                 Octave nextOctave = octave.getNext();
                 if (nextOctave != null) {
                     invertedPitchesByOctave.get(octave)[inversion] = invertedPitchesByOctave
-                            .get(octave)[inversion].transposeTo(octave.getNext());
+                            .get(octave)[inversion].transposeTo(Interval.PERFECT_OCTAVE_UP);
                 }
             }
             // Append the bass note to the name
