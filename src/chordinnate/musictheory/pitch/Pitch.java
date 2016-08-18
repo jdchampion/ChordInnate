@@ -1,11 +1,8 @@
 package chordinnate.musictheory.pitch;
 
-import chordinnate.musictheory.pitch.notation.Accidental;
 import chordinnate.musictheory.pitch.interval.Octave;
-import chordinnate.musictheory.pitch.interval.PitchInterval;
+import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.interval.set.IntervalSet;
-import chordinnate.musictheory.pitch.notation.KeySignature;
-import chordinnate.musictheory.pitch.notation.Letter;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.NotNull;
 
@@ -473,7 +470,7 @@ public enum Pitch
     /*
      * This array is used exclusively for the purpose of
      * grouping all enharmonic PitchClasses, which simplifies
-     * the algorithm in transposeTo(PitchInterval).
+     * the algorithm in transposeTo(Interval).
      */
     private static final PitchClass[][] PITCH_CLASS_CANDIDATE_REFERENCE =
             {
@@ -519,32 +516,31 @@ public enum Pitch
     }
 
     @Override
-    public boolean isTransposableTo(@NotNull PitchInterval pitchInterval, boolean direction) {
-        return direction
+    public boolean isTransposableTo(@NotNull Interval pitchInterval) {
+        return pitchInterval.DIRECTION
                 ? ABSOLUTE_PITCH + pitchInterval.NUM_SEMITONES <= 127
                 : ABSOLUTE_PITCH - pitchInterval.NUM_SEMITONES >= 0;
     }
 
     @Nullable
     @Override
-    public Pitch transposeTo(@NotNull PitchInterval pitchInterval, boolean direction) {
-        if (isTransposableTo(pitchInterval, direction)) {
+    public Pitch transposeTo(@NotNull Interval pitchInterval) {
+        boolean direction = pitchInterval.DIRECTION;
+        if (isTransposableTo(pitchInterval)) {
 
             // The returned Pitch will contain this PitchClass
             PitchClass transposedPitchClass = null;
 
             // 1. Get the group of enharmonic PitchClasses. This is our candidate set.
             int idx = PITCH_CLASS.BASE_MIDI_VALUE;
-            int enharmonicIndex = direction
-                    ? (idx + pitchInterval.NUM_SEMITONES) % 12
-                    : (idx + 12 - pitchInterval.NUM_SEMITONES) % 12;
+            int enharmonicIndex = (12 + (idx + pitchInterval.NUM_SEMITONES) % 12) % 12;
             PitchClass[] candidates = PITCH_CLASS_CANDIDATE_REFERENCE[enharmonicIndex];
 
             // 2. Determine the expected letter of the returned Pitch. It may or may not exist in the candidate set.
             idx = PITCH_CLASS.ENHARMONIC_SPELLING.LETTER.ordinal();
             int expectedLetterIndex = direction
-                    ? (idx + (pitchInterval.NUMBER - 1)) % 7
-                    : (idx + (7 - (pitchInterval.NUMBER - 1))) % 7;
+                    ? (idx + (pitchInterval.COMPOUND_DIATONIC_NUMBER - 1)) % 7
+                    : (idx + (7 - (pitchInterval.COMPOUND_DIATONIC_NUMBER - 1))) % 7;
             Letter expectedLetter = Letter.values()[expectedLetterIndex];
 
             // 3. Choose a PitchClass from the candidate set.
@@ -588,7 +584,7 @@ public enum Pitch
              */
             Pitch candidate = Pitch.valueOf(transposedPitchClass.ENHARMONIC_SPELLING.apply(Accidental.NONE).name() + "_" + OCTAVE.NUMBER);
             if (candidate.PITCH_CLASS.equals(PITCH_CLASS) || candidate.ABSOLUTE_PITCH == ABSOLUTE_PITCH) {
-                return VALUES[direction ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
+                return VALUES[direction && transposedPitchClass.BASE_MIDI_VALUE <= this.PITCH_CLASS.BASE_MIDI_VALUE ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
             }
             else if (PITCH_CLASS.BASE_MIDI_VALUE < transposedPitchClass.BASE_MIDI_VALUE) {
                 return direction ? candidate : VALUES[candidate.ordinal() - 1];
@@ -603,18 +599,6 @@ public enum Pitch
         }
     }
 
-    @Override
-    public boolean isTransposableTo(@NotNull Octave octave) {
-        return PITCH_CLASS.OCTAVE_RANGE.MIDI_START >= octave.MIDI_START;
-    }
-
-    @Nullable
-    @Override
-    public Pitch transposeTo(@NotNull Octave octave) {
-        return isTransposableTo(octave)
-                ? Pitch.valueOf(PITCH_CLASS.name() + "_" + octave.NUMBER)
-                : null;
-    }
 
     @Override
     public boolean isTransposableTo(@NotNull PitchClass pitchClass, @NotNull Octave octave) {

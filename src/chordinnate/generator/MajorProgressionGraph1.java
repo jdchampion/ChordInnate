@@ -1,8 +1,8 @@
 package chordinnate.generator;
 
-import chordinnate.musictheory.pitch.interval.notation.NashvilleNumber;
+import chordinnate.musictheory.pitch.interval.NashvilleNumber;
 
-import static chordinnate.musictheory.pitch.interval.notation.NashvilleNumber.*;
+import static chordinnate.musictheory.pitch.interval.NashvilleNumber.*;
 
 /**
  * Created by Joseph on 1/12/16.

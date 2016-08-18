@@ -3,12 +3,12 @@ package chordinnate.musictheory.pitch.interval.set;
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.PitchClass;
 import chordinnate.musictheory.pitch.interval.Octave;
-import chordinnate.musictheory.pitch.interval.PitchInterval;
-import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
-import chordinnate.musictheory.pitch.notation.KeySignature;
+import chordinnate.musictheory.pitch.interval.Interval;
+import chordinnate.musictheory.pitch.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.KeySignature;
 import org.junit.Test;
 
-import static chordinnate.musictheory.pitch.notation.EnharmonicSpelling.*;
+import static chordinnate.musictheory.pitch.EnharmonicSpelling.*;
 import static org.junit.Assert.*;
 
 /**
@@ -30,11 +30,11 @@ public class TestScale {
     }
 
     @Test
-    public void transposeToPitchInterval() throws Exception {
+    public void transposeToInterval() throws Exception {
         Scale transposed = new Scale(C, "Major");
-        transposed.transposeTo(PitchInterval.MAJOR_SECOND, true);
+        transposed.transposeTo(Interval.MAJOR_SECOND_UP);
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
-        transposed.transposeTo(PitchInterval.MAJOR_SECOND, false);
+        transposed.transposeTo(Interval.MAJOR_SECOND_DOWN);
         verifyScale(transposed, C, D, E, F, G, A, B);
     }
 

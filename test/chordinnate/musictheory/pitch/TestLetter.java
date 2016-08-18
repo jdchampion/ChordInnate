@@ -1,5 +1,6 @@
-package chordinnate.musictheory.pitch.notation;
+package chordinnate.musictheory.pitch;
 
+import chordinnate.musictheory.pitch.Letter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -3,7 +3,6 @@ package chordinnate.musictheory.pitch;
 import chordinnate.musictheory.pitch.interval.set.Chord;
 import chordinnate.musictheory.pitch.interval.set.ChordType;
 import chordinnate.musictheory.pitch.interval.set.Scale;
-import chordinnate.musictheory.pitch.notation.KeySignature;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

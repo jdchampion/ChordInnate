@@ -1,62 +1,60 @@
-package chordinnate.musictheory.pitch.notation;
+package chordinnate.musictheory.pitch;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static chordinnate.musictheory.pitch.notation.Accidental.*;
 
 /**
  * Created by Joseph on 4/14/16.
  */
 public enum EnharmonicSpelling {
-    C_DOUBLE_FLAT(Letter.C, DOUBLE_FLAT),
-    C_FLAT(Letter.C, FLAT),
-    C_NATURAL(Letter.C, NATURAL),
-    C(Letter.C, NONE),
-    C_SHARP(Letter.C, SHARP),
-    C_DOUBLE_SHARP(Letter.C, DOUBLE_SHARP),
+    C_DOUBLE_FLAT(Letter.C, Accidental.DOUBLE_FLAT),
+    C_FLAT(Letter.C, Accidental.FLAT),
+    C_NATURAL(Letter.C, Accidental.NATURAL),
+    C(Letter.C, Accidental.NONE),
+    C_SHARP(Letter.C, Accidental.SHARP),
+    C_DOUBLE_SHARP(Letter.C, Accidental.DOUBLE_SHARP),
 
-    D_DOUBLE_FLAT(Letter.D, DOUBLE_FLAT),
-    D_FLAT(Letter.D, FLAT),
-    D_NATURAL(Letter.D, NATURAL),
-    D(Letter.D, NONE),
-    D_SHARP(Letter.D, SHARP),
-    D_DOUBLE_SHARP(Letter.D, DOUBLE_SHARP),
+    D_DOUBLE_FLAT(Letter.D, Accidental.DOUBLE_FLAT),
+    D_FLAT(Letter.D, Accidental.FLAT),
+    D_NATURAL(Letter.D, Accidental.NATURAL),
+    D(Letter.D, Accidental.NONE),
+    D_SHARP(Letter.D, Accidental.SHARP),
+    D_DOUBLE_SHARP(Letter.D, Accidental.DOUBLE_SHARP),
 
-    E_DOUBLE_FLAT(Letter.E, DOUBLE_FLAT),
-    E_FLAT(Letter.E, FLAT),
-    E_NATURAL(Letter.E, NATURAL),
-    E(Letter.E, NONE),
-    E_SHARP(Letter.E, SHARP),
-    E_DOUBLE_SHARP(Letter.E, DOUBLE_SHARP),
+    E_DOUBLE_FLAT(Letter.E, Accidental.DOUBLE_FLAT),
+    E_FLAT(Letter.E, Accidental.FLAT),
+    E_NATURAL(Letter.E, Accidental.NATURAL),
+    E(Letter.E, Accidental.NONE),
+    E_SHARP(Letter.E, Accidental.SHARP),
+    E_DOUBLE_SHARP(Letter.E, Accidental.DOUBLE_SHARP),
 
-    F_DOUBLE_FLAT(Letter.F, DOUBLE_FLAT),
-    F_FLAT(Letter.F, FLAT),
-    F_NATURAL(Letter.F, NATURAL),
-    F(Letter.F, NONE),
-    F_SHARP(Letter.F, SHARP),
-    F_DOUBLE_SHARP(Letter.F, DOUBLE_SHARP),
+    F_DOUBLE_FLAT(Letter.F, Accidental.DOUBLE_FLAT),
+    F_FLAT(Letter.F, Accidental.FLAT),
+    F_NATURAL(Letter.F, Accidental.NATURAL),
+    F(Letter.F, Accidental.NONE),
+    F_SHARP(Letter.F, Accidental.SHARP),
+    F_DOUBLE_SHARP(Letter.F, Accidental.DOUBLE_SHARP),
 
-    G_DOUBLE_FLAT(Letter.G, DOUBLE_FLAT),
-    G_FLAT(Letter.G, FLAT),
-    G_NATURAL(Letter.G, NATURAL),
-    G(Letter.G, NONE),
-    G_SHARP(Letter.G, SHARP),
-    G_DOUBLE_SHARP(Letter.G, DOUBLE_SHARP),
+    G_DOUBLE_FLAT(Letter.G, Accidental.DOUBLE_FLAT),
+    G_FLAT(Letter.G, Accidental.FLAT),
+    G_NATURAL(Letter.G, Accidental.NATURAL),
+    G(Letter.G, Accidental.NONE),
+    G_SHARP(Letter.G, Accidental.SHARP),
+    G_DOUBLE_SHARP(Letter.G, Accidental.DOUBLE_SHARP),
 
-    A_DOUBLE_FLAT(Letter.A, DOUBLE_FLAT),
-    A_FLAT(Letter.A, FLAT),
-    A_NATURAL(Letter.A, NATURAL),
-    A(Letter.A, NONE),
-    A_SHARP(Letter.A, SHARP),
-    A_DOUBLE_SHARP(Letter.A, DOUBLE_SHARP),
+    A_DOUBLE_FLAT(Letter.A, Accidental.DOUBLE_FLAT),
+    A_FLAT(Letter.A, Accidental.FLAT),
+    A_NATURAL(Letter.A, Accidental.NATURAL),
+    A(Letter.A, Accidental.NONE),
+    A_SHARP(Letter.A, Accidental.SHARP),
+    A_DOUBLE_SHARP(Letter.A, Accidental.DOUBLE_SHARP),
 
-    B_DOUBLE_FLAT(Letter.B, DOUBLE_FLAT),
-    B_FLAT(Letter.B, FLAT),
-    B_NATURAL(Letter.B, NATURAL),
-    B(Letter.B, NONE),
-    B_SHARP(Letter.B, SHARP),
-    B_DOUBLE_SHARP(Letter.B, DOUBLE_SHARP),
+    B_DOUBLE_FLAT(Letter.B, Accidental.DOUBLE_FLAT),
+    B_FLAT(Letter.B, Accidental.FLAT),
+    B_NATURAL(Letter.B, Accidental.NATURAL),
+    B(Letter.B, Accidental.NONE),
+    B_SHARP(Letter.B, Accidental.SHARP),
+    B_DOUBLE_SHARP(Letter.B, Accidental.DOUBLE_SHARP),
     ;
 
 
@@ -96,25 +94,25 @@ public enum EnharmonicSpelling {
         EnharmonicSpelling[] enharmonicSpellings = new EnharmonicSpelling[6];
         if (this.equals(F_DOUBLE_FLAT) || this.equals(C_DOUBLE_FLAT)) {
             // Unique items are the first two elements. Rest follow the same general pattern for DOUBLE_FLAT
-            enharmonicSpellings[0] = getHelper(-2, FLAT);
-            enharmonicSpellings[1] = getHelper(-1, DOUBLE_FLAT);
+            enharmonicSpellings[0] = getHelper(-2, Accidental.FLAT);
+            enharmonicSpellings[1] = getHelper(-1, Accidental.DOUBLE_FLAT);
             getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
         }
         else if (this.equals(F_FLAT) || this.equals(C_FLAT)) {
             // Unique item is the first element. Rest follow the same general pattern for FLAT
-            enharmonicSpellings[0] = getHelper(-1, DOUBLE_FLAT);
+            enharmonicSpellings[0] = getHelper(-1, Accidental.DOUBLE_FLAT);
             getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
         }
         else if (this.equals(B_SHARP) || this.equals(E_SHARP)) {
             // Unique items are the last two elements. Rest follow the same general pattern for SHARP
-            enharmonicSpellings[4] = getHelper(0, DOUBLE_SHARP);
-            enharmonicSpellings[5] = getHelper(1, DOUBLE_SHARP);
+            enharmonicSpellings[4] = getHelper(0, Accidental.DOUBLE_SHARP);
+            enharmonicSpellings[5] = getHelper(1, Accidental.DOUBLE_SHARP);
             getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
         }
         else if (this.equals(B_DOUBLE_SHARP) || this.equals(E_DOUBLE_SHARP)) {
             // Unique items are the last two elements. Rest follow the same general pattern for DOUBLE_SHARP
-            enharmonicSpellings[4] = getHelper(1, DOUBLE_SHARP);
-            enharmonicSpellings[5] = getHelper(2, SHARP);
+            enharmonicSpellings[4] = getHelper(1, Accidental.DOUBLE_SHARP);
+            enharmonicSpellings[5] = getHelper(2, Accidental.SHARP);
             getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
         }
         else {
@@ -133,7 +131,7 @@ public enum EnharmonicSpelling {
      * @return the EnharmonicSpelling matching the two properties in the above description
      */
     private EnharmonicSpelling getHelper(int vector, Accidental accidental) {
-        String enumName = LETTER.getLetterByVectorTraversal(vector).name() + ((accidental.equals(NONE)) ? "" : "_" + accidental.name());
+        String enumName = LETTER.getLetterByVectorTraversal(vector).name() + ((accidental.equals(Accidental.NONE)) ? "" : "_" + accidental.name());
         return EnharmonicSpelling.valueOf(enumName);
     }
 
@@ -146,12 +144,12 @@ public enum EnharmonicSpelling {
     private void getEnharmonicTransitionsHelper(Accidental accidental, EnharmonicSpelling[] enharmonicSpellings) {
         // Generic patterns for enharmonic transitions. One of these arrays will be chosen to read from
         EnharmonicSpelling[]
-                genericDoubleFlatPattern = {getHelper(-1, DOUBLE_FLAT), getHelper(-1, FLAT), this, this, getHelper(0, FLAT), getHelper(0, NATURAL)},
-                genericFlatPattern = {getHelper(-1, FLAT), getHelper(0, DOUBLE_FLAT), this, this, getHelper(0, NATURAL), getHelper(0, SHARP)},
-                genericNaturalPattern = {getHelper(0, DOUBLE_FLAT), getHelper(0, FLAT), this, getHelper(0, NONE), getHelper(0, SHARP), getHelper(0, DOUBLE_SHARP)},
-                genericNonAccidentalPattern = {getHelper(0, DOUBLE_FLAT), getHelper(0, FLAT), getHelper(0, NATURAL), this, getHelper(0, SHARP), getHelper(0, DOUBLE_SHARP)},
-                genericSharpPattern = {getHelper(0, FLAT), getHelper(0, NATURAL), this, this, getHelper(0, DOUBLE_SHARP), getHelper(1, SHARP)},
-                genericDoubleSharpPattern = {getHelper(0, NATURAL), getHelper(0, SHARP), this, this, getHelper(1, SHARP), getHelper(1, DOUBLE_SHARP)};
+                genericDoubleFlatPattern = {getHelper(-1, Accidental.DOUBLE_FLAT), getHelper(-1, Accidental.FLAT), this, this, getHelper(0, Accidental.FLAT), getHelper(0, Accidental.NATURAL)},
+                genericFlatPattern = {getHelper(-1, Accidental.FLAT), getHelper(0, Accidental.DOUBLE_FLAT), this, this, getHelper(0, Accidental.NATURAL), getHelper(0, Accidental.SHARP)},
+                genericNaturalPattern = {getHelper(0, Accidental.DOUBLE_FLAT), getHelper(0, Accidental.FLAT), this, getHelper(0, Accidental.NONE), getHelper(0, Accidental.SHARP), getHelper(0, Accidental.DOUBLE_SHARP)},
+                genericNonAccidentalPattern = {getHelper(0, Accidental.DOUBLE_FLAT), getHelper(0, Accidental.FLAT), getHelper(0, Accidental.NATURAL), this, getHelper(0, Accidental.SHARP), getHelper(0, Accidental.DOUBLE_SHARP)},
+                genericSharpPattern = {getHelper(0, Accidental.FLAT), getHelper(0, Accidental.NATURAL), this, this, getHelper(0, Accidental.DOUBLE_SHARP), getHelper(1, Accidental.SHARP)},
+                genericDoubleSharpPattern = {getHelper(0, Accidental.NATURAL), getHelper(0, Accidental.SHARP), this, this, getHelper(1, Accidental.SHARP), getHelper(1, Accidental.DOUBLE_SHARP)};
 
         // Choose the array and begin reading
         switch (accidental) {

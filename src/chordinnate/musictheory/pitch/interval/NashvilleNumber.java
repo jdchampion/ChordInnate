@@ -1,8 +1,8 @@
-package chordinnate.musictheory.pitch.interval.notation;
+package chordinnate.musictheory.pitch.interval;
 
-import chordinnate.musictheory.pitch.notation.Accidental;
+import chordinnate.musictheory.pitch.Accidental;
 
-import static chordinnate.musictheory.pitch.notation.Accidental.*;
+import static chordinnate.musictheory.pitch.Accidental.*;
 
 /**
  * Created by Joseph on 5/20/16.

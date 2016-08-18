@@ -1,11 +1,11 @@
 package chordinnate.musictheory.pitch.interval.set;
 
-import chordinnate.musictheory.pitch.notation.Accidental;
+import chordinnate.musictheory.pitch.interval.Interval;
+import chordinnate.musictheory.pitch.Accidental;
 import chordinnate.musictheory.pitch.Diatonic;
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.pitch.interval.Octave;
-import chordinnate.musictheory.pitch.interval.PitchInterval;
-import chordinnate.musictheory.pitch.notation.EnharmonicSpelling;
+import chordinnate.musictheory.pitch.EnharmonicSpelling;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -18,18 +18,19 @@ public abstract class IntervalSet implements Diatonic {
     Pitch lowestDiatonic, highestDiatonic;
     Octave maxPlayableOctave;
 
-    void commonInitializations(EnharmonicSpelling root, PitchInterval[] pitchIntervals) {
+    void commonInitializations(EnharmonicSpelling root, Interval[] pitchIntervals) {
         this.pitchesByOctave = new EnumMap<>(Octave.class);
         this.lowestDiatonic = Pitch.valueOf(root.apply(Accidental.NONE).name() + "_0");
         Pitch lastKnownValidPitch = lowestDiatonic;
+        Pitch octaveBegin = lowestDiatonic.transposeTo(lowestDiatonic.PITCH_CLASS, Octave.OCTAVE_0);
         for (Octave octave : Octave.values()) {
             ArrayList<Pitch> pitchesAtCurrentOctave = new ArrayList<>(pitchIntervals.length);
-            if (lowestDiatonic.isTransposableTo(octave)) {
-                Pitch lowestDiatonicAtOctave = lowestDiatonic.transposeTo(octave);
-                pitchesAtCurrentOctave.add(lowestDiatonicAtOctave);
-                for (int i = 1; i < pitchIntervals.length; i++) {
-                    if (lowestDiatonicAtOctave.isTransposableTo(pitchIntervals[i], true)) {
-                        lastKnownValidPitch = lowestDiatonicAtOctave.transposeTo(pitchIntervals[i], true);
+            if (lowestDiatonic.isTransposableTo(Interval.PERFECT_OCTAVE_UP)) {
+                Pitch lowestDiatonicAtOctave = octaveBegin.transposeTo(lowestDiatonic.PITCH_CLASS, octave);
+                if (lowestDiatonicAtOctave != null) pitchesAtCurrentOctave.add(lowestDiatonicAtOctave);
+                for (int i = 1; i < pitchIntervals.length && lowestDiatonicAtOctave != null; i++) {
+                    if (lowestDiatonicAtOctave.isTransposableTo(pitchIntervals[i])) {
+                        lastKnownValidPitch = lowestDiatonicAtOctave.transposeTo(pitchIntervals[i]);
                         pitchesAtCurrentOctave.add(lastKnownValidPitch);
                     }
                 }
