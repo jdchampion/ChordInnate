@@ -7,7 +7,6 @@ import org.junit.rules.ExpectedException;
 
 import static chordinnate.musictheory.pitch.interval.Interval.*;
 import static org.junit.Assert.*;
-import static chordinnate.musictheory.pitch.interval.IntervalQuality.*;
 
 /**
  * Created by Joseph on 4/14/16.
@@ -52,32 +51,32 @@ public class TestInterval {
         assertEquals(12, AUGMENTED_SEVENTH.NUM_SEMITONES);
 
         // Arbitrary check on dynamic Intervals
-        assertEquals(12, new Interval("P8").NUM_SEMITONES);
-        assertEquals(12, new Interval("d9").NUM_SEMITONES);
-        assertEquals(13, new Interval("m9").NUM_SEMITONES);
-        assertEquals(13, new Interval("A8").NUM_SEMITONES);
-        assertEquals(14, new Interval("M9").NUM_SEMITONES);
-        assertEquals(14, new Interval("D10").NUM_SEMITONES);
-        assertEquals(15, new Interval("m. 10").NUM_SEMITONES);
-        assertEquals(15, new Interval("aug.9").NUM_SEMITONES);
-        assertEquals(16, new Interval("Major10").NUM_SEMITONES);
-        assertEquals(16, new Interval("d11").NUM_SEMITONES);
-        assertEquals(17, new Interval("Perfect 11").NUM_SEMITONES);
-        assertEquals(17, new Interval("aug 10").NUM_SEMITONES);
-        assertEquals(18, new Interval("dim. 12").NUM_SEMITONES);
-        assertEquals(18, new Interval("augmented 11").NUM_SEMITONES);
-        assertEquals(19, new Interval("perf. 12").NUM_SEMITONES);
-        assertEquals(19, new Interval("d.13").NUM_SEMITONES);
-        assertEquals(20, new Interval("Min13").NUM_SEMITONES);
-        assertEquals(20, new Interval("Aug.12").NUM_SEMITONES);
-        assertEquals(21, new Interval("Major 13").NUM_SEMITONES);
-        assertEquals(21, new Interval("D 14").NUM_SEMITONES);
-        assertEquals(22, new Interval("Minor 14").NUM_SEMITONES);
-        assertEquals(22, new Interval("Augmented13").NUM_SEMITONES);
-        assertEquals(23, new Interval("maj14").NUM_SEMITONES);
-        assertEquals(23, new Interval("d.15").NUM_SEMITONES);
-        assertEquals(24, new Interval("Perfect 15").NUM_SEMITONES);
-        assertEquals(24, new Interval("a14").NUM_SEMITONES);
+        assertEquals(12, Interval.withShortName("P8").NUM_SEMITONES);
+        assertEquals(12, Interval.withShortName("d9").NUM_SEMITONES);
+        assertEquals(13, Interval.withShortName("m9").NUM_SEMITONES);
+        assertEquals(13, Interval.withShortName("A8").NUM_SEMITONES);
+        assertEquals(14, Interval.withShortName("M9").NUM_SEMITONES);
+        assertEquals(14, Interval.withShortName("D10").NUM_SEMITONES);
+        assertEquals(15, Interval.withShortName("m. 10").NUM_SEMITONES);
+        assertEquals(15, Interval.withShortName("aug.9").NUM_SEMITONES);
+        assertEquals(16, Interval.withShortName("Major10").NUM_SEMITONES);
+        assertEquals(16, Interval.withShortName("d11").NUM_SEMITONES);
+        assertEquals(17, Interval.withShortName("Perfect 11").NUM_SEMITONES);
+        assertEquals(17, Interval.withShortName("aug 10").NUM_SEMITONES);
+        assertEquals(18, Interval.withShortName("dim. 12").NUM_SEMITONES);
+        assertEquals(18, Interval.withShortName("augmented 11").NUM_SEMITONES);
+        assertEquals(19, Interval.withShortName("perf. 12").NUM_SEMITONES);
+        assertEquals(19, Interval.withShortName("d.13").NUM_SEMITONES);
+        assertEquals(20, Interval.withShortName("Min13").NUM_SEMITONES);
+        assertEquals(20, Interval.withShortName("Aug.12").NUM_SEMITONES);
+        assertEquals(21, Interval.withShortName("Major 13").NUM_SEMITONES);
+        assertEquals(21, Interval.withShortName("D 14").NUM_SEMITONES);
+        assertEquals(22, Interval.withShortName("Minor 14").NUM_SEMITONES);
+        assertEquals(22, Interval.withShortName("Augmented13").NUM_SEMITONES);
+        assertEquals(23, Interval.withShortName("maj14").NUM_SEMITONES);
+        assertEquals(23, Interval.withShortName("d.15").NUM_SEMITONES);
+        assertEquals(24, Interval.withShortName("Perfect 15").NUM_SEMITONES);
+        assertEquals(24, Interval.withShortName("a14").NUM_SEMITONES);
     }
 
     @Test
@@ -149,90 +148,32 @@ public class TestInterval {
         assertEquals(7, AUGMENTED_SEVENTH.COMPOUND_DIATONIC_NUMBER);
 
         // Arbitrary check on dynamic Intervals
-        assertEquals(8, new Interval("P8").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(9, new Interval("d9").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(9, new Interval("m9").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(8, new Interval("A8").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(9, new Interval("M9").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(10, new Interval("D10").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(10, new Interval("m. 10").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(9, new Interval("aug.9").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(10, new Interval("Major10").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(11, new Interval("d11").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(11, new Interval("Perfect 11").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(10, new Interval("aug 10").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(12, new Interval("dim. 12").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(11, new Interval("augmented 11").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(12, new Interval("perf. 12").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(13, new Interval("d.13").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(13, new Interval("Min13").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(12, new Interval("Aug.12").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(13, new Interval("Major 13").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(14, new Interval("D 14").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(14, new Interval("Minor 14").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(13, new Interval("Augmented13").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(14, new Interval("maj14").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(15, new Interval("d.15").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(15, new Interval("Perfect 15").COMPOUND_DIATONIC_NUMBER);
-        assertEquals(14, new Interval("a14").COMPOUND_DIATONIC_NUMBER);
-    }
-
-    @Test
-    public void testField_INTERVAL_QUALITY() throws Exception {
-        assertEquals(PERFECT, PERFECT_UNISON.INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, DIMINISHED_SECOND.INTERVAL_QUALITY);
-        assertEquals(MINOR, MINOR_SECOND.INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, AUGMENTED_UNISON.INTERVAL_QUALITY);
-        assertEquals(MAJOR, MAJOR_SECOND.INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, DIMINISHED_THIRD.INTERVAL_QUALITY);
-        assertEquals(MINOR, MINOR_THIRD.INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, AUGMENTED_SECOND.INTERVAL_QUALITY);
-        assertEquals(MAJOR, MAJOR_THIRD.INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, DIMINISHED_FOURTH.INTERVAL_QUALITY);
-        assertEquals(PERFECT, PERFECT_FOURTH.INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, AUGMENTED_THIRD.INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, DIMINISHED_FIFTH.INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, AUGMENTED_FOURTH.INTERVAL_QUALITY);
-        assertEquals(PERFECT, PERFECT_FIFTH.INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, DIMINISHED_SIXTH.INTERVAL_QUALITY);
-        assertEquals(MINOR, MINOR_SIXTH.INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, AUGMENTED_FIFTH.INTERVAL_QUALITY);
-        assertEquals(MAJOR, MAJOR_SIXTH.INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, DIMINISHED_SEVENTH.INTERVAL_QUALITY);
-        assertEquals(MINOR, MINOR_SEVENTH.INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, AUGMENTED_SIXTH.INTERVAL_QUALITY);
-        assertEquals(MAJOR, MAJOR_SEVENTH.INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, DIMINISHED_OCTAVE.INTERVAL_QUALITY);
-        assertEquals(PERFECT, PERFECT_OCTAVE.INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, AUGMENTED_SEVENTH.INTERVAL_QUALITY);
-
-        // Arbitrary check on dynamic Intervals
-        assertEquals(PERFECT, new Interval("P8").INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, new Interval("d9").INTERVAL_QUALITY);
-        assertEquals(MINOR, new Interval("m9").INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, new Interval("A8").INTERVAL_QUALITY);
-        assertEquals(MAJOR, new Interval("M9").INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, new Interval("D10").INTERVAL_QUALITY);
-        assertEquals(MINOR, new Interval("m. 10").INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, new Interval("aug.9").INTERVAL_QUALITY);
-        assertEquals(MAJOR, new Interval("Major10").INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, new Interval("d11").INTERVAL_QUALITY);
-        assertEquals(PERFECT, new Interval("Perfect 11").INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, new Interval("aug 10").INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, new Interval("dim. 12").INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, new Interval("augmented 11").INTERVAL_QUALITY);
-        assertEquals(PERFECT, new Interval("perf. 12").INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, new Interval("d.13").INTERVAL_QUALITY);
-        assertEquals(MINOR, new Interval("Min13").INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, new Interval("Aug.12").INTERVAL_QUALITY);
-        assertEquals(MAJOR, new Interval("Major 13").INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, new Interval("D 14").INTERVAL_QUALITY);
-        assertEquals(MINOR, new Interval("Minor 14").INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, new Interval("Augmented13").INTERVAL_QUALITY);
-        assertEquals(MAJOR, new Interval("maj14").INTERVAL_QUALITY);
-        assertEquals(DIMINISHED, new Interval("d.15").INTERVAL_QUALITY);
-        assertEquals(PERFECT, new Interval("Perfect 15").INTERVAL_QUALITY);
-        assertEquals(AUGMENTED, new Interval("a14").INTERVAL_QUALITY);
+        assertEquals(8, Interval.withShortName("P8").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(9, Interval.withShortName("d9").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(9, Interval.withShortName("m9").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(8, Interval.withShortName("A8").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(9, Interval.withShortName("M9").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(10, Interval.withShortName("D10").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(10, Interval.withShortName("m. 10").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(9, Interval.withShortName("aug.9").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(10, Interval.withShortName("Major10").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(11, Interval.withShortName("d11").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(11, Interval.withShortName("Perfect 11").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(10, Interval.withShortName("aug 10").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(12, Interval.withShortName("dim. 12").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(11, Interval.withShortName("augmented 11").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(12, Interval.withShortName("perf. 12").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(13, Interval.withShortName("d.13").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(13, Interval.withShortName("Min13").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(12, Interval.withShortName("Aug.12").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(13, Interval.withShortName("Major 13").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(14, Interval.withShortName("D 14").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(14, Interval.withShortName("Minor 14").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(13, Interval.withShortName("Augmented13").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(14, Interval.withShortName("maj14").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(15, Interval.withShortName("d.15").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(15, Interval.withShortName("Perfect 15").COMPOUND_DIATONIC_NUMBER);
+        assertEquals(14, Interval.withShortName("a14").COMPOUND_DIATONIC_NUMBER);
     }
 
     @Test
@@ -265,32 +206,32 @@ public class TestInterval {
         assertEquals("P1", PERFECT_OCTAVE.SIMPLE_SHORT_NAME);
 
         // Arbitrary check on dynamic Intervals
-        assertEquals("P1", new Interval("P8").SIMPLE_SHORT_NAME);
-        assertEquals("A1", new Interval("A8").SIMPLE_SHORT_NAME);
-        assertEquals("d2", new Interval("d9").SIMPLE_SHORT_NAME);
-        assertEquals("m2", new Interval("m9").SIMPLE_SHORT_NAME);
-        assertEquals("M2", new Interval("M9").SIMPLE_SHORT_NAME);
-        assertEquals("A2", new Interval("aug.9").SIMPLE_SHORT_NAME);
-        assertEquals("d3", new Interval("D10").SIMPLE_SHORT_NAME);
-        assertEquals("m3", new Interval("m. 10").SIMPLE_SHORT_NAME);
-        assertEquals("M3", new Interval("Major10").SIMPLE_SHORT_NAME);
-        assertEquals("A3", new Interval("aug 10").SIMPLE_SHORT_NAME);
-        assertEquals("d4", new Interval("d11").SIMPLE_SHORT_NAME);
-        assertEquals("P4", new Interval("Perfect 11").SIMPLE_SHORT_NAME);
-        assertEquals("A4", new Interval("augmented 11").SIMPLE_SHORT_NAME);
-        assertEquals("d5", new Interval("dim. 12").SIMPLE_SHORT_NAME);
-        assertEquals("P5", new Interval("perf. 12").SIMPLE_SHORT_NAME);
-        assertEquals("A5", new Interval("Aug.12").SIMPLE_SHORT_NAME);
-        assertEquals("d6", new Interval("d.13").SIMPLE_SHORT_NAME);
-        assertEquals("m6", new Interval("Min13").SIMPLE_SHORT_NAME);
-        assertEquals("M6", new Interval("Major 13").SIMPLE_SHORT_NAME);
-        assertEquals("A6", new Interval("Augmented13").SIMPLE_SHORT_NAME);
-        assertEquals("d7", new Interval("D 14").SIMPLE_SHORT_NAME);
-        assertEquals("m7", new Interval("Minor 14").SIMPLE_SHORT_NAME);
-        assertEquals("M7", new Interval("maj14").SIMPLE_SHORT_NAME);
-        assertEquals("A7", new Interval("a14").SIMPLE_SHORT_NAME);
-        assertEquals("d1", new Interval("d.15").SIMPLE_SHORT_NAME);
-        assertEquals("P1", new Interval("Perfect 15").SIMPLE_SHORT_NAME);
+        assertEquals("P1", Interval.withShortName("P8").SIMPLE_SHORT_NAME);
+        assertEquals("A1", Interval.withShortName("A8").SIMPLE_SHORT_NAME);
+        assertEquals("d2", Interval.withShortName("d9").SIMPLE_SHORT_NAME);
+        assertEquals("m2", Interval.withShortName("m9").SIMPLE_SHORT_NAME);
+        assertEquals("M2", Interval.withShortName("M9").SIMPLE_SHORT_NAME);
+        assertEquals("A2", Interval.withShortName("aug.9").SIMPLE_SHORT_NAME);
+        assertEquals("d3", Interval.withShortName("D10").SIMPLE_SHORT_NAME);
+        assertEquals("m3", Interval.withShortName("m. 10").SIMPLE_SHORT_NAME);
+        assertEquals("M3", Interval.withShortName("Major10").SIMPLE_SHORT_NAME);
+        assertEquals("A3", Interval.withShortName("aug 10").SIMPLE_SHORT_NAME);
+        assertEquals("d4", Interval.withShortName("d11").SIMPLE_SHORT_NAME);
+        assertEquals("P4", Interval.withShortName("Perfect 11").SIMPLE_SHORT_NAME);
+        assertEquals("A4", Interval.withShortName("augmented 11").SIMPLE_SHORT_NAME);
+        assertEquals("d5", Interval.withShortName("dim. 12").SIMPLE_SHORT_NAME);
+        assertEquals("P5", Interval.withShortName("perf. 12").SIMPLE_SHORT_NAME);
+        assertEquals("A5", Interval.withShortName("Aug.12").SIMPLE_SHORT_NAME);
+        assertEquals("d6", Interval.withShortName("d.13").SIMPLE_SHORT_NAME);
+        assertEquals("m6", Interval.withShortName("Min13").SIMPLE_SHORT_NAME);
+        assertEquals("M6", Interval.withShortName("Major 13").SIMPLE_SHORT_NAME);
+        assertEquals("A6", Interval.withShortName("Augmented13").SIMPLE_SHORT_NAME);
+        assertEquals("d7", Interval.withShortName("D 14").SIMPLE_SHORT_NAME);
+        assertEquals("m7", Interval.withShortName("Minor 14").SIMPLE_SHORT_NAME);
+        assertEquals("M7", Interval.withShortName("maj14").SIMPLE_SHORT_NAME);
+        assertEquals("A7", Interval.withShortName("a14").SIMPLE_SHORT_NAME);
+        assertEquals("d1", Interval.withShortName("d.15").SIMPLE_SHORT_NAME);
+        assertEquals("P1", Interval.withShortName("Perfect 15").SIMPLE_SHORT_NAME);
     }
 
     @Test
@@ -323,32 +264,32 @@ public class TestInterval {
         assertEquals("P8", PERFECT_OCTAVE.COMPOUND_SHORT_NAME);
 
         // Arbitrary check on dynamic Intervals
-        assertEquals("P8", new Interval("P8").COMPOUND_SHORT_NAME);
-        assertEquals("A8", new Interval("A8").COMPOUND_SHORT_NAME);
-        assertEquals("d9", new Interval("d9").COMPOUND_SHORT_NAME);
-        assertEquals("m9", new Interval("m9").COMPOUND_SHORT_NAME);
-        assertEquals("M9", new Interval("M9").COMPOUND_SHORT_NAME);
-        assertEquals("A9", new Interval("aug.9").COMPOUND_SHORT_NAME);
-        assertEquals("d10", new Interval("D10").COMPOUND_SHORT_NAME);
-        assertEquals("m10", new Interval("m. 10").COMPOUND_SHORT_NAME);
-        assertEquals("M10", new Interval("Major10").COMPOUND_SHORT_NAME);
-        assertEquals("A10", new Interval("aug 10").COMPOUND_SHORT_NAME);
-        assertEquals("d11", new Interval("d11").COMPOUND_SHORT_NAME);
-        assertEquals("P11", new Interval("Perfect 11").COMPOUND_SHORT_NAME);
-        assertEquals("A11", new Interval("augmented 11").COMPOUND_SHORT_NAME);
-        assertEquals("d12", new Interval("dim. 12").COMPOUND_SHORT_NAME);
-        assertEquals("P12", new Interval("perf. 12").COMPOUND_SHORT_NAME);
-        assertEquals("A12", new Interval("Aug.12").COMPOUND_SHORT_NAME);
-        assertEquals("d13", new Interval("d.13").COMPOUND_SHORT_NAME);
-        assertEquals("m13", new Interval("Min13").COMPOUND_SHORT_NAME);
-        assertEquals("M13", new Interval("Major 13").COMPOUND_SHORT_NAME);
-        assertEquals("A13", new Interval("Augmented13").COMPOUND_SHORT_NAME);
-        assertEquals("d14", new Interval("D 14").COMPOUND_SHORT_NAME);
-        assertEquals("m14", new Interval("Minor 14").COMPOUND_SHORT_NAME);
-        assertEquals("M14", new Interval("maj14").COMPOUND_SHORT_NAME);
-        assertEquals("A14", new Interval("a14").COMPOUND_SHORT_NAME);
-        assertEquals("d15", new Interval("d.15").COMPOUND_SHORT_NAME);
-        assertEquals("P15", new Interval("Perfect 15").COMPOUND_SHORT_NAME);
+        assertEquals("P8", Interval.withShortName("P8").COMPOUND_SHORT_NAME);
+        assertEquals("A8", Interval.withShortName("A8").COMPOUND_SHORT_NAME);
+        assertEquals("d9", Interval.withShortName("d9").COMPOUND_SHORT_NAME);
+        assertEquals("m9", Interval.withShortName("m9").COMPOUND_SHORT_NAME);
+        assertEquals("M9", Interval.withShortName("M9").COMPOUND_SHORT_NAME);
+        assertEquals("A9", Interval.withShortName("aug.9").COMPOUND_SHORT_NAME);
+        assertEquals("d10", Interval.withShortName("D10").COMPOUND_SHORT_NAME);
+        assertEquals("m10", Interval.withShortName("m. 10").COMPOUND_SHORT_NAME);
+        assertEquals("M10", Interval.withShortName("Major10").COMPOUND_SHORT_NAME);
+        assertEquals("A10", Interval.withShortName("aug 10").COMPOUND_SHORT_NAME);
+        assertEquals("d11", Interval.withShortName("d11").COMPOUND_SHORT_NAME);
+        assertEquals("P11", Interval.withShortName("Perfect 11").COMPOUND_SHORT_NAME);
+        assertEquals("A11", Interval.withShortName("augmented 11").COMPOUND_SHORT_NAME);
+        assertEquals("d12", Interval.withShortName("dim. 12").COMPOUND_SHORT_NAME);
+        assertEquals("P12", Interval.withShortName("perf. 12").COMPOUND_SHORT_NAME);
+        assertEquals("A12", Interval.withShortName("Aug.12").COMPOUND_SHORT_NAME);
+        assertEquals("d13", Interval.withShortName("d.13").COMPOUND_SHORT_NAME);
+        assertEquals("m13", Interval.withShortName("Min13").COMPOUND_SHORT_NAME);
+        assertEquals("M13", Interval.withShortName("Major 13").COMPOUND_SHORT_NAME);
+        assertEquals("A13", Interval.withShortName("Augmented13").COMPOUND_SHORT_NAME);
+        assertEquals("d14", Interval.withShortName("D 14").COMPOUND_SHORT_NAME);
+        assertEquals("m14", Interval.withShortName("Minor 14").COMPOUND_SHORT_NAME);
+        assertEquals("M14", Interval.withShortName("maj14").COMPOUND_SHORT_NAME);
+        assertEquals("A14", Interval.withShortName("a14").COMPOUND_SHORT_NAME);
+        assertEquals("d15", Interval.withShortName("d.15").COMPOUND_SHORT_NAME);
+        assertEquals("P15", Interval.withShortName("Perfect 15").COMPOUND_SHORT_NAME);
     }
 
 
@@ -382,54 +323,88 @@ public class TestInterval {
         assertEquals("I", PERFECT_OCTAVE.ROMAN_NUMERAL_NAME);
 
         // Arbitrary check on dynamic Intervals
-        assertEquals("I", new Interval("P8").ROMAN_NUMERAL_NAME);
-        assertEquals("I+", new Interval("A8").ROMAN_NUMERAL_NAME);
-        assertEquals("ii˚", new Interval("d9").ROMAN_NUMERAL_NAME);
-        assertEquals("ii", new Interval("m9").ROMAN_NUMERAL_NAME);
-        assertEquals("II", new Interval("M9").ROMAN_NUMERAL_NAME);
-        assertEquals("II+", new Interval("aug.9").ROMAN_NUMERAL_NAME);
-        assertEquals("iii˚", new Interval("D10").ROMAN_NUMERAL_NAME);
-        assertEquals("iii", new Interval("m. 10").ROMAN_NUMERAL_NAME);
-        assertEquals("III", new Interval("Major10").ROMAN_NUMERAL_NAME);
-        assertEquals("III+", new Interval("aug 10").ROMAN_NUMERAL_NAME);
-        assertEquals("iv˚", new Interval("d11").ROMAN_NUMERAL_NAME);
-        assertEquals("IV", new Interval("Perfect 11").ROMAN_NUMERAL_NAME);
-        assertEquals("IV+", new Interval("augmented 11").ROMAN_NUMERAL_NAME);
-        assertEquals("v˚", new Interval("dim. 12").ROMAN_NUMERAL_NAME);
-        assertEquals("V", new Interval("perf. 12").ROMAN_NUMERAL_NAME);
-        assertEquals("V+", new Interval("Aug.12").ROMAN_NUMERAL_NAME);
-        assertEquals("vi˚", new Interval("d.13").ROMAN_NUMERAL_NAME);
-        assertEquals("vi", new Interval("Min13").ROMAN_NUMERAL_NAME);
-        assertEquals("VI", new Interval("Major 13").ROMAN_NUMERAL_NAME);
-        assertEquals("VI+", new Interval("Augmented13").ROMAN_NUMERAL_NAME);
-        assertEquals("vii˚", new Interval("D 14").ROMAN_NUMERAL_NAME);
-        assertEquals("vii", new Interval("Minor 14").ROMAN_NUMERAL_NAME);
-        assertEquals("VII", new Interval("maj14").ROMAN_NUMERAL_NAME);
-        assertEquals("VII+", new Interval("a14").ROMAN_NUMERAL_NAME);
-        assertEquals("i˚", new Interval("d.15").ROMAN_NUMERAL_NAME);
-        assertEquals("I", new Interval("Perfect 15").ROMAN_NUMERAL_NAME);
+        assertEquals("I", Interval.withShortName("P8").ROMAN_NUMERAL_NAME);
+        assertEquals("I+", Interval.withShortName("A8").ROMAN_NUMERAL_NAME);
+        assertEquals("ii˚", Interval.withShortName("d9").ROMAN_NUMERAL_NAME);
+        assertEquals("ii", Interval.withShortName("m9").ROMAN_NUMERAL_NAME);
+        assertEquals("II", Interval.withShortName("M9").ROMAN_NUMERAL_NAME);
+        assertEquals("II+", Interval.withShortName("aug.9").ROMAN_NUMERAL_NAME);
+        assertEquals("iii˚", Interval.withShortName("D10").ROMAN_NUMERAL_NAME);
+        assertEquals("iii", Interval.withShortName("m. 10").ROMAN_NUMERAL_NAME);
+        assertEquals("III", Interval.withShortName("Major10").ROMAN_NUMERAL_NAME);
+        assertEquals("III+", Interval.withShortName("aug 10").ROMAN_NUMERAL_NAME);
+        assertEquals("iv˚", Interval.withShortName("d11").ROMAN_NUMERAL_NAME);
+        assertEquals("IV", Interval.withShortName("Perfect 11").ROMAN_NUMERAL_NAME);
+        assertEquals("IV+", Interval.withShortName("augmented 11").ROMAN_NUMERAL_NAME);
+        assertEquals("v˚", Interval.withShortName("dim. 12").ROMAN_NUMERAL_NAME);
+        assertEquals("V", Interval.withShortName("perf. 12").ROMAN_NUMERAL_NAME);
+        assertEquals("V+", Interval.withShortName("Aug.12").ROMAN_NUMERAL_NAME);
+        assertEquals("vi˚", Interval.withShortName("d.13").ROMAN_NUMERAL_NAME);
+        assertEquals("vi", Interval.withShortName("Min13").ROMAN_NUMERAL_NAME);
+        assertEquals("VI", Interval.withShortName("Major 13").ROMAN_NUMERAL_NAME);
+        assertEquals("VI+", Interval.withShortName("Augmented13").ROMAN_NUMERAL_NAME);
+        assertEquals("vii˚", Interval.withShortName("D 14").ROMAN_NUMERAL_NAME);
+        assertEquals("vii", Interval.withShortName("Minor 14").ROMAN_NUMERAL_NAME);
+        assertEquals("VII", Interval.withShortName("maj14").ROMAN_NUMERAL_NAME);
+        assertEquals("VII+", Interval.withShortName("a14").ROMAN_NUMERAL_NAME);
+        assertEquals("i˚", Interval.withShortName("d.15").ROMAN_NUMERAL_NAME);
+        assertEquals("I", Interval.withShortName("Perfect 15").ROMAN_NUMERAL_NAME);
     }
 
     @Test
     public void getInversion() throws Exception {
-        // edge ase: P8 <-> P1 <-> P8 <-> P15
         assertEquals(PERFECT_OCTAVE, PERFECT_UNISON.getInversion());
         assertEquals(DIMINISHED_OCTAVE, AUGMENTED_UNISON.getInversion());
         assertEquals(PERFECT_UNISON, PERFECT_OCTAVE.getInversion());
-        assertEquals(1, new Interval("P8").getInversion().COMPOUND_DIATONIC_NUMBER);
-//
-//        // edge case: P8 <-> P15 <-> P22
-//        assertEquals(8, new Interval("P15").getInversion().COMPOUND_DIATONIC_NUMBER);
-//        assertEquals(22, new Interval("P15").getInversion().COMPOUND_DIATONIC_NUMBER);
-//
-//        assertEquals(2, MAJOR_SEVENTH.getInversion().COMPOUND_DIATONIC_NUMBER);
-//        assertEquals(9, MAJOR_SEVENTH.getInversion().COMPOUND_DIATONIC_NUMBER);
-//        assertEquals(2, MAJOR_SEVENTH.getInversion().COMPOUND_DIATONIC_NUMBER);
-//        assertEquals(9, MAJOR_SEVENTH.getInversion().COMPOUND_DIATONIC_NUMBER);
-//        assertEquals(7, new Interval("m9").getInversion().COMPOUND_DIATONIC_NUMBER);
-//        assertEquals(MAJOR_SEVENTH, new Interval("m9").getInversion());
-//        assertEquals(23, new Interval("m9").getInversion().NUM_SEMITONES);
-//        assertEquals("M14", new Interval("m9").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals(MAJOR_SEVENTH, MINOR_SECOND.getInversion());
+        assertEquals(MINOR_SEVENTH, MAJOR_SECOND.getInversion());
+        assertEquals(DIMINISHED_SEVENTH, AUGMENTED_SECOND.getInversion());
+        assertEquals(AUGMENTED_SIXTH, DIMINISHED_THIRD.getInversion());
+        assertEquals(MAJOR_SIXTH, MINOR_THIRD.getInversion());
+        assertEquals(MINOR_SIXTH, MAJOR_THIRD.getInversion());
+        assertEquals(DIMINISHED_SIXTH, AUGMENTED_THIRD.getInversion());
+        assertEquals(AUGMENTED_FIFTH, DIMINISHED_FOURTH.getInversion());
+        assertEquals(PERFECT_FIFTH, PERFECT_FOURTH.getInversion());
+        assertEquals(DIMINISHED_FIFTH, AUGMENTED_FOURTH.getInversion());
+        assertEquals(AUGMENTED_FOURTH, DIMINISHED_FIFTH.getInversion());
+        assertEquals(PERFECT_FOURTH, PERFECT_FIFTH.getInversion());
+        assertEquals(DIMINISHED_FOURTH, AUGMENTED_FIFTH.getInversion());
+        assertEquals(AUGMENTED_THIRD, DIMINISHED_SIXTH.getInversion());
+        assertEquals(MAJOR_THIRD, MINOR_SIXTH.getInversion());
+        assertEquals(MINOR_THIRD, MAJOR_SIXTH.getInversion());
+        assertEquals(DIMINISHED_THIRD, AUGMENTED_SIXTH.getInversion());
+        assertEquals(AUGMENTED_SECOND, DIMINISHED_SEVENTH.getInversion());
+        assertEquals(MAJOR_SECOND, MINOR_SEVENTH.getInversion());
+        assertEquals(MINOR_SECOND, MAJOR_SEVENTH.getInversion());
+        assertEquals(DIMINISHED_SECOND, AUGMENTED_SEVENTH.getInversion());
+
+        // Arbitrary check on dynamic Intervals
+        assertEquals(PERFECT_UNISON, Interval.withShortName("P8").getInversion());
+        assertEquals("d15", Interval.withShortName("A8").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("A14", Interval.withShortName("d9").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("M14", Interval.withShortName("m9").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("m14", Interval.withShortName("M9").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("d14", Interval.withShortName("aug.9").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("A13", Interval.withShortName("D10").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("M13", Interval.withShortName("m. 10").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("m13", Interval.withShortName("Major10").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("d13", Interval.withShortName("aug 10").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("A12", Interval.withShortName("d11").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("P12", Interval.withShortName("Perfect 11").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("d12", Interval.withShortName("augmented 11").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("A11", Interval.withShortName("dim. 12").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("P11", Interval.withShortName("perf. 12").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("d11", Interval.withShortName("Aug.12").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("A10", Interval.withShortName("d.13").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("M10", Interval.withShortName("Min13").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("m10", Interval.withShortName("Major 13").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("d10", Interval.withShortName("Augmented13").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("A9", Interval.withShortName("D 14").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("M9", Interval.withShortName("Minor 14").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("m9", Interval.withShortName("maj14").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("d9", Interval.withShortName("a14").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("A22", Interval.withShortName("d.15").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("P22", Interval.withShortName("Perfect 15").getInversion().COMPOUND_SHORT_NAME);
     }
 
     @Test

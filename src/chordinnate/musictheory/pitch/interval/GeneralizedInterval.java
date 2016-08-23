@@ -1,8 +1,6 @@
 package chordinnate.musictheory.pitch.interval;
 
 
-import java.util.EnumMap;
-
 import static chordinnate.musictheory.pitch.interval.Degree.*;
 
 /**
@@ -18,17 +16,6 @@ enum GeneralizedInterval {
     SEVEN(7, LEADING_TONE, 11),
 
     ;
-
-    private static final EnumMap<GeneralizedInterval, GeneralizedInterval> INVERSIONS = new EnumMap<>(GeneralizedInterval.class);
-    static {
-        INVERSIONS.put(ONE, ONE);
-        INVERSIONS.put(TWO, SEVEN);
-        INVERSIONS.put(SEVEN, TWO);
-        INVERSIONS.put(THREE, SIX);
-        INVERSIONS.put(SIX, THREE);
-        INVERSIONS.put(FOUR, FIVE);
-        INVERSIONS.put(FIVE, FOUR);
-    }
 
     final int DIATONIC_NUMBER;
     final Degree DEGREE;
@@ -59,39 +46,11 @@ enum GeneralizedInterval {
         return Integer.MIN_VALUE;
     }
 
-    public int getSemitones(IntervalQuality intervalQuality) {
+    int getSemitones(IntervalQuality intervalQuality) {
         return this.SEMITONES + getSemitoneModifier(this, intervalQuality);
     }
 
-    public String getRomanNumeralName(IntervalQuality intervalQuality) {
-        return getRomanNumeral(this, intervalQuality).toString() + intervalQuality.ROMAN_NUMERAL_APPENDED_SYMBOL;
+    String getRomanNumeralName(IntervalQuality intervalQuality) {
+        return DEGREE.getRomanNumeral(intervalQuality).toString() + intervalQuality.ROMAN_NUMERAL_APPENDED_SYMBOL;
     }
-
-    private static RomanNumeral getRomanNumeral(GeneralizedInterval generalizedInterval, IntervalQuality intervalQuality) {
-        if (generalizedInterval.equals(ONE) || generalizedInterval.equals(FOUR) || generalizedInterval.equals(FIVE)) {
-            switch (intervalQuality) {
-                case PERFECT:
-                case AUGMENTED: return generalizedInterval.DEGREE.MAJOR_SYMBOL;
-                case DIMINISHED: return generalizedInterval.DEGREE.MINOR_SYMBOL;
-            }
-        }
-        else {
-            switch (intervalQuality) {
-                case MAJOR:
-                case AUGMENTED: return generalizedInterval.DEGREE.MAJOR_SYMBOL;
-                case MINOR:
-                case DIMINISHED: return generalizedInterval.DEGREE.MINOR_SYMBOL;
-            }
-        }
-        return null;
-    }
-
-    public GeneralizedInterval getInversion() {
-        return INVERSIONS.get(this);
-    }
-
-    public static GeneralizedInterval getByDiatonic(int index) {
-        return GeneralizedInterval.values()[index - 1];
-    }
-
 }

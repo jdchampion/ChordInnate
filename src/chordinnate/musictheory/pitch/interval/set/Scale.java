@@ -55,7 +55,7 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
                 String[] intervals = resultSet.getString("Intervals").split(", ");
                 Interval[] pitchIntervals = new Interval[intervals.length];
                 for (int i = 0; i < pitchIntervals.length; i++) {
-                    pitchIntervals[i] = Interval.getStaticInterval(intervals[i]);
+                    pitchIntervals[i] = Interval.withShortName(intervals[i]);
                 }
                 String origin = resultSet.getString("Origin");
                 INDEX_TO_SCALE_NAME.put(index, name);

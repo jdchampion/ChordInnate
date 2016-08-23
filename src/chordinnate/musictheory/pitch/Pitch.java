@@ -585,7 +585,6 @@ public enum Pitch
              */
             Pitch candidate = Pitch.valueOf(transposedPitchClass.ENHARMONIC_SPELLING.apply(Accidental.NONE).name() + "_" + OCTAVE.NUMBER);
             if (candidate.PITCH_CLASS.equals(PITCH_CLASS) || candidate.ABSOLUTE_PITCH == ABSOLUTE_PITCH) {
-//                return VALUES[direction && transposedPitchClass.BASE_MIDI_VALUE <= this.PITCH_CLASS.BASE_MIDI_VALUE ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
                 return VALUES[direction ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
             }
             else if (PITCH_CLASS.BASE_MIDI_VALUE < transposedPitchClass.BASE_MIDI_VALUE) {

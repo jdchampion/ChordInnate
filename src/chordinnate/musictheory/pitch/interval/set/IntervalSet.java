@@ -25,8 +25,8 @@ public abstract class IntervalSet implements Diatonic {
         Pitch octaveBegin = lowestDiatonic.transposeTo(lowestDiatonic.PITCH_CLASS, Octave.OCTAVE_0);
         for (Octave octave : Octave.values()) {
             ArrayList<Pitch> pitchesAtCurrentOctave = new ArrayList<>(pitchIntervals.length);
-            if (lowestDiatonic.isTransposableTo(Interval.PERFECT_UNISON, true)) {
-                Pitch lowestDiatonicAtOctave = octaveBegin.transposeTo(Interval.PERFECT_UNISON, true);
+            if (lowestDiatonic.isTransposableTo(lowestDiatonic.PITCH_CLASS, octave)) {
+                Pitch lowestDiatonicAtOctave = octaveBegin.transposeTo(lowestDiatonic.PITCH_CLASS, octave);
                 if (lowestDiatonicAtOctave != null) pitchesAtCurrentOctave.add(lowestDiatonicAtOctave);
                 for (int i = 1; i < pitchIntervals.length && lowestDiatonicAtOctave != null; i++) {
                     if (lowestDiatonicAtOctave.isTransposableTo(pitchIntervals[i], true)) {

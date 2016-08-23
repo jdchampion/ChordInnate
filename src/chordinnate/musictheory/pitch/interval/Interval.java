@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import static chordinnate.musictheory.pitch.interval.GeneralizedInterval.*;
 import static chordinnate.musictheory.pitch.interval.IntervalQuality.*;
 
 
@@ -25,84 +24,90 @@ import static chordinnate.musictheory.pitch.interval.IntervalQuality.*;
 public class Interval {
     public int NUM_SEMITONES;
     public int COMPOUND_DIATONIC_NUMBER, SIMPLE_DIATONIC_NUMBER;
-    IntervalQuality INTERVAL_QUALITY;
-    GeneralizedInterval GENERALIZED_INTERVAL;
     public String COMPOUND_SHORT_NAME, SIMPLE_SHORT_NAME;
     public String ROMAN_NUMERAL_NAME;
 
+    IntervalType BASE_INTERVAL_TYPE;
+
     // The most common -- or "simple" -- intervals are predefined as constants
-    public static final Interval PERFECT_UNISON = new Interval(ONE, PERFECT, 0);
-    public static final Interval AUGMENTED_UNISON = new Interval(ONE, AUGMENTED, 0);
+    public static final Interval PERFECT_UNISON = new Interval(IntervalType.PERFECT_UNISON, 0);
+    public static final Interval AUGMENTED_UNISON = new Interval(IntervalType.AUGMENTED_UNISON, 0);
 
-    public static final Interval DIMINISHED_SECOND = new Interval(TWO, DIMINISHED, 0);
-    public static final Interval MINOR_SECOND = new Interval(TWO, MINOR, 0);
-    public static final Interval MAJOR_SECOND = new Interval(TWO, MAJOR, 0);
-    public static final Interval AUGMENTED_SECOND = new Interval(TWO, AUGMENTED, 0);
+    public static final Interval DIMINISHED_SECOND = new Interval(IntervalType.DIMINISHED_SECOND, 0);
+    public static final Interval MINOR_SECOND = new Interval(IntervalType.MINOR_SECOND, 0);
+    public static final Interval MAJOR_SECOND = new Interval(IntervalType.MAJOR_SECOND, 0);
+    public static final Interval AUGMENTED_SECOND = new Interval(IntervalType.AUGMENTED_SECOND, 0);
 
-    public static final Interval DIMINISHED_THIRD = new Interval(THREE, DIMINISHED, 0);
-    public static final Interval MINOR_THIRD = new Interval(THREE, MINOR, 0);
-    public static final Interval MAJOR_THIRD = new Interval(THREE, MAJOR, 0);
-    public static final Interval AUGMENTED_THIRD = new Interval(THREE, AUGMENTED, 0);
+    public static final Interval DIMINISHED_THIRD = new Interval(IntervalType.DIMINISHED_THIRD, 0);
+    public static final Interval MINOR_THIRD = new Interval(IntervalType.MINOR_THIRD, 0);
+    public static final Interval MAJOR_THIRD = new Interval(IntervalType.MAJOR_THIRD, 0);
+    public static final Interval AUGMENTED_THIRD = new Interval(IntervalType.AUGMENTED_THIRD, 0);
 
-    public static final Interval DIMINISHED_FOURTH = new Interval(FOUR, DIMINISHED, 0);
-    public static final Interval PERFECT_FOURTH = new Interval(FOUR, PERFECT, 0);
-    public static final Interval AUGMENTED_FOURTH = new Interval(FOUR, AUGMENTED, 0);
+    public static final Interval DIMINISHED_FOURTH = new Interval(IntervalType.DIMINISHED_FOURTH, 0);
+    public static final Interval PERFECT_FOURTH = new Interval(IntervalType.PERFECT_FOURTH, 0);
+    public static final Interval AUGMENTED_FOURTH = new Interval(IntervalType.AUGMENTED_FOURTH, 0);
 
-    public static final Interval DIMINISHED_FIFTH = new Interval(FIVE, DIMINISHED, 0);
-    public static final Interval PERFECT_FIFTH = new Interval(FIVE, PERFECT, 0);
-    public static final Interval AUGMENTED_FIFTH = new Interval(FIVE, AUGMENTED, 0);
+    public static final Interval DIMINISHED_FIFTH = new Interval(IntervalType.DIMINISHED_FIFTH, 0);
+    public static final Interval PERFECT_FIFTH = new Interval(IntervalType.PERFECT_FIFTH, 0);
+    public static final Interval AUGMENTED_FIFTH = new Interval(IntervalType.AUGMENTED_FIFTH, 0);
 
-    public static final Interval DIMINISHED_SIXTH = new Interval(SIX, DIMINISHED, 0);
-    public static final Interval MINOR_SIXTH = new Interval(SIX, MINOR, 0);
-    public static final Interval MAJOR_SIXTH = new Interval(SIX, MAJOR, 0);
-    public static final Interval AUGMENTED_SIXTH = new Interval(SIX, AUGMENTED, 0);
+    public static final Interval DIMINISHED_SIXTH = new Interval(IntervalType.DIMINISHED_SIXTH, 0);
+    public static final Interval MINOR_SIXTH = new Interval(IntervalType.MINOR_SIXTH, 0);
+    public static final Interval MAJOR_SIXTH = new Interval(IntervalType.MAJOR_SIXTH, 0);
+    public static final Interval AUGMENTED_SIXTH = new Interval(IntervalType.AUGMENTED_SIXTH, 0);
 
-    public static final Interval DIMINISHED_SEVENTH = new Interval(SEVEN, DIMINISHED, 0);
-    public static final Interval MINOR_SEVENTH = new Interval(SEVEN, MINOR, 0);
-    public static final Interval MAJOR_SEVENTH = new Interval(SEVEN, MAJOR, 0);
-    public static final Interval AUGMENTED_SEVENTH = new Interval(SEVEN, AUGMENTED, 0);
+    public static final Interval DIMINISHED_SEVENTH = new Interval(IntervalType.DIMINISHED_SEVENTH, 0);
+    public static final Interval MINOR_SEVENTH = new Interval(IntervalType.MINOR_SEVENTH, 0);
+    public static final Interval MAJOR_SEVENTH = new Interval(IntervalType.MAJOR_SEVENTH, 0);
+    public static final Interval AUGMENTED_SEVENTH = new Interval(IntervalType.AUGMENTED_SEVENTH, 0);
 
-    public static final Interval DIMINISHED_OCTAVE = new Interval(ONE, DIMINISHED, 1);
-    public static final Interval PERFECT_OCTAVE = new Interval(ONE, PERFECT, 1);
+    public static final Interval DIMINISHED_OCTAVE = new Interval(IntervalType.DIMINISHED_UNISON, 1);
+    public static final Interval PERFECT_OCTAVE = new Interval(IntervalType.PERFECT_UNISON, 1);
+
+    private static final Map<Interval, Interval> INVERSIONS = new HashMap<>(26);
+    static {
+        INVERSIONS.put(PERFECT_UNISON, PERFECT_OCTAVE);
+        INVERSIONS.put(AUGMENTED_UNISON, DIMINISHED_OCTAVE);
+        INVERSIONS.put(DIMINISHED_SECOND, AUGMENTED_SEVENTH);
+        INVERSIONS.put(MINOR_SECOND, MAJOR_SEVENTH);
+        INVERSIONS.put(MAJOR_SECOND, MINOR_SEVENTH);
+        INVERSIONS.put(AUGMENTED_SECOND, DIMINISHED_SEVENTH);
+        INVERSIONS.put(DIMINISHED_THIRD, AUGMENTED_SIXTH);
+        INVERSIONS.put(MINOR_THIRD, MAJOR_SIXTH);
+        INVERSIONS.put(MAJOR_THIRD, MINOR_SIXTH);
+        INVERSIONS.put(AUGMENTED_THIRD, DIMINISHED_SIXTH);
+        INVERSIONS.put(DIMINISHED_FOURTH, AUGMENTED_FIFTH);
+        INVERSIONS.put(PERFECT_FOURTH, PERFECT_FIFTH);
+        INVERSIONS.put(AUGMENTED_FOURTH, DIMINISHED_FIFTH);
+        INVERSIONS.put(DIMINISHED_FIFTH, AUGMENTED_FOURTH);
+        INVERSIONS.put(PERFECT_FIFTH, PERFECT_FOURTH);
+        INVERSIONS.put(AUGMENTED_FIFTH, DIMINISHED_FOURTH);
+        INVERSIONS.put(DIMINISHED_SIXTH, AUGMENTED_THIRD);
+        INVERSIONS.put(MINOR_SIXTH, MAJOR_THIRD);
+        INVERSIONS.put(MAJOR_SIXTH, MINOR_THIRD);
+        INVERSIONS.put(AUGMENTED_SIXTH, DIMINISHED_THIRD);
+        INVERSIONS.put(DIMINISHED_SEVENTH, AUGMENTED_SECOND);
+        INVERSIONS.put(MINOR_SEVENTH, MAJOR_SECOND);
+        INVERSIONS.put(MAJOR_SEVENTH, MINOR_SECOND);
+        INVERSIONS.put(AUGMENTED_SEVENTH, DIMINISHED_SECOND);
+        INVERSIONS.put(DIMINISHED_OCTAVE, AUGMENTED_UNISON);
+        INVERSIONS.put(PERFECT_OCTAVE, PERFECT_UNISON);
+    }
 
     private static final Map<String, Interval> COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL = new HashMap<>(26);
     static {
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(PERFECT_UNISON.COMPOUND_SHORT_NAME, PERFECT_UNISON);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(AUGMENTED_UNISON.COMPOUND_SHORT_NAME, AUGMENTED_UNISON);
-
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(DIMINISHED_SECOND.COMPOUND_SHORT_NAME, DIMINISHED_SECOND);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(MINOR_SECOND.COMPOUND_SHORT_NAME, MINOR_SECOND);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(MAJOR_SECOND.COMPOUND_SHORT_NAME, MAJOR_SECOND);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(AUGMENTED_SECOND.COMPOUND_SHORT_NAME, AUGMENTED_SECOND);
-
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(DIMINISHED_THIRD.COMPOUND_SHORT_NAME, DIMINISHED_THIRD);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(MINOR_THIRD.COMPOUND_SHORT_NAME, MINOR_THIRD);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(MAJOR_THIRD.COMPOUND_SHORT_NAME, MAJOR_THIRD);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(AUGMENTED_THIRD.COMPOUND_SHORT_NAME, AUGMENTED_THIRD);
-
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(DIMINISHED_FOURTH.COMPOUND_SHORT_NAME, DIMINISHED_FOURTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(PERFECT_FOURTH.COMPOUND_SHORT_NAME, PERFECT_FOURTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(AUGMENTED_FOURTH.COMPOUND_SHORT_NAME, AUGMENTED_FOURTH);
-
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(DIMINISHED_FIFTH.COMPOUND_SHORT_NAME, DIMINISHED_FIFTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(PERFECT_FIFTH.COMPOUND_SHORT_NAME, PERFECT_FIFTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(AUGMENTED_FIFTH.COMPOUND_SHORT_NAME, AUGMENTED_FIFTH);
-
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(DIMINISHED_SIXTH.COMPOUND_SHORT_NAME, DIMINISHED_SIXTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(MINOR_SIXTH.COMPOUND_SHORT_NAME, MINOR_SIXTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(MAJOR_SIXTH.COMPOUND_SHORT_NAME, MAJOR_SIXTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(AUGMENTED_SIXTH.COMPOUND_SHORT_NAME, AUGMENTED_SIXTH);
-
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(DIMINISHED_SEVENTH.COMPOUND_SHORT_NAME, DIMINISHED_SEVENTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(MINOR_SEVENTH.COMPOUND_SHORT_NAME, MINOR_SEVENTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(MAJOR_SEVENTH.COMPOUND_SHORT_NAME, MAJOR_SEVENTH);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(AUGMENTED_SEVENTH.COMPOUND_SHORT_NAME, AUGMENTED_SEVENTH);
-
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(DIMINISHED_OCTAVE.COMPOUND_SHORT_NAME, DIMINISHED_OCTAVE);
-        COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(PERFECT_OCTAVE.COMPOUND_SHORT_NAME, PERFECT_OCTAVE);
+        for (Interval interval : INVERSIONS.keySet()) {
+            COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.put(interval.COMPOUND_SHORT_NAME, interval);
+        }
     }
 
-    private static void validateForNewInterval(IntervalQuality intervalQuality, int diatonic) {
+    /**
+     * Checks whether the provided IntervalQuality and diatonic number are legal combinations.
+     * @param intervalQuality
+     * @param diatonic
+     * @throws IllegalArgumentException if validation fails
+     */
+    private static void validateForNewInterval(IntervalQuality intervalQuality, int diatonic) throws IllegalArgumentException {
         boolean valid;
         if (intervalQuality == null) {
             throw new IllegalArgumentException("Missing qualifier for the interval");
@@ -120,11 +125,8 @@ public class Interval {
         }
     }
 
-    public static Interval getStaticInterval(String name) {
-        return COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.get(name);
-    }
-
     private static Interval getStaticInterval(int semitoneDistance, int letterDistance, boolean direction, boolean isCompound) {
+        // TODO: refactor
         boolean identicalLetters = letterDistance == 0;
         if (identicalLetters) {
             switch (semitoneDistance) {
@@ -219,51 +221,50 @@ public class Interval {
     }
 
     /**
-     * Special constructor reserved for static Intervals
+     * Constructor for all Intervals.
+     * @param intervalType
+     * @param numOctaves
      */
-    private Interval(GeneralizedInterval generalizedInterval, IntervalQuality intervalQuality, int numOctaves) {
-        this.GENERALIZED_INTERVAL = generalizedInterval;
-        this.INTERVAL_QUALITY = intervalQuality;
-        this.SIMPLE_DIATONIC_NUMBER = GENERALIZED_INTERVAL.DIATONIC_NUMBER;
-        this.COMPOUND_DIATONIC_NUMBER = numOctaves == 0 ? SIMPLE_DIATONIC_NUMBER : (numOctaves * 7) + SIMPLE_DIATONIC_NUMBER;
-        this.NUM_SEMITONES = 12 * numOctaves + GENERALIZED_INTERVAL.getSemitones(INTERVAL_QUALITY);
-        this.SIMPLE_SHORT_NAME = INTERVAL_QUALITY.SHORT_NAME_SYMBOL + SIMPLE_DIATONIC_NUMBER;
-        this.COMPOUND_SHORT_NAME = INTERVAL_QUALITY.SHORT_NAME_SYMBOL + COMPOUND_DIATONIC_NUMBER;
-        this.ROMAN_NUMERAL_NAME = GENERALIZED_INTERVAL.getRomanNumeralName(INTERVAL_QUALITY);
+    private Interval(IntervalType intervalType, int numOctaves) {
+        this.BASE_INTERVAL_TYPE = intervalType;
+        this.SIMPLE_DIATONIC_NUMBER = BASE_INTERVAL_TYPE.GENERALIZED_INTERVAL.DIATONIC_NUMBER;
+        this.COMPOUND_DIATONIC_NUMBER = (numOctaves * 7) + SIMPLE_DIATONIC_NUMBER;
+        this.NUM_SEMITONES = 12 * numOctaves + BASE_INTERVAL_TYPE.getSemitones();
+        this.SIMPLE_SHORT_NAME = BASE_INTERVAL_TYPE.INTERVAL_QUALITY.SHORT_NAME_SYMBOL + SIMPLE_DIATONIC_NUMBER;
+        this.COMPOUND_SHORT_NAME = BASE_INTERVAL_TYPE.INTERVAL_QUALITY.SHORT_NAME_SYMBOL + COMPOUND_DIATONIC_NUMBER;
+        this.ROMAN_NUMERAL_NAME = BASE_INTERVAL_TYPE.getRomanNumeralName();
     }
 
     /**
-     * Top-level constructor for dynamically-created Intervals.
-     * @param name
+     * Top-level factory method.
+     * @param name the Interval's label
+     * @return a static instance of Interval if one exists with the same name.
+     * Otherwise, a dynamically-created Interval.
      */
-    public Interval(String name) throws IllegalArgumentException {
+    public static Interval withShortName(String name) throws IllegalArgumentException {
         String[] quality = name.split("\\.?\\s?[0-9]"),
                 number = name.split("[a-zA-z]\\.?\\s?");
         if (quality.length < 1 || number.length < 1) {
             throw new IllegalArgumentException("Not a valid or recognized interval name: " + name);
         }
-        int diatonic;
+        int compoundDiatonic;
         try {
-            diatonic = Integer.parseInt(number[number.length - 1]);
+            compoundDiatonic = Integer.parseInt(number[number.length - 1]);
         }
         catch (NumberFormatException ex) {
             throw new IllegalArgumentException("Integer value must be defined after interval quality.");
         }
         IntervalQuality intervalQuality = IntervalQuality.getIntervalQuality(quality[0]);
-        int simpleDiatonic = getSimpleDiatonic(diatonic);
+        int simpleDiatonic = getSimpleDiatonic(compoundDiatonic);
         validateForNewInterval(intervalQuality, simpleDiatonic);
-        this.INTERVAL_QUALITY = intervalQuality;
-        this.SIMPLE_DIATONIC_NUMBER = simpleDiatonic;
-        this.COMPOUND_DIATONIC_NUMBER = diatonic;
-        this.GENERALIZED_INTERVAL = GeneralizedInterval.getByDiatonic(SIMPLE_DIATONIC_NUMBER);
-        this.SIMPLE_SHORT_NAME = INTERVAL_QUALITY.SHORT_NAME_SYMBOL + SIMPLE_DIATONIC_NUMBER;
-        this.COMPOUND_SHORT_NAME = INTERVAL_QUALITY.SHORT_NAME_SYMBOL + COMPOUND_DIATONIC_NUMBER;
-        this.ROMAN_NUMERAL_NAME = GENERALIZED_INTERVAL.getRomanNumeralName(INTERVAL_QUALITY);
-        this.NUM_SEMITONES = 12 * getNumberOfOctaves(SIMPLE_DIATONIC_NUMBER, COMPOUND_DIATONIC_NUMBER)
-                + GENERALIZED_INTERVAL.getSemitones(INTERVAL_QUALITY);
+        Interval toReturn = COMPOUND_SHORT_NAME_TO_STATIC_INTERVAL.get(name);
+        if (toReturn != null) return toReturn;
+        int numOctaves = getNumberOfOctaves(simpleDiatonic, compoundDiatonic);
+        IntervalType intervalType = IntervalType.getIntervalType(intervalQuality.SHORT_NAME_SYMBOL + simpleDiatonic);
+        return new Interval(intervalType, numOctaves);
     }
 
-    private int getNumberOfOctaves(int simpleDiatonic, int compoundDiatonic) {
+    private static int getNumberOfOctaves(int simpleDiatonic, int compoundDiatonic) {
         int temp = simpleDiatonic;
         int octave = 0;
         while (temp < compoundDiatonic) {
@@ -273,7 +274,7 @@ public class Interval {
         return octave;
     }
 
-    private int getSimpleDiatonic(int compoundDiatonic) {
+    private static int getSimpleDiatonic(int compoundDiatonic) {
         int temp = compoundDiatonic;
         while (temp >= 8) {
             temp -= 7;
@@ -283,24 +284,17 @@ public class Interval {
 
     private int getNextInvertedDiatonic(int diatonic) {
         int simpleDiatonic = getSimpleDiatonic(diatonic);
-        int[][] patterns = {{7, 7}, {5, 2}, {3, 4}, {1, 6}, {6, 1}, {4, 3}, {2, 5}}; // sequence of inversion
-        int index = simpleDiatonic > 4 ? 0 : 1;
-        simpleDiatonic = diatonic + (patterns[simpleDiatonic - 1][index]);
+        int[] patterns = {7, 5, 3, 1, -1, -3, -5, -7}; // sequence of inversion
+        simpleDiatonic = diatonic + (patterns[simpleDiatonic - 1]);
         return simpleDiatonic;
     }
 
     public Interval getInversion() {
-        GeneralizedInterval nextGeneralizedInterval = GENERALIZED_INTERVAL.getInversion();
-        IntervalQuality nextIntervalQuality = this.INTERVAL_QUALITY.getInversion();
+        Interval staticInterval = INVERSIONS.get(this);
+        if (staticInterval != null) return staticInterval;
+        IntervalType nextIntervalType = this.BASE_INTERVAL_TYPE.getInversion();
         int nextDiatonic = getNextInvertedDiatonic(this.COMPOUND_DIATONIC_NUMBER);
-        try {
-            Interval staticInterval = getStaticInterval(nextIntervalQuality.SHORT_NAME_SYMBOL + nextDiatonic);
-            if (staticInterval != null) return staticInterval;
-            return new Interval(nextIntervalQuality.SHORT_NAME_SYMBOL + nextDiatonic);
-        }
-        catch (Exception ex) {
-            return new Interval(nextIntervalQuality.SHORT_NAME_SYMBOL + nextGeneralizedInterval.DIATONIC_NUMBER);
-        }
+        return Interval.withShortName(nextIntervalType.INTERVAL_QUALITY.SHORT_NAME_SYMBOL + nextDiatonic);
     }
 
     /**

@@ -1,7 +1,5 @@
 package chordinnate.musictheory.pitch.interval;
 
-import java.util.EnumMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -16,18 +14,9 @@ public enum IntervalQuality {
 
     ;
 
-    public final String SHORT_NAME_SYMBOL, ROMAN_NUMERAL_APPENDED_SYMBOL;
+    final String SHORT_NAME_SYMBOL, ROMAN_NUMERAL_APPENDED_SYMBOL;
+    final int SEMITONE_MODIFIER;
     private final Pattern ALIASES;
-    public final int SEMITONE_MODIFIER;
-
-    private static final Map<IntervalQuality, IntervalQuality> INVERSIONS = new EnumMap<>(IntervalQuality.class);
-    static {
-        INVERSIONS.put(MAJOR, MINOR);
-        INVERSIONS.put(MINOR, MAJOR);
-        INVERSIONS.put(PERFECT, PERFECT);
-        INVERSIONS.put(AUGMENTED, DIMINISHED);
-        INVERSIONS.put(DIMINISHED, AUGMENTED);
-    }
 
     IntervalQuality(String shortNameSymbol, String romanNumeralSymbol, int semitoneModifier, Pattern aliases) {
         this.SHORT_NAME_SYMBOL = shortNameSymbol;
@@ -41,9 +30,5 @@ public enum IntervalQuality {
             if (i.ALIASES.matcher(s).matches()) return i;
         }
         return null;
-    }
-
-    public IntervalQuality getInversion() {
-        return INVERSIONS.get(this);
     }
 }
