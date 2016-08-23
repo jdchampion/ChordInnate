@@ -516,24 +516,25 @@ public enum Pitch
     }
 
     @Override
-    public boolean isTransposableTo(@NotNull Interval pitchInterval) {
-        return pitchInterval.DIRECTION
+    public boolean isTransposableTo(@NotNull Interval pitchInterval, boolean direction) {
+        return direction
                 ? ABSOLUTE_PITCH + pitchInterval.NUM_SEMITONES <= 127
                 : ABSOLUTE_PITCH - pitchInterval.NUM_SEMITONES >= 0;
     }
 
     @Nullable
     @Override
-    public Pitch transposeTo(@NotNull Interval pitchInterval) {
-        boolean direction = pitchInterval.DIRECTION;
-        if (isTransposableTo(pitchInterval)) {
+    public Pitch transposeTo(@NotNull Interval pitchInterval, boolean direction) {
+        if (isTransposableTo(pitchInterval, direction)) {
 
             // The returned Pitch will contain this PitchClass
             PitchClass transposedPitchClass = null;
 
             // 1. Get the group of enharmonic PitchClasses. This is our candidate set.
             int idx = PITCH_CLASS.BASE_MIDI_VALUE;
-            int enharmonicIndex = (12 + (idx + pitchInterval.NUM_SEMITONES) % 12) % 12;
+            int enharmonicIndex = direction
+                    ? (idx + pitchInterval.NUM_SEMITONES) % 12
+                    : (idx + 12 - pitchInterval.NUM_SEMITONES) % 12;
             PitchClass[] candidates = PITCH_CLASS_CANDIDATE_REFERENCE[enharmonicIndex];
 
             // 2. Determine the expected letter of the returned Pitch. It may or may not exist in the candidate set.
@@ -584,7 +585,7 @@ public enum Pitch
              */
             Pitch candidate = Pitch.valueOf(transposedPitchClass.ENHARMONIC_SPELLING.apply(Accidental.NONE).name() + "_" + OCTAVE.NUMBER);
             if (candidate.PITCH_CLASS.equals(PITCH_CLASS) || candidate.ABSOLUTE_PITCH == ABSOLUTE_PITCH) {
-                return VALUES[direction && transposedPitchClass.BASE_MIDI_VALUE <= this.PITCH_CLASS.BASE_MIDI_VALUE ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
+                return VALUES[direction ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
             }
             else if (PITCH_CLASS.BASE_MIDI_VALUE < transposedPitchClass.BASE_MIDI_VALUE) {
                 return direction ? candidate : VALUES[candidate.ordinal() - 1];

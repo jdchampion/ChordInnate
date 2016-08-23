@@ -14,10 +14,21 @@ public enum Degree {
 
     ;
 
-    public RomanNumeral MAJOR_SYMBOL, MINOR_SYMBOL;
+    RomanNumeral MAJOR_SYMBOL, MINOR_SYMBOL;
 
     Degree(RomanNumeral majorSymbol, RomanNumeral minorSymbol) {
         this.MAJOR_SYMBOL = majorSymbol;
         this.MINOR_SYMBOL = minorSymbol;
+    }
+
+    RomanNumeral getRomanNumeral(IntervalQuality intervalQuality) {
+        switch (intervalQuality) {
+            case AUGMENTED:
+            case MAJOR:
+            case PERFECT: return MAJOR_SYMBOL;
+            case MINOR:
+            case DIMINISHED: return MINOR_SYMBOL;
+            default: return null;
+        }
     }
 }
