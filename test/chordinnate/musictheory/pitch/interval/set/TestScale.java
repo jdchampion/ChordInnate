@@ -32,9 +32,9 @@ public class TestScale {
     @Test
     public void transposeToInterval() throws Exception {
         Scale transposed = new Scale(C, "Major");
-        transposed.transposeTo(Interval.MAJOR_SECOND_UP);
+        transposed.transposeTo(Interval.MAJOR_SECOND, true);
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
-        transposed.transposeTo(Interval.MAJOR_SECOND_DOWN);
+        transposed.transposeTo(Interval.MAJOR_SECOND, false);
         verifyScale(transposed, C, D, E, F, G, A, B);
     }
 

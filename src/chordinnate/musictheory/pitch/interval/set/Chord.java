@@ -65,8 +65,8 @@ public final class Chord extends NonSerialIntervalSet
     }
 
     @Override
-    public void transposeTo(@NotNull Interval pitchInterval) {
-        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval);
+    public void transposeTo(@NotNull Interval pitchInterval, boolean direction) {
+        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
         super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getPitchIntervals());
         this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
     }
@@ -91,7 +91,7 @@ public final class Chord extends NonSerialIntervalSet
                 Octave nextOctave = octave.getNext();
                 if (nextOctave != null) {
                     invertedPitchesByOctave.get(octave)[inversion] = invertedPitchesByOctave
-                            .get(octave)[inversion].transposeTo(Interval.PERFECT_OCTAVE_UP);
+                            .get(octave)[inversion].transposeTo(Interval.PERFECT_UNISON, true);
                 }
             }
             // Append the bass note to the name
