@@ -43,17 +43,6 @@ public enum IntervalQuality {
         return null;
     }
 
-    static boolean isValid(IntervalQuality intervalQuality, int diatonic) {
-        if (intervalQuality == null) return false;
-        if (intervalQuality.equals(PERFECT)) {
-            return diatonic == 1 || diatonic == 4 || diatonic == 5;
-        }
-        else if (intervalQuality.equals(MAJOR) || intervalQuality.equals(MINOR)) {
-            return diatonic == 2 || diatonic == 3 || diatonic == 6 || diatonic == 7;
-        }
-        else return intervalQuality.equals(DIMINISHED) || intervalQuality.equals(AUGMENTED);
-    }
-
     public IntervalQuality getInversion() {
         return INVERSIONS.get(this);
     }

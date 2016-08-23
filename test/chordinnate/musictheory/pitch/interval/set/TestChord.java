@@ -29,9 +29,9 @@ public class TestChord {
     @Test
     public void transposeToInterval() throws Exception {
         Chord transposed = new Chord(C, ChordType.MAJOR);
-        transposed.transposeTo(Interval.MAJOR_SECOND_UP);
+        transposed.transposeTo(Interval.MAJOR_SECOND, true);
         verifyChord(transposed, D, F_SHARP, A);
-        transposed.transposeTo(Interval.MAJOR_SECOND_DOWN);
+        transposed.transposeTo(Interval.MAJOR_SECOND, false);
         verifyChord(transposed, C, E, G);
     }
 

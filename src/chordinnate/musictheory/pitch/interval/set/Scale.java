@@ -55,7 +55,7 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
                 String[] intervals = resultSet.getString("Intervals").split(", ");
                 Interval[] pitchIntervals = new Interval[intervals.length];
                 for (int i = 0; i < pitchIntervals.length; i++) {
-                    pitchIntervals[i] = new Interval(intervals[i], true); // TODO: change this to use a static final Interval
+                    pitchIntervals[i] = Interval.getStaticInterval(intervals[i]);
                 }
                 String origin = resultSet.getString("Origin");
                 INDEX_TO_SCALE_NAME.put(index, name);
@@ -107,8 +107,8 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
     }
 
     @Override
-    public void transposeTo(@NotNull Interval pitchInterval) {
-        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval);
+    public void transposeTo(@NotNull Interval pitchInterval, boolean direction) {
+        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
         super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, getIntervals(typeName));
         this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.typeName;
     }

@@ -11,7 +11,7 @@ interface TransposableIntervalSet extends Transposable {
      * with side effects to the IntervalSet.
      * @param pitchInterval the desired PitchInterval to transpose to
      */
-    void transposeTo(@NotNull Interval pitchInterval);
+    void transposeTo(@NotNull Interval pitchInterval, boolean direction);
 
     /**
      * Performs a transposition to the specified PitchClass,

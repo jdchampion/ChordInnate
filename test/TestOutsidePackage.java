@@ -34,7 +34,7 @@ public class TestOutsidePackage {
         ChordType chordType = ChordType.MAJOR;
         Octave octave = Octave.OCTAVE_4;
         Interval pitchInterval = Interval.PERFECT_UNISON;
-        Interval other = new Interval("P1", true);
+        Interval other = new Interval("P1");
         IntervalQuality pitchIntervalQuality = IntervalQuality.PERFECT;
         EnharmonicSpelling enharmonicSpelling = EnharmonicSpelling.C;
         KeySignature keySignature = KeySignature.C_MAJOR;
@@ -108,9 +108,9 @@ public class TestOutsidePackage {
         pitch.getEnharmonics();
         pitch.transposeTo(pitch);
         pitch.transposeTo(pitchClass, octave);
-        pitch.transposeTo(pitchInterval);
+        pitch.transposeTo(pitchInterval, true);
         pitchClass.getEnharmonics();
-        pitchInterval.getInversion(true);
+        pitchInterval.getInversion();
         chordType.length();
         chordType.getPitchIntervals();
         chordType.getBaseOctaves();

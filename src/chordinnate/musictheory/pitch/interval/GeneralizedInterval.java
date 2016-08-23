@@ -16,21 +16,19 @@ enum GeneralizedInterval {
     FIVE(5, DOMINANT, 7),
     SIX(6, SUBMEDIANT, 9),
     SEVEN(7, LEADING_TONE, 11),
-    EIGHT(8, TONIC, 0)
 
     ;
 
     private static final EnumMap<GeneralizedInterval, GeneralizedInterval> INVERSIONS = new EnumMap<>(GeneralizedInterval.class);
-        static {
-            INVERSIONS.put(ONE, EIGHT);
-            INVERSIONS.put(EIGHT, ONE);
-            INVERSIONS.put(TWO, SEVEN);
-            INVERSIONS.put(SEVEN, TWO);
-            INVERSIONS.put(THREE, SIX);
-            INVERSIONS.put(SIX, THREE);
-            INVERSIONS.put(FOUR, FIVE);
-            INVERSIONS.put(FIVE, FOUR);
-        }
+    static {
+        INVERSIONS.put(ONE, ONE);
+        INVERSIONS.put(TWO, SEVEN);
+        INVERSIONS.put(SEVEN, TWO);
+        INVERSIONS.put(THREE, SIX);
+        INVERSIONS.put(SIX, THREE);
+        INVERSIONS.put(FOUR, FIVE);
+        INVERSIONS.put(FIVE, FOUR);
+    }
 
     final int DIATONIC_NUMBER;
     final Degree DEGREE;
@@ -42,11 +40,58 @@ enum GeneralizedInterval {
         this.SEMITONES = semitones;
     }
 
+    private static int getSemitoneModifier(GeneralizedInterval generalizedInterval, IntervalQuality intervalQuality) {
+        if (generalizedInterval.equals(ONE) || generalizedInterval.equals(FOUR) || generalizedInterval.equals(FIVE)) {
+            switch (intervalQuality) {
+                case PERFECT: return 0;
+                case AUGMENTED: return 1;
+                case DIMINISHED: return -1;
+            }
+        }
+        else {
+            switch (intervalQuality) {
+                case MAJOR: return 0;
+                case MINOR: return -1;
+                case AUGMENTED: return 1;
+                case DIMINISHED: return -2;
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+
+    public int getSemitones(IntervalQuality intervalQuality) {
+        return this.SEMITONES + getSemitoneModifier(this, intervalQuality);
+    }
+
+    public String getRomanNumeralName(IntervalQuality intervalQuality) {
+        return getRomanNumeral(this, intervalQuality).toString() + intervalQuality.ROMAN_NUMERAL_APPENDED_SYMBOL;
+    }
+
+    private static RomanNumeral getRomanNumeral(GeneralizedInterval generalizedInterval, IntervalQuality intervalQuality) {
+        if (generalizedInterval.equals(ONE) || generalizedInterval.equals(FOUR) || generalizedInterval.equals(FIVE)) {
+            switch (intervalQuality) {
+                case PERFECT:
+                case AUGMENTED: return generalizedInterval.DEGREE.MAJOR_SYMBOL;
+                case DIMINISHED: return generalizedInterval.DEGREE.MINOR_SYMBOL;
+            }
+        }
+        else {
+            switch (intervalQuality) {
+                case MAJOR:
+                case AUGMENTED: return generalizedInterval.DEGREE.MAJOR_SYMBOL;
+                case MINOR:
+                case DIMINISHED: return generalizedInterval.DEGREE.MINOR_SYMBOL;
+            }
+        }
+        return null;
+    }
+
     public GeneralizedInterval getInversion() {
         return INVERSIONS.get(this);
     }
 
-    public static GeneralizedInterval getGeneralizedInterval(int index) {
+    public static GeneralizedInterval getByDiatonic(int index) {
         return GeneralizedInterval.values()[index - 1];
     }
+
 }
