@@ -217,16 +217,16 @@ public enum ChordType {
     ;
 
     public final String SYMBOL;
-    private final Interval[] PITCH_INTERVALS;
+    private final Interval[] INTERVALS;
     private final Octave[] BASE_OCTAVES;
 
-    ChordType(String chordSymbol, Interval... pitchIntervals) {
+    ChordType(String chordSymbol, Interval... intervals) {
         this.SYMBOL = chordSymbol;
-        this.PITCH_INTERVALS = pitchIntervals;
-        this.BASE_OCTAVES = new Octave[pitchIntervals.length];
+        this.INTERVALS = intervals;
+        this.BASE_OCTAVES = new Octave[intervals.length];
         BASE_OCTAVES[0] = Octave.OCTAVE_0;
         for (int i = 1; i < BASE_OCTAVES.length; i++) {
-            if (PITCH_INTERVALS[i].NUM_SEMITONES < PITCH_INTERVALS[i - 1].NUM_SEMITONES) {
+            if (INTERVALS[i].NUM_SEMITONES < INTERVALS[i - 1].NUM_SEMITONES) {
                 BASE_OCTAVES[i] = Octave.OCTAVE_1;
             }
             else {
@@ -235,11 +235,11 @@ public enum ChordType {
         }
     }
 
-    public Interval[] getPitchIntervals() {
+    public Interval[] getIntervals() {
         // Return a copy of the array (to protect against mutation)
-        Interval[] pitchIntervals = new Interval[PITCH_INTERVALS.length];
-        System.arraycopy(PITCH_INTERVALS, 0, pitchIntervals, 0, PITCH_INTERVALS.length);
-        return pitchIntervals;
+        Interval[] intervals = new Interval[INTERVALS.length];
+        System.arraycopy(INTERVALS, 0, intervals, 0, INTERVALS.length);
+        return intervals;
     }
 
     public Octave[] getBaseOctaves() {
@@ -250,6 +250,6 @@ public enum ChordType {
     }
 
     public int length() {
-        return PITCH_INTERVALS.length;
+        return INTERVALS.length;
     }
 }

@@ -33,9 +33,9 @@ public class TestOutsidePackage {
         NashvilleNumber nashvilleNumber = NashvilleNumber.ONE;
         ChordType chordType = ChordType.MAJOR;
         Octave octave = Octave.OCTAVE_4;
-        Interval pitchInterval = Interval.PERFECT_UNISON;
+        Interval interval = Interval.PERFECT_UNISON;
         Interval other = Interval.withShortName("P1");
-        IntervalQuality pitchIntervalQuality = IntervalQuality.PERFECT;
+        IntervalQuality intervalQuality = IntervalQuality.PERFECT;
         EnharmonicSpelling enharmonicSpelling = EnharmonicSpelling.C;
         KeySignature keySignature = KeySignature.C_MAJOR;
         KeySignatureType keySignatureType = KeySignatureType.MAJOR;
@@ -108,11 +108,11 @@ public class TestOutsidePackage {
         pitch.getEnharmonics();
         pitch.transposeTo(pitch);
         pitch.transposeTo(pitchClass, octave);
-        pitch.transposeTo(pitchInterval, true);
+        pitch.transposeTo(interval, true);
         pitchClass.getEnharmonics();
-        pitchInterval.getInversion();
+        interval.getInversion();
         chordType.length();
-        chordType.getPitchIntervals();
+        chordType.getIntervals();
         chordType.getBaseOctaves();
         scale.getPitchesForOctave(octave);
         scale.isDiatonicTo(keySignature);

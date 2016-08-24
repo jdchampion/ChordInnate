@@ -145,9 +145,29 @@ public class TestPitch {
     public void transposeToInterval() throws Exception {
         // Basic test cases
         assertEquals(Pitch.G_3, Pitch.C_4.transposeTo(Interval.PERFECT_FOURTH, false));
+        assertEquals(Pitch.G_3, Pitch.C_5.transposeTo(Interval.withShortName("P11"), false));
+        assertEquals(Pitch.G_3, Pitch.C_6.transposeTo(Interval.withShortName("P18"), false));
+        assertEquals(Pitch.G_3, Pitch.C_7.transposeTo(Interval.withShortName("P25"), false));
+        assertEquals(Pitch.G_3, Pitch.C_8.transposeTo(Interval.withShortName("P32"), false));
+        assertEquals(Pitch.G_3, Pitch.C_9.transposeTo(Interval.withShortName("P39"), false));
+        assertEquals(Pitch.G_3, Pitch.C_10.transposeTo(Interval.withShortName("P46"), false));
         assertEquals(Pitch.F_4, Pitch.C_4.transposeTo(Interval.PERFECT_FOURTH, true));
+        assertEquals(Pitch.F_4, Pitch.C_3.transposeTo(Interval.withShortName("P11"), true));
+        assertEquals(Pitch.F_4, Pitch.C_2.transposeTo(Interval.withShortName("P18"), true));
+        assertEquals(Pitch.F_4, Pitch.C_1.transposeTo(Interval.withShortName("P25"), true));
+        assertEquals(Pitch.F_4, Pitch.C_0.transposeTo(Interval.withShortName("P32"), true));
         assertEquals(Pitch.G_4, Pitch.C_4.transposeTo(Interval.PERFECT_FIFTH, true));
+        assertEquals(Pitch.G_4, Pitch.C_3.transposeTo(Interval.withShortName("P12"), true));
+        assertEquals(Pitch.G_4, Pitch.C_2.transposeTo(Interval.withShortName("P19"), true));
+        assertEquals(Pitch.G_4, Pitch.C_1.transposeTo(Interval.withShortName("P26"), true));
+        assertEquals(Pitch.G_4, Pitch.C_0.transposeTo(Interval.withShortName("P33"), true));
         assertEquals(Pitch.F_3, Pitch.C_4.transposeTo(Interval.PERFECT_FIFTH, false));
+        assertEquals(Pitch.F_3, Pitch.C_5.transposeTo(Interval.withShortName("P12"), false));
+        assertEquals(Pitch.F_3, Pitch.C_6.transposeTo(Interval.withShortName("P19"), false));
+        assertEquals(Pitch.F_3, Pitch.C_7.transposeTo(Interval.withShortName("P26"), false));
+        assertEquals(Pitch.F_3, Pitch.C_8.transposeTo(Interval.withShortName("P33"), false));
+        assertEquals(Pitch.F_3, Pitch.C_9.transposeTo(Interval.withShortName("P40"), false));
+        assertEquals(Pitch.F_3, Pitch.C_10.transposeTo(Interval.withShortName("P47"), false));
         assertEquals(Pitch.A_3, Pitch.D_4.transposeTo(Interval.PERFECT_FOURTH, false));
         assertEquals(Pitch.G_4, Pitch.D_4.transposeTo(Interval.PERFECT_FOURTH, true));
         assertEquals(Pitch.A_4, Pitch.D_4.transposeTo(Interval.PERFECT_FIFTH, true));
@@ -173,11 +193,20 @@ public class TestPitch {
         assertEquals(Pitch.E_3, Pitch.B_3.transposeTo(Interval.PERFECT_FIFTH, false));
 
         // Random test cases (expected values verified by http://www.musictheory.net/calculators/interval)
+        assertEquals(Pitch.E_4, Pitch.C_4.transposeTo(Interval.MAJOR_THIRD, true));
+        assertEquals(Pitch.E_5, Pitch.C_4.transposeTo(Interval.withShortName("M10"), true));
+        assertEquals(Pitch.A_FLAT_3, Pitch.C_4.transposeTo(Interval.MAJOR_THIRD, false));
+        assertEquals(Pitch.A_FLAT_2, Pitch.C_4.transposeTo(Interval.withShortName("M10"), false));
+
         assertEquals(Pitch.B_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.AUGMENTED_SECOND, true));
+        assertEquals(Pitch.B_FLAT_5, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.withShortName("A9"), true));
         assertEquals(Pitch.F_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.AUGMENTED_SECOND, false));
+        assertEquals(Pitch.F_FLAT_3, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.withShortName("A9"), false));
 
         assertEquals(Pitch.D_5, Pitch.F_SHARP_4.transposeTo(Interval.MINOR_SIXTH, true));
+        assertEquals(Pitch.D_6, Pitch.F_SHARP_4.transposeTo(Interval.withShortName("m13"), true));
         assertEquals(Pitch.A_SHARP_3, Pitch.F_SHARP_4.transposeTo(Interval.MINOR_SIXTH, false));
+        assertEquals(Pitch.A_SHARP_2, Pitch.F_SHARP_4.transposeTo(Interval.withShortName("m13"), false));
 
         assertEquals(Pitch.C_DOUBLE_FLAT_5, Pitch.C_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
         assertEquals(Pitch.C_FLAT_5, Pitch.C_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
@@ -214,7 +243,6 @@ public class TestPitch {
         assertEquals(Pitch.B_DOUBLE_FLAT_5, Pitch.A_4.transposeTo(Interval.DIMINISHED_SECOND, true));
         assertEquals(Pitch.B_FLAT_5, Pitch.A_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
         assertEquals(Pitch.B_5, Pitch.A_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-
     }
 
     @Test

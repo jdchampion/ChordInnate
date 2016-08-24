@@ -21,7 +21,7 @@ public final class Chord extends NonSerialIntervalSet
     int inversion, possibleInversions;
 
     public Chord(@NotNull EnharmonicSpelling root, @NotNull ChordType chordType) {
-        super.commonInitializations(root, chordType.getPitchIntervals());
+        super.commonInitializations(root, chordType.getIntervals());
         this.chordType = chordType;
         this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
         this.invertedPitchesByOctave = deepCopyPitchesByOctave();
@@ -65,16 +65,16 @@ public final class Chord extends NonSerialIntervalSet
     }
 
     @Override
-    public void transposeTo(@NotNull Interval pitchInterval, boolean direction) {
-        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getPitchIntervals());
+    public void transposeTo(@NotNull Interval interval, boolean direction) {
+        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(interval, direction);
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getIntervals());
         this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
     }
 
     @Override
     public void transposeTo(@NotNull PitchClass pitchClass) {
         Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchClass, lowestDiatonic.OCTAVE);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getPitchIntervals());
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getIntervals());
         this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
     }
 

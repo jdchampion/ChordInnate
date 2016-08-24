@@ -89,6 +89,6 @@ public class TestScale {
             assertEquals(expected[i], highPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
         }
 
-        assertEquals(scale.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scale.typeName, scale.fullName);
+        assertEquals(scale.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scale.SCALE_TYPE.NAME, scale.fullName);
     }
 }

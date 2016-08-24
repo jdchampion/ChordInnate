@@ -516,16 +516,16 @@ public enum Pitch
     }
 
     @Override
-    public boolean isTransposableTo(@NotNull Interval pitchInterval, boolean direction) {
+    public boolean isTransposableTo(@NotNull Interval interval, boolean direction) {
         return direction
-                ? ABSOLUTE_PITCH + pitchInterval.NUM_SEMITONES <= 127
-                : ABSOLUTE_PITCH - pitchInterval.NUM_SEMITONES >= 0;
+                ? ABSOLUTE_PITCH + interval.NUM_SEMITONES <= 127
+                : ABSOLUTE_PITCH - interval.NUM_SEMITONES >= 0;
     }
 
     @Nullable
     @Override
-    public Pitch transposeTo(@NotNull Interval pitchInterval, boolean direction) {
-        if (isTransposableTo(pitchInterval, direction)) {
+    public Pitch transposeTo(@NotNull Interval interval, boolean direction) {
+        if (isTransposableTo(interval, direction)) {
 
             // The returned Pitch will contain this PitchClass
             PitchClass transposedPitchClass = null;
@@ -533,15 +533,15 @@ public enum Pitch
             // 1. Get the group of enharmonic PitchClasses. This is our candidate set.
             int idx = PITCH_CLASS.BASE_MIDI_VALUE;
             int enharmonicIndex = direction
-                    ? (idx + pitchInterval.NUM_SEMITONES) % 12
-                    : (idx + 12 - pitchInterval.NUM_SEMITONES) % 12;
-            PitchClass[] candidates = PITCH_CLASS_CANDIDATE_REFERENCE[enharmonicIndex];
+                    ? (idx + interval.NUM_SEMITONES) % 12
+                    : (idx + 12 * interval.getOctaveSpan() - interval.NUM_SEMITONES) % 12;
+            PitchClass[] candidates = PITCH_CLASS_CANDIDATE_REFERENCE[enharmonicIndex < 0 ? 12 + enharmonicIndex : enharmonicIndex];
 
             // 2. Determine the expected letter of the returned Pitch. It may or may not exist in the candidate set.
             idx = PITCH_CLASS.ENHARMONIC_SPELLING.LETTER.ordinal();
             int expectedLetterIndex = direction
-                    ? (idx + (pitchInterval.COMPOUND_DIATONIC_NUMBER - 1)) % 7
-                    : (idx + (7 - (pitchInterval.COMPOUND_DIATONIC_NUMBER - 1))) % 7;
+                    ? (idx + (interval.getSimpleDiatonic() - 1)) % 7
+                    : (idx + (7 - (interval.getSimpleDiatonic() - 1))) % 7;
             Letter expectedLetter = Letter.values()[expectedLetterIndex];
 
             // 3. Choose a PitchClass from the candidate set.
@@ -584,6 +584,16 @@ public enum Pitch
              * and decide which Octave to use for the returned Pitch.
              */
             Pitch candidate = Pitch.valueOf(transposedPitchClass.ENHARMONIC_SPELLING.apply(Accidental.NONE).name() + "_" + OCTAVE.NUMBER);
+
+            if (interval.isCompoundInterval()) {
+                Octave octave = candidate.OCTAVE;
+                int octaveSpan = interval.getOctaveSpan();
+                for (int i = 0; i < octaveSpan; i++) {
+                    octave = direction ? octave.getNext() : octave.getPrevious();
+                }
+                candidate = candidate.transposeTo(candidate.PITCH_CLASS, octave);
+            }
+
             if (candidate.PITCH_CLASS.equals(PITCH_CLASS) || candidate.ABSOLUTE_PITCH == ABSOLUTE_PITCH) {
                 return VALUES[direction ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
             }

@@ -18,19 +18,19 @@ public abstract class IntervalSet implements Diatonic {
     Pitch lowestDiatonic, highestDiatonic;
     Octave maxPlayableOctave;
 
-    void commonInitializations(EnharmonicSpelling root, Interval[] pitchIntervals) {
+    void commonInitializations(EnharmonicSpelling root, Interval[] intervals) {
         this.pitchesByOctave = new EnumMap<>(Octave.class);
         this.lowestDiatonic = Pitch.valueOf(root.apply(Accidental.NONE).name() + "_0");
         Pitch lastKnownValidPitch = lowestDiatonic;
         Pitch octaveBegin = lowestDiatonic.transposeTo(lowestDiatonic.PITCH_CLASS, Octave.OCTAVE_0);
         for (Octave octave : Octave.values()) {
-            ArrayList<Pitch> pitchesAtCurrentOctave = new ArrayList<>(pitchIntervals.length);
+            ArrayList<Pitch> pitchesAtCurrentOctave = new ArrayList<>(intervals.length);
             if (lowestDiatonic.isTransposableTo(lowestDiatonic.PITCH_CLASS, octave)) {
                 Pitch lowestDiatonicAtOctave = octaveBegin.transposeTo(lowestDiatonic.PITCH_CLASS, octave);
                 if (lowestDiatonicAtOctave != null) pitchesAtCurrentOctave.add(lowestDiatonicAtOctave);
-                for (int i = 1; i < pitchIntervals.length && lowestDiatonicAtOctave != null; i++) {
-                    if (lowestDiatonicAtOctave.isTransposableTo(pitchIntervals[i], true)) {
-                        lastKnownValidPitch = lowestDiatonicAtOctave.transposeTo(pitchIntervals[i], true);
+                for (int i = 1; i < intervals.length && lowestDiatonicAtOctave != null; i++) {
+                    if (lowestDiatonicAtOctave.isTransposableTo(intervals[i], true)) {
+                        lastKnownValidPitch = lowestDiatonicAtOctave.transposeTo(intervals[i], true);
                         pitchesAtCurrentOctave.add(lastKnownValidPitch);
                     }
                 }
