@@ -22,8 +22,8 @@ final class ScaleType {
     private static Map<Integer, ScaleType> INDEX_TO_SCALE_TYPE;
     private static Map<String, ScaleType> NAME_TO_SCALE_TYPE;
 
-    String NAME, ORIGIN;
-    private Interval[] INTERVALS;
+    final String NAME, ORIGIN;
+    private final Interval[] INTERVALS;
 
     static {
         try {

@@ -1,7 +1,6 @@
 package chordinnate.musictheory.pitch.interval.set;
 
 import chordinnate.musictheory.pitch.interval.Interval;
-import chordinnate.musictheory.pitch.interval.Octave;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -29,9 +28,8 @@ final class ChordType {
     private static Map<Integer, ChordType> INDEX_TO_CHORD_TYPE;
     private static Map<String, ChordType> NAME_TO_CHORD_TYPE;
 
-    public final String SYMBOL;
+    final String SYMBOL;
     private final Interval[] INTERVALS;
-    private final Octave[] BASE_OCTAVES;
 
     static {
         try {
@@ -67,16 +65,6 @@ final class ChordType {
     ChordType(String chordSymbol, Interval... intervals) {
         this.SYMBOL = chordSymbol;
         this.INTERVALS = intervals;
-        this.BASE_OCTAVES = new Octave[intervals.length];
-        BASE_OCTAVES[0] = Octave.OCTAVE_0;
-        for (int i = 1; i < BASE_OCTAVES.length; i++) {
-            if (INTERVALS[i].NUM_SEMITONES < INTERVALS[i - 1].NUM_SEMITONES) {
-                BASE_OCTAVES[i] = Octave.OCTAVE_1;
-            }
-            else {
-                BASE_OCTAVES[i] = Octave.OCTAVE_0;
-            }
-        }
     }
 
     static ChordType withName(String name) {
@@ -87,7 +75,7 @@ final class ChordType {
         return INDEX_TO_CHORD_TYPE.get(index);
     }
 
-    static List<String> listSupportedScaleTypes() {
+    static List<String> listSupportedChordTypes() {
         int numScales = STARTING_INDEX + INDEX_TO_CHORD_TYPE.size();
         List<String> list = new LinkedList<>();
         for (int i = STARTING_INDEX; i < numScales; i++) {
@@ -101,13 +89,6 @@ final class ChordType {
         Interval[] intervals = new Interval[INTERVALS.length];
         System.arraycopy(INTERVALS, 0, intervals, 0, INTERVALS.length);
         return intervals;
-    }
-
-    public Octave[] getBaseOctaves() {
-        // Return a copy of the array (to protect against mutation)
-        Octave[] octaves = new Octave[BASE_OCTAVES.length];
-        System.arraycopy(BASE_OCTAVES, 0, octaves, 0, BASE_OCTAVES.length);
-        return octaves;
     }
 
     public int length() {
