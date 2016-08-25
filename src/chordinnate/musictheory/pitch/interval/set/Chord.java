@@ -21,7 +21,7 @@ public final class Chord extends NonSerialIntervalSet
     EnumMap<Octave, Pitch[]> invertedPitchesByOctave;
     int inversion, possibleInversions;
 
-    public Chord(@NotNull EnharmonicSpelling root, @NotNull ChordType chordType) {
+    private Chord(@NotNull EnharmonicSpelling root, @NotNull ChordType chordType) {
         super.commonInitializations(root, chordType.getIntervals());
         this.CHORD_TYPE = chordType;
         this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
@@ -96,7 +96,7 @@ public final class Chord extends NonSerialIntervalSet
                 Octave nextOctave = octave.getNext();
                 if (nextOctave != null) {
                     invertedPitchesByOctave.get(octave)[inversion] = invertedPitchesByOctave
-                            .get(octave)[inversion].transposeTo(Interval.PERFECT_UNISON, true);
+                            .get(octave)[inversion].transposeTo(Interval.PERFECT_OCTAVE, true);
                 }
             }
             // Append the bass note to the name

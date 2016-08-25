@@ -16,7 +16,7 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
     final ScaleType SCALE_TYPE;
     String fullName;
 
-    public Scale(@NotNull EnharmonicSpelling root, @NotNull ScaleType scaleType) {
+    private Scale(@NotNull EnharmonicSpelling root, @NotNull ScaleType scaleType) {
         super.commonInitializations(root, scaleType.getIntervals());
         this.SCALE_TYPE = scaleType;
         this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scaleType.NAME;
