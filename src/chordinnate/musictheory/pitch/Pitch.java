@@ -1,5 +1,6 @@
 package chordinnate.musictheory.pitch;
 
+import chordinnate.musictheory.pitch.interval.IntervalQuality;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.interval.set.IntervalSet;
@@ -525,6 +526,7 @@ public enum Pitch
     @Nullable
     @Override
     public Pitch transposeTo(@NotNull Interval interval, boolean direction) {
+        if (interval.equals(Interval.PERFECT_UNISON)) return this;
         if (isTransposableTo(interval, direction)) {
 
             // The returned Pitch will contain this PitchClass
@@ -592,6 +594,8 @@ public enum Pitch
                     octave = direction ? octave.getNext() : octave.getPrevious();
                 }
                 candidate = candidate.transposeTo(candidate.PITCH_CLASS, octave);
+                if (interval.getSimpleDiatonic() == 1
+                        && !interval.getIntervalQuality().equals(IntervalQuality.AUGMENTED)) return candidate;
             }
 
             if (candidate.PITCH_CLASS.equals(PITCH_CLASS) || candidate.ABSOLUTE_PITCH == ABSOLUTE_PITCH) {

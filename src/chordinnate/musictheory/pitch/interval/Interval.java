@@ -335,6 +335,10 @@ public final class Interval {
         return SIMPLE_DIATONIC_NUMBER;
     }
 
+    public IntervalQuality getIntervalQuality() {
+        return BASE_INTERVAL_TYPE.INTERVAL_QUALITY;
+    }
+
     public boolean isCompoundInterval() {
         return COMPOUND_DIATONIC_NUMBER > SIMPLE_DIATONIC_NUMBER;
     }
