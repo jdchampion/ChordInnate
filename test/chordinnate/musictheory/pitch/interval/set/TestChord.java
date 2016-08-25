@@ -24,6 +24,8 @@ public class TestChord {
         verifyChord(new Chord(F, ChordType.withName("7")), F, A, C, E_FLAT);
         verifyChord(new Chord(A_FLAT, ChordType.withName("m")), A_FLAT, C_FLAT, E_FLAT);
         verifyChord(new Chord(C, ChordType.withName("dim")), C, E_FLAT, G_FLAT);
+
+        Chord.getSupportedScaleNames().forEach(System.out::println);
     }
 
     @Test
@@ -95,7 +97,7 @@ public class TestChord {
                 lowPitches = chord.getPitchesForOctave(Octave.OCTAVE_0),
                 highPitches = chord.getPitchesForOctave(chord.maxPlayableOctave);
 
-        assertEquals("Chord length is not the expected length (bad test args?)", chord.chordType.length(), expected.length);
+        assertEquals("Chord length is not the expected length (bad test args?)", chord.CHORD_TYPE.length(), expected.length);
 
         int lowRange = lowPitches.length, highRange = highPitches.length;
 
@@ -106,7 +108,7 @@ public class TestChord {
             assertEquals(expected[i], highPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
         }
 
-        assertEquals(chord.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chord.chordType.SYMBOL, chord.name);
+        assertEquals(chord.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chord.CHORD_TYPE.SYMBOL, chord.name);
     }
 
 }

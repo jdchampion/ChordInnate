@@ -13,7 +13,7 @@ import java.util.List;
  *             http://www.earmaster.com/music-theory-online/ch04/chapter-4-8.html
  */
 public final class Scale extends SerialIntervalSet implements TransposableIntervalSet {
-    ScaleType SCALE_TYPE;
+    final ScaleType SCALE_TYPE;
     String fullName;
 
     public Scale(@NotNull EnharmonicSpelling root, @NotNull ScaleType scaleType) {
@@ -60,6 +60,14 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
         this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.SCALE_TYPE.NAME;
     }
 
+    @Override
+    public Pitch[] getPitchesForOctave(@NotNull Octave octave) {
+        // Return the desired octave (i.e., a subarray from super.pitchesByOctave)
+        Pitch[] source = super.pitchesByOctave.get(octave), destination = new Pitch[source.length];
+        System.arraycopy(source, 0, destination, 0, destination.length);
+        return destination;
+    }
+
     public static List<String> getSupportedScaleNames() {
         return ScaleType.listSupportedScaleTypes();
     }
@@ -74,13 +82,6 @@ public final class Scale extends SerialIntervalSet implements TransposableInterv
 
     public String getOrigin() {
         return SCALE_TYPE.ORIGIN;
-    }
-
-    public Pitch[] getPitchesForOctave(@NotNull Octave octave) {
-        // Return the desired octave (i.e., a subarray from super.pitchesByOctave)
-        Pitch[] source = super.pitchesByOctave.get(octave), destination = new Pitch[source.length];
-        System.arraycopy(source, 0, destination, 0, destination.length);
-        return destination;
     }
 
     public int length() {
