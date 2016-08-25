@@ -10,17 +10,17 @@ import org.jetbrains.annotations.NotNull;
 interface TransposableEnum<T extends Enum<T>> extends Transposable {
     /**
      * Checks the validity of a transposition to the specified Interval.
-     * @param pitchInterval the desired Interval to transpose to
+     * @param interval the desired Interval to transpose to
      * @return whether the desired transposition is valid
      */
-    boolean isTransposableTo(@NotNull Interval pitchInterval, boolean direction);
+    boolean isTransposableTo(@NotNull Interval interval, boolean direction);
 
     /**
      * Performs a transposition to the specified Interval.
-     * @param pitchInterval the desired Interval to transpose to
+     * @param interval the desired Interval to transpose to
      * @return an instance of the implementing Enum that is representative of the transposition
      */
-    Enum<T> transposeTo(@NotNull Interval pitchInterval, boolean direction);
+    Enum<T> transposeTo(@NotNull Interval interval, boolean direction);
 
     /**
      * Checks the validity of a transposition to the specified PitchClass and Octave.

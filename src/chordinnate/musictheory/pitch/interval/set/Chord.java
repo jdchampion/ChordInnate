@@ -9,28 +9,33 @@ import chordinnate.musictheory.pitch.KeySignature;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
+import java.util.List;
 
 /**
  * Created by Joseph on 7/17/16.
  */
 public final class Chord extends NonSerialIntervalSet
         implements TransposableIntervalSet, Invertible {
-    ChordType chordType;
+    final ChordType CHORD_TYPE;
     String name;
     EnumMap<Octave, Pitch[]> invertedPitchesByOctave;
     int inversion, possibleInversions;
 
-    public Chord(@NotNull EnharmonicSpelling root, @NotNull ChordType chordType) {
-        super.commonInitializations(root, chordType.getPitchIntervals());
-        this.chordType = chordType;
+    private Chord(@NotNull EnharmonicSpelling root, @NotNull ChordType chordType) {
+        super.commonInitializations(root, chordType.getIntervals());
+        this.CHORD_TYPE = chordType;
         this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
         this.invertedPitchesByOctave = deepCopyPitchesByOctave();
         this.inversion = 0;
         this.possibleInversions = chordType.length() - 1;
     }
 
-    public Chord(@NotNull PitchClass root, @NotNull ChordType chordType) {
-        this(root.ENHARMONIC_SPELLING, chordType);
+    public Chord(@NotNull EnharmonicSpelling root, @NotNull String chordTypeName) {
+        this(root, ChordType.withName(chordTypeName));
+    }
+
+    public Chord(@NotNull PitchClass root, @NotNull String chordTypeName) {
+        this(root.ENHARMONIC_SPELLING, ChordType.withName(chordTypeName));
     }
 
     /**
@@ -65,17 +70,17 @@ public final class Chord extends NonSerialIntervalSet
     }
 
     @Override
-    public void transposeTo(@NotNull Interval pitchInterval, boolean direction) {
-        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchInterval, direction);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getPitchIntervals());
-        this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
+    public void transposeTo(@NotNull Interval interval, boolean direction) {
+        Pitch lowestTransposed = super.lowestDiatonic.transposeTo(interval, direction);
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, CHORD_TYPE.getIntervals());
+        this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.SYMBOL;
     }
 
     @Override
     public void transposeTo(@NotNull PitchClass pitchClass) {
         Pitch lowestTransposed = super.lowestDiatonic.transposeTo(pitchClass, lowestDiatonic.OCTAVE);
-        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, chordType.getPitchIntervals());
-        this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
+        super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, CHORD_TYPE.getIntervals());
+        this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.SYMBOL;
     }
 
     @Override
@@ -83,7 +88,7 @@ public final class Chord extends NonSerialIntervalSet
         if (inversion == possibleInversions) {
             // Go back to the root inversion
             invertedPitchesByOctave = deepCopyPitchesByOctave();
-            name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL;
+            name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.SYMBOL;
             inversion = 0;
         }
         else {
@@ -91,11 +96,11 @@ public final class Chord extends NonSerialIntervalSet
                 Octave nextOctave = octave.getNext();
                 if (nextOctave != null) {
                     invertedPitchesByOctave.get(octave)[inversion] = invertedPitchesByOctave
-                            .get(octave)[inversion].transposeTo(Interval.PERFECT_UNISON, true);
+                            .get(octave)[inversion].transposeTo(Interval.PERFECT_OCTAVE, true);
                 }
             }
             // Append the bass note to the name
-            name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chordType.SYMBOL
+            name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.SYMBOL
                     + "/" + super.pitchesByOctave.get(lowestDiatonic.OCTAVE)[++inversion].PITCH_CLASS.ENHARMONIC_SPELLING.NAME;
         }
     }
@@ -107,5 +112,17 @@ public final class Chord extends NonSerialIntervalSet
                 destination = new Pitch[source.length];
         System.arraycopy(source, 0, destination, 0, destination.length);
         return destination;
+    }
+
+    public static List<String> getSupportedScaleNames() {
+        return ChordType.listSupportedChordTypes();
+    }
+
+    public String getSymbol() {
+        return CHORD_TYPE.SYMBOL;
+    }
+
+    public String getName() {
+        return name;
     }
 }

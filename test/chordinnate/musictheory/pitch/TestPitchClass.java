@@ -1,7 +1,6 @@
 package chordinnate.musictheory.pitch;
 
 import chordinnate.musictheory.pitch.interval.set.Chord;
-import chordinnate.musictheory.pitch.interval.set.ChordType;
 import chordinnate.musictheory.pitch.interval.set.Scale;
 import org.junit.Test;
 
@@ -141,8 +140,8 @@ public class TestPitchClass {
         Scale cMajor = new Scale(C, "Major"),
                 dMajor = new Scale(D, "Major");
 
-        Chord cMaj = new Chord(C, ChordType.MAJOR),
-                dMaj = new Chord(D, ChordType.MAJOR);
+        Chord cMaj = new Chord(C, "maj"),
+                dMaj = new Chord(D, "maj");
 
         assertTrue(C.isDiatonicTo(cMajor));
         assertTrue(C.isDiatonicTo(cMaj));

@@ -3,7 +3,6 @@ package chordinnate.musictheory.pitch;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.interval.set.Chord;
-import chordinnate.musictheory.pitch.interval.set.ChordType;
 import chordinnate.musictheory.pitch.interval.set.Scale;
 import org.junit.Rule;
 import org.junit.Test;
@@ -68,8 +67,8 @@ public class TestPitch {
         Scale cMajor = new Scale(PitchClass.C, "Major"),
                 dMajor = new Scale(PitchClass.D, "Major");
 
-        Chord cMaj = new Chord(PitchClass.C, ChordType.MAJOR),
-                dMaj = new Chord(PitchClass.D, ChordType.MAJOR);
+        Chord cMaj = new Chord(PitchClass.C, "maj"),
+                dMaj = new Chord(PitchClass.D, "maj");
 
         Pitch c0 = Pitch.C_0, c10 = Pitch.C_10;
 
@@ -143,11 +142,123 @@ public class TestPitch {
 
     @Test
     public void transposeToInterval() throws Exception {
-        // Basic test cases
+        // (expected values verified by http://www.musictheory.net/calculators/interval)
+        assertEquals(Pitch.C_1, Pitch.C_1.transposeTo(Interval.PERFECT_UNISON, true));
+        assertEquals(Pitch.C_2, Pitch.C_1.transposeTo(Interval.withShortName("P8"), true));
+        assertEquals(Pitch.C_1, Pitch.C_1.transposeTo(Interval.PERFECT_UNISON, false));
+        assertEquals(Pitch.C_0, Pitch.C_1.transposeTo(Interval.withShortName("P8"), false));
+
+        assertEquals(Pitch.C_FLAT_4, Pitch.C_4.transposeTo(Interval.withShortName("d1"), true));
+        assertEquals(Pitch.C_FLAT_5, Pitch.C_4.transposeTo(Interval.DIMINISHED_OCTAVE, true));
+        assertEquals(Pitch.C_FLAT_6, Pitch.C_4.transposeTo(Interval.withShortName("d15"), true));
+
+        assertEquals(Pitch.C_SHARP_3, Pitch.C_4.transposeTo(Interval.DIMINISHED_OCTAVE, false));
+        assertEquals(Pitch.C_SHARP_2, Pitch.C_4.transposeTo(Interval.withShortName("d15"), false));
+        assertEquals(Pitch.C_2, Pitch.C_1.transposeTo(Interval.PERFECT_OCTAVE, true));
+        assertEquals(Pitch.C_3, Pitch.C_1.transposeTo(Interval.withShortName("P15"), true));
+        assertEquals(Pitch.C_0, Pitch.C_1.transposeTo(Interval.PERFECT_OCTAVE, false));
+        assertEquals(Pitch.C_0, Pitch.C_2.transposeTo(Interval.withShortName("P15"), false));
+
+        assertEquals(Pitch.C_SHARP_1, Pitch.C_1.transposeTo(Interval.AUGMENTED_UNISON, true));
+        assertEquals(Pitch.C_SHARP_2, Pitch.C_1.transposeTo(Interval.withShortName("A8"), true));
+        assertEquals(Pitch.C_FLAT_0, Pitch.C_1.transposeTo(Interval.AUGMENTED_UNISON, false));
+        assertEquals(Pitch.C_FLAT_0, Pitch.C_2.transposeTo(Interval.withShortName("A8"), false));
+
+        // Cbb up d2 == Dbbbb, which isn't supported
+        assertEquals(Pitch.C_DOUBLE_FLAT_5, Pitch.C_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        // Cb up d2 == Dbbb, which isn't supported
+        assertEquals(Pitch.C_FLAT_5, Pitch.C_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.D_DOUBLE_FLAT_5, Pitch.C_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.D_FLAT_5, Pitch.C_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.D_5, Pitch.C_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+
+        // Dbb up d2 == Ebbbb, which isn't supported
+        assertEquals(Pitch.D_DOUBLE_FLAT_5, Pitch.D_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        // Db up d2 == Ebbb, which isn't supported
+        assertEquals(Pitch.D_FLAT_5, Pitch.D_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.E_DOUBLE_FLAT_5, Pitch.D_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.E_FLAT_5, Pitch.D_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.E_5, Pitch.D_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+
+        // Ebb up d2 == Fbbb, which isn't supported
+        assertEquals(Pitch.E_DOUBLE_FLAT_5, Pitch.E_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.F_DOUBLE_FLAT_5, Pitch.E_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.F_FLAT_5, Pitch.E_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.F_5, Pitch.E_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.F_SHARP_5, Pitch.E_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+
+        // Fbb up d2 == Gbbbb, which isn't supported
+        assertEquals(Pitch.F_DOUBLE_FLAT_5, Pitch.F_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        // Fb up d2 == Gbbb, which isn't supported
+        assertEquals(Pitch.F_FLAT_5, Pitch.F_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.G_DOUBLE_FLAT_5, Pitch.F_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.G_FLAT_5, Pitch.F_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.G_5, Pitch.F_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+
+        // Gbb up d2 == Abbbb, which isn't supported
+        assertEquals(Pitch.G_DOUBLE_FLAT_5, Pitch.G_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        // Gb up d2 == Abbb, which isn't supported
+        assertEquals(Pitch.G_FLAT_5, Pitch.G_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.A_DOUBLE_FLAT_5, Pitch.G_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.A_FLAT_5, Pitch.G_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.A_5, Pitch.G_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+
+        // Abb up d2 == Bbbbb, which isn't supported
+        assertEquals(Pitch.A_DOUBLE_FLAT_5, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        // Ab up d2 == Bbbb, which isn't supported
+        assertEquals(Pitch.A_FLAT_5, Pitch.A_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.B_DOUBLE_FLAT_5, Pitch.A_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.B_FLAT_5, Pitch.A_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+        assertEquals(Pitch.B_5, Pitch.A_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
+
+        assertEquals(Pitch.D_FLAT_1, Pitch.C_1.transposeTo(Interval.MINOR_SECOND, true));
+        assertEquals(Pitch.D_FLAT_2, Pitch.C_1.transposeTo(Interval.withShortName("m9"), true));
+        assertEquals(Pitch.B_0, Pitch.C_1.transposeTo(Interval.MINOR_SECOND, false));
+        assertEquals(Pitch.B_0, Pitch.C_2.transposeTo(Interval.withShortName("m9"), false));
+
+        assertEquals(Pitch.D_1, Pitch.C_1.transposeTo(Interval.MAJOR_SECOND, true));
+        assertEquals(Pitch.D_2, Pitch.C_1.transposeTo(Interval.withShortName("M9"), true));
+        assertEquals(Pitch.B_FLAT_0, Pitch.C_1.transposeTo(Interval.MAJOR_SECOND, false));
+        assertEquals(Pitch.B_FLAT_0, Pitch.C_2.transposeTo(Interval.withShortName("M9"), false));
+
+        // Ax up A2 == Bxx, which isn't supported
+        assertEquals(Pitch.C_DOUBLE_SHARP_5, Pitch.A_DOUBLE_SHARP_4.transposeTo(Interval.AUGMENTED_SECOND, true));
+        // Ax up A2 == Bxx, which isn't supported
+        assertEquals(Pitch.C_DOUBLE_SHARP_6, Pitch.A_DOUBLE_SHARP_4.transposeTo(Interval.withShortName("A9"), true));
+        assertEquals(Pitch.B_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.AUGMENTED_SECOND, true));
+        assertEquals(Pitch.B_FLAT_5, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.withShortName("A9"), true));
+        assertEquals(Pitch.F_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.AUGMENTED_SECOND, false));
+        assertEquals(Pitch.F_FLAT_3, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.withShortName("A9"), false));
+
+        assertEquals(Pitch.E_4, Pitch.C_4.transposeTo(Interval.MAJOR_THIRD, true));
+        assertEquals(Pitch.E_5, Pitch.C_4.transposeTo(Interval.withShortName("M10"), true));
+        assertEquals(Pitch.A_FLAT_3, Pitch.C_4.transposeTo(Interval.MAJOR_THIRD, false));
+        assertEquals(Pitch.A_FLAT_2, Pitch.C_4.transposeTo(Interval.withShortName("M10"), false));
+
         assertEquals(Pitch.G_3, Pitch.C_4.transposeTo(Interval.PERFECT_FOURTH, false));
+        assertEquals(Pitch.G_3, Pitch.C_5.transposeTo(Interval.withShortName("P11"), false));
+        assertEquals(Pitch.G_3, Pitch.C_6.transposeTo(Interval.withShortName("P18"), false));
+        assertEquals(Pitch.G_3, Pitch.C_7.transposeTo(Interval.withShortName("P25"), false));
+        assertEquals(Pitch.G_3, Pitch.C_8.transposeTo(Interval.withShortName("P32"), false));
+        assertEquals(Pitch.G_3, Pitch.C_9.transposeTo(Interval.withShortName("P39"), false));
+        assertEquals(Pitch.G_3, Pitch.C_10.transposeTo(Interval.withShortName("P46"), false));
         assertEquals(Pitch.F_4, Pitch.C_4.transposeTo(Interval.PERFECT_FOURTH, true));
+        assertEquals(Pitch.F_4, Pitch.C_3.transposeTo(Interval.withShortName("P11"), true));
+        assertEquals(Pitch.F_4, Pitch.C_2.transposeTo(Interval.withShortName("P18"), true));
+        assertEquals(Pitch.F_4, Pitch.C_1.transposeTo(Interval.withShortName("P25"), true));
+        assertEquals(Pitch.F_4, Pitch.C_0.transposeTo(Interval.withShortName("P32"), true));
         assertEquals(Pitch.G_4, Pitch.C_4.transposeTo(Interval.PERFECT_FIFTH, true));
+        assertEquals(Pitch.G_4, Pitch.C_3.transposeTo(Interval.withShortName("P12"), true));
+        assertEquals(Pitch.G_4, Pitch.C_2.transposeTo(Interval.withShortName("P19"), true));
+        assertEquals(Pitch.G_4, Pitch.C_1.transposeTo(Interval.withShortName("P26"), true));
+        assertEquals(Pitch.G_4, Pitch.C_0.transposeTo(Interval.withShortName("P33"), true));
         assertEquals(Pitch.F_3, Pitch.C_4.transposeTo(Interval.PERFECT_FIFTH, false));
+        assertEquals(Pitch.F_3, Pitch.C_5.transposeTo(Interval.withShortName("P12"), false));
+        assertEquals(Pitch.F_3, Pitch.C_6.transposeTo(Interval.withShortName("P19"), false));
+        assertEquals(Pitch.F_3, Pitch.C_7.transposeTo(Interval.withShortName("P26"), false));
+        assertEquals(Pitch.F_3, Pitch.C_8.transposeTo(Interval.withShortName("P33"), false));
+        assertEquals(Pitch.F_3, Pitch.C_9.transposeTo(Interval.withShortName("P40"), false));
+        assertEquals(Pitch.F_3, Pitch.C_10.transposeTo(Interval.withShortName("P47"), false));
         assertEquals(Pitch.A_3, Pitch.D_4.transposeTo(Interval.PERFECT_FOURTH, false));
         assertEquals(Pitch.G_4, Pitch.D_4.transposeTo(Interval.PERFECT_FOURTH, true));
         assertEquals(Pitch.A_4, Pitch.D_4.transposeTo(Interval.PERFECT_FIFTH, true));
@@ -172,49 +283,10 @@ public class TestPitch {
         assertEquals(Pitch.F_SHARP_4, Pitch.B_3.transposeTo(Interval.PERFECT_FIFTH, true));
         assertEquals(Pitch.E_3, Pitch.B_3.transposeTo(Interval.PERFECT_FIFTH, false));
 
-        // Random test cases (expected values verified by http://www.musictheory.net/calculators/interval)
-        assertEquals(Pitch.B_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.AUGMENTED_SECOND, true));
-        assertEquals(Pitch.F_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.AUGMENTED_SECOND, false));
-
         assertEquals(Pitch.D_5, Pitch.F_SHARP_4.transposeTo(Interval.MINOR_SIXTH, true));
+        assertEquals(Pitch.D_6, Pitch.F_SHARP_4.transposeTo(Interval.withShortName("m13"), true));
         assertEquals(Pitch.A_SHARP_3, Pitch.F_SHARP_4.transposeTo(Interval.MINOR_SIXTH, false));
-
-        assertEquals(Pitch.C_DOUBLE_FLAT_5, Pitch.C_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.C_FLAT_5, Pitch.C_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.D_DOUBLE_FLAT_5, Pitch.C_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.D_FLAT_5, Pitch.C_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.D_5, Pitch.C_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-
-        assertEquals(Pitch.D_DOUBLE_FLAT_5, Pitch.D_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.D_FLAT_5, Pitch.D_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.E_DOUBLE_FLAT_5, Pitch.D_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.E_FLAT_5, Pitch.D_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.E_5, Pitch.D_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-
-        assertEquals(Pitch.E_DOUBLE_FLAT_5, Pitch.E_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.F_DOUBLE_FLAT_5, Pitch.E_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.F_FLAT_5, Pitch.E_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.F_5, Pitch.E_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.F_SHARP_5, Pitch.E_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-
-        assertEquals(Pitch.F_DOUBLE_FLAT_5, Pitch.F_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.F_FLAT_5, Pitch.F_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.G_DOUBLE_FLAT_5, Pitch.F_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.G_FLAT_5, Pitch.F_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.G_5, Pitch.F_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-
-        assertEquals(Pitch.G_DOUBLE_FLAT_5, Pitch.G_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.G_FLAT_5, Pitch.G_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.A_DOUBLE_FLAT_5, Pitch.G_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.A_FLAT_5, Pitch.G_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.A_5, Pitch.G_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-
-        assertEquals(Pitch.A_DOUBLE_FLAT_5, Pitch.A_DOUBLE_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.A_FLAT_5, Pitch.A_FLAT_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.B_DOUBLE_FLAT_5, Pitch.A_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.B_FLAT_5, Pitch.A_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-        assertEquals(Pitch.B_5, Pitch.A_DOUBLE_SHARP_4.transposeTo(Interval.DIMINISHED_SECOND, true));
-
+        assertEquals(Pitch.A_SHARP_2, Pitch.F_SHARP_4.transposeTo(Interval.withShortName("m13"), false));
     }
 
     @Test

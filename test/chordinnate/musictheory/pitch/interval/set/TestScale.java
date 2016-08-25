@@ -60,7 +60,7 @@ public class TestScale {
     @Test
     public void isDiatonicToIntervalSet() throws Exception {
         Scale s = new Scale(C, "Major");
-        Chord c = new Chord(C, ChordType.MAJOR);
+        Chord c = new Chord(C, "maj");
         Scale aNaturalMinor = new Scale(A, "Melodic Minor descending");
 
         assertTrue(s.isDiatonicTo(s));
@@ -89,6 +89,6 @@ public class TestScale {
             assertEquals(expected[i], highPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
         }
 
-        assertEquals(scale.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scale.typeName, scale.fullName);
+        assertEquals(scale.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scale.SCALE_TYPE.NAME, scale.fullName);
     }
 }

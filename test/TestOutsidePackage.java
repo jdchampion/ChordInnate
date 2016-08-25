@@ -31,11 +31,10 @@ public class TestOutsidePackage {
         Accidental accidental = Accidental.DOUBLE_SHARP;
         Texture texture = Texture.CHORDAL;
         NashvilleNumber nashvilleNumber = NashvilleNumber.ONE;
-        ChordType chordType = ChordType.MAJOR;
         Octave octave = Octave.OCTAVE_4;
-        Interval pitchInterval = Interval.PERFECT_UNISON;
+        Interval interval = Interval.PERFECT_UNISON;
         Interval other = Interval.withShortName("P1");
-        IntervalQuality pitchIntervalQuality = IntervalQuality.PERFECT;
+        IntervalQuality intervalQuality = IntervalQuality.PERFECT;
         EnharmonicSpelling enharmonicSpelling = EnharmonicSpelling.C;
         KeySignature keySignature = KeySignature.C_MAJOR;
         KeySignatureType keySignatureType = KeySignatureType.MAJOR;
@@ -57,7 +56,7 @@ public class TestOutsidePackage {
          */
 
         MajorProgressionGraph1 majorProgressionGraph1; // static class -- no constructor necessary
-        Chord chord = new Chord(pitchClass, chordType);
+        Chord chord = new Chord(pitchClass, "maj");
         Scale scale = new Scale(pitchClass, "Major");
         FreeMeter freeMeter = new FreeMeter();
         PlayBack playBack; // static class -- no constructor necessary
@@ -75,7 +74,7 @@ public class TestOutsidePackage {
                 return super.getAllEdges(sourceVertex, targetVertex);
             }
         };
-        IntervalSet intervalSet1 = new Chord(pitchClass, chordType);
+        IntervalSet intervalSet1 = new Chord(pitchClass, "maj");
         IntervalSet intervalSet2 = new Scale(pitchClass, "Major");
         intervalSet1.isDiatonicTo(keySignature);
         intervalSet1.isDiatonicTo(intervalSet2);
@@ -108,12 +107,9 @@ public class TestOutsidePackage {
         pitch.getEnharmonics();
         pitch.transposeTo(pitch);
         pitch.transposeTo(pitchClass, octave);
-        pitch.transposeTo(pitchInterval, true);
+        pitch.transposeTo(interval, true);
         pitchClass.getEnharmonics();
-        pitchInterval.getInversion();
-        chordType.length();
-        chordType.getPitchIntervals();
-        chordType.getBaseOctaves();
+        interval.getInversion();
         scale.getPitchesForOctave(octave);
         scale.isDiatonicTo(keySignature);
         scale.isDiatonicTo(scale);

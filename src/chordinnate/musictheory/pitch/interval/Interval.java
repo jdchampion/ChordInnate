@@ -21,11 +21,11 @@ import static chordinnate.musictheory.pitch.interval.IntervalQuality.*;
  *             http://musictheory.alcorn.edu/Version2/theory1/interval.htm
  *             http://music.tutsplus.com/tutorials/music-theory-intervals-and-how-to-derive-them--audio-4559
  */
-public class Interval {
+public final class Interval {
     public int NUM_SEMITONES;
-    public int COMPOUND_DIATONIC_NUMBER, SIMPLE_DIATONIC_NUMBER;
-    public String COMPOUND_SHORT_NAME, SIMPLE_SHORT_NAME;
-    public String ROMAN_NUMERAL_NAME;
+    int COMPOUND_DIATONIC_NUMBER, SIMPLE_DIATONIC_NUMBER;
+    String COMPOUND_SHORT_NAME, SIMPLE_SHORT_NAME;
+    String ROMAN_NUMERAL_NAME;
 
     IntervalType BASE_INTERVAL_TYPE;
 
@@ -324,7 +324,23 @@ public class Interval {
     }
 
     public int getOctaveSpan() {
-        return COMPOUND_DIATONIC_NUMBER / 8;
+        return getNumberOfOctaves(SIMPLE_DIATONIC_NUMBER, COMPOUND_DIATONIC_NUMBER);
+    }
+
+    public int getCompoundDiatonic() {
+        return COMPOUND_DIATONIC_NUMBER;
+    }
+
+    public int getSimpleDiatonic() {
+        return SIMPLE_DIATONIC_NUMBER;
+    }
+
+    public IntervalQuality getIntervalQuality() {
+        return BASE_INTERVAL_TYPE.INTERVAL_QUALITY;
+    }
+
+    public boolean isCompoundInterval() {
+        return COMPOUND_DIATONIC_NUMBER > SIMPLE_DIATONIC_NUMBER;
     }
 
 }

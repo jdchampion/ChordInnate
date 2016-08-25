@@ -174,10 +174,6 @@ public enum KeySignature {
         return false;
     }
 
-    public static KeySignature majorKeyOf(@NotNull EnharmonicSpelling root) {
-        return KeySignature.valueOf(root.name() + "_MAJOR");
-    }
-
     public KeySignature getRelativeMajor() {
         return this.KEY_SIGNATURE_TYPE == KeySignatureType.MAJOR || (this.KEY_SIGNATURE_TYPE == KeySignatureType.THEORETICAL && this.name().contains("MAJOR"))
                 ? this
