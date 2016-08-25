@@ -29,8 +29,12 @@ public final class Chord extends NonSerialIntervalSet
         this.possibleInversions = chordType.length() - 1;
     }
 
-    public Chord(@NotNull PitchClass root, @NotNull ChordType chordType) {
-        this(root.ENHARMONIC_SPELLING, chordType);
+    public Chord(@NotNull EnharmonicSpelling root, @NotNull String chordTypeName) {
+        this(root, ChordType.withName(chordTypeName));
+    }
+
+    public Chord(@NotNull PitchClass root, @NotNull String chordTypeName) {
+        this(root.ENHARMONIC_SPELLING, ChordType.withName(chordTypeName));
     }
 
     /**

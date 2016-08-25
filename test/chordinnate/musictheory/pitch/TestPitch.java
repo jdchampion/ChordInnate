@@ -3,7 +3,6 @@ package chordinnate.musictheory.pitch;
 import chordinnate.musictheory.pitch.interval.Octave;
 import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.interval.set.Chord;
-import chordinnate.musictheory.pitch.interval.set.ChordType;
 import chordinnate.musictheory.pitch.interval.set.Scale;
 import org.junit.Rule;
 import org.junit.Test;
@@ -68,8 +67,8 @@ public class TestPitch {
         Scale cMajor = new Scale(PitchClass.C, "Major"),
                 dMajor = new Scale(PitchClass.D, "Major");
 
-        Chord cMaj = new Chord(PitchClass.C, ChordType.MAJOR),
-                dMaj = new Chord(PitchClass.D, ChordType.MAJOR);
+        Chord cMaj = new Chord(PitchClass.C, "maj"),
+                dMaj = new Chord(PitchClass.D, "maj");
 
         Pitch c0 = Pitch.C_0, c10 = Pitch.C_10;
 

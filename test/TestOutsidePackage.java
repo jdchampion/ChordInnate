@@ -31,7 +31,6 @@ public class TestOutsidePackage {
         Accidental accidental = Accidental.DOUBLE_SHARP;
         Texture texture = Texture.CHORDAL;
         NashvilleNumber nashvilleNumber = NashvilleNumber.ONE;
-        ChordType chordType = ChordType.MAJOR;
         Octave octave = Octave.OCTAVE_4;
         Interval interval = Interval.PERFECT_UNISON;
         Interval other = Interval.withShortName("P1");
@@ -57,7 +56,7 @@ public class TestOutsidePackage {
          */
 
         MajorProgressionGraph1 majorProgressionGraph1; // static class -- no constructor necessary
-        Chord chord = new Chord(pitchClass, chordType);
+        Chord chord = new Chord(pitchClass, "maj");
         Scale scale = new Scale(pitchClass, "Major");
         FreeMeter freeMeter = new FreeMeter();
         PlayBack playBack; // static class -- no constructor necessary
@@ -75,7 +74,7 @@ public class TestOutsidePackage {
                 return super.getAllEdges(sourceVertex, targetVertex);
             }
         };
-        IntervalSet intervalSet1 = new Chord(pitchClass, chordType);
+        IntervalSet intervalSet1 = new Chord(pitchClass, "maj");
         IntervalSet intervalSet2 = new Scale(pitchClass, "Major");
         intervalSet1.isDiatonicTo(keySignature);
         intervalSet1.isDiatonicTo(intervalSet2);
@@ -111,9 +110,6 @@ public class TestOutsidePackage {
         pitch.transposeTo(interval, true);
         pitchClass.getEnharmonics();
         interval.getInversion();
-        chordType.length();
-        chordType.getIntervals();
-        chordType.getBaseOctaves();
         scale.getPitchesForOctave(octave);
         scale.isDiatonicTo(keySignature);
         scale.isDiatonicTo(scale);

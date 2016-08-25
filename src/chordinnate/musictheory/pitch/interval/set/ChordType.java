@@ -3,8 +3,14 @@ package chordinnate.musictheory.pitch.interval.set;
 import chordinnate.musictheory.pitch.interval.Interval;
 import chordinnate.musictheory.pitch.interval.Octave;
 
-import static chordinnate.musictheory.pitch.Accidental.*;
-import static chordinnate.musictheory.pitch.interval.Interval.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Joseph on 1/8/16.
@@ -12,213 +18,51 @@ import static chordinnate.musictheory.pitch.interval.Interval.*;
  * References: http://www.all-guitar-chords.com/index.php
  *             https://en.wikipedia.org/wiki/List_of_chords
  */
-public enum ChordType {
-    MAJOR(
-            "maj",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH
-    ),
-    MAJOR_SEVEN(
-            "maj7",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH
-    ),
-    SEVEN(
-            "7",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH
-    ),
-    ADD_NINE(
-            "add9",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SECOND
-    ),
-    MINOR(
-            "m",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH
-    ),
-    MINOR_SEVEN(
-            "m7",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH
-    ),
-    DIMINISHED(
-            "dim",
-            PERFECT_UNISON, MINOR_THIRD, DIMINISHED_FIFTH
-    ),
-    DIMINISHED_SEVEN(
-            "dim7",
-            PERFECT_UNISON, MINOR_THIRD, DIMINISHED_FIFTH, MAJOR_SIXTH
-    ),
-    AUGMENTED(
-            "aug",
-            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH
-    ),
-    SUSPENDED_FOUR(
-            "sus4",
-            PERFECT_UNISON, PERFECT_FOURTH, PERFECT_FIFTH
-    ),
-    SUSPENDED_TWO(
-            "sus2",
-            PERFECT_UNISON, MAJOR_SECOND, PERFECT_FIFTH
-    ),
-    MAJOR_NINE(
-            "maj9",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND
-    ),
-    MAJOR_THIRTEEN(
-            "maj13",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH, MAJOR_SIXTH
-    ),
-    MAJOR_NINE_SHARP_ELEVEN(
-            "maj9"+SHARP.SYMBOL+"11",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND, AUGMENTED_FOURTH
-    ),
-    MAJOR_THIRTEEN_SHARP_ELEVEN(
-            "maj13"+SHARP.SYMBOL+"11",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND, AUGMENTED_FOURTH, MAJOR_SIXTH
-    ),
-    SIX(
-            "6",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SIXTH
-    ),
-    SIX_ADD_NINE(
-            "6add9",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SECOND
-    ),
-    MAJOR_SEVEN_SHARP_FIVE(
-            "maj7"+SHARP.SYMBOL+"5",
-            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MAJOR_SEVENTH
-    ),
-    MAJOR_SEVEN_FLAT_FIVE(
-            "maj7"+FLAT.SYMBOL+"5",
-            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MAJOR_SEVENTH
-    ),
-    MINOR_NINE(
-            "m9",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND
-    ),
-    MINOR_ELEVEN(
-            "m11",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH
-    ),
-    MINOR_THIRTEEN(
-            "m13",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH, MAJOR_SIXTH
-    ),
-    MINOR_SIX(
-            "m6",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SIXTH
-    ),
-    MINOR_ADD_NINE(
-            "madd9",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SECOND
-    ),
-    MINOR_SIX_ADD_NINE(
-            "m6add9",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SIXTH, MAJOR_SECOND
-    ),
-    MINOR_MAJOR_SEVEN(
-            "mM7",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH
-    ),
-    MINOR_MAJOR_NINE(
-            "mM9",
-            PERFECT_UNISON, MINOR_THIRD, PERFECT_FIFTH, MAJOR_SEVENTH, MAJOR_SECOND
-    ),
-    MINOR_SEVEN_FLAT_FIVE(
-            "m7"+FLAT.SYMBOL+"5",
-            PERFECT_UNISON, MINOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH
-    ),
-    HALF_DIMINISHED(
-            "ø",
-            PERFECT_UNISON, MINOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH
-    ),
-    MINOR_SEVEN_SHARP_FIVE(
-            "m7"+SHARP.SYMBOL+"5",
-            PERFECT_UNISON, MINOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH
-    ),
-    NINE(
-            "9",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND
-    ),
-    ELEVEN(
-            "11",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH
-    ),
-    THIRTEEN(
-            "13",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, PERFECT_FOURTH, MAJOR_SIXTH
-    ),
-    SEVEN_SUSPENDED_FOUR(
-            "7sus4",
-            PERFECT_UNISON, PERFECT_FOURTH, PERFECT_FIFTH, MINOR_SEVENTH
-    ),
-    SEVEN_FLAT_FIVE(
-            "7"+FLAT.SYMBOL+"5",
-            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH
-    ),
-    SEVEN_SHARP_FIVE(
-            "7"+SHARP.SYMBOL+"5",
-            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH
-    ),
-    SEVEN_FLAT_NINE(
-            "7"+FLAT.SYMBOL+"9",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND
-    ),
-    SEVEN_SHARP_NINE(
-            "7"+SHARP.SYMBOL+"9",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, AUGMENTED_SECOND
-    ),
-    SEVEN_FLAT_FIVE_FLAT_NINE(
-            "7"+FLAT.SYMBOL+"5"+FLAT.SYMBOL+"9",
-            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND
-    ),
-    SEVEN_FLAT_FIVE_SHARP_NINE(
-            "7"+FLAT.SYMBOL+"5"+SHARP.SYMBOL+"9",
-            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH, AUGMENTED_SECOND
-    ),
-    SEVEN_SHARP_FIVE_FLAT_NINE(
-            "7"+SHARP.SYMBOL+"5"+FLAT.SYMBOL+"9",
-            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND
-    ),
-    SEVEN_SHARP_FIVE_SHARP_NINE(
-            "7"+SHARP.SYMBOL+"5"+SHARP.SYMBOL+"9",
-            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH, AUGMENTED_SECOND
-    ),
-    NINE_FLAT_FIVE(
-            "9"+FLAT.SYMBOL+"5",
-            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH, MINOR_SEVENTH, MAJOR_SECOND
-    ),
-    NINE_SHARP_FIVE(
-            "9"+SHARP.SYMBOL+"5",
-            PERFECT_UNISON, MAJOR_THIRD, AUGMENTED_FIFTH, MINOR_SEVENTH, MAJOR_SECOND
-    ),
-    THIRTEEN_SHARP_ELEVEN(
-            "13"+SHARP.SYMBOL+"11",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, MAJOR_SECOND, AUGMENTED_FOURTH, MAJOR_SIXTH
-    ),
-    THIRTEEN_FLAT_NINE(
-            "13"+FLAT.SYMBOL+"9",
-            PERFECT_UNISON, MAJOR_THIRD, PERFECT_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND, MAJOR_SIXTH
-    ),
-    ELEVEN_FLAT_NINE(
-            "11"+FLAT.SYMBOL+"9",
-            PERFECT_UNISON, PERFECT_FIFTH, MINOR_SEVENTH, DIMINISHED_SECOND, PERFECT_FOURTH
-    ),
-    POWER_CHORD(
-            "5",
-            PERFECT_UNISON, PERFECT_FIFTH
-    ),
-    SUSPENDED_TWO_SUSPENDED_FOUR(
-            "sus2sus4",
-            PERFECT_UNISON, MAJOR_SECOND, PERFECT_FOURTH, PERFECT_FIFTH
-    ),
-    FLAT_FIVE(
-            "-5",
-            PERFECT_UNISON, MAJOR_THIRD, DIMINISHED_FIFTH
-    ),
+final class ChordType {
+    private static final String DATABASE_USERNAME = "";
+    private static final String DATABASE_PASSWORD = "";
+    private static final String DATABASE_DRIVER = "org.sqlite.JDBC";
+    private static final String DATABASE_PROTOCOL = "jdbc:sqlite:";
+    private static final String DATABASE_DIRECTORY = "src/resources/sqlite/chords.db";
 
-    ;
+    private static final int STARTING_INDEX = 1;
+    private static Map<Integer, ChordType> INDEX_TO_CHORD_TYPE;
+    private static Map<String, ChordType> NAME_TO_CHORD_TYPE;
 
     public final String SYMBOL;
     private final Interval[] INTERVALS;
     private final Octave[] BASE_OCTAVES;
+
+    static {
+        try {
+            Class.forName(DATABASE_DRIVER);
+            Connection connection = DriverManager
+                    .getConnection(DATABASE_PROTOCOL + DATABASE_DIRECTORY, DATABASE_USERNAME, DATABASE_PASSWORD);
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT Symbol, Intervals FROM supported_chords");
+            int fetchSize = preparedStatement.getFetchSize();
+            INDEX_TO_CHORD_TYPE = new HashMap<>(fetchSize);
+            NAME_TO_CHORD_TYPE = new HashMap<>(fetchSize);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int index = STARTING_INDEX;
+            while (resultSet.next()) {
+                String name = resultSet.getString("Symbol");
+                String[] intervalShortNames = resultSet.getString("Intervals").split(", ");
+                final Interval[] intervals = new Interval[intervalShortNames.length];
+                for (int i = 0; i < intervals.length; i++) {
+                    intervals[i] = Interval.withShortName(intervalShortNames[i]);
+                }
+                final ChordType chordType = new ChordType(name, intervals);
+                INDEX_TO_CHORD_TYPE.put(index, chordType);
+                NAME_TO_CHORD_TYPE.put(name, chordType);
+                index++;
+            }
+            preparedStatement.close();
+            resultSet.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     ChordType(String chordSymbol, Interval... intervals) {
         this.SYMBOL = chordSymbol;
@@ -233,6 +77,23 @@ public enum ChordType {
                 BASE_OCTAVES[i] = Octave.OCTAVE_0;
             }
         }
+    }
+
+    static ChordType withName(String name) {
+        return NAME_TO_CHORD_TYPE.get(name);
+    }
+
+    static ChordType withIndex(int index) {
+        return INDEX_TO_CHORD_TYPE.get(index);
+    }
+
+    static List<String> listSupportedScaleTypes() {
+        int numScales = STARTING_INDEX + INDEX_TO_CHORD_TYPE.size();
+        List<String> list = new LinkedList<>();
+        for (int i = STARTING_INDEX; i < numScales; i++) {
+            list.add(i + ". " + INDEX_TO_CHORD_TYPE.get(i).SYMBOL);
+        }
+        return list;
     }
 
     public Interval[] getIntervals() {
