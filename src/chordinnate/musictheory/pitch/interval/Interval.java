@@ -115,10 +115,10 @@ public final class Interval {
         if (intervalQuality.equals(PERFECT)) {
             valid = diatonic == 1 || diatonic == 4 || diatonic == 5;
         }
-        if (intervalQuality.equals(MAJOR) || intervalQuality.equals(MINOR)) {
+        else if (intervalQuality.equals(MAJOR) || intervalQuality.equals(MINOR)) {
             valid = diatonic == 2 || diatonic == 3 || diatonic == 6 || diatonic == 7;
         }
-        valid = intervalQuality.equals(DIMINISHED) || intervalQuality.equals(AUGMENTED);
+        else valid = intervalQuality.equals(DIMINISHED) || intervalQuality.equals(AUGMENTED);
         if (!valid) {
             throw new IllegalArgumentException(
                     "Improper match for interval quality and diatonic number: " + intervalQuality.SHORT_NAME_SYMBOL + diatonic);
