@@ -115,109 +115,107 @@ public final class Interval {
         if (intervalQuality.equals(PERFECT)) {
             valid = diatonic == 1 || diatonic == 4 || diatonic == 5;
         }
-        else if (intervalQuality.equals(MAJOR) || intervalQuality.equals(MINOR)) {
+        if (intervalQuality.equals(MAJOR) || intervalQuality.equals(MINOR)) {
             valid = diatonic == 2 || diatonic == 3 || diatonic == 6 || diatonic == 7;
         }
-        else valid = intervalQuality.equals(DIMINISHED) || intervalQuality.equals(AUGMENTED);
+        valid = intervalQuality.equals(DIMINISHED) || intervalQuality.equals(AUGMENTED);
         if (!valid) {
             throw new IllegalArgumentException(
                     "Improper match for interval quality and diatonic number: " + intervalQuality.SHORT_NAME_SYMBOL + diatonic);
         }
     }
 
-    private static Interval getStaticInterval(int semitoneDistance, int letterDistance, boolean direction, boolean isCompound) {
-        // TODO: refactor
-        boolean identicalLetters = letterDistance == 0;
-        if (identicalLetters) {
+    private static Interval getStaticInterval(int semitoneDistance, int letterDistance, boolean direction) {
+        if (letterDistance == 0) {
             switch (semitoneDistance) {
-                case 0: {
-                    if (isCompound) return direction ? PERFECT_OCTAVE : PERFECT_OCTAVE;
-                    else return PERFECT_UNISON;
-                }
-                case 1: {
-                    if (isCompound) return direction ? AUGMENTED_UNISON : DIMINISHED_OCTAVE;
-                    else return AUGMENTED_UNISON;
-                }
-                case 11: {
-                    if (isCompound) return direction ? DIMINISHED_OCTAVE : AUGMENTED_UNISON;
-                    else return DIMINISHED_OCTAVE;
-                }
+                case 0: return PERFECT_OCTAVE;
+                case 1: return direction ? AUGMENTED_UNISON : DIMINISHED_OCTAVE;
+                case 11: return direction ? DIMINISHED_OCTAVE : AUGMENTED_UNISON;
                 default: return null;
             }
         }
-        switch (semitoneDistance) {
-            case 0: {
-                switch (letterDistance) {
-                    case 1: return direction ? DIMINISHED_SECOND : AUGMENTED_SEVENTH;
-                    case 6: return direction ? AUGMENTED_SEVENTH : DIMINISHED_SECOND;
-                }
+        if (semitoneDistance == 0) {
+            switch (letterDistance) {
+                case 1: return direction ? DIMINISHED_SECOND : AUGMENTED_SEVENTH;
+                case 6: return direction ? AUGMENTED_SEVENTH : DIMINISHED_SECOND;
+                default: return null;
             }
-            case 1: {
-                switch (letterDistance) {
-                    case 1: return direction ? MINOR_SECOND : MAJOR_SEVENTH;
-                }
-            }
-            case 2: {
-                switch (letterDistance) {
-                    case 1: return direction ? MAJOR_SECOND : MINOR_SEVENTH;
-                    case 2: return direction ? DIMINISHED_THIRD : AUGMENTED_SIXTH;
-                }
-            }
-            case 3: {
-                switch (letterDistance) {
-                    case 1: return direction ? AUGMENTED_SECOND : DIMINISHED_SEVENTH;
-                    case 2: return direction ? MINOR_THIRD : MAJOR_SIXTH;
-                }
-            }
-            case 4: {
-                switch (letterDistance) {
-                    case 2: return direction ? MAJOR_THIRD : MINOR_SIXTH;
-                    case 3: return direction ? DIMINISHED_FOURTH : AUGMENTED_FIFTH;
-                }
-            }
-            case 5: {
-                switch (letterDistance) {
-                    case 2: return direction ? AUGMENTED_THIRD : DIMINISHED_SIXTH;
-                    case 3: return direction ? PERFECT_FOURTH : PERFECT_FIFTH;
-                }
-            }
-            case 6: {
-                switch (letterDistance) {
-                    case 3: return direction ? AUGMENTED_FOURTH : DIMINISHED_FIFTH;
-                    case 4: return direction ? DIMINISHED_FIFTH : AUGMENTED_FOURTH;
-                }
-            }
-            case 7: {
-                switch (letterDistance) {
-                    case 4: return direction ? PERFECT_FIFTH : PERFECT_FOURTH;
-                    case 5: return direction ? DIMINISHED_SIXTH : AUGMENTED_THIRD;
-                }
-            }
-            case 8: {
-                switch (letterDistance) {
-                    case 4: return direction ? AUGMENTED_FIFTH : DIMINISHED_FOURTH;
-                    case 5: return direction ? MINOR_SIXTH : MAJOR_THIRD;
-                }
-            }
-            case 9: {
-                switch (letterDistance) {
-                    case 5: return direction ? MAJOR_SIXTH : MINOR_THIRD;
-                    case 6: return direction ? DIMINISHED_SEVENTH : AUGMENTED_SECOND;
-                }
-            }
-            case 10: {
-                switch (letterDistance) {
-                    case 5: return direction ? AUGMENTED_SIXTH : DIMINISHED_THIRD;
-                    case 6: return direction ? MINOR_SEVENTH : MAJOR_SECOND;
-                }
-            }
-            case 11: {
-                switch (letterDistance) {
-                    case 6: return direction ? MAJOR_SEVENTH : MINOR_SECOND;
-                }
-            }
-            default: return null;
         }
+        if (semitoneDistance == 1) {
+            switch (letterDistance) {
+                case 1: return direction ? MINOR_SECOND : MAJOR_SEVENTH;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 2) {
+            switch (letterDistance) {
+                case 1: return direction ? MAJOR_SECOND : MINOR_SEVENTH;
+                case 2: return direction ? DIMINISHED_THIRD : AUGMENTED_SIXTH;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 3) {
+            switch (letterDistance) {
+                case 1: return direction ? AUGMENTED_SECOND : DIMINISHED_SEVENTH;
+                case 2: return direction ? MINOR_THIRD : MAJOR_SIXTH;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 4) {
+            switch (letterDistance) {
+                case 2: return direction ? MAJOR_THIRD : MINOR_SIXTH;
+                case 3: return direction ? DIMINISHED_FOURTH : AUGMENTED_FIFTH;
+            }
+        }
+        if (semitoneDistance == 5) {
+            switch (letterDistance) {
+                case 2: return direction ? AUGMENTED_THIRD : DIMINISHED_SIXTH;
+                case 3: return direction ? PERFECT_FOURTH : PERFECT_FIFTH;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 6) {
+            switch (letterDistance) {
+                case 3: return direction ? AUGMENTED_FOURTH : DIMINISHED_FIFTH;
+                case 4: return direction ? DIMINISHED_FIFTH : AUGMENTED_FOURTH;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 7) {
+            switch (letterDistance) {
+                case 4: return direction ? PERFECT_FIFTH : PERFECT_FOURTH;
+                case 5: return direction ? DIMINISHED_SIXTH : AUGMENTED_THIRD;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 8) {
+            switch (letterDistance) {
+                case 4: return direction ? AUGMENTED_FIFTH : DIMINISHED_FOURTH;
+                case 5: return direction ? MINOR_SIXTH : MAJOR_THIRD;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 9) {
+            switch (letterDistance) {
+                case 5: return direction ? MAJOR_SIXTH : MINOR_THIRD;
+                case 6: return direction ? DIMINISHED_SEVENTH : AUGMENTED_SECOND;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 10) {
+            switch (letterDistance) {
+                case 5: return direction ? AUGMENTED_SIXTH : DIMINISHED_THIRD;
+                case 6: return direction ? MINOR_SEVENTH : MAJOR_SECOND;
+                default: return null;
+            }
+        }
+        if (semitoneDistance == 11) {
+            switch (letterDistance) {
+                case 6: return direction ? MAJOR_SEVENTH : MINOR_SECOND;
+                default: return null;
+            }
+        }
+        else return null;
     }
 
     /**
@@ -308,7 +306,7 @@ public final class Interval {
     public static Interval getIntervalBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs, boolean direction) {
         int semitoneDistance = PitchClass.getSemitoneDistanceBetween(lhs, rhs);
         int letterDistance = (getVectorDistanceTo(lhs.ENHARMONIC_SPELLING.LETTER, rhs.ENHARMONIC_SPELLING.LETTER)) % 7;
-        return getStaticInterval(semitoneDistance, letterDistance, direction, true);
+        return getStaticInterval(semitoneDistance, letterDistance, direction);
     }
 
     /**
