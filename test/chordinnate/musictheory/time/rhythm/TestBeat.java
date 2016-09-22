@@ -2,7 +2,6 @@ package chordinnate.musictheory.time.rhythm;
 
 import org.junit.Test;
 
-import static chordinnate.musictheory.time.rhythm.Beat.*;
 import static org.junit.Assert.*;
 
 /**
@@ -10,100 +9,36 @@ import static org.junit.Assert.*;
  */
 public class TestBeat {
     @Test
-    public void testField_DURATION() throws Exception {
-        for (Beat beat: Beat.values()) {
-            assertNotNull(beat.DURATION);
-        }
-    }
-
-    @Test
-    public void testField_DOT_VALUE() throws Exception {
-        for (Beat beat: Beat.values()) {
-            assertNotNull(beat.DOT_VALUE);
-        }
-    }
-
-    @Test
-    public void testField_TUPLET() throws Exception {
-        for (Beat beat: Beat.values()) {
-            assertNotNull(beat.TUPLET);
-        }
-    }
-
-    @Test
     public void getRatio() throws Exception {
-        for (Beat beat: Beat.values()) {
-            assertTrue(beat.getRatio() > 0);
-        }
-    }
+        assertEquals(0.015625, Beat.SIXTY_FOURTH.getRatio(), 0);
+        assertEquals(0.03125, Beat.THIRTY_SECOND.getRatio(), 0);
+        assertEquals(0.0625, Beat.SIXTEENTH.getRatio(), 0);
+        assertEquals(0.125, Beat.EIGHTH.getRatio(), 0);
+        assertEquals(0.25, Beat.QUARTER.getRatio(), 0);
+        assertEquals(0.5, Beat.HALF.getRatio(), 0);
+        assertEquals(1.0, Beat.WHOLE.getRatio(), 0);
+        assertEquals(2.0, Beat.DOUBLE_WHOLE.getRatio(), 0);
 
-    @Test
-    public void checkCompoundSums() throws Exception {
-        Beat[] standardLengths = {SIXTY_FOURTH, THIRTY_SECOND, SIXTEENTH, EIGHTH, QUARTER, HALF, WHOLE, DOUBLE_WHOLE};
+        Beat DOTTED_HALF = new Beat.Builder(Duration.HALF).dots(1).build();
+        Beat DOUBLE_DOTTED_HALF = new Beat.Builder(Duration.HALF).dots(2).build();
+        Beat TRIPLET_EIGHTH = new Beat.Builder(Duration.EIGHTH).tuplet(3).build();
+        Beat QUADRUPLET_EIGHTH = new Beat.Builder(Duration.EIGHTH).tuplet(4).build();
+        Beat TRIPLET_DOTTED_HALF = new Beat.Builder(Duration.HALF).dots(1).tuplet(3).build();
 
-        /*
-         * Test all standard subdivisions.
-         * Each subdivision should == 2 * the next largest subdivision.
-         */
-        for (int i = 1; i < standardLengths.length; i++) {
-            for (int j = i - 1; j > 0; j--) {
-                assertEquals(
-                        standardLengths[i].getRatio(),
-                        (Math.pow(2, (i - j))) * standardLengths[j].getRatio(),
-                        0
-                );
-            }
-        }
+        // Dotted half = 3/4 whole note = 0.75
+        assertEquals(0.75, DOTTED_HALF.getRatio(), 0);
 
-        /*
-         * If all subdivisions above pass,
-         * then the combination of a
-         * dotted Beat and any shorter
-         * standard subdivisions should also pass.
-         *
-         * For example, all of these should equal a 1/2 note
-         * (D == dotted):
-         *
-         * D(1/4) + 1/8
-         * D(1/4) + D(1/8) + 1/16
-         * D(1/4) + (4 * 1/16)
-         * D(1/4) + (8 * 1/32)
-         * 1/4 + D(1/8) + 1/16
-         *
-         * ... and so on.
-         *
-         * These should pass with exact precision
-         * (delta == 0) in the assertion.
-         */
-        for (int i = 2; i < standardLengths.length; i++) {
-            assertEquals(
-                    standardLengths[i].getRatio(),
-                    Beat.valueOf("DOTTED_" + standardLengths[i - 1].name()).getRatio()
-                    + standardLengths[i - 2].getRatio(),
-                    0
-            );
-        }
+        // Double-dotted half = 7/8 whole note = 0.875
+        assertEquals(0.875, DOUBLE_DOTTED_HALF.getRatio(), 0);
 
-        /*
-         * Test all tuplet subdivisions.
-         */
-        for (Duration duration : Duration.values()) {
-            if (duration.equals(Duration.SIXTY_FOURTH)) continue;
-            for (Tuplet tuplet : Tuplet.values()) {
-                if (tuplet.equals(Tuplet.NONE)) continue;
-                assertEquals(
-                        Beat.valueOf(tuplet + "_" + duration).getRatio(),
-                        (tuplet.NUMBER - 1) * duration.RATIO * tuplet.RATIO,
-                        0
-                );
-            }
-        }
+        // Triplet eighth = 1/3 quarter
+        assertEquals((1.0 / 3.0) * 0.25, TRIPLET_EIGHTH.getRatio(), 0);
 
-        /*
-         * Assuming all tests pass above,
-         * any combination of dots or tuplets
-         * will return the correct lengths.
-         */
+        // Quadruplet eight = 1/4 quarter = sixteenth = 0.0625
+        assertEquals(0.0625, QUADRUPLET_EIGHTH.getRatio(), 0);
+
+        // Triplet dotted half = 1/3 [2 * dotted half] = 1/3 [six quarters] = 0.5
+        assertEquals(0.5, TRIPLET_DOTTED_HALF.getRatio(), 0);
     }
 
 }
