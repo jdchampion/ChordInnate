@@ -2,6 +2,7 @@ package chordinnate.playback;
 
 import chordinnate.musictheory.pitch.Pitch;
 import chordinnate.musictheory.time.rhythm.Beat;
+import chordinnate.musictheory.time.rhythm.Duration;
 import chordinnate.musictheory.time.tempo.Tempo;
 import org.junit.Test;
 
@@ -21,19 +22,21 @@ public class TestPlayBack {
     public void playNote() throws Exception {
         Tempo tempo = new Tempo(Beat.QUARTER, 60);
         int bpm = tempo.getCurrentBPM();
+        Beat TRIPLET_EIGHTH = new Beat.Builder(Duration.EIGHTH).tuplet(3).build(),
+                DOTTED_HALF = new Beat.Builder(Duration.HALF).dots(1).build();
         for (Articulation articulation : Articulation.values()) {
             Note
-                    n1 = new Note.Builder(Pitch.G_4, Beat.TRIPLET_EIGHTH)
+                    n1 = new Note.Builder(Pitch.G_4, TRIPLET_EIGHTH)
                     .articulation(articulation)
                     .build(),
 
-                    n2 = new Note(Pitch.E_FLAT_4, Beat.DOTTED_HALF),
+                    n2 = new Note(Pitch.E_FLAT_4, DOTTED_HALF),
 
-                    n3 = new Note.Builder(Pitch.F_4, Beat.TRIPLET_EIGHTH)
+                    n3 = new Note.Builder(Pitch.F_4, TRIPLET_EIGHTH)
                             .articulation(articulation)
                             .build(),
 
-                    n4 = new Note(Pitch.D_4, Beat.DOTTED_HALF);
+                    n4 = new Note(Pitch.D_4, DOTTED_HALF);
 
             long fullLength = tempo.getMillisFor(n1.getBeat());
             long soundedLength = (long) (n1.getSoundedLength() * fullLength);

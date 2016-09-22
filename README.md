@@ -17,7 +17,7 @@ Here's a list of ChordInnate's features (with more to come):
 - **Rhythm**
   - support (and automatic classification) for meter types: simple, compound, complex, perfect, imperfect, odd, irregular, asymmetrical, and free
   - automatic classification of meter type based on time signature
-  - support for a very wide range of beat values: 13-tuplet 64th note to 13-tuplet, 7-dotted double-whole note
+  - support for all standard beat durations (64th note to double-whole note), as well as any tuplet or dot modifications to the beat
   - 20 standard tempo presets, with support for customized tempo BPM
 
 

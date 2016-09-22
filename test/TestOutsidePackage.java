@@ -7,7 +7,6 @@ import chordinnate.musictheory.pitch.interval.set.*;
 import chordinnate.musictheory.time.meter.*;
 import chordinnate.musictheory.time.rhythm.Beat;
 import chordinnate.musictheory.time.rhythm.Duration;
-import chordinnate.musictheory.time.rhythm.Tuplet;
 import chordinnate.musictheory.time.tempo.Tempo;
 import chordinnate.musictheory.time.tempo.TempoMarking;
 import chordinnate.playback.*;
@@ -45,7 +44,6 @@ public class TestOutsidePackage {
         MeterSubdivision meterSubdivision = MeterSubdivision.DUPLE;
         Beat beat = Beat.QUARTER;
         Duration duration = Duration.QUARTER;
-        Tuplet tuplet = Tuplet.TRIPLET;
         TempoMarking tempoMarking = TempoMarking.ALLEGRO;
         Articulation articulation = Articulation.STACCATO;
         Dynamic dynamic = Dynamic.FORTE;
