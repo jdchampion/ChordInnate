@@ -125,97 +125,66 @@ public final class Interval {
         }
     }
 
+    /**
+     * Retrieves one of the predefined, static Intervals, if possible. Otherwise, returns null.
+     * @param semitoneDistance the distance in semitones for the target interval
+     * @param letterDistance the distance of letters for the target interval
+     * @param direction whether the target interval is ascending (true) or descending (false)
+     * @return a static Interval representative of the given arguments (if one is found), or null (if not found)
+     */
     private static Interval getStaticInterval(int semitoneDistance, int letterDistance, boolean direction) {
         if (letterDistance == 0) {
-            switch (semitoneDistance) {
-                case 0: return PERFECT_OCTAVE;
-                case 1: return direction ? AUGMENTED_UNISON : DIMINISHED_OCTAVE;
-                case 11: return direction ? DIMINISHED_OCTAVE : AUGMENTED_UNISON;
-                default: return null;
-            }
+            if (semitoneDistance == 0) return PERFECT_OCTAVE;
+            if (semitoneDistance == 1) return direction ? AUGMENTED_UNISON : DIMINISHED_OCTAVE;
+            if (semitoneDistance == 11) return direction ? DIMINISHED_OCTAVE : AUGMENTED_UNISON;
         }
         if (semitoneDistance == 0) {
-            switch (letterDistance) {
-                case 1: return direction ? DIMINISHED_SECOND : AUGMENTED_SEVENTH;
-                case 6: return direction ? AUGMENTED_SEVENTH : DIMINISHED_SECOND;
-                default: return null;
-            }
+            if (letterDistance == 1) return direction ? DIMINISHED_SECOND : AUGMENTED_SEVENTH;
+            if (letterDistance == 6) return direction ? AUGMENTED_SEVENTH : DIMINISHED_SECOND;
         }
         if (semitoneDistance == 1) {
-            switch (letterDistance) {
-                case 1: return direction ? MINOR_SECOND : MAJOR_SEVENTH;
-                default: return null;
-            }
+            if (letterDistance == 1) return direction ? MINOR_SECOND : MAJOR_SEVENTH;
         }
         if (semitoneDistance == 2) {
-            switch (letterDistance) {
-                case 1: return direction ? MAJOR_SECOND : MINOR_SEVENTH;
-                case 2: return direction ? DIMINISHED_THIRD : AUGMENTED_SIXTH;
-                default: return null;
-            }
+            if (letterDistance == 1) return direction ? MAJOR_SECOND : MINOR_SEVENTH;
+            if (letterDistance == 2) return direction ? DIMINISHED_THIRD : AUGMENTED_SIXTH;
         }
         if (semitoneDistance == 3) {
-            switch (letterDistance) {
-                case 1: return direction ? AUGMENTED_SECOND : DIMINISHED_SEVENTH;
-                case 2: return direction ? MINOR_THIRD : MAJOR_SIXTH;
-                default: return null;
-            }
+            if (letterDistance == 1) return direction ? AUGMENTED_SECOND : DIMINISHED_SEVENTH;
+            if (letterDistance == 2) return direction ? MINOR_THIRD : MAJOR_SIXTH;
         }
         if (semitoneDistance == 4) {
-            switch (letterDistance) {
-                case 2: return direction ? MAJOR_THIRD : MINOR_SIXTH;
-                case 3: return direction ? DIMINISHED_FOURTH : AUGMENTED_FIFTH;
-            }
+            if (letterDistance == 2) return direction ? MAJOR_THIRD : MINOR_SIXTH;
+            if (letterDistance == 3) return direction ? DIMINISHED_FOURTH : AUGMENTED_FIFTH;
         }
         if (semitoneDistance == 5) {
-            switch (letterDistance) {
-                case 2: return direction ? AUGMENTED_THIRD : DIMINISHED_SIXTH;
-                case 3: return direction ? PERFECT_FOURTH : PERFECT_FIFTH;
-                default: return null;
-            }
+            if (letterDistance == 2) return direction ? AUGMENTED_THIRD : DIMINISHED_SIXTH;
+            if (letterDistance == 3) return direction ? PERFECT_FOURTH : PERFECT_FIFTH;
         }
         if (semitoneDistance == 6) {
-            switch (letterDistance) {
-                case 3: return direction ? AUGMENTED_FOURTH : DIMINISHED_FIFTH;
-                case 4: return direction ? DIMINISHED_FIFTH : AUGMENTED_FOURTH;
-                default: return null;
-            }
+            if (letterDistance == 3) return direction ? AUGMENTED_FOURTH : DIMINISHED_FIFTH;
+            if (letterDistance == 4) return direction ? DIMINISHED_FIFTH : AUGMENTED_FOURTH;
         }
         if (semitoneDistance == 7) {
-            switch (letterDistance) {
-                case 4: return direction ? PERFECT_FIFTH : PERFECT_FOURTH;
-                case 5: return direction ? DIMINISHED_SIXTH : AUGMENTED_THIRD;
-                default: return null;
-            }
+            if (letterDistance == 4) return direction ? PERFECT_FIFTH : PERFECT_FOURTH;
+            if (letterDistance == 5) return direction ? DIMINISHED_SIXTH : AUGMENTED_THIRD;
         }
         if (semitoneDistance == 8) {
-            switch (letterDistance) {
-                case 4: return direction ? AUGMENTED_FIFTH : DIMINISHED_FOURTH;
-                case 5: return direction ? MINOR_SIXTH : MAJOR_THIRD;
-                default: return null;
-            }
+            if (letterDistance == 4) return direction ? AUGMENTED_FIFTH : DIMINISHED_FOURTH;
+            if (letterDistance == 5) return direction ? MINOR_SIXTH : MAJOR_THIRD;
         }
         if (semitoneDistance == 9) {
-            switch (letterDistance) {
-                case 5: return direction ? MAJOR_SIXTH : MINOR_THIRD;
-                case 6: return direction ? DIMINISHED_SEVENTH : AUGMENTED_SECOND;
-                default: return null;
-            }
+            if (letterDistance == 5) return direction ? MAJOR_SIXTH : MINOR_THIRD;
+            if (letterDistance == 6) return direction ? DIMINISHED_SEVENTH : AUGMENTED_SECOND;
         }
         if (semitoneDistance == 10) {
-            switch (letterDistance) {
-                case 5: return direction ? AUGMENTED_SIXTH : DIMINISHED_THIRD;
-                case 6: return direction ? MINOR_SEVENTH : MAJOR_SECOND;
-                default: return null;
-            }
+            if (letterDistance == 5) return direction ? AUGMENTED_SIXTH : DIMINISHED_THIRD;
+            if (letterDistance == 6) return direction ? MINOR_SEVENTH : MAJOR_SECOND;
         }
         if (semitoneDistance == 11) {
-            switch (letterDistance) {
-                case 6: return direction ? MAJOR_SEVENTH : MINOR_SECOND;
-                default: return null;
-            }
+            if (letterDistance == 6) return direction ? MAJOR_SEVENTH : MINOR_SECOND;
         }
-        else return null;
+        return null;
     }
 
     /**
