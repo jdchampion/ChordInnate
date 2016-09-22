@@ -62,11 +62,9 @@ public enum EnharmonicSpelling {
     public final Accidental ACCIDENTAL;
     public final String NAME;
 
-    private static final EnharmonicSpelling[] VALUES = EnharmonicSpelling.values();
-
-    private static final Map<EnharmonicSpelling, EnharmonicSpelling[]> ALL_ENHARMONIC_TRANSITIONS = new HashMap<>(VALUES.length);
+    private static final Map<EnharmonicSpelling, EnharmonicSpelling[]> ALL_ENHARMONIC_TRANSITIONS = new HashMap<>(values().length);
         static {
-            for (EnharmonicSpelling e: VALUES) ALL_ENHARMONIC_TRANSITIONS.put(e, e.getEnharmonicTransitions());
+            for (EnharmonicSpelling e: values()) ALL_ENHARMONIC_TRANSITIONS.put(e, e.getEnharmonicTransitions());
         }
     private static final Map<Accidental, Integer> ACCIDENTAL_INTEGER_MAP = new HashMap<>(Accidental.values().length);
         static {

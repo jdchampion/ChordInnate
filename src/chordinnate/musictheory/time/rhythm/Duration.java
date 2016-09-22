@@ -1,7 +1,5 @@
 package chordinnate.musictheory.time.rhythm;
 
-import chordinnate.util.SequentialUtil;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Joseph on 6/1/16.
@@ -26,16 +24,5 @@ public enum Duration {
     Duration(double ratio) {
         this.RATIO = ratio;
     }
-
-    @Nullable
-    @SuppressWarnings("unchecked")
-    public Duration getNext() {
-        return (Duration) SequentialUtil.getNext(this);
-    }
-
-    @Nullable
-    @SuppressWarnings("unchecked")
-    public Duration getPrevious() {
-        return (Duration) SequentialUtil.getPrevious(this);
-    }
+    
 }

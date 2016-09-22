@@ -456,14 +456,13 @@ public enum Pitch
     public final Octave OCTAVE;
     public final int ABSOLUTE_PITCH;
 
-    private static final Pitch[] VALUES = Pitch.values();
     private static final Map<Integer, ArrayList<Pitch>> ENHARMONICS = new HashMap<>(127);
         static {
             for (int i = 0; i <= 127; i++) {
                 ENHARMONICS.put(i, new ArrayList<>());
             }
 
-            for (Pitch pitch : VALUES) {
+            for (Pitch pitch : values()) {
                 ENHARMONICS.get(pitch.ABSOLUTE_PITCH).add(pitch);
             }
         }
@@ -599,13 +598,13 @@ public enum Pitch
             }
 
             if (candidate.PITCH_CLASS.equals(PITCH_CLASS) || candidate.ABSOLUTE_PITCH == ABSOLUTE_PITCH) {
-                return VALUES[direction ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
+                return values()[direction ? candidate.ordinal() + 1 : candidate.ordinal() - 1];
             }
             else if (PITCH_CLASS.BASE_MIDI_VALUE < transposedPitchClass.BASE_MIDI_VALUE) {
-                return direction ? candidate : VALUES[candidate.ordinal() - 1];
+                return direction ? candidate : values()[candidate.ordinal() - 1];
             }
             else if (PITCH_CLASS.BASE_MIDI_VALUE > transposedPitchClass.BASE_MIDI_VALUE) {
-                return direction ? VALUES[candidate.ordinal() + 1] : candidate;
+                return direction ? values()[candidate.ordinal() + 1] : candidate;
             }
             else return candidate;
         }

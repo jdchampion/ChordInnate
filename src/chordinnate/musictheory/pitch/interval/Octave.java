@@ -1,7 +1,6 @@
 package chordinnate.musictheory.pitch.interval;
 
 
-import chordinnate.util.SequentialUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,15 +37,19 @@ public enum Octave {
     }
 
     @Nullable
-    @SuppressWarnings("unchecked")
     public Octave getNext() {
-        return (Octave) SequentialUtil.getNext(this);
+        int ordinal = this.ordinal();
+        return ordinal < values().length - 1
+                ? values()[ordinal + 1]
+                : null;
     }
 
     @Nullable
-    @SuppressWarnings("unchecked")
     public Octave getPrevious() {
-        return (Octave) SequentialUtil.getPrevious(this);
+        int ordinal = this.ordinal();
+        return ordinal > 0
+                ? values()[ordinal - 1]
+                : null;
     }
 
     public static int semitoneDistanceBetween(@NotNull Octave lhs, @NotNull Octave rhs) {

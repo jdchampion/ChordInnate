@@ -10,7 +10,6 @@ import chordinnate.musictheory.time.rhythm.Duration;
 import chordinnate.musictheory.time.tempo.Tempo;
 import chordinnate.musictheory.time.tempo.TempoMarking;
 import chordinnate.playback.*;
-import chordinnate.util.SequentialUtil;
 import org.jgrapht.graph.DefaultEdge;
 import org.junit.Test;
 
@@ -58,8 +57,6 @@ public class TestOutsidePackage {
         Scale scale = new Scale(pitchClass, "Major");
         FreeMeter freeMeter = new FreeMeter();
         PlayBack playBack; // static class -- no constructor necessary
-        // FIXME: SequentialUtil should not be accessible outside src.chordinnate
-        SequentialUtil sequentialUtil; // static class -- no constructor necessary
 
         /*
          * Publicly accessible abstract class types

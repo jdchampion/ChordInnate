@@ -35,7 +35,6 @@ public enum TempoMarking {
     ;
 
     public final int MIN_BPM, MAX_BPM;
-    private static final TempoMarking[] VALUES = TempoMarking.values();
 
     TempoMarking(int minBPM, int maxBPM) {
         this.MIN_BPM = minBPM;
@@ -43,10 +42,10 @@ public enum TempoMarking {
     }
 
     public static TempoMarking slowest() {
-        return VALUES[0];
+        return values()[0];
     }
 
     public static TempoMarking fastest() {
-        return VALUES[VALUES.length - 1];
+        return values()[values().length - 1];
     }
 }

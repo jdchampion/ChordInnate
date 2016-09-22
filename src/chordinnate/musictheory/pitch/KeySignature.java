@@ -82,8 +82,6 @@ public enum KeySignature {
     public final KeySignatureType KEY_SIGNATURE_TYPE;
     public final EnharmonicSpelling[] SIGNATURE;
 
-    private static final KeySignature[] VALUES = KeySignature.values();
-
     // There are certainly other ways to get the relatives, but I believe using a HashMap is the most straightforward.
     private static final Map<KeySignature, KeySignature> RELATIVE_KEY_SIGNATURES = new EnumMap<>(KeySignature.class);
         static {
@@ -204,13 +202,13 @@ public enum KeySignature {
             case MAJOR: {
                 switch (this) {
                     case C_MAJOR: return NO_KEY_SIGNATURE;
-                    default: return VALUES[ordinal() + 1];
+                    default: return values()[ordinal() + 1];
                 }
             }
             case MINOR: {
                 switch (this) {
                     case A_MINOR: return NO_KEY_SIGNATURE;
-                    default: return VALUES[ordinal() + 1];
+                    default: return values()[ordinal() + 1];
                 }
             }
             case THEORETICAL: {
@@ -219,7 +217,7 @@ public enum KeySignature {
                     case B_SHARP_MAJOR:
                     case F_FLAT_MINOR:
                     case G_DOUBLE_SHARP_MINOR: return null;
-                    default: return VALUES[ordinal() + 1];
+                    default: return values()[ordinal() + 1];
                 }
             }
             case NONE:
@@ -236,7 +234,7 @@ public enum KeySignature {
                     case C_MAJOR: return NO_KEY_SIGNATURE;
                     case F_MAJOR:
                     case G_MAJOR: return null;
-                    default: return VALUES[ordinal() - 1];
+                    default: return values()[ordinal() - 1];
                 }
             }
             case MINOR: {
@@ -244,11 +242,11 @@ public enum KeySignature {
                     case A_MINOR: return NO_KEY_SIGNATURE;
                     case D_MINOR:
                     case E_MINOR: return null;
-                    default: return VALUES[ordinal() - 1];
+                    default: return values()[ordinal() - 1];
                 }
             }
             case THEORETICAL: {
-                return VALUES[ordinal() - 1];
+                return values()[ordinal() - 1];
             }
             case NONE:
                 return NO_KEY_SIGNATURE;
