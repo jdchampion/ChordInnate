@@ -1,19 +1,28 @@
-import chordinnate.generator.ChordProgression;
-import chordinnate.generator.MajorProgressionGraph1;
-import chordinnate.musictheory.pitch.interval.*;
-import chordinnate.musictheory.general.Texture;
-import chordinnate.musictheory.pitch.*;
-import chordinnate.musictheory.pitch.interval.set.*;
-import chordinnate.musictheory.time.meter.*;
-import chordinnate.musictheory.time.rhythm.Beat;
-import chordinnate.musictheory.time.rhythm.Duration;
-import chordinnate.musictheory.time.tempo.Tempo;
-import chordinnate.musictheory.time.tempo.TempoMarking;
-import chordinnate.playback.*;
+import chordinnate.controller.generator.ChordProgression;
+import chordinnate.controller.generator.MajorProgressionGraph1;
+import chordinnate.controller.playback.PlaybackController;
+import chordinnate.model.musictheory.general.Texture;
+import chordinnate.model.musictheory.notation.Accidental;
+import chordinnate.model.musictheory.notation.EnharmonicSpelling;
+import chordinnate.model.musictheory.notation.Letter;
+import chordinnate.model.musictheory.notation.NashvilleNumber;
+import chordinnate.model.musictheory.pitch.interval.*;
+import chordinnate.model.musictheory.pitch.*;
+import chordinnate.model.musictheory.pitch.interval.set.*;
+import chordinnate.model.musictheory.pitch.key.KeySignature;
+import chordinnate.model.musictheory.pitch.key.KeySignatureType;
+import chordinnate.model.musictheory.time.meter.*;
+import chordinnate.model.musictheory.time.rhythm.Beat;
+import chordinnate.model.musictheory.time.rhythm.Duration;
+import chordinnate.model.musictheory.time.tempo.Tempo;
+import chordinnate.model.musictheory.time.tempo.TempoMarking;
+import chordinnate.model.playback.*;
 import org.jgrapht.graph.DefaultEdge;
 import org.junit.Test;
 
 import java.util.Set;
+
+import static chordinnate.model.musictheory.general.Texture.CHORDAL;
 
 /**
  * Created by Joseph on 5/21/16.
@@ -27,12 +36,11 @@ public class TestOutsidePackage {
          */
 
         Accidental accidental = Accidental.DOUBLE_SHARP;
-        Texture texture = Texture.CHORDAL;
+        Texture texture = CHORDAL;
         NashvilleNumber nashvilleNumber = NashvilleNumber.ONE;
         Octave octave = Octave.OCTAVE_4;
-        Interval interval = Interval.PERFECT_UNISON;
+        Interval interval = Interval.INTERVAL_P1;
         Interval other = Interval.withShortName("P1");
-        IntervalQuality intervalQuality = IntervalQuality.PERFECT;
         EnharmonicSpelling enharmonicSpelling = EnharmonicSpelling.C;
         KeySignature keySignature = KeySignature.C_MAJOR;
         KeySignatureType keySignatureType = KeySignatureType.MAJOR;
@@ -56,7 +64,7 @@ public class TestOutsidePackage {
         Chord chord = new Chord(pitchClass, "maj");
         Scale scale = new Scale(pitchClass, "Major");
         FreeMeter freeMeter = new FreeMeter();
-        PlayBack playBack; // static class -- no constructor necessary
+        PlaybackController playbackController; // static class -- no constructor necessary
 
         /*
          * Publicly accessible abstract class types

@@ -3,3 +3,10 @@
 *.iml
 .idea
 /out
+.classpath
+
+.project
+
+*.eml
+
+*.userlibraries
