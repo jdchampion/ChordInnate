@@ -1,12 +1,10 @@
-*.xml
-*.class
 *.iml
-.idea
-/out
-.classpath
+*.eml
+*.userlibraries
 
+.idea
+.classpath
 .project
 
-*.eml
-
-*.userlibraries
+/out
+/target
