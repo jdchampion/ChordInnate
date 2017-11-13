@@ -1,5 +1,7 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.notation;
 
+import chordinnate.model.musictheory.time.meter.fixed.FixedMeter;
+import chordinnate.model.musictheory.time.meter.fixed.complete.NonAdditiveCompleteMeter;
 import chordinnate.model.musictheory.time.rhythm.Duration;
 
 /**
@@ -21,7 +23,7 @@ public class TimeSignature {
             throw new IllegalArgumentException("Numerator or denominator < 1; both must be >= 1");
         }
 
-        double lgDenom = Math.log(denominator)/Math.log(2);
+        double lgDenom = Math.log(denominator) / Math.log(2);
         if (Math.ceil(lgDenom) == Math.floor(lgDenom)) {
             // create a CompleteMeter
             Duration beatValue = null;

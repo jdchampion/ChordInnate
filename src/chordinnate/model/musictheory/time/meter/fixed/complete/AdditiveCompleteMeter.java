@@ -1,5 +1,7 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.time.meter.fixed.complete;
 
+import chordinnate.model.musictheory.time.meter.MeterClassificationType;
+import chordinnate.model.musictheory.time.meter.MeterSubdivision;
 import chordinnate.model.musictheory.time.rhythm.Duration;
 import org.jetbrains.annotations.NotNull;
 
@@ -8,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * Created by Joseph on 7/5/16.
  */
-final class AdditiveCompleteMeter extends CompleteMeter {
+public final class AdditiveCompleteMeter extends CompleteMeter {
     /**
      * Constructs a Meter with integers for both numerator and denominator.
      * The numerator will be displayed as a summation of integers, matching the provided subdivision pattern.
@@ -16,16 +18,8 @@ final class AdditiveCompleteMeter extends CompleteMeter {
      * @param denominator the duration value for each beat
      * @param subdivisions the subdivision pattern for this Meter
      */
-    AdditiveCompleteMeter(int numerator, @NotNull Duration denominator, @NotNull MeterSubdivision... subdivisions) {
-        verifyMatch(numerator, subdivisions);
-
-        this.numerator = numerator;
-        this.denominator = denominator;
-        this.measureDuration = this.numerator * denominator.RATIO;
-        this.subdivisions = subdivisions;
-
-        inferCommonMeterClassifications();
+    public AdditiveCompleteMeter(int numerator, @NotNull Duration denominator, @NotNull MeterSubdivision... subdivisions) {
+        super(numerator, denominator, subdivisions, true, true);
         this.meterClassificationTypes.add(MeterClassificationType.ADDITIVE); // By definition of an additive meter
-        inferSubdivisions();
     }
 }

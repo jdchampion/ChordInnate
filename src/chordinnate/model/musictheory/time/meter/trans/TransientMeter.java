@@ -1,4 +1,7 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.time.meter.trans;
+
+import chordinnate.model.musictheory.time.meter.Meter;
+import chordinnate.model.musictheory.time.meter.fixed.FixedMeterNode;
 
 import java.util.LinkedList;
 

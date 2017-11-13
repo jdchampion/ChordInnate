@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.time.meter;
 
+import chordinnate.model.musictheory.time.meter.fixed.complete.AdditiveCompleteMeter;
 import chordinnate.model.musictheory.time.rhythm.Duration;
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class TestAdditiveCompleteMeter {
         System.out.print("\n\t\t\t\t\t\t===================================================================");
         System.out.print("\n\tSubdivisions:\t\t");
 
-        for (MeterSubdivision meterSubdivision : sixEight.subdivisions) {
+        for (MeterSubdivision meterSubdivision : sixEight.getSubdivisions()) {
             System.out.print(meterSubdivision + " ");
         }
     }

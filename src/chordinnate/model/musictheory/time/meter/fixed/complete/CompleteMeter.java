@@ -1,5 +1,8 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.time.meter.fixed.complete;
 
+import chordinnate.model.musictheory.time.meter.MeterClassificationType;
+import chordinnate.model.musictheory.time.meter.MeterSubdivision;
+import chordinnate.model.musictheory.time.meter.fixed.FixedMeter;
 import chordinnate.model.musictheory.time.rhythm.Duration;
 
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ import java.util.List;
  *
  * Created by Joseph on 7/3/16.
  */
-abstract class CompleteMeter extends FixedMeter {
+public abstract class CompleteMeter extends FixedMeter {
     int numerator; // Defined in constructor
 
     /*
@@ -23,6 +26,33 @@ abstract class CompleteMeter extends FixedMeter {
 
     MeterSubdivision[] subdivisions; // Defined in constructor
 
+    CompleteMeter() {
+
+    }
+
+    CompleteMeter(int numerator, Duration denominator, MeterSubdivision[] subdivisions, boolean verifyMatch, boolean inferSubdivisions) {
+
+        if (verifyMatch) {
+            verifyMatch(numerator, subdivisions);
+        }
+
+        this.numerator = numerator;
+        this.denominator = denominator;
+        this.measureDuration = this.numerator * denominator.RATIO;
+        this.subdivisions = subdivisions;
+
+        inferCommonMeterClassifications();
+
+        /*
+         * If no subdivision pattern has been defined for this Meter,
+         * then we have to make one up based on conventions.
+         */
+        if (inferSubdivisions) {
+            inferSubdivisions();
+        }
+
+    }
+
     /**
      * This method is intended for validating CompleteMeters at point of construction.
      * This validation is only necessary for CompleteMeter constructors that pass a
@@ -32,7 +62,7 @@ abstract class CompleteMeter extends FixedMeter {
      * @param numerator
      * @param subdivisions
      */
-    void verifyMatch(int numerator, MeterSubdivision[] subdivisions) {
+    private void verifyMatch(int numerator, MeterSubdivision[] subdivisions) {
         if (subdivisions.length == 0) {
             throw new IllegalArgumentException("No subdivisions provided");
         }
@@ -48,7 +78,7 @@ abstract class CompleteMeter extends FixedMeter {
      * @param subdivisions
      * @return the summation of MeterSubdivisions.
      */
-    int sumAll(MeterSubdivision[] subdivisions) {
+    private int sumAll(MeterSubdivision[] subdivisions) {
         int sum = 0;
         for (MeterSubdivision subdivision : subdivisions) {
             sum += subdivision.GROUPING;
@@ -59,7 +89,7 @@ abstract class CompleteMeter extends FixedMeter {
     /**
      * A logical sequence for classifying CompleteMeters by their common properties.
      */
-    void inferCommonMeterClassifications() {
+    private void inferCommonMeterClassifications() {
         boolean
                 div2 = numerator % 2 == 0,
                 div3 = numerator % 3 == 0;
@@ -92,7 +122,7 @@ abstract class CompleteMeter extends FixedMeter {
     /**
      * Constructor helper method to infer the subdivision groupings for the Meter.
      */
-    void inferSubdivisions() {
+    private void inferSubdivisions() {
         if (this.numerator % 4 == 0) {
             groupBy(MeterSubdivision.QUADRUPLE);
         } else if (this.numerator % 3 == 0) {
@@ -160,5 +190,9 @@ abstract class CompleteMeter extends FixedMeter {
         } else {
             meterClassificationTypes.add(MeterClassificationType.valueOf("COMPOUND_"+meterSubdivision));
         }
+    }
+
+    public MeterSubdivision[] getSubdivisions() {
+        return subdivisions;
     }
 }

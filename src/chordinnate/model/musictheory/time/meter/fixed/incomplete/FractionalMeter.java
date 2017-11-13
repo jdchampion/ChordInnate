@@ -1,4 +1,4 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.time.meter.fixed.incomplete;
 
 //import org.apache.commons.math3.fraction.Fraction;
 
@@ -8,7 +8,7 @@ package chordinnate.model.musictheory.time.meter;
  *
  * Created by Joseph on 7/5/16.
  */
-final class FractionalMeter extends IncompleteMeter {
+public final class FractionalMeter extends IncompleteMeter {
 //    Fraction numerator;
     int denominator;
 }

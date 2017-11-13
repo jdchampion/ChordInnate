@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.time.meter;
 
+import chordinnate.model.musictheory.time.meter.free.FreeMeter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

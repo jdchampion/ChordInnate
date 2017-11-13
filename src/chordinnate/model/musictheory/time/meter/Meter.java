@@ -7,11 +7,11 @@ import java.util.HashSet;
 /**
  * Created by Joseph on 7/2/16.
  */
-abstract class Meter {
-    HashSet<MeterClassificationType> meterClassificationTypes;
-    double measureDuration;
+public abstract class Meter {
+    protected HashSet<MeterClassificationType> meterClassificationTypes;
+    protected double measureDuration;
 
-    Meter() {
+    protected Meter() {
         this.meterClassificationTypes = new HashSet<>();
     }
 

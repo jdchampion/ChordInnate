@@ -1,4 +1,4 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.time.meter.fixed;
 
 /**
  * Created by Joseph on 7/3/16.

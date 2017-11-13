@@ -1,4 +1,6 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.time.meter.fixed.incomplete;
+
+import chordinnate.model.musictheory.time.meter.fixed.FixedMeter;
 
 /**
  * Meters whose time signature uses floating-point numerators.

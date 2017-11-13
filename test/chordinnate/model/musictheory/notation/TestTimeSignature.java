@@ -1,5 +1,7 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.notation;
 
+import chordinnate.model.musictheory.notation.TimeSignature;
+import chordinnate.model.musictheory.time.meter.MeterClassificationType;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

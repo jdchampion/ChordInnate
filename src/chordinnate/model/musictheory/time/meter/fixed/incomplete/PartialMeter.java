@@ -1,4 +1,4 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.time.meter.fixed.incomplete;
 
 /**
  * Meters whose time signature numerator is evaluated to be a rational, floating-point value,
@@ -6,7 +6,7 @@ package chordinnate.model.musictheory.time.meter;
  *
  * Created by Joseph on 7/5/16.
  */
-public class PartialMeter extends IncompleteMeter {
+public final class PartialMeter extends IncompleteMeter {
     double numerator;
     int denominator;
 }
