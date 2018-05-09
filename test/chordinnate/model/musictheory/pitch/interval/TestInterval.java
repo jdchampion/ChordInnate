@@ -295,59 +295,59 @@ public class TestInterval {
 
 
     @Test
-    public void getInversion() throws Exception {
-        assertEquals(INTERVAL_P1, INTERVAL_P1.getInversion());
-        assertEquals(INTERVAL_d1, INTERVAL_A1.getInversion());
-        assertEquals(INTERVAL_P1, INTERVAL_P1.getInversion());
-        assertEquals(INTERVAL_M7, INTERVAL_m2.getInversion());
-        assertEquals(INTERVAL_m7, INTERVAL_M2.getInversion());
-        assertEquals(INTERVAL_d7, INTERVAL_A2.getInversion());
-        assertEquals(INTERVAL_A6, INTERVAL_d3.getInversion());
-        assertEquals(INTERVAL_M6, INTERVAL_m3.getInversion());
-        assertEquals(INTERVAL_m6, INTERVAL_M3.getInversion());
-        assertEquals(INTERVAL_d6, INTERVAL_A3.getInversion());
-        assertEquals(INTERVAL_A5, INTERVAL_d4.getInversion());
-        assertEquals(INTERVAL_P5, INTERVAL_P4.getInversion());
-        assertEquals(INTERVAL_d5, INTERVAL_A4.getInversion());
-        assertEquals(INTERVAL_A4, INTERVAL_d5.getInversion());
-        assertEquals(INTERVAL_P4, INTERVAL_P5.getInversion());
-        assertEquals(INTERVAL_d4, INTERVAL_A5.getInversion());
-        assertEquals(INTERVAL_A3, INTERVAL_d6.getInversion());
-        assertEquals(INTERVAL_M3, INTERVAL_m6.getInversion());
-        assertEquals(INTERVAL_m3, INTERVAL_M6.getInversion());
-        assertEquals(INTERVAL_d3, INTERVAL_A6.getInversion());
-        assertEquals(INTERVAL_A2, INTERVAL_d7.getInversion());
-        assertEquals(INTERVAL_M2, INTERVAL_m7.getInversion());
-        assertEquals(INTERVAL_m2, INTERVAL_M7.getInversion());
-        assertEquals(INTERVAL_d2, INTERVAL_A7.getInversion());
+    public void invert() throws Exception {
+        assertEquals(INTERVAL_P1, INTERVAL_P1.invert());
+        assertEquals(INTERVAL_d1, INTERVAL_A1.invert());
+        assertEquals(INTERVAL_P1, INTERVAL_P1.invert());
+        assertEquals(INTERVAL_M7, INTERVAL_m2.invert());
+        assertEquals(INTERVAL_m7, INTERVAL_M2.invert());
+        assertEquals(INTERVAL_d7, INTERVAL_A2.invert());
+        assertEquals(INTERVAL_A6, INTERVAL_d3.invert());
+        assertEquals(INTERVAL_M6, INTERVAL_m3.invert());
+        assertEquals(INTERVAL_m6, INTERVAL_M3.invert());
+        assertEquals(INTERVAL_d6, INTERVAL_A3.invert());
+        assertEquals(INTERVAL_A5, INTERVAL_d4.invert());
+        assertEquals(INTERVAL_P5, INTERVAL_P4.invert());
+        assertEquals(INTERVAL_d5, INTERVAL_A4.invert());
+        assertEquals(INTERVAL_A4, INTERVAL_d5.invert());
+        assertEquals(INTERVAL_P4, INTERVAL_P5.invert());
+        assertEquals(INTERVAL_d4, INTERVAL_A5.invert());
+        assertEquals(INTERVAL_A3, INTERVAL_d6.invert());
+        assertEquals(INTERVAL_M3, INTERVAL_m6.invert());
+        assertEquals(INTERVAL_m3, INTERVAL_M6.invert());
+        assertEquals(INTERVAL_d3, INTERVAL_A6.invert());
+        assertEquals(INTERVAL_A2, INTERVAL_d7.invert());
+        assertEquals(INTERVAL_M2, INTERVAL_m7.invert());
+        assertEquals(INTERVAL_m2, INTERVAL_M7.invert());
+        assertEquals(INTERVAL_d2, INTERVAL_A7.invert());
 
         // Arbitrary check on dynamic Intervals
-        assertEquals("P8", Interval.withShortName("P8").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("d8", Interval.withShortName("A8").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("A14", Interval.withShortName("d9").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("M14", Interval.withShortName("m9").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("m14", Interval.withShortName("M9").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("d14", Interval.withShortName("A9").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("A13", Interval.withShortName("d10").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("M13", Interval.withShortName("m10").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("m13", Interval.withShortName("M10").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("d13", Interval.withShortName("A10").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("A12", Interval.withShortName("d11").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("P12", Interval.withShortName("P11").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("d12", Interval.withShortName("A11").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("A11", Interval.withShortName("d12").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("P11", Interval.withShortName("P12").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("d11", Interval.withShortName("A12").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("A10", Interval.withShortName("d13").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("M10", Interval.withShortName("m13").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("m10", Interval.withShortName("M13").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("d10", Interval.withShortName("A13").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("A9", Interval.withShortName("d14").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("M9", Interval.withShortName("m14").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("m9", Interval.withShortName("M14").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("d9", Interval.withShortName("A14").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("A15", Interval.withShortName("d15").getInversion().COMPOUND_SHORT_NAME);
-        assertEquals("P15", Interval.withShortName("P15").getInversion().COMPOUND_SHORT_NAME);
+        assertEquals("P8", Interval.withShortName("P8").invert().COMPOUND_SHORT_NAME);
+        assertEquals("d8", Interval.withShortName("A8").invert().COMPOUND_SHORT_NAME);
+        assertEquals("A14", Interval.withShortName("d9").invert().COMPOUND_SHORT_NAME);
+        assertEquals("M14", Interval.withShortName("m9").invert().COMPOUND_SHORT_NAME);
+        assertEquals("m14", Interval.withShortName("M9").invert().COMPOUND_SHORT_NAME);
+        assertEquals("d14", Interval.withShortName("A9").invert().COMPOUND_SHORT_NAME);
+        assertEquals("A13", Interval.withShortName("d10").invert().COMPOUND_SHORT_NAME);
+        assertEquals("M13", Interval.withShortName("m10").invert().COMPOUND_SHORT_NAME);
+        assertEquals("m13", Interval.withShortName("M10").invert().COMPOUND_SHORT_NAME);
+        assertEquals("d13", Interval.withShortName("A10").invert().COMPOUND_SHORT_NAME);
+        assertEquals("A12", Interval.withShortName("d11").invert().COMPOUND_SHORT_NAME);
+        assertEquals("P12", Interval.withShortName("P11").invert().COMPOUND_SHORT_NAME);
+        assertEquals("d12", Interval.withShortName("A11").invert().COMPOUND_SHORT_NAME);
+        assertEquals("A11", Interval.withShortName("d12").invert().COMPOUND_SHORT_NAME);
+        assertEquals("P11", Interval.withShortName("P12").invert().COMPOUND_SHORT_NAME);
+        assertEquals("d11", Interval.withShortName("A12").invert().COMPOUND_SHORT_NAME);
+        assertEquals("A10", Interval.withShortName("d13").invert().COMPOUND_SHORT_NAME);
+        assertEquals("M10", Interval.withShortName("m13").invert().COMPOUND_SHORT_NAME);
+        assertEquals("m10", Interval.withShortName("M13").invert().COMPOUND_SHORT_NAME);
+        assertEquals("d10", Interval.withShortName("A13").invert().COMPOUND_SHORT_NAME);
+        assertEquals("A9", Interval.withShortName("d14").invert().COMPOUND_SHORT_NAME);
+        assertEquals("M9", Interval.withShortName("m14").invert().COMPOUND_SHORT_NAME);
+        assertEquals("m9", Interval.withShortName("M14").invert().COMPOUND_SHORT_NAME);
+        assertEquals("d9", Interval.withShortName("A14").invert().COMPOUND_SHORT_NAME);
+        assertEquals("A15", Interval.withShortName("d15").invert().COMPOUND_SHORT_NAME);
+        assertEquals("P15", Interval.withShortName("P15").invert().COMPOUND_SHORT_NAME);
     }
 
     @Test

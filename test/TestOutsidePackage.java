@@ -107,17 +107,15 @@ public class TestOutsidePackage {
         octave.getNext();
         octave.getPrevious();
         pitch.getEnharmonics();
-        pitch.transposeTo(pitch);
-        pitch.transposeTo(pitchClass, octave);
-        pitch.transposeTo(interval, true);
+        pitch.transpose(pitch);
+        pitch.transpose(pitchClass, octave);
+        pitch.transpose(true, interval);
         pitchClass.getEnharmonics();
-        interval.getInversion();
+        interval.invert();
         scale.getPitchesForOctave(octave);
         scale.isDiatonicTo(keySignature);
         scale.isDiatonicTo(scale);
-        scale.getTypeName();
         scale.getFullName();
-        scale.getOrigin();
         chord.getPitchesForOctave(octave);
     }
 }

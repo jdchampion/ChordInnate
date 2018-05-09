@@ -5,9 +5,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BaseService {
 
-    private static ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/applicationContext.xml");
+    private static final ApplicationContext context = new ClassPathXmlApplicationContext("META-INF/applicationContext.xml");
 
-    protected static ChordTypeManager chordTypeService = (ChordTypeManager) context.getBean(ChordTypeManager.class);
-    protected static ScaleTypeManager scaleTypeService = (ScaleTypeManager) context.getBean(ScaleTypeManager.class);
+    protected static final ChordTypeManager chordTypeService = (ChordTypeManager) context.getBean(ChordTypeManager.class);
+    protected static final ScaleTypeManager scaleTypeService = (ScaleTypeManager) context.getBean(ScaleTypeManager.class);
 
 }

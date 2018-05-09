@@ -7,8 +7,10 @@ abstract class HorizontalIntervalSet extends IntervalSet {
 
     /**
      * Retrieves the total length of the IntervalSet (in terms of sequential pitches)
-     * @return
+     * @return the number of sequential pitches in the IntervalSet
      */
-    abstract int length();
+    int length() {
+        return super.intervals.length;
+    }
 
 }

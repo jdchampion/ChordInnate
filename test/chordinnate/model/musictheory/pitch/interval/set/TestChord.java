@@ -30,39 +30,39 @@ public class TestChord {
     @Test
     public void transposeToInterval() throws Exception {
         Chord transposed = new Chord(C, "maj");
-        transposed.transposeTo(Interval.withShortName("M2"), true);
+        transposed.transpose(true, Interval.withShortName("M2"));
         verifyChord(transposed, D, F_SHARP, A);
-        transposed.transposeTo(Interval.withShortName("M2"), false);
+        transposed.transpose(false, Interval.withShortName("M2"));
         verifyChord(transposed, C, E, G);
     }
 
     @Test
     public void transposeToPitchClass() throws Exception {
         Chord transposed = new Chord(C, "maj");
-        transposed.transposeTo(PitchClass.D);
+        transposed.transpose(true, PitchClass.D);
         verifyChord(transposed, D, F_SHARP, A);
-        transposed.transposeTo(PitchClass.C);
+        transposed.transpose(true, PitchClass.C);
         verifyChord(transposed, C, E, G);
     }
 
     @Test
     public void invert() throws Exception {
         Chord c = new Chord(C, "maj");
-        assertEquals(0, c.inversion);
-        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
-        assertEquals("Cmaj", c.name);
+        assertEquals(0, c.getInversion());
+        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
+        assertEquals("Cmaj", c.getName());
         c.invert();
-        assertEquals(1, c.inversion);
-        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
-        assertEquals("Cmaj/E", c.name);
+        assertEquals(1, c.getInversion());
+        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_0, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
+        assertEquals("Cmaj/E", c.getName());
         c.invert();
-        assertEquals(2, c.inversion);
-        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_1, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
-        assertEquals("Cmaj/G", c.name);
+        assertEquals(2, c.getInversion());
+        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_1, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
+        assertEquals("Cmaj/G", c.getName());
         c.invert();
-        assertEquals(0, c.inversion);
-        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.invertedPitchesByOctave.get(Octave.OCTAVE_0));
-        assertEquals("Cmaj", c.name);
+        assertEquals(0, c.getInversion());
+        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
+        assertEquals("Cmaj", c.getName());
     }
 
     @Test
@@ -98,7 +98,7 @@ public class TestChord {
 
         assertEquals("Chord length is not the expected length (bad view_rn_analysis.sql args?)",
                 expected.length,
-                chord.CHORD_TYPE.getIntervals().split(",").length);
+                chord.getChordType().getIntervals().split(",").length);
 
         int lowRange = lowPitches.length, highRange = highPitches.length;
 
@@ -109,7 +109,7 @@ public class TestChord {
             assertEquals(expected[i], highPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
         }
 
-        assertEquals(chord.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chord.CHORD_TYPE.getSymbol(), chord.name);
+        assertEquals(chord.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + chord.getChordType().getSymbol(), chord.getName());
     }
 
 }

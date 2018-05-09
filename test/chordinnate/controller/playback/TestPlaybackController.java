@@ -51,7 +51,7 @@ public class TestPlaybackController {
             Beat beat = n1.getBeat();
             System.out.println(
                     (articulation == null ? "" : (articulation + " ")) +
-                            pitch + " " + beat + " at tempo = " + bpm + " bpm:");
+                            pitch.name() + " " + beat + " at tempo = " + bpm + " bpm:");
             System.out.println("Full length: " + fullLength + " ms");
             System.out.println("Sounded length: " + soundedLength + " ms");
             System.out.println("Unsounded length: " + difference + " ms\n");

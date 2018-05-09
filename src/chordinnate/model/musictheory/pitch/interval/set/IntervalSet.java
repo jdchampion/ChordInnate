@@ -25,17 +25,17 @@ public abstract class IntervalSet extends BaseService implements Diatonic {
         this.pitchesByOctave = new EnumMap<>(Octave.class);
         this.lowestDiatonic = Pitch.valueOf(root.apply(Accidental.NONE).name() + "_0");
         Pitch lastKnownValidPitch = lowestDiatonic;
-        Pitch octaveBegin = lowestDiatonic.transposeTo(lowestDiatonic.PITCH_CLASS, Octave.OCTAVE_0);
+        Pitch octaveBegin = lowestDiatonic.transpose(lowestDiatonic.PITCH_CLASS, Octave.OCTAVE_0);
         if (octaveBegin != null) {
             for (Octave octave : Octave.values()) {
                 ArrayList<Pitch> pitchesAtCurrentOctave = new ArrayList<>(intervals.length);
-                if (lowestDiatonic.isTransposableTo(lowestDiatonic.PITCH_CLASS, octave)) {
-                    Pitch lowestDiatonicAtOctave = octaveBegin.transposeTo(lowestDiatonic.PITCH_CLASS, octave);
+                if (lowestDiatonic.isTransposable(lowestDiatonic.PITCH_CLASS, octave)) {
+                    Pitch lowestDiatonicAtOctave = octaveBegin.transpose(lowestDiatonic.PITCH_CLASS, octave);
                     if (lowestDiatonicAtOctave != null) {
                         pitchesAtCurrentOctave.add(lowestDiatonicAtOctave);
                         for (int i = 1; i < intervals.length; i++) {
-                            if (lowestDiatonicAtOctave.isTransposableTo(intervals[i], true)) {
-                                lastKnownValidPitch = lowestDiatonicAtOctave.transposeTo(intervals[i], true);
+                            if (lowestDiatonicAtOctave.isTransposable(true, intervals[i])) {
+                                lastKnownValidPitch = lowestDiatonicAtOctave.transpose(true, intervals[i]);
                                 pitchesAtCurrentOctave.add(lastKnownValidPitch);
                             }
                         }

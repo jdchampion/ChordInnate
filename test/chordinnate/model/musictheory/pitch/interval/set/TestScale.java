@@ -30,18 +30,18 @@ public class TestScale {
     @Test
     public void transposeToInterval() throws Exception {
         Scale transposed = new Scale(C, "Major");
-        transposed.transposeTo(Interval.withShortName("M2"), true);
+        transposed.transpose(true, Interval.withShortName("M2"));
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
-        transposed.transposeTo(Interval.withShortName("M2"), false);
+        transposed.transpose(false, Interval.withShortName("M2"));
         verifyScale(transposed, C, D, E, F, G, A, B);
     }
 
     @Test
     public void transposeToPitchClass() throws Exception {
         Scale transposed = new Scale(C, "Major");
-        transposed.transposeTo(PitchClass.D);
+        transposed.transpose(true, PitchClass.D);
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
-        transposed.transposeTo(PitchClass.C);
+        transposed.transpose(true, PitchClass.C);
         verifyScale(transposed, C, D, E, F, G, A, B);
     }
 
@@ -76,17 +76,17 @@ public class TestScale {
                 lowPitches = scale.getPitchesForOctave(Octave.OCTAVE_0),
                 highPitches = scale.getPitchesForOctave(scale.maxPlayableOctave);
 
-        assertEquals("Scale length for scale [" + scale.fullName + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.length(), expected.length);
+        assertEquals("Scale length for scale [" + scale.getFullName() + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.length(), expected.length);
 
         int lowRange = lowPitches.length, highRange = highPitches.length;
 
         for (int i = 0; i < lowRange; i++) {
-            assertEquals("Lowest octave for scale [" + scale.fullName + "] has the wrong values", expected[i], lowPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
+            assertEquals("Lowest octave for scale [" + scale.getFullName() + "] has the wrong values", expected[i], lowPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
         }
         for (int i = 0; i < highRange; i++) {
-            assertEquals("Highest octave for scale [" + scale.fullName + "] has the wrong values", expected[i], highPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
+            assertEquals("Highest octave for scale [" + scale.getFullName() + "] has the wrong values", expected[i], highPitches[i].PITCH_CLASS.ENHARMONIC_SPELLING);
         }
 
-        assertEquals(scale.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scale.SCALE_TYPE.getName(), scale.fullName);
+        assertEquals(scale.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + scale.getScaleType().getName(), scale.getFullName());
     }
 }

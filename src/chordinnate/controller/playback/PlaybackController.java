@@ -7,12 +7,12 @@ import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.time.rhythm.Beat;
 import chordinnate.model.musictheory.time.tempo.Tempo;
 import chordinnate.model.playback.Note;
+import chordinnate.model.playback.Playable;
 import org.jetbrains.annotations.NotNull;
 
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiSystem;
-import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Synthesizer;
+import javax.sound.midi.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by Joseph on 6/16/16.
@@ -22,6 +22,8 @@ public final class PlaybackController {
     private static Synthesizer synthesizer;
     private static Tempo currentTempo;
 
+    private static final Logger LOGGER = Logger.getLogger("PlaybackController");
+
     static {
         try {
             synthesizer = MidiSystem.getSynthesizer();
@@ -29,7 +31,7 @@ public final class PlaybackController {
             synthesizer.open();
             Thread.sleep(1000); // allows the synthesizer to finish initialization before playing
         } catch (Exception ex) {
-            System.err.println(ex.getLocalizedMessage());
+            LOGGER.log(Level.SEVERE, "Error initializing the synthesizer.", ex.getCause());
         }
     }
 
@@ -42,9 +44,11 @@ public final class PlaybackController {
      */
     private static void restart() {
         try {
-            if (!synthesizer.isOpen()) synthesizer.open();
+            if (!synthesizer.isOpen()) {
+                synthesizer.open();
+            }
         } catch (MidiUnavailableException ex) {
-            System.err.println(ex.getLocalizedMessage());
+            LOGGER.log(Level.SEVERE, "Error restarting the synthesizer.", ex.getCause());
         }
     }
 
@@ -58,7 +62,7 @@ public final class PlaybackController {
             }
             synthesizer.close();
         } catch (Exception ex) {
-            System.err.println(ex.getLocalizedMessage());
+            LOGGER.log(Level.SEVERE, "Error stopping the synthesizer.", ex.getCause());
         }
     }
 
@@ -70,9 +74,24 @@ public final class PlaybackController {
         currentTempo = tempo;
     }
 
+    public static <T extends Playable> void play(@NotNull T t) {
+        restart();
+
+        try {
+            t.getMidiSequence();
+        } catch (Exception ex) {
+            // TODO - add throws Exception to play(T) ?
+            LOGGER.log(Level.SEVERE, "Error during playback.", ex.getCause());
+
+        }
+
+        stop();
+    }
+
     /**
      * Plays back the specified Pitch for one (1) second.
      * @param pitch the Pitch to play
+     * TODO - deprecate this when play(T) works
      */
     public static void play(@NotNull Pitch pitch) {
         restart();
@@ -82,13 +101,14 @@ public final class PlaybackController {
             Thread.sleep(1000);
             midiChannels[0].noteOff(noteNumber);
         } catch (Exception ex) {
-            System.err.println(ex.getLocalizedMessage());
+            LOGGER.log(Level.SEVERE, "Error during playback.", ex.getCause());
         }
     }
 
     /**
      * Plays back the specified Note, at the current Tempo.
      * @param note the Note to play
+     * TODO - deprecate this when play(T) works
      */
     public static void play(@NotNull Note note) {
         restart();
@@ -103,14 +123,22 @@ public final class PlaybackController {
             midiChannels[0].noteOff(noteNumber);
             Thread.sleep(difference);
         } catch (Exception ex) {
-            System.err.println(ex.getLocalizedMessage());
+            LOGGER.log(Level.SEVERE, "Error during playback.", ex.getCause());
         }
     }
 
+    /**
+     * TODO - deprecate this when play(T) works
+     * @param chord
+     */
     public static void play(@NotNull Chord chord) {
         playLayered(chord.getPitchesForOctave(Octave.OCTAVE_4));
     }
 
+    /**
+     * TODO - move to Playable interface as a default method?
+     * @param pitches
+     */
     private static void playLayered(Pitch[] pitches) {
         restart();
         try {
@@ -126,10 +154,15 @@ public final class PlaybackController {
                 midiChannels[0].noteOff(noteNumber);
             }
         } catch (Exception ex) {
-            System.err.println(ex.getLocalizedMessage());
+            LOGGER.log(Level.SEVERE, "Error during playback.", ex.getCause());
         }
     }
 
+    /**
+     * TODO - deprecate this when play(T) works
+     * @param scale
+     * @param octave
+     */
     public static void play(@NotNull Scale scale, Octave octave) {
         restart();
         try {
@@ -137,7 +170,7 @@ public final class PlaybackController {
                 play(p);
             }
         } catch (Exception ex) {
-            System.err.println(ex.getLocalizedMessage());
+            LOGGER.log(Level.SEVERE, "Error during playback.", ex.getCause());
         }
     }
 }

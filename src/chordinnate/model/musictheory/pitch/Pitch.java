@@ -6,8 +6,13 @@ import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalSet;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
+import chordinnate.model.playback.Playable;
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.midi.MidiEvent;
+import javax.sound.midi.MidiMessage;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Track;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +21,7 @@ import java.util.Map;
  * Created by Joseph on 4/18/16.
  */
 public enum Pitch
-        implements TransposableEnum<Pitch>, Enharmonic<Pitch>, Diatonic {
+        implements Transposable<Pitch>, Enharmonic<Pitch>, Diatonic, Playable {
 
     // Cbb10 is out of playable MIDI range, so it has been removed
     C_DOUBLE_FLAT_0(PitchClass.C_DOUBLE_FLAT, Octave.OCTAVE_0),                                   // 0
@@ -457,7 +462,7 @@ public enum Pitch
     public final Octave OCTAVE;
     public final int ABSOLUTE_PITCH;
 
-    private static final Map<Integer, ArrayList<Pitch>> ENHARMONICS = new HashMap<>(127);
+    private static final Map<Integer, ArrayList<Pitch>> ENHARMONICS = new HashMap<>(131);
         static {
             for (int i = 0; i <= 127; i++) {
                 ENHARMONICS.put(i, new ArrayList<>());
@@ -520,15 +525,50 @@ public enum Pitch
     }
 
     @Override
-    public boolean isTransposableTo(@NotNull Interval interval, boolean direction) {
+    public boolean isTransposable(boolean direction, @NotNull Interval interval) {
         return direction
                 ? ABSOLUTE_PITCH + interval.getSemitones() <= 127
                 : ABSOLUTE_PITCH - interval.getSemitones() >= 0;
     }
 
     @Override
-    public Pitch transposeTo(@NotNull Interval interval, boolean direction) {
-        if (isTransposableTo(interval, direction)) {
+    public boolean isTransposable(boolean direction, @NotNull PitchClass pitchClass) {
+        return direction
+                ? ABSOLUTE_PITCH + pitchClass.BASE_MIDI_VALUE <= 127
+                : ABSOLUTE_PITCH - pitchClass.BASE_MIDI_VALUE >= 0;
+    }
+
+    @Override
+    public boolean isTransposable(@NotNull Pitch pitch) {
+        /*
+         * Since Pitches are inherently bounded by this enumerated class,
+         * they can all be transposed to the other Pitch.
+         */
+        return true;
+    }
+
+    @Override
+    public boolean isTransposable(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
+        try {
+            Pitch.valueOf(pitchClass.name() + "_" + octave.NUMBER);
+
+            /*
+             * Reaching this return statement without throwing an Exception
+             * guarantees that the current Pitch is transposable to the candidate.
+             */
+            return true;
+        } catch (Exception ex) {
+            /*
+             * Pitch.valueOf() failed to find the desired Pitch enum value.
+             * Therefore, the current Pitch is not transposable to the candidate.
+             */
+            return false;
+        }
+    }
+
+    @Override
+    public Pitch transpose(boolean direction, @NotNull Interval interval) {
+        if (isTransposable(direction, interval)) {
 
             // The returned Pitch will contain this PitchClass
             PitchClass transposedPitchClass = null;
@@ -594,7 +634,7 @@ public enum Pitch
                 for (int i = 0; i < octaveSpan; i++) {
                     octave = direction ? octave.getNext() : octave.getPrevious();
                 }
-                candidate = candidate.transposeTo(candidate.PITCH_CLASS, octave);
+                candidate = candidate.transpose(candidate.PITCH_CLASS, octave);
             }
 
             if (PITCH_CLASS.BASE_MIDI_VALUE < transposedPitchClass.BASE_MIDI_VALUE) {
@@ -607,60 +647,68 @@ public enum Pitch
         } else {
             throw new RuntimeException(
                     "Cannot transpose pitch "
-                    + getFullName()
-                    + (direction ? " up " : " down ")
-                    + "by interval "
-                    + interval.name()
+                            + getFullName()
+                            + (direction ? " up " : " down ")
+                            + "by interval "
+                            + interval.name()
             );
         }
     }
 
-
     @Override
-    public boolean isTransposableTo(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
-        try {
-            Pitch.valueOf(pitchClass.name() + "_" + octave.NUMBER);
+    public Pitch transpose(boolean direction, @NotNull PitchClass pitchClass) {
+        if (isTransposable(direction, pitchClass)) {
+            Pitch candidate1 = Pitch.valueOf(pitchClass.ENHARMONIC_SPELLING.name() + "_" + this.OCTAVE.NUMBER);
+            Pitch candidate2 = direction
+                    ? Pitch.valueOf(pitchClass.ENHARMONIC_SPELLING.name() + "_" + (this.OCTAVE.NUMBER + 1))
+                    : Pitch.valueOf(pitchClass.ENHARMONIC_SPELLING.name() + "_" + (this.OCTAVE.NUMBER - 1));
 
-            /*
-             * Reaching this return statement without throwing an Exception
-             * guarantees that the current Pitch is transposable to the candidate.
-             */
-            return true;
-        } catch (IllegalArgumentException ex) {
-            /*
-             * Pitch.valueOf() failed to find the desired Pitch enum value.
-             * Therefore, the current Pitch is not transposable to the candidate.
-             */
-            return false;
+            if (direction) {
+                return candidate1.ABSOLUTE_PITCH > this.ABSOLUTE_PITCH ? candidate1 : candidate2;
+            } else {
+                return candidate1.ABSOLUTE_PITCH < this.ABSOLUTE_PITCH ? candidate1 : candidate2;
+            }
         }
+        return this;
     }
 
     @Override
-    public Pitch transposeTo(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
-        if (isTransposableTo(pitchClass, octave)) {
+    public Pitch transpose(@NotNull Pitch pitch) {
+        /*
+         * We're transposing on the same enumerated type,
+         * which is basically apples to apples.
+         * No need for any special logic -- just return the requested pitch.
+         */
+        return pitch;
+    }
+
+    @Override
+    public Pitch transpose(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
+        if (isTransposable(pitchClass, octave)) {
             return Pitch.valueOf(pitchClass.name() + "_" + octave.NUMBER);
         } else {
             throw new RuntimeException(
                     "Cannot transpose pitch "
-                    + getFullName()
-                    + " to "
-                    + pitchClass.ENHARMONIC_SPELLING.NAME
-                    + octave.NUMBER
+                            + getFullName()
+                            + " to "
+                            + pitchClass.ENHARMONIC_SPELLING.NAME
+                            + octave.NUMBER
             );
         }
     }
 
     @Override
-    public boolean isTransposableTo(@NotNull Pitch pitch) {
-        /*
-         * Since Pitches are inherently bounded by this enumerated class,
-         * they can all be transposed to the other Pitch.
-         */
-        return true;
-    }
-
-    @Override
-    public Pitch transposeTo(@NotNull Pitch pitch) {
-        return pitch;
+    public Sequence getMidiSequence() throws Exception {
+        //TODO
+        Sequence s = new Sequence(Sequence.PPQ, 1, 1);
+        Track track = s.getTracks()[0];
+        byte[] stuff = new byte[1];
+        MidiMessage message = new MidiMessage(stuff) {
+            @Override
+            public Object clone() {
+                return null;
+            }
+        };
+        return s;
     }
 }

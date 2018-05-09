@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  *             http://musictheory.alcorn.edu/Version2/theory1/interval.htm
  *             http://music.tutsplus.com/tutorials/music-theory-intervals-and-how-to-derive-them--audio-4559
  */
-public enum Interval {
+public enum Interval implements Invertible<Interval> {
     INTERVAL_d1("d1", "d1", "A1", -1, 0),
     INTERVAL_P1("P1", "P1", "P1", 0, 0),
     INTERVAL_A1("A1", "A1", "d1", 1, 0),
@@ -335,25 +335,6 @@ public enum Interval {
         return getCompoundDiatonic() >= 8;
     }
 
-    public Interval getInversion() {
-        switch (this) {
-            case INTERVAL_d72:
-            case INTERVAL_m72:
-            case INTERVAL_M72:
-            case INTERVAL_A72:
-            case INTERVAL_d73:
-            case INTERVAL_m73:
-                throw new RuntimeException(
-                        "Cannot invert interval ["
-                        + COMPOUND_SHORT_NAME
-                        + "]: the inversion ["
-                        + INVERTED_COMPOUND_SHORT_NAME
-                        + "] would be out of playable range"
-                );
-            default: return Interval.valueOf("INTERVAL_" + INVERTED_COMPOUND_SHORT_NAME);
-        }
-    }
-
     /**
      * Helper method to retrieve the simple Interval between two PitchClasses, if possible.
      * @param semitoneDistance the distance in semitones for the target interval
@@ -452,8 +433,8 @@ public enum Interval {
 
     /**
      * Retrieves the Interval specified by its compound short name.
-     * @param compoundShortName
-     * @return
+     * @param compoundShortName the abbreviated name for the interval
+     * @return an {@link Interval} matching the short name
      */
     public static Interval withShortName(String compoundShortName) {
         Pattern validPattern = Pattern.compile("^[dmMPA](([1-9])|([1-6][0-9])|(7[0-6]))$");
@@ -470,6 +451,27 @@ public enum Interval {
             } else {
                 throw new IllegalArgumentException("Invalid interval symbol provided: " + compoundShortName);
             }
+        }
+    }
+
+    @Override
+    public Interval invert() {
+        switch (this) {
+            case INTERVAL_d72:
+            case INTERVAL_m72:
+            case INTERVAL_M72:
+            case INTERVAL_A72:
+            case INTERVAL_d73:
+            case INTERVAL_m73:
+                throw new RuntimeException(
+                        "Cannot invert interval ["
+                                + COMPOUND_SHORT_NAME
+                                + "]: the inversion ["
+                                + INVERTED_COMPOUND_SHORT_NAME
+                                + "] would be out of playable range"
+                );
+                // TODO - log and just return this?
+            default: return Interval.valueOf("INTERVAL_" + INVERTED_COMPOUND_SHORT_NAME);
         }
     }
 }

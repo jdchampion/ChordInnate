@@ -15,18 +15,18 @@ public interface ScaleTypeManager {
      * @param id the ScaleType's unique ID (primary key)
      * @return {@link Optional}<{@link ScaleType}> that was requested
      */
-    public Optional<ScaleType> findById(int id);
+    Optional<ScaleType> findById(int id);
 
     /**
      * Retrieves the ScaleType from the database matching the specified name, if possible.
      * @param name the ScaleType's unique name
      * @return {@link Optional}<{@link ScaleType}> that was requested
      */
-    public Optional<ScaleType> findByName(String name);
+    Optional<ScaleType> findByName(String name);
 
     /**
      * Retrieves all supported ScaleTypes from the database.
      * @return {@link List}<{@link ScaleType}> of all supported ScaleTypes
      */
-    public List findAll();
+    List findAll();
 }

@@ -5,10 +5,12 @@ import chordinnate.model.musictheory.time.rhythm.Beat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.sound.midi.Sequence;
+
 /**
  * Created by Joseph on 6/16/16.
  */
-public class Note {
+public class Note implements Playable {
     private Pitch pitch;
     private Beat beat;
     private Articulation articulation;
@@ -47,20 +49,18 @@ public class Note {
         return articulation;
     }
 
-    public boolean isTuplet() {
-        return beat.isTuplet();
-    }
-
-    public boolean isDotted() {
-        return beat.isDotted();
-    }
-
     public boolean isTied() {
         return tied;
     }
 
     public double getSoundedLength() {
         return soundedLength;
+    }
+
+    @Override
+    public Sequence getMidiSequence() throws Exception {
+        //TODO
+        return null;
     }
 
     public static class Builder {
