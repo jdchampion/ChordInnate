@@ -6,6 +6,5 @@ package chordinnate.model.musictheory.pitch.key;
 public enum KeySignatureType {
     MAJOR,
     MINOR,
-    THEORETICAL,
     NONE
 }

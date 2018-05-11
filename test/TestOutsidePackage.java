@@ -100,10 +100,8 @@ public class TestOutsidePackage {
 
         keySignature.getNext();
         keySignature.getPrevious();
-        keySignature.getParallelMajor();
-        keySignature.getParallelMinor();
-        keySignature.getRelativeMajor();
-        keySignature.getRelativeMinor();
+        keySignature.getParallelKey();
+        keySignature.getRelativeKey();
         octave.getNext();
         octave.getPrevious();
         pitch.getEnharmonics();

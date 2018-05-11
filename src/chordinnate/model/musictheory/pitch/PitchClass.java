@@ -69,7 +69,7 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
     public final int BASE_MIDI_VALUE;
     public final Octave OCTAVE_RANGE;
 
-    private static final Map<Integer, ArrayList<PitchClass>> ENHARMONICS = new HashMap<>(12);
+    private static final Map<Integer, ArrayList<PitchClass>> ENHARMONICS = new HashMap<>(17);
     static {
         for (int i = 0; i < 12; i++) {
             ENHARMONICS.put(i, new ArrayList<>());
@@ -133,13 +133,10 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
             return true;
         } else {
             if (this.hasAccidental(Accidental.NONE) || this.hasAccidental(Accidental.NATURAL)) { // not found, natural
-                if (keySignature.SIGNATURE.length == 0) { // KeySignature contains no items
+                if (keySignature.SIGNATURE.size() == 0) { // KeySignature contains no items
                     return true;
                 } else { // KeySignature contains 1+ items
-                    for (EnharmonicSpelling e : keySignature.SIGNATURE) {
-                        if (this.ENHARMONIC_SPELLING.LETTER == e.LETTER) return false;
-                    }
-                    return true;
+                    return !keySignature.SIGNATURE.contains(this.ENHARMONIC_SPELLING);
                 }
             } else { // not found, not natural
                 return false;
@@ -149,11 +146,6 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
 
     @Override
     public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
-        for (Pitch pitch : intervalSet.getPitchesForOctave(this.OCTAVE_RANGE.getPrevious())) {
-            if (pitch.PITCH_CLASS.equals(this)) {
-                return true;
-            }
-        }
-        return false;
+        return intervalSet.getDiatonics().contains(this);
     }
 }

@@ -462,7 +462,7 @@ public enum Pitch
     public final Octave OCTAVE;
     public final int ABSOLUTE_PITCH;
 
-    private static final Map<Integer, ArrayList<Pitch>> ENHARMONICS = new HashMap<>(131);
+    private static final Map<Integer, ArrayList<Pitch>> ENHARMONICS = new HashMap<>(173);
         static {
             for (int i = 0; i <= 127; i++) {
                 ENHARMONICS.put(i, new ArrayList<>());
@@ -476,7 +476,7 @@ public enum Pitch
     /*
      * This array is used exclusively for the purpose of
      * grouping all enharmonic PitchClasses, which simplifies
-     * the algorithm in transposeTo(Interval, boolean).
+     * the algorithm in transpose(boolean, Interval).
      */
     private static final PitchClass[][] PITCH_CLASS_CANDIDATE_REFERENCE = {
             PitchClass.C.getEnharmonics(),
