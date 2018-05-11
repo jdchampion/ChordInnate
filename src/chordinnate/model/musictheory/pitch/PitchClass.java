@@ -127,21 +127,61 @@ public enum PitchClass implements Enharmonic<PitchClass>, Diatonic {
 
     @Override
     public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
+
+        // If there's no real key signature we're comparing against, any PitchClass is fair game.
         if (keySignature.equals(KeySignature.NO_KEY_SIGNATURE)) {
             return true;
-        } else if (keySignature.contains(this.ENHARMONIC_SPELLING)) {
+        }
+
+        boolean accidentalIsFlatOrSharp = this.ENHARMONIC_SPELLING.ACCIDENTAL.SEMITONE_MODIFIER != 0;
+
+        /*
+         * Key signatures inherit their 'bias' toward flatness / sharpness
+         * from the first accidental they contain. This means the key signature
+         * will contain either ALL flats or ALL sharps.
+         *
+         * If there's nothing in the key signature,
+         * but the enharmonic spelling contains an accidental,
+         * it can't be diatonic to this key signature.
+         */
+        if (keySignature.SIGNATURE.size() == 0 && accidentalIsFlatOrSharp) {
+            return false;
+        }
+
+        if (keySignature.SIGNATURE.contains(this.ENHARMONIC_SPELLING)) {
             return true;
-        } else {
-            if (this.hasAccidental(Accidental.NONE) || this.hasAccidental(Accidental.NATURAL)) { // not found, natural
-                if (keySignature.SIGNATURE.size() == 0) { // KeySignature contains no items
-                    return true;
-                } else { // KeySignature contains 1+ items
-                    return !keySignature.SIGNATURE.contains(this.ENHARMONIC_SPELLING);
-                }
-            } else { // not found, not natural
+        }
+
+        /*
+         * A property of key signatures is that
+         * all enharmonic spellings must have a unique letter.
+         *
+         * We've already checked the key signature for a match on PitchClass,
+         * and failed, so we know that the specific enharmonic spelling isn't there.
+         *
+         * It is possible at this point for PitchClass's letter
+         * to match a letter in the key signature.
+         * By considering such a PitchClass as diatonic, we'd be
+         * violating the key signature property of unique letters,
+         * therefore any such PitchClass matching a letter from the key signature
+         * must be considered NOT diatonic.
+         */
+        for (EnharmonicSpelling e : keySignature.SIGNATURE) {
+            if (this.ENHARMONIC_SPELLING.LETTER.equals(e.LETTER)) {
                 return false;
             }
         }
+
+        /*
+         * By the time we get here, the only valid PitchClasses
+         * would be those that contain no accidental.
+         *
+         * We've already searched for all the ones matching the key signature bias,
+         * and we've already filtered out any that were not adhering to the bias.
+         */
+        return !accidentalIsFlatOrSharp;
+
+
     }
 
     @Override

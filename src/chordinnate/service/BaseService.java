@@ -10,4 +10,14 @@ public class BaseService {
     protected static final ChordTypeManager chordTypeService = (ChordTypeManager) context.getBean(ChordTypeManager.class);
     protected static final ScaleTypeManager scaleTypeService = (ScaleTypeManager) context.getBean(ScaleTypeManager.class);
 
+    private BaseService() {}
+
+    public static ChordTypeManager getChordTypeService() {
+        return chordTypeService;
+    }
+
+    public static ScaleTypeManager getScaleTypeService() {
+        return scaleTypeService;
+    }
+
 }

@@ -1,7 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.model.musictheory.pitch.PitchClass;
-import chordinnate.service.BaseService;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.EnharmonicSpelling;
 import chordinnate.model.musictheory.pitch.Diatonic;
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Joseph on 7/15/16.
  */
-public abstract class IntervalSet extends BaseService implements Diatonic {
+public abstract class IntervalSet implements Diatonic {
     EnumMap<Octave, Pitch[]> pitchesByOctave;
     Set<PitchClass> diatonics;
     Pitch lowestDiatonic, highestDiatonic;

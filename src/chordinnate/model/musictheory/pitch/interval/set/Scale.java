@@ -1,5 +1,7 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import static chordinnate.service.BaseService.getScaleTypeService;
+
 import chordinnate.model.musictheory.notation.EnharmonicSpelling;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
@@ -11,6 +13,7 @@ import chordinnate.model.playback.Playable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.Sequence;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -24,7 +27,7 @@ public class Scale extends HorizontalIntervalSet
     private String fullName;
 
     public Scale(@NotNull EnharmonicSpelling root, @NotNull String scaleTypeName) {
-        Optional<ScaleType> scaleType = scaleTypeService.findByName(scaleTypeName);
+        Optional<ScaleType> scaleType = getScaleTypeService().findByName(scaleTypeName);
         if (scaleType.isPresent()) {
             super.commonInitializations(root, scaleType.get().getIntervals());
             this.SCALE_TYPE = scaleType.get();
@@ -35,7 +38,7 @@ public class Scale extends HorizontalIntervalSet
     }
 
     public Scale(@NotNull PitchClass root, @NotNull String scaleTypeName) {
-        Optional<ScaleType> scaleType = scaleTypeService.findByName(scaleTypeName);
+        Optional<ScaleType> scaleType = getScaleTypeService().findByName(scaleTypeName);
         if (scaleType.isPresent()) {
             super.commonInitializations(root.ENHARMONIC_SPELLING, scaleType.get().getIntervals());
             this.SCALE_TYPE = scaleType.get();
@@ -47,18 +50,14 @@ public class Scale extends HorizontalIntervalSet
 
     @Override
     public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
-        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
-            if (!pitch.isDiatonicTo(keySignature)) return false;
-        }
-        return true;
+        return Arrays.stream(getPitchesForOctave(lowestDiatonic.OCTAVE))
+                .allMatch(p -> p.isDiatonicTo(keySignature));
     }
 
     @Override
     public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
-        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
-            if (!pitch.isDiatonicTo(intervalSet)) return false;
-        }
-        return true;
+        return Arrays.stream(getPitchesForOctave(lowestDiatonic.OCTAVE))
+                .allMatch(p -> p.isDiatonicTo(intervalSet));
     }
 
     @Override

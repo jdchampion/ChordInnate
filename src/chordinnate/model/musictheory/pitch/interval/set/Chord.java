@@ -1,5 +1,7 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import static chordinnate.service.BaseService.getChordTypeService;
+
 import chordinnate.model.musictheory.notation.EnharmonicSpelling;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
@@ -12,6 +14,7 @@ import chordinnate.model.playback.Playable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.Sequence;
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Optional;
 
@@ -26,7 +29,7 @@ public class Chord extends VerticalIntervalSet
     private int inversion, possibleInversions;
 
     public Chord(@NotNull EnharmonicSpelling root, @NotNull String chordTypeName) {
-        Optional<ChordType> chordType = chordTypeService.findBySymbol(chordTypeName);
+        Optional<ChordType> chordType = getChordTypeService().findBySymbol(chordTypeName);
         if (chordType.isPresent()) {
             super.commonInitializations(root, chordType.get().getIntervals());
             this.CHORD_TYPE = chordType.get();
@@ -40,7 +43,7 @@ public class Chord extends VerticalIntervalSet
     }
 
     public Chord(@NotNull PitchClass root, @NotNull String chordTypeName) {
-        Optional<ChordType> chordType = chordTypeService.findBySymbol(chordTypeName);
+        Optional<ChordType> chordType = getChordTypeService().findBySymbol(chordTypeName);
         if (chordType.isPresent()) {
             super.commonInitializations(root.ENHARMONIC_SPELLING, chordType.get().getIntervals());
             this.CHORD_TYPE = chordType.get();
@@ -70,18 +73,14 @@ public class Chord extends VerticalIntervalSet
 
     @Override
     public boolean isDiatonicTo(@NotNull KeySignature keySignature) {
-        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
-            if (!pitch.isDiatonicTo(keySignature)) return false;
-        }
-        return true;
+        return Arrays.stream(getPitchesForOctave(lowestDiatonic.OCTAVE))
+                .allMatch(p -> p.isDiatonicTo(keySignature));
     }
 
     @Override
     public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
-        for (Pitch pitch : getPitchesForOctave(lowestDiatonic.OCTAVE)) {
-            if (!pitch.isDiatonicTo(intervalSet)) return false;
-        }
-        return true;
+        return Arrays.stream(getPitchesForOctave(lowestDiatonic.OCTAVE))
+                .allMatch(p -> p.isDiatonicTo(intervalSet));
     }
 
     @Override
