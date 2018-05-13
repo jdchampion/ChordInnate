@@ -21,7 +21,7 @@ import java.util.Optional;
 /**
  * Created by Joseph on 7/17/16.
  */
-public class Chord extends chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet
+public class Chord extends VerticalIntervalSet
         implements Transposable<Void>, Invertible<Void>, Playable {
     private ChordType CHORD_TYPE;
     private String name;
