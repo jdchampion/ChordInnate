@@ -10,7 +10,7 @@
     http://www.springframework.org/schema/tx
     http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 
-    <context:property-placeholder location="classpath:/META-INF/database.properties" />
+    <context:property-placeholder location="classpath:/database/database.properties" />
 
     <context:component-scan base-package="chordinnate.service" />
     <context:component-scan base-package="chordinnate.dao" />

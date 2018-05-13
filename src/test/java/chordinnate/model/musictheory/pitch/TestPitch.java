@@ -19,13 +19,10 @@ public class TestPitch {
 
     @SuppressWarnings("ConstantConditions")
     @Test
-    public void illegalArguments() throws Exception {
+    public void test_illegalArgumentException() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
 
         // Transposition on null items is impossible
-        Pitch.C_0.isTransposable(PitchClass.C, null);
-        Pitch.C_0.isTransposable(null, Octave.OCTAVE_0);
-        Pitch.C_0.isTransposable(null, null);
         Pitch.C_0.transpose(PitchClass.C, null);
         Pitch.C_0.transpose(null, Octave.OCTAVE_0);
         Pitch.C_0.transpose(null, null);

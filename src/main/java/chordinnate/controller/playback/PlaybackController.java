@@ -22,7 +22,7 @@ public final class PlaybackController {
     private static Synthesizer synthesizer;
     private static Tempo currentTempo;
 
-    private static final Logger LOGGER = Logger.getLogger("PlaybackController");
+    private static final Logger LOGGER = Logger.getLogger(PlaybackController.class.getName());
 
     static {
         try {
