@@ -298,6 +298,12 @@ public enum Interval implements Invertible<Interval> {
     INTERVAL_m76("m76", "m6", "M73", 128, 10),
     ;
 
+    private static final String FIRST_PASS_INTERVAL_REGEX = "^[dmMPA](([1-9])|([1-6][0-9])|(7[0-6]))$";
+    private static final String SECOND_PASS_INTERVAL_REGEX = "^([mM][2367])|(P[145])|([dA][1-7])$";
+
+    private static final Pattern FIRST_PASS_INTERVAL_PATTERN = Pattern.compile(FIRST_PASS_INTERVAL_REGEX);
+    private static final Pattern SECOND_PASS_INTERVAL_PATTERN = Pattern.compile(SECOND_PASS_INTERVAL_REGEX);
+
     String COMPOUND_SHORT_NAME, SIMPLE_SHORT_NAME, INVERTED_COMPOUND_SHORT_NAME;
     int SEMITONES, OCTAVES;
 
@@ -437,21 +443,28 @@ public enum Interval implements Invertible<Interval> {
      * @return an {@link Interval} matching the short name
      */
     public static Interval withShortName(String compoundShortName) {
-        Pattern validPattern = Pattern.compile("^[dmMPA](([1-9])|([1-6][0-9])|(7[0-6]))$");
-        if (!validPattern.matcher(compoundShortName).matches()) {
-            throw new IllegalArgumentException("Invalid interval symbol provided: " + compoundShortName);
-        } else {
+
+        if (FIRST_PASS_INTERVAL_PATTERN.matcher(compoundShortName).matches()) {
+
+            /*
+             * It's not enough that we match the regex for an interval.
+             * The interval must reduce to something that makes musical sense:
+             * - Major / minor intervals must reduce to seconds, thirds, sixths, or sevenths
+             * - Perfect intervals must reduce to unison / octaves, fourths, or fifths
+             * - Diminished / augmented may be any of the above
+             */
             String quality = compoundShortName.substring(0, 1);
             int compoundDiatonic = Integer.parseInt(compoundShortName.substring(1));
             int simpleDiatonic = getSimpleDiatonic(compoundDiatonic);
-            boolean isOneFourFive = simpleDiatonic == 1 || simpleDiatonic == 4 || simpleDiatonic == 5;
-            if ("d".equals(quality) || "A".equals(quality)
-                    || (("m".equals(quality) || "M".equals(quality) || "P".equals(quality) && isOneFourFive))) {
+
+            String simpleShortName = quality + simpleDiatonic;
+
+            if (SECOND_PASS_INTERVAL_PATTERN.matcher(simpleShortName).matches()) {
                 return Interval.valueOf("INTERVAL_" + compoundShortName);
-            } else {
-                throw new IllegalArgumentException("Invalid interval symbol provided: " + compoundShortName);
             }
         }
+
+        throw new IllegalArgumentException("Invalid interval symbol provided: " + compoundShortName);
     }
 
     @Override
