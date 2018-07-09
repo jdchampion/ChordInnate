@@ -1,7 +1,6 @@
 package chordinnate.controller.playback;
 
 import chordinnate.model.musictheory.pitch.Pitch;
-import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
@@ -18,10 +17,8 @@ import org.junit.Test;
 public class TestPlaybackController {
     @Test
     public void playPitch() throws Exception {
-        for (Pitch pitch : Pitch.values()) {
-            System.out.println(pitch.toString());
-            PlaybackController.play(pitch);
-        }
+        System.out.println(Pitch.C_4.toString());
+        PlaybackController.play(Pitch.C_4);
     }
 
     @Test
@@ -51,7 +48,7 @@ public class TestPlaybackController {
             Beat beat = n1.getBeat();
             System.out.println(
                     (articulation == null ? "" : (articulation + " ")) +
-                            pitch.name() + " " + beat + " at tempo = " + bpm + " bpm:");
+                            pitch.PITCH_CLASS.getName() + " " + beat + " at tempo = " + bpm + " bpm:");
             System.out.println("Full length: " + fullLength + " ms");
             System.out.println("Sounded length: " + soundedLength + " ms");
             System.out.println("Unsounded length: " + difference + " ms\n");
@@ -67,16 +64,19 @@ public class TestPlaybackController {
             PlaybackController.play(n3);
             PlaybackController.play(n3);
             PlaybackController.play(n4);
-
-            Chord c = new Chord(PitchClass.G, "7");
-            PlaybackController.play(c);
         }
     }
 
     @Test
     public void testScale() throws Exception {
-        Scale scale = new Scale(PitchClass.C, "Hira-joshi");
+        Scale scale = new Scale("C Hira-joshi");
         PlaybackController.play(scale, Octave.OCTAVE_4);
+    }
+
+    @Test
+    public void testChord() throws Exception {
+        Chord c = new Chord("G7");
+        PlaybackController.play(c);
     }
 
 }

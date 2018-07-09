@@ -29,7 +29,7 @@ public enum Octave {
     OCTAVE_9(9, 108),
     OCTAVE_10(10, 120);
 
-    public final int NUMBER, MIDI_START;
+    final int NUMBER, MIDI_START;
 
     Octave(int octaveNumber, int midiStart) {
         this.NUMBER = octaveNumber;
@@ -50,6 +50,14 @@ public enum Octave {
         return ordinal > 0
                 ? values()[ordinal - 1]
                 : null;
+    }
+
+    public int getNumber() {
+        return NUMBER;
+    }
+
+    public int getMidiStart() {
+        return MIDI_START;
     }
 
     public static int getSemitoneDistanceBetween(@NotNull Octave lhs, @NotNull Octave rhs) {

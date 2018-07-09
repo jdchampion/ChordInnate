@@ -1,10 +1,8 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
-import chordinnate.model.musictheory.pitch.PitchClass;
-import chordinnate.model.musictheory.notation.Accidental;
-import chordinnate.model.musictheory.notation.EnharmonicSpelling;
 import chordinnate.model.musictheory.pitch.Diatonic;
 import chordinnate.model.musictheory.pitch.Pitch;
+import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 
@@ -20,40 +18,48 @@ import java.util.stream.Collectors;
  */
 public abstract class IntervalSet implements Diatonic {
     EnumMap<Octave, Pitch[]> pitchesByOctave;
-    Set<PitchClass> diatonics;
+    Set<String> diatonics;
     Pitch lowestDiatonic, highestDiatonic;
     Octave maxPlayableOctave;
     Interval[] intervals;
 
-    void commonInitializations(EnharmonicSpelling root, String intervalString) {
+    void commonInitializations(PitchClass root, String intervalString) {
         this.intervals = parseIntervals(intervalString);
         this.pitchesByOctave = new EnumMap<>(Octave.class);
-        this.lowestDiatonic = Pitch.valueOf(root.apply(Accidental.NONE).name() + "_0");
+        this.lowestDiatonic = Pitch.withName(root.getName() + "0");
+
         Pitch lastKnownValidPitch = lowestDiatonic;
-        Pitch octaveBegin = lowestDiatonic.transpose(lowestDiatonic.PITCH_CLASS, Octave.OCTAVE_0);
-        if (octaveBegin != null) {
-            for (Octave octave : Octave.values()) {
-                ArrayList<Pitch> pitchesAtCurrentOctave = new ArrayList<>(intervals.length);
-                if (lowestDiatonic.isTransposable(lowestDiatonic.PITCH_CLASS, octave)) {
-                    Pitch lowestDiatonicAtOctave = octaveBegin.transpose(lowestDiatonic.PITCH_CLASS, octave);
-                    if (lowestDiatonicAtOctave != null) {
-                        pitchesAtCurrentOctave.add(lowestDiatonicAtOctave);
-                        for (int i = 1; i < intervals.length; i++) {
-                            if (lowestDiatonicAtOctave.isTransposable(true, intervals[i])) {
-                                lastKnownValidPitch = lowestDiatonicAtOctave.transpose(true, intervals[i]);
-                                pitchesAtCurrentOctave.add(lastKnownValidPitch);
-                            }
-                        }
+        Pitch lowestRoot = lowestDiatonic.transpose(lowestDiatonic.PITCH_CLASS, Octave.OCTAVE_0);
+        Pitch[] pitches = new Pitch[intervals.length];
+        Octave highestOctave = Octave.OCTAVE_0;
+        for (int i = 0; i < pitches.length; i++) {
+            Pitch p = lowestRoot.transpose(true, intervals[i]);
+            if (highestOctave.getNumber() < p.PITCH_CLASS.getOctaveRange().getNumber()) {
+                highestOctave = p.PITCH_CLASS.getOctaveRange();
+            }
+            pitches[i] = p;
+        }
+        if (lowestRoot != null) {
+            Octave octave = Octave.OCTAVE_0;
+            while (octave != null && !octave.equals(highestOctave)) {
+                ArrayList<Pitch> pitchesAtCurrentOctave = new ArrayList<>();
+                for (int i = 0; i < pitches.length; i++) {
+                    Pitch p = pitches[i];
+                    pitchesAtCurrentOctave.add(p);
+                    if (p.isTransposable(true, Interval.P8)) {
+                        pitches[i] = p.transpose(true, Interval.P8);
                     }
-                    Pitch[] ps = new Pitch[pitchesAtCurrentOctave.size()];
-                    pitchesByOctave.put(octave, pitchesAtCurrentOctave.toArray(ps));
                 }
+                Pitch[] ps = new Pitch[pitchesAtCurrentOctave.size()];
+                pitchesByOctave.put(octave, pitchesAtCurrentOctave.toArray(ps));
+                octave = octave.getNext();
             }
         }
+
         this.highestDiatonic = lastKnownValidPitch;
 
-        diatonics = Arrays.stream(pitchesByOctave.get(lowestDiatonic.OCTAVE))
-                .map(p -> p.PITCH_CLASS)
+        this.diatonics = Arrays.stream(pitchesByOctave.get(lowestDiatonic.OCTAVE))
+                .map(p -> p.PITCH_CLASS.getName())
                 .distinct()
                 .collect(Collectors.toSet());
 
@@ -73,7 +79,7 @@ public abstract class IntervalSet implements Diatonic {
 
     public abstract Pitch[] getPitchesForOctave(Octave octave);
 
-    public Set<PitchClass> getDiatonics() {
+    public Set<String> getDiatonics() {
         return Collections.unmodifiableSet(diatonics);
     }
 }

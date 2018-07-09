@@ -1,5 +1,15 @@
 # ChordInnate
 
+#### PHENOMENAL MUSIC POWER...
+![alt text][1]
+
+[1]: https://vignette.wikia.nocookie.net/disney-fan-fiction/images/1/18/Aladdin-disneyscreencaps.com-5096.jpg/revision/latest?cb=20130806160611 "PHENOMENAL MUSIC POWER"
+
+...itty bitty JAR size!
+![alt text][2]
+
+[2]: https://memegenerator.net/img/images/12041137/genie-itty-bitty-living-space.jpg "itty bitty living space"
+
 ### What is ChordInnate?
 **ChordInnate** is essentially a music theory engine and API. Similar to how a physics engine simulates physical objects and their interactions, ChordInnate models the structure, operation, and interactions of musical components. This can be useful for studying music theory in a sandbox environment, or to provide intelligence for an algorithmic music generator.
 
@@ -7,17 +17,110 @@
 Here's a list of ChordInnate's features (with more to come):
 - **Pitch**
   - 1000+ scale types and 50+ chord types
-  - all standard major & minor key signatures, with additional (limited) support for theoretical keys
-  - transpose pitches directly to another pitch, or by pitch interval or pitch class
-  - transpose scales and chords to any supported key
-  - invert chords to any permutation
-  - check whether pitch, chord, or scale is diatonic to key signature, chord, or scale
-  - find all enharmonics for any given pitch
-  - find semitones between two pitch classes
+  - All standard major & minor key signatures, with full support for theoretical keys
+  - Declare pitches, keys, chords, or scales with any number of accidentals
+    >```java
+    >// All of these are valid
+    >Pitch c4 = Pitch.withName("C4");
+    >Pitch cFlat4 = Pitch.withName("Cb4");
+    >Pitch cDoubleFlat4 = Pitch.withName("Cbb4");
+    >Pitch cSharp4 = Pitch.withName("C#4");
+    >Pitch cDoubleSharpImproper4 = Pitch.withName("C##4");
+    >Pitch cDoubleSharp4 = Pitch.withName("Cx4");
+    >Pitch cCrazyAccidentals4 = Pitch.withName("Cxbb#b#xbbb#b4"); //...seriously.
+    >```
+  - Transpose pitches, scales, and chords with any:
+    - pitch
+    - pitch class + octave
+    - direction + pitch class
+    - direction + interval
+    >```java
+    >// C4 -> G4
+    >Pitch.withName("C4").transpose(Pitch.withName("G4"));
+    >Pitch.withName("C4").transpose(PitchClass.G, Octave.OCTAVE_4);
+    >Pitch.withName("C4").transpose(true, PitchClass.G);
+    >Pitch.withName("C4").transpose(true, Interval.P5);
+    >
+    >// C Major (C, D, E, F, G, A, B) -> G Major (G, A, B, C, D, E, F#)
+    >Scale.withName("C Major").transpose(Pitch.withName("G4"));
+    >Scale.withName("C Major").transpose(PitchClass.G, Octave.OCTAVE_4);
+    >Scale.withName("C Major").transpose(true, Interval.P5);
+    >
+    >// Cmaj7 (C, E, G, B) -> Gmaj7 (G, B, D, F#)
+    >Chord.withName("Cmaj7").transpose(Pitch.withName("G4"));
+    >Chord.withName("Cmaj7").transpose(PitchClass.G, Octave.OCTAVE_4);
+    >Chord.withName("Cmaj7").transpose(true, Interval.P5);
+    >```
+  - Invert chords to any permutation
+    >```java
+    >Chord chord = Chord.withName("Cmaj7");  // 1st inversion: Cmaj7 (C, E, G, B)
+    >chord.invert();                         // 2nd inversion: Cmaj7/E (E, G, B, C)
+    >chord.invert();                         // 3rd inversion: Cmaj7/G (G, B, C, E)
+    >chord.invert();                         // 4th inversion: Cmaj7/B (B, C, E, G)
+    >chord.invert();                         // 1st inversion: Cmaj7 (C, E, G, B)
+    >```
+  - Invert intervals within the same octave
+    >```java
+    >Interval.P4.invert()                    // P5
+    >   .invert();                           // P4
+    >
+    >Interval.d10.invert()                   // A13
+    >   .invert();                           // d10
+    >
+    >Interval.m2.invert()                    // M7
+    >   .invert();                           // m2
+    >
+    >Interval.withName("AA4").invert()       // dd5
+    >   .invert();                           // AA4
+    >```
+  - Modulate key signatures any number of times
+    >```java
+    >KeySignature.withname("C Major")
+    >   .modulateFlat()                  // F Major
+    >   .modulateFlat()                  // Bb Major
+    >   .modulateFlat();                 // Eb Major
+    >
+    >KeySignature.withname("C Major")
+    >   .modulateSharp()                 // G Major
+    >   .modulateSharp()                 // D Major
+    >   .modulateSharp();                // A Major
+    >```
+  - Get relative and parallel keys
+    >```java
+    >KeySignature.withName("C Major")
+    >   .getRelativeKey();               // A Minor
+    >
+    >KeySignature.withName("C Major")
+    >   .getParallelKey();               // C Minor
+    >```
+  - Check diatonality of pitches, chords, and scales
+    >```java
+    >Chord.withName("Cmaj7").isDiatonicTo(KeySignature.withName("C Major")); // true
+    >Chord.withName("Cmaj7").isDiatonicTo(KeySignature.withName("A Minor")); // true
+    >Chord.withName("Cmaj7").isDiatonicTo(KeySignature.withName("D Major")); // false
+    >```
+  - Check enharmonics of pitches
+    >```java
+    >Pitch.withName("C4").isEnharmonicTo(PitchClass.withName("B#"));         // true
+    >PitchClass.withName("F#").isEnharmonicTo(PitchClass.withName("Gb"));    // true
+    >```
+  - Find semitones between two pitch classes
+    >```java
+    >PitchClass.getSemitoneDistanceBetween(PitchClass.C, PitchClass.D);      // 2
+    >```
 - **Rhythm**
-  - support (and automatic classification) for meter types: simple, compound, complex, perfect, imperfect, odd, irregular, asymmetrical, and free
-  - automatic classification of meter type based on time signature
-  - support for all standard beat durations (64th note to double-whole note), as well as any tuplet or dot modifications to the beat
+  - Support (and automatic classification) for meter types:
+    - simple
+    - compound
+    - complex
+    - perfect
+    - imperfect
+    - odd
+    - irregular
+    - asymmetrical
+    - free
+  - Automatic classification of meter type based on time signature
+  - Support for all standard beat durations (64th note to double-whole note), as well as any tuplet or dot modifications to the beat
   - 20 standard tempo presets, with support for customized tempo BPM
 
 

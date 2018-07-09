@@ -16,39 +16,44 @@ public class TestInterval {
     public ExpectedException expectedException = ExpectedException.none();
 
     @Test
+    public void test() throws Exception {
+        Interval i = Interval.withShortName("A76");
+    }
+
+    @Test
     public void getSemitones() throws Exception {
-        assertEquals(0, INTERVAL_P1.getSemitones());
-        assertEquals(1, INTERVAL_A1.getSemitones());
-        assertEquals(11, INTERVAL_d8.getSemitones());
-        assertEquals(12, INTERVAL_P8.getSemitones());
+        assertEquals(0, P1.getSemitones());
+        assertEquals(1, A1.getSemitones());
+        assertEquals(11, d8.getSemitones());
+        assertEquals(12, P8.getSemitones());
 
-        assertEquals(0, INTERVAL_d2.getSemitones());
-        assertEquals(1, INTERVAL_m2.getSemitones());
-        assertEquals(2, INTERVAL_M2.getSemitones());
-        assertEquals(3, INTERVAL_A2.getSemitones());
+        assertEquals(0, d2.getSemitones());
+        assertEquals(1, m2.getSemitones());
+        assertEquals(2, M2.getSemitones());
+        assertEquals(3, A2.getSemitones());
 
-        assertEquals(2, INTERVAL_d3.getSemitones());
-        assertEquals(3, INTERVAL_m3.getSemitones());
-        assertEquals(4, INTERVAL_M3.getSemitones());
-        assertEquals(5, INTERVAL_A3.getSemitones());
+        assertEquals(2, d3.getSemitones());
+        assertEquals(3, m3.getSemitones());
+        assertEquals(4, M3.getSemitones());
+        assertEquals(5, A3.getSemitones());
 
-        assertEquals(4, INTERVAL_d4.getSemitones());
-        assertEquals(5, INTERVAL_P4.getSemitones());
-        assertEquals(6, INTERVAL_A4.getSemitones());
+        assertEquals(4, d4.getSemitones());
+        assertEquals(5, P4.getSemitones());
+        assertEquals(6, A4.getSemitones());
 
-        assertEquals(6, INTERVAL_d5.getSemitones());
-        assertEquals(7, INTERVAL_P5.getSemitones());
-        assertEquals(8, INTERVAL_A5.getSemitones());
+        assertEquals(6, d5.getSemitones());
+        assertEquals(7, P5.getSemitones());
+        assertEquals(8, A5.getSemitones());
 
-        assertEquals(7, INTERVAL_d6.getSemitones());
-        assertEquals(8, INTERVAL_m6.getSemitones());
-        assertEquals(9, INTERVAL_M6.getSemitones());
-        assertEquals(10, INTERVAL_A6.getSemitones());
+        assertEquals(7, d6.getSemitones());
+        assertEquals(8, m6.getSemitones());
+        assertEquals(9, M6.getSemitones());
+        assertEquals(10, A6.getSemitones());
 
-        assertEquals(9, INTERVAL_d7.getSemitones());
-        assertEquals(10, INTERVAL_m7.getSemitones());
-        assertEquals(11, INTERVAL_M7.getSemitones());
-        assertEquals(12, INTERVAL_A7.getSemitones());
+        assertEquals(9, d7.getSemitones());
+        assertEquals(10, m7.getSemitones());
+        assertEquals(11, M7.getSemitones());
+        assertEquals(12, A7.getSemitones());
 
         // Arbitrary check on dynamic Intervals
         assertEquals(12, Interval.withShortName("P8").getSemitones());
@@ -81,71 +86,71 @@ public class TestInterval {
 
     @Test
     public void getSimpleDiatonic() throws Exception {
-        assertEquals(1, INTERVAL_P1.getSimpleDiatonic());
-        assertEquals(1, INTERVAL_A1.getSimpleDiatonic());
-        assertEquals(1, INTERVAL_d8.getSimpleDiatonic());
-        assertEquals(1, INTERVAL_P8.getSimpleDiatonic());
+        assertEquals(1, P1.getSimpleDiatonic());
+        assertEquals(1, A1.getSimpleDiatonic());
+        assertEquals(1, d8.getSimpleDiatonic());
+        assertEquals(1, P8.getSimpleDiatonic());
 
-        assertEquals(2, INTERVAL_d2.getSimpleDiatonic());
-        assertEquals(2, INTERVAL_m2.getSimpleDiatonic());
-        assertEquals(2, INTERVAL_M2.getSimpleDiatonic());
-        assertEquals(2, INTERVAL_A2.getSimpleDiatonic());
+        assertEquals(2, d2.getSimpleDiatonic());
+        assertEquals(2, m2.getSimpleDiatonic());
+        assertEquals(2, M2.getSimpleDiatonic());
+        assertEquals(2, A2.getSimpleDiatonic());
 
-        assertEquals(3, INTERVAL_d3.getSimpleDiatonic());
-        assertEquals(3, INTERVAL_m3.getSimpleDiatonic());
-        assertEquals(3, INTERVAL_M3.getSimpleDiatonic());
-        assertEquals(3, INTERVAL_A3.getSimpleDiatonic());
+        assertEquals(3, d3.getSimpleDiatonic());
+        assertEquals(3, m3.getSimpleDiatonic());
+        assertEquals(3, M3.getSimpleDiatonic());
+        assertEquals(3, A3.getSimpleDiatonic());
 
-        assertEquals(4, INTERVAL_d4.getSimpleDiatonic());
-        assertEquals(4, INTERVAL_P4.getSimpleDiatonic());
-        assertEquals(4, INTERVAL_A4.getSimpleDiatonic());
+        assertEquals(4, d4.getSimpleDiatonic());
+        assertEquals(4, P4.getSimpleDiatonic());
+        assertEquals(4, A4.getSimpleDiatonic());
 
-        assertEquals(5, INTERVAL_d5.getSimpleDiatonic());
-        assertEquals(5, INTERVAL_P5.getSimpleDiatonic());
-        assertEquals(5, INTERVAL_A5.getSimpleDiatonic());
+        assertEquals(5, d5.getSimpleDiatonic());
+        assertEquals(5, P5.getSimpleDiatonic());
+        assertEquals(5, A5.getSimpleDiatonic());
 
-        assertEquals(6, INTERVAL_d6.getSimpleDiatonic());
-        assertEquals(6, INTERVAL_m6.getSimpleDiatonic());
-        assertEquals(6, INTERVAL_M6.getSimpleDiatonic());
-        assertEquals(6, INTERVAL_A6.getSimpleDiatonic());
+        assertEquals(6, d6.getSimpleDiatonic());
+        assertEquals(6, m6.getSimpleDiatonic());
+        assertEquals(6, M6.getSimpleDiatonic());
+        assertEquals(6, A6.getSimpleDiatonic());
 
-        assertEquals(7, INTERVAL_d7.getSimpleDiatonic());
-        assertEquals(7, INTERVAL_m7.getSimpleDiatonic());
-        assertEquals(7, INTERVAL_M7.getSimpleDiatonic());
-        assertEquals(7, INTERVAL_A7.getSimpleDiatonic());
+        assertEquals(7, d7.getSimpleDiatonic());
+        assertEquals(7, m7.getSimpleDiatonic());
+        assertEquals(7, M7.getSimpleDiatonic());
+        assertEquals(7, A7.getSimpleDiatonic());
 
-        assertEquals(1, INTERVAL_P1.getCompoundDiatonic());
-        assertEquals(1, INTERVAL_A1.getCompoundDiatonic());
-        assertEquals(8, INTERVAL_d8.getCompoundDiatonic());
-        assertEquals(8, INTERVAL_P8.getCompoundDiatonic());
+        assertEquals(1, P1.getCompoundDiatonic());
+        assertEquals(1, A1.getCompoundDiatonic());
+        assertEquals(8, d8.getCompoundDiatonic());
+        assertEquals(8, P8.getCompoundDiatonic());
 
-        assertEquals(2, INTERVAL_d2.getCompoundDiatonic());
-        assertEquals(2, INTERVAL_m2.getCompoundDiatonic());
-        assertEquals(2, INTERVAL_M2.getCompoundDiatonic());
-        assertEquals(2, INTERVAL_A2.getCompoundDiatonic());
+        assertEquals(2, d2.getCompoundDiatonic());
+        assertEquals(2, m2.getCompoundDiatonic());
+        assertEquals(2, M2.getCompoundDiatonic());
+        assertEquals(2, A2.getCompoundDiatonic());
 
-        assertEquals(3, INTERVAL_d3.getCompoundDiatonic());
-        assertEquals(3, INTERVAL_m3.getCompoundDiatonic());
-        assertEquals(3, INTERVAL_M3.getCompoundDiatonic());
-        assertEquals(3, INTERVAL_A3.getCompoundDiatonic());
+        assertEquals(3, d3.getCompoundDiatonic());
+        assertEquals(3, m3.getCompoundDiatonic());
+        assertEquals(3, M3.getCompoundDiatonic());
+        assertEquals(3, A3.getCompoundDiatonic());
 
-        assertEquals(4, INTERVAL_d4.getCompoundDiatonic());
-        assertEquals(4, INTERVAL_P4.getCompoundDiatonic());
-        assertEquals(4, INTERVAL_A4.getCompoundDiatonic());
+        assertEquals(4, d4.getCompoundDiatonic());
+        assertEquals(4, P4.getCompoundDiatonic());
+        assertEquals(4, A4.getCompoundDiatonic());
 
-        assertEquals(5, INTERVAL_d5.getCompoundDiatonic());
-        assertEquals(5, INTERVAL_P5.getCompoundDiatonic());
-        assertEquals(5, INTERVAL_A5.getCompoundDiatonic());
+        assertEquals(5, d5.getCompoundDiatonic());
+        assertEquals(5, P5.getCompoundDiatonic());
+        assertEquals(5, A5.getCompoundDiatonic());
 
-        assertEquals(6, INTERVAL_d6.getCompoundDiatonic());
-        assertEquals(6, INTERVAL_m6.getCompoundDiatonic());
-        assertEquals(6, INTERVAL_M6.getCompoundDiatonic());
-        assertEquals(6, INTERVAL_A6.getCompoundDiatonic());
+        assertEquals(6, d6.getCompoundDiatonic());
+        assertEquals(6, m6.getCompoundDiatonic());
+        assertEquals(6, M6.getCompoundDiatonic());
+        assertEquals(6, A6.getCompoundDiatonic());
 
-        assertEquals(7, INTERVAL_d7.getCompoundDiatonic());
-        assertEquals(7, INTERVAL_m7.getCompoundDiatonic());
-        assertEquals(7, INTERVAL_M7.getCompoundDiatonic());
-        assertEquals(7, INTERVAL_A7.getCompoundDiatonic());
+        assertEquals(7, d7.getCompoundDiatonic());
+        assertEquals(7, m7.getCompoundDiatonic());
+        assertEquals(7, M7.getCompoundDiatonic());
+        assertEquals(7, A7.getCompoundDiatonic());
 
         // Arbitrary check on dynamic Intervals
         assertEquals(8, Interval.withShortName("P8").getCompoundDiatonic());
@@ -178,32 +183,32 @@ public class TestInterval {
 
     @Test
     public void testField_SIMPLE_SHORT_NAME() throws Exception {
-        assertEquals("P1", INTERVAL_P1.SIMPLE_SHORT_NAME);
-        assertEquals("A1", INTERVAL_A1.SIMPLE_SHORT_NAME);
-        assertEquals("d2", INTERVAL_d2.SIMPLE_SHORT_NAME);
-        assertEquals("m2", INTERVAL_m2.SIMPLE_SHORT_NAME);
-        assertEquals("M2", INTERVAL_M2.SIMPLE_SHORT_NAME);
-        assertEquals("A2", INTERVAL_A2.SIMPLE_SHORT_NAME);
-        assertEquals("d3", INTERVAL_d3.SIMPLE_SHORT_NAME);
-        assertEquals("m3", INTERVAL_m3.SIMPLE_SHORT_NAME);
-        assertEquals("M3", INTERVAL_M3.SIMPLE_SHORT_NAME);
-        assertEquals("A3", INTERVAL_A3.SIMPLE_SHORT_NAME);
-        assertEquals("d4", INTERVAL_d4.SIMPLE_SHORT_NAME);
-        assertEquals("P4", INTERVAL_P4.SIMPLE_SHORT_NAME);
-        assertEquals("A4", INTERVAL_A4.SIMPLE_SHORT_NAME);
-        assertEquals("d5", INTERVAL_d5.SIMPLE_SHORT_NAME);
-        assertEquals("P5", INTERVAL_P5.SIMPLE_SHORT_NAME);
-        assertEquals("A5", INTERVAL_A5.SIMPLE_SHORT_NAME);
-        assertEquals("d6", INTERVAL_d6.SIMPLE_SHORT_NAME);
-        assertEquals("m6", INTERVAL_m6.SIMPLE_SHORT_NAME);
-        assertEquals("M6", INTERVAL_M6.SIMPLE_SHORT_NAME);
-        assertEquals("A6", INTERVAL_A6.SIMPLE_SHORT_NAME);
-        assertEquals("d7", INTERVAL_d7.SIMPLE_SHORT_NAME);
-        assertEquals("m7", INTERVAL_m7.SIMPLE_SHORT_NAME);
-        assertEquals("M7", INTERVAL_M7.SIMPLE_SHORT_NAME);
-        assertEquals("A7", INTERVAL_A7.SIMPLE_SHORT_NAME);
-        assertEquals("d1", INTERVAL_d8.SIMPLE_SHORT_NAME);
-        assertEquals("P1", INTERVAL_P8.SIMPLE_SHORT_NAME);
+        assertEquals("P1", P1.SIMPLE_SHORT_NAME);
+        assertEquals("A1", A1.SIMPLE_SHORT_NAME);
+        assertEquals("d2", d2.SIMPLE_SHORT_NAME);
+        assertEquals("m2", m2.SIMPLE_SHORT_NAME);
+        assertEquals("M2", M2.SIMPLE_SHORT_NAME);
+        assertEquals("A2", A2.SIMPLE_SHORT_NAME);
+        assertEquals("d3", d3.SIMPLE_SHORT_NAME);
+        assertEquals("m3", m3.SIMPLE_SHORT_NAME);
+        assertEquals("M3", M3.SIMPLE_SHORT_NAME);
+        assertEquals("A3", A3.SIMPLE_SHORT_NAME);
+        assertEquals("d4", d4.SIMPLE_SHORT_NAME);
+        assertEquals("P4", P4.SIMPLE_SHORT_NAME);
+        assertEquals("A4", A4.SIMPLE_SHORT_NAME);
+        assertEquals("d5", d5.SIMPLE_SHORT_NAME);
+        assertEquals("P5", P5.SIMPLE_SHORT_NAME);
+        assertEquals("A5", A5.SIMPLE_SHORT_NAME);
+        assertEquals("d6", d6.SIMPLE_SHORT_NAME);
+        assertEquals("m6", m6.SIMPLE_SHORT_NAME);
+        assertEquals("M6", M6.SIMPLE_SHORT_NAME);
+        assertEquals("A6", A6.SIMPLE_SHORT_NAME);
+        assertEquals("d7", d7.SIMPLE_SHORT_NAME);
+        assertEquals("m7", m7.SIMPLE_SHORT_NAME);
+        assertEquals("M7", M7.SIMPLE_SHORT_NAME);
+        assertEquals("A7", A7.SIMPLE_SHORT_NAME);
+        assertEquals("d1", d8.SIMPLE_SHORT_NAME);
+        assertEquals("P1", P8.SIMPLE_SHORT_NAME);
 
         // Arbitrary check on dynamic Intervals
         assertEquals("P1", Interval.withShortName("P8").SIMPLE_SHORT_NAME);
@@ -236,32 +241,32 @@ public class TestInterval {
 
     @Test
     public void testField_COMPOUND_SHORT_NAME() throws Exception {
-        assertEquals("P1", INTERVAL_P1.COMPOUND_SHORT_NAME);
-        assertEquals("A1", INTERVAL_A1.COMPOUND_SHORT_NAME);
-        assertEquals("d2", INTERVAL_d2.COMPOUND_SHORT_NAME);
-        assertEquals("m2", INTERVAL_m2.COMPOUND_SHORT_NAME);
-        assertEquals("M2", INTERVAL_M2.COMPOUND_SHORT_NAME);
-        assertEquals("A2", INTERVAL_A2.COMPOUND_SHORT_NAME);
-        assertEquals("d3", INTERVAL_d3.COMPOUND_SHORT_NAME);
-        assertEquals("m3", INTERVAL_m3.COMPOUND_SHORT_NAME);
-        assertEquals("M3", INTERVAL_M3.COMPOUND_SHORT_NAME);
-        assertEquals("A3", INTERVAL_A3.COMPOUND_SHORT_NAME);
-        assertEquals("d4", INTERVAL_d4.COMPOUND_SHORT_NAME);
-        assertEquals("P4", INTERVAL_P4.COMPOUND_SHORT_NAME);
-        assertEquals("A4", INTERVAL_A4.COMPOUND_SHORT_NAME);
-        assertEquals("d5", INTERVAL_d5.COMPOUND_SHORT_NAME);
-        assertEquals("P5", INTERVAL_P5.COMPOUND_SHORT_NAME);
-        assertEquals("A5", INTERVAL_A5.COMPOUND_SHORT_NAME);
-        assertEquals("d6", INTERVAL_d6.COMPOUND_SHORT_NAME);
-        assertEquals("m6", INTERVAL_m6.COMPOUND_SHORT_NAME);
-        assertEquals("M6", INTERVAL_M6.COMPOUND_SHORT_NAME);
-        assertEquals("A6", INTERVAL_A6.COMPOUND_SHORT_NAME);
-        assertEquals("d7", INTERVAL_d7.COMPOUND_SHORT_NAME);
-        assertEquals("m7", INTERVAL_m7.COMPOUND_SHORT_NAME);
-        assertEquals("M7", INTERVAL_M7.COMPOUND_SHORT_NAME);
-        assertEquals("A7", INTERVAL_A7.COMPOUND_SHORT_NAME);
-        assertEquals("d8", INTERVAL_d8.COMPOUND_SHORT_NAME);
-        assertEquals("P8", INTERVAL_P8.COMPOUND_SHORT_NAME);
+        assertEquals("P1", P1.COMPOUND_SHORT_NAME);
+        assertEquals("A1", A1.COMPOUND_SHORT_NAME);
+        assertEquals("d2", d2.COMPOUND_SHORT_NAME);
+        assertEquals("m2", m2.COMPOUND_SHORT_NAME);
+        assertEquals("M2", M2.COMPOUND_SHORT_NAME);
+        assertEquals("A2", A2.COMPOUND_SHORT_NAME);
+        assertEquals("d3", d3.COMPOUND_SHORT_NAME);
+        assertEquals("m3", m3.COMPOUND_SHORT_NAME);
+        assertEquals("M3", M3.COMPOUND_SHORT_NAME);
+        assertEquals("A3", A3.COMPOUND_SHORT_NAME);
+        assertEquals("d4", d4.COMPOUND_SHORT_NAME);
+        assertEquals("P4", P4.COMPOUND_SHORT_NAME);
+        assertEquals("A4", A4.COMPOUND_SHORT_NAME);
+        assertEquals("d5", d5.COMPOUND_SHORT_NAME);
+        assertEquals("P5", P5.COMPOUND_SHORT_NAME);
+        assertEquals("A5", A5.COMPOUND_SHORT_NAME);
+        assertEquals("d6", d6.COMPOUND_SHORT_NAME);
+        assertEquals("m6", m6.COMPOUND_SHORT_NAME);
+        assertEquals("M6", M6.COMPOUND_SHORT_NAME);
+        assertEquals("A6", A6.COMPOUND_SHORT_NAME);
+        assertEquals("d7", d7.COMPOUND_SHORT_NAME);
+        assertEquals("m7", m7.COMPOUND_SHORT_NAME);
+        assertEquals("M7", M7.COMPOUND_SHORT_NAME);
+        assertEquals("A7", A7.COMPOUND_SHORT_NAME);
+        assertEquals("d8", d8.COMPOUND_SHORT_NAME);
+        assertEquals("P8", P8.COMPOUND_SHORT_NAME);
 
         // Arbitrary check on dynamic Intervals
         assertEquals("P8", Interval.withShortName("P8").COMPOUND_SHORT_NAME);
@@ -296,30 +301,30 @@ public class TestInterval {
 
     @Test
     public void invert() throws Exception {
-        assertEquals(INTERVAL_P1, INTERVAL_P1.invert());
-        assertEquals(INTERVAL_d1, INTERVAL_A1.invert());
-        assertEquals(INTERVAL_P1, INTERVAL_P1.invert());
-        assertEquals(INTERVAL_M7, INTERVAL_m2.invert());
-        assertEquals(INTERVAL_m7, INTERVAL_M2.invert());
-        assertEquals(INTERVAL_d7, INTERVAL_A2.invert());
-        assertEquals(INTERVAL_A6, INTERVAL_d3.invert());
-        assertEquals(INTERVAL_M6, INTERVAL_m3.invert());
-        assertEquals(INTERVAL_m6, INTERVAL_M3.invert());
-        assertEquals(INTERVAL_d6, INTERVAL_A3.invert());
-        assertEquals(INTERVAL_A5, INTERVAL_d4.invert());
-        assertEquals(INTERVAL_P5, INTERVAL_P4.invert());
-        assertEquals(INTERVAL_d5, INTERVAL_A4.invert());
-        assertEquals(INTERVAL_A4, INTERVAL_d5.invert());
-        assertEquals(INTERVAL_P4, INTERVAL_P5.invert());
-        assertEquals(INTERVAL_d4, INTERVAL_A5.invert());
-        assertEquals(INTERVAL_A3, INTERVAL_d6.invert());
-        assertEquals(INTERVAL_M3, INTERVAL_m6.invert());
-        assertEquals(INTERVAL_m3, INTERVAL_M6.invert());
-        assertEquals(INTERVAL_d3, INTERVAL_A6.invert());
-        assertEquals(INTERVAL_A2, INTERVAL_d7.invert());
-        assertEquals(INTERVAL_M2, INTERVAL_m7.invert());
-        assertEquals(INTERVAL_m2, INTERVAL_M7.invert());
-        assertEquals(INTERVAL_d2, INTERVAL_A7.invert());
+        assertEquals(P1, P1.invert());
+        assertEquals(d1, A1.invert());
+        assertEquals(P1, P1.invert());
+        assertEquals(M7, m2.invert());
+        assertEquals(m7, M2.invert());
+        assertEquals(d7, A2.invert());
+        assertEquals(A6, d3.invert());
+        assertEquals(M6, m3.invert());
+        assertEquals(m6, M3.invert());
+        assertEquals(d6, A3.invert());
+        assertEquals(A5, d4.invert());
+        assertEquals(P5, P4.invert());
+        assertEquals(d5, A4.invert());
+        assertEquals(A4, d5.invert());
+        assertEquals(P4, P5.invert());
+        assertEquals(d4, A5.invert());
+        assertEquals(A3, d6.invert());
+        assertEquals(M3, m6.invert());
+        assertEquals(m3, M6.invert());
+        assertEquals(d3, A6.invert());
+        assertEquals(A2, d7.invert());
+        assertEquals(M2, m7.invert());
+        assertEquals(m2, M7.invert());
+        assertEquals(d2, A7.invert());
 
         // Arbitrary check on dynamic Intervals
         assertEquals("P8", Interval.withShortName("P8").invert().COMPOUND_SHORT_NAME);
@@ -409,9 +414,9 @@ public class TestInterval {
 
         assertEquals("d1", Interval.getIntervalBetween(PitchClass.C, PitchClass.C_FLAT, true).SIMPLE_SHORT_NAME);
         assertEquals("d1", Interval.getIntervalBetween(PitchClass.C, PitchClass.C_SHARP, false).SIMPLE_SHORT_NAME);
-        assertEquals("d8", Interval.getIntervalBetween(PitchClass.C, PitchClass.C_FLAT, true).COMPOUND_SHORT_NAME);
-        assertEquals("d8", Interval.getIntervalBetween(PitchClass.C, PitchClass.C_SHARP, false).COMPOUND_SHORT_NAME);
-        assertEquals("P8", Interval.getIntervalBetween(PitchClass.C, PitchClass.C, true).COMPOUND_SHORT_NAME);
-        assertEquals("P8", Interval.getIntervalBetween(PitchClass.C, PitchClass.C, false).COMPOUND_SHORT_NAME);
+        assertEquals("d1", Interval.getIntervalBetween(PitchClass.C, PitchClass.C_FLAT, true).COMPOUND_SHORT_NAME);
+        assertEquals("d1", Interval.getIntervalBetween(PitchClass.C, PitchClass.C_SHARP, false).COMPOUND_SHORT_NAME);
+        assertEquals("P1", Interval.getIntervalBetween(PitchClass.C, PitchClass.C, true).COMPOUND_SHORT_NAME);
+        assertEquals("P1", Interval.getIntervalBetween(PitchClass.C, PitchClass.C, false).COMPOUND_SHORT_NAME);
     }
 }

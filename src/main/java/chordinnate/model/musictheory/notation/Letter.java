@@ -4,7 +4,13 @@ package chordinnate.model.musictheory.notation;
  * Created by Joseph on 5/21/16.
  */
 public enum Letter {
-    C, D, E, F, G, A, B;
+    C(0), D(2), E(4), F(5), G(7), A(9), B(11);
+
+    public int BASE_MIDI_VALUE;
+
+    Letter(int baseMidiValue) {
+        this.BASE_MIDI_VALUE = baseMidiValue;
+    }
 
     /**
      * Gets the next Letter from the enumerated list that would result from
@@ -26,7 +32,7 @@ public enum Letter {
      * @param rhs the ending Letter
      * @return the number of indices to move left or right to withShortName to the next Letter
      */
-    public static int getVectorDistanceTo(Letter lhs, Letter rhs) {
+    public static int getVectorDistanceBetween(Letter lhs, Letter rhs) {
         int thisOrdinal = lhs.ordinal(), otherOrdinal = rhs.ordinal();
         return (thisOrdinal < otherOrdinal) ? otherOrdinal - thisOrdinal : 7 - (thisOrdinal - otherOrdinal);
     }

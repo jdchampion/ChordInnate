@@ -1,17 +1,43 @@
 package chordinnate.model.musictheory.pitch;
 
+import static chordinnate.model.musictheory.pitch.PitchClass.*;
+import static org.junit.Assert.*;
+
+import chordinnate.model.musictheory.notation.Accidental;
+import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-import static chordinnate.model.musictheory.pitch.PitchClass.*;
+import java.lang.reflect.Field;
+import java.util.StringJoiner;
 
-/**
- * Created by Joseph on 4/15/16.
- */
 public class TestPitchClass {
+
+    @Test
+    public void testWithName() throws Exception {
+
+        String[] letters = {"A", "B", "C", "D", "E", "F", "G"};
+
+        for (String letter : letters) {
+            // Basic cases: standard accidentals
+            testGeneratedPitchClass(letter + "bb", true);
+            testGeneratedPitchClass(letter + "b", true);
+            testGeneratedPitchClass(letter + "", true);
+            testGeneratedPitchClass(letter + "", false);
+            testGeneratedPitchClass(letter + "#", true);
+            testGeneratedPitchClass(letter + "x", true);
+
+            // Edge cases: non-standard accidentals
+            testGeneratedPitchClass(letter + "b#", false);
+            testGeneratedPitchClass(letter + "b#", true);
+            testGeneratedPitchClass(letter + "b#xxb#bb#", false);
+            testGeneratedPitchClass(letter + "b#xxb#bb#", true);
+        }
+
+    }
+
     @Test
     public void getSemitoneDistanceBetween() throws Exception {
         // Edge cases: 0 -> 11, 11 -> 0
@@ -20,14 +46,60 @@ public class TestPitchClass {
         assertEquals(1, PitchClass.getSemitoneDistanceBetween(C, C_SHARP));
         assertEquals(11, PitchClass.getSemitoneDistanceBetween(C, C_FLAT));
 
-        // Arbitrary rn_chord_analysis.sql for single semitone distance
+        // Arbitrary test for single semitone distance
         assertEquals(1, PitchClass.getSemitoneDistanceBetween(C_FLAT, C));
         assertEquals(1, PitchClass.getSemitoneDistanceBetween(C, C_SHARP));
     }
 
+
+    @Test
+    public void testTransposeInterval() throws Exception {
+        Accidental a = Accidental.FLAT;
+        Interval i = Interval.d8;
+        boolean direction = true;
+        String[] prefixes = {"C", "D", "E", "F", "G", "A", "B"};
+        StringJoiner sj = new StringJoiner(", ");
+        for (String s : prefixes) {
+            PitchClass p = PitchClass.withName(s + a.UTF8_SYMBOL, a.equals(Accidental.NATURAL))
+                    .transpose(direction, i);
+            sj.add(p.getName());
+        }
+
+        System.out.println(sj.toString());
+    }
+
+    @Test
+    public void testIsDiatonic() throws Exception {
+        PitchClass pitchClass = C;
+        assertTrue(pitchClass.isDiatonicTo(KeySignature.C_MAJOR));
+        assertTrue(pitchClass.isDiatonicTo(KeySignature.A_MINOR));
+        assertTrue(pitchClass.isDiatonicTo(new Scale("C Major")));
+        assertTrue(pitchClass.isDiatonicTo(new Scale("A Harmonic Minor")));
+        assertTrue(pitchClass.isDiatonicTo(new Chord("Cmaj")));
+        assertTrue(pitchClass.isDiatonicTo(new Chord("Am")));
+        pitchClass = C_FLAT;
+        assertTrue(pitchClass.isDiatonicTo(KeySignature.C_FLAT_MAJOR));
+        assertTrue(pitchClass.isDiatonicTo(KeySignature.A_FLAT_MINOR));
+        assertTrue(pitchClass.isDiatonicTo(new Scale("Cb Major")));
+        assertTrue(pitchClass.isDiatonicTo(new Scale("Ab Harmonic Minor")));
+        assertTrue(pitchClass.isDiatonicTo(new Chord("Cbmaj")));
+        assertTrue(pitchClass.isDiatonicTo(new Chord("Abm")));
+        pitchClass = B_SHARP;
+        assertTrue(pitchClass.isDiatonicTo(KeySignature.B_SHARP_MAJOR));
+        assertTrue(pitchClass.isDiatonicTo(KeySignature.G_DOUBLE_SHARP_MINOR));
+        assertTrue(pitchClass.isDiatonicTo(new Scale("B# Major")));
+        assertTrue(pitchClass.isDiatonicTo(new Scale("Gx Harmonic Minor")));
+        assertTrue(pitchClass.isDiatonicTo(new Chord("B#maj")));
+        assertTrue(pitchClass.isDiatonicTo(new Chord("Gxm")));
+
+        pitchClass = PitchClass.withName("C#b", false);
+        assertFalse(pitchClass.isDiatonicTo(KeySignature.C_MAJOR));
+        assertTrue(pitchClass.isDiatonicTo(KeySignature.withName("C#b Major")));
+    }
+
     @Test
     public void isDiatonicToKeySignature() throws Exception {
-        for (PitchClass p : PitchClass.values()) assertTrue(p.isDiatonicTo(KeySignature.NO_KEY_SIGNATURE));
+        for (PitchClass p : STANDARD_PITCH_CLASSES.values()) assertTrue(p.isDiatonicTo(KeySignature.NO_KEY_SIGNATURE));
 
         PitchClass[]
                 cMajor = {C, D, E, F, G, A, B},
@@ -138,11 +210,11 @@ public class TestPitchClass {
 
     @Test
     public void isDiatonicToIntervalSet() throws Exception {
-        Scale cMajor = new Scale(C, "Major"),
-                dMajor = new Scale(D, "Major");
+        Scale cMajor = new Scale("C Major"),
+                dMajor = new Scale("D Major");
 
-        Chord cMaj = new Chord(C, "maj"),
-                dMaj = new Chord(D, "maj");
+        Chord cMaj = new Chord("Cmaj"),
+                dMaj = new Chord("Dmaj");
 
         assertTrue(C.isDiatonicTo(cMajor));
         assertTrue(C.isDiatonicTo(cMaj));
@@ -207,4 +279,45 @@ public class TestPitchClass {
         assertTrue(C_DOUBLE_FLAT.isEnharmonicTo(B_FLAT));
     }
 
+    private void testGeneratedPitchClass(String s, boolean wantNaturalSymbol) throws Exception {
+
+        boolean directTest = true;
+        PitchClass toTest = PitchClass.withName(s, wantNaturalSymbol);
+        String accidentals = s.length() > 1 ? s.substring(1) : "";
+        String classPrefix = String.valueOf(s.charAt(0));
+        String classSuffix;
+        if ("bb".equals(accidentals)) {
+            classSuffix = "_DOUBLE_FLAT";
+        } else if ("b".equals(accidentals)) {
+            classSuffix = "_FLAT";
+        } else if ("#".equals(accidentals)) {
+            classSuffix = "_SHARP";
+        } else if ("x".equals(accidentals)) {
+            classSuffix = "_DOUBLE_SHARP";
+        } else if (accidentals.isEmpty()) {
+            classSuffix = wantNaturalSymbol ? "_NATURAL" : "";
+        } else {
+            classSuffix = accidentals;
+            directTest = false;
+        }
+
+        PitchClass toCompare;
+        if (directTest) {
+            Field field = PitchClass.class.getDeclaredField(classPrefix + classSuffix);
+            toCompare = (PitchClass) field.get(PitchClass.class);
+            assertEquals(toTest, toCompare);
+        } else {
+            /*
+             * PitchClasses with non-standard accidentals will always be dynamically created,
+             * so toTest and toCompare will be two separate objects in memory.
+             * We'll have to check each of the pertinent values in order to verify equality.
+             */
+            toCompare = PitchClass.withName(classPrefix + classSuffix, wantNaturalSymbol);
+            assertEquals(toTest.ALIAS_ACCIDENTALS, toCompare.ALIAS_ACCIDENTALS);
+            assertEquals(toTest.ALIAS_BASE_MIDI_VALUE, toCompare.ALIAS_BASE_MIDI_VALUE);
+            assertEquals(toTest.ALIAS_LETTER, toCompare.ALIAS_LETTER);
+            assertEquals(toTest.BASE_PITCH_CLASS, toCompare.BASE_PITCH_CLASS);
+        }
+
+    }
 }

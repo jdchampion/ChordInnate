@@ -9,6 +9,4 @@ public interface Enharmonic<T> {
 
     boolean isEnharmonicTo(@NotNull T other);
 
-    T[] getEnharmonics();
-
 }

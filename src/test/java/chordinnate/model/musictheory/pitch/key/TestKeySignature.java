@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.pitch.key;
 
+import chordinnate.model.musictheory.pitch.PitchClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,51 +11,59 @@ import static chordinnate.model.musictheory.pitch.key.KeySignature.*;
  */
 public class TestKeySignature {
     @Test
+    public void testfield_SIGNATURE() throws Exception {
+        KeySignature dMinor = KeySignature.D_MINOR;
+        Object[] actual = dMinor.getSignature().toArray();
+        PitchClass[] expected = {PitchClass.B_FLAT};
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
     public void getRelativeKey() throws Exception {
         assertEquals(B_SHARP_MAJOR, G_DOUBLE_SHARP_MINOR.getRelativeKey());
         assertEquals(C_MAJOR, A_MINOR.getRelativeKey());
-//        assertEquals(D_DOUBLE_FLAT_MAJOR, B_DOUBLE_FLAT_MINOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Dbb Major"), KeySignature.withName("Bbb Minor").getRelativeKey());
 
         assertEquals(E_SHARP_MAJOR, C_DOUBLE_SHARP_MINOR.getRelativeKey());
         assertEquals(F_MAJOR, D_MINOR.getRelativeKey());
-//        assertEquals(G_DOUBLE_FLAT_MAJOR, E_DOUBLE_FLAT_MINOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Gbb Major"), KeySignature.withName("Ebb Minor").getRelativeKey());
 
         assertEquals(A_SHARP_MAJOR, F_DOUBLE_SHARP_MINOR.getRelativeKey());
         assertEquals(B_FLAT_MAJOR, G_MINOR.getRelativeKey());
-//        assertEquals(C_DOUBLE_FLAT_MAJOR, A_DOUBLE_FLAT_MINOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Cbb Major"), KeySignature.withName("Abb Minor").getRelativeKey());
 
         assertEquals(D_SHARP_MAJOR, B_SHARP_MINOR.getRelativeKey());
         assertEquals(E_FLAT_MAJOR, C_MINOR.getRelativeKey());
-//        assertEquals(F_DOUBLE_FLAT_MAJOR, D_DOUBLE_FLAT_MINOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Fbb Major"), KeySignature.withName("Dbb Minor").getRelativeKey());
 
         assertEquals(G_SHARP_MAJOR, E_SHARP_MINOR.getRelativeKey());
         assertEquals(A_FLAT_MAJOR, F_MINOR.getRelativeKey());
 
-//        assertEquals(B_DOUBLE_SHARP_MAJOR, G_TRIPLE_SHARP_MINOR.getRelativeKey());      // Too theoretical
+        assertEquals(KeySignature.withName("Bx Major"), KeySignature.withName("Gx# Minor").getRelativeKey());
         assertEquals(C_SHARP_MAJOR, A_SHARP_MINOR.getRelativeKey());
         assertEquals(D_FLAT_MAJOR, B_FLAT_MINOR.getRelativeKey());
 
-//        assertEquals(E_DOUBLE_SHARP_MAJOR, C_TRIPLE_SHARP_MINOR.getRelativeKey());      // Too theoretical
+        assertEquals(KeySignature.withName("Ex Major"), KeySignature.withName("Cx# Minor").getRelativeKey());
         assertEquals(F_SHARP_MAJOR, D_SHARP_MINOR.getRelativeKey());
         assertEquals(G_FLAT_MAJOR, E_FLAT_MINOR.getRelativeKey());
 
-//        assertEquals(A_DOUBLE_SHARP_MAJOR, F_TRIPLE_SHARP_MINOR.getRelativeKey());      // Too theoretical
+        assertEquals(KeySignature.withName("Ax Major"), KeySignature.withName("Fx# Minor").getRelativeKey());
         assertEquals(B_MAJOR, G_SHARP_MINOR.getRelativeKey());
         assertEquals(C_FLAT_MAJOR, A_FLAT_MINOR.getRelativeKey());
 
-//        assertEquals(D_DOUBLE_SHARP_MAJOR, B_DOUBLE_SHARP_MINOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Dx Major"), KeySignature.withName("Bx Minor").getRelativeKey());
         assertEquals(E_MAJOR, C_SHARP_MINOR.getRelativeKey());
         assertEquals(F_FLAT_MAJOR, D_FLAT_MINOR.getRelativeKey());
 
-//        assertEquals(G_DOUBLE_SHARP_MAJOR, E_DOUBLE_SHARP_MINOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Gx Major"), KeySignature.withName("Ex Minor").getRelativeKey());
         assertEquals(A_MAJOR, F_SHARP_MINOR.getRelativeKey());
         assertEquals(B_DOUBLE_FLAT_MAJOR, G_FLAT_MINOR.getRelativeKey());
 
-//        assertEquals(C_DOUBLE_SHARP_MAJOR, A_DOUBLE_SHARP_MINOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Cx Major"), KeySignature.withName("Ax Minor").getRelativeKey());
         assertEquals(D_MAJOR, B_MINOR.getRelativeKey());
         assertEquals(E_DOUBLE_FLAT_MAJOR, C_FLAT_MINOR.getRelativeKey());
 
-//        assertEquals(F_DOUBLE_SHARP_MAJOR, D_DOUBLE_SHARP_MINOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Fx Major"), KeySignature.withName("Dx Minor").getRelativeKey());
         assertEquals(G_MAJOR, E_MINOR.getRelativeKey());
         assertEquals(A_DOUBLE_FLAT_MAJOR, F_FLAT_MINOR.getRelativeKey());
 
@@ -64,50 +73,50 @@ public class TestKeySignature {
 
         assertEquals(B_SHARP_MINOR, D_SHARP_MAJOR.getRelativeKey());
         assertEquals(C_MINOR, E_FLAT_MAJOR.getRelativeKey());
-//        assertEquals(D_DOUBLE_FLAT_MINOR, F_DOUBLE_FLAT_MAJOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Dbb Minor"), KeySignature.withName("Fbb Major").getRelativeKey());
 
         assertEquals(E_SHARP_MINOR, G_SHARP_MAJOR.getRelativeKey());
         assertEquals(F_MINOR, A_FLAT_MAJOR.getRelativeKey());
-//        assertEquals(G_DOUBLE_FLAT_MINOR, B_TRIPLE_FLAT_MAJOR.getRelativeKey());        // Too theoretical
+        assertEquals(KeySignature.withName("Gbb Minor"), KeySignature.withName("Bbbb Major").getRelativeKey());
 
         assertEquals(A_SHARP_MINOR, C_SHARP_MAJOR.getRelativeKey());
         assertEquals(B_FLAT_MINOR, D_FLAT_MAJOR.getRelativeKey());
-//        assertEquals(C_DOUBLE_FLAT_MINOR, E_TRIPLE_FLAT_MAJOR.getRelativeKey());        // Too theoretical
+        assertEquals(KeySignature.withName("Cbb Minor"), KeySignature.withName("Ebbb Major").getRelativeKey());
 
         assertEquals(D_SHARP_MINOR, F_SHARP_MAJOR.getRelativeKey());
         assertEquals(E_FLAT_MINOR, G_FLAT_MAJOR.getRelativeKey());
-//        assertEquals(F_DOUBLE_FLAT_MINOR, A_TRIPLE_FLAT_MINOR.getRelativeKey());        // Too theoretical
+        assertEquals(KeySignature.withName("Fbb Minor"), KeySignature.withName("Abbb Major").getRelativeKey());
 
         assertEquals(G_SHARP_MINOR, B_MAJOR.getRelativeKey());
         assertEquals(A_FLAT_MINOR, C_FLAT_MAJOR.getRelativeKey());
 
-//        assertEquals(B_DOUBLE_SHARP_MINOR, D_DOUBLE_SHARP_MAJOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Bx Minor"), KeySignature.withName("Dx Major").getRelativeKey());
         assertEquals(C_SHARP_MINOR, E_MAJOR.getRelativeKey());
         assertEquals(D_FLAT_MINOR, F_FLAT_MAJOR.getRelativeKey());
 
-//        assertEquals(E_DOUBLE_SHARP_MINOR, G_DOUBLE_SHARP_MAJOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Ex Minor"), KeySignature.withName("Gx Major").getRelativeKey());
         assertEquals(F_SHARP_MINOR, A_MAJOR.getRelativeKey());
         assertEquals(G_FLAT_MINOR, B_DOUBLE_FLAT_MAJOR.getRelativeKey());
 
-//        assertEquals(A_DOUBLE_SHARP_MINOR, C_DOUBLE_SHARP_MAJOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Ax Minor"), KeySignature.withName("Cx Major").getRelativeKey());
         assertEquals(B_MINOR, D_MAJOR.getRelativeKey());
         assertEquals(C_FLAT_MINOR, E_DOUBLE_FLAT_MAJOR.getRelativeKey());
 
-//        assertEquals(D_DOUBLE_SHARP_MINOR, F_DOUBLE_SHARP_MAJOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Dx Minor"), KeySignature.withName("Fx Major").getRelativeKey());
         assertEquals(E_MINOR, G_MAJOR.getRelativeKey());
         assertEquals(F_FLAT_MINOR, A_DOUBLE_FLAT_MAJOR.getRelativeKey());
 
         assertEquals(G_DOUBLE_SHARP_MINOR, B_SHARP_MAJOR.getRelativeKey());
         assertEquals(A_MINOR, C_MAJOR.getRelativeKey());
-//        assertEquals(B_DOUBLE_FLAT_MINOR, D_DOUBLE_FLAT_MAJOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Bbb Minor"), KeySignature.withName("Dbb Major").getRelativeKey());
 
         assertEquals(C_DOUBLE_SHARP_MINOR, E_SHARP_MAJOR.getRelativeKey());
         assertEquals(D_MINOR, F_MAJOR.getRelativeKey());
-//        assertEquals(E_DOUBLE_FLAT_MINOR, G_DOUBLE_SHARP_MAJOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Ex Minor"), KeySignature.withName("Gx Major").getRelativeKey());
 
         assertEquals(F_DOUBLE_SHARP_MINOR, A_SHARP_MAJOR.getRelativeKey());
         assertEquals(G_MINOR, B_FLAT_MAJOR.getRelativeKey());
-//        assertEquals(A_DOUBLE_FLAT_MINOR, C_DOUBLE_FLAT_MAJOR.getRelativeKey());
+        assertEquals(KeySignature.withName("Abb Minor"), KeySignature.withName("Cbb Major").getRelativeKey());
 
     }
 
@@ -173,144 +182,136 @@ public class TestKeySignature {
     }
 
     @Test
-    public void getNext() throws Exception {
-        /*
-         * Empty KeySignatures have no next KeySignature,
-         * because they have an ambiguous choice whether to
-         * advance by sharps or flats with getNext().
-         *
-         * Basically, getNext() can't read your mind.
-         */
-        assertEquals(NO_KEY_SIGNATURE, C_MAJOR.getNext());
-        assertEquals(NO_KEY_SIGNATURE, A_MINOR.getNext());
+    public void modulateFlat() throws Exception {
+        assertEquals(NO_KEY_SIGNATURE, NO_KEY_SIGNATURE);
 
         // Basic test cases
-        assertEquals(B_FLAT_MAJOR, F_MAJOR.getNext());
-        assertEquals(E_FLAT_MAJOR, B_FLAT_MAJOR.getNext());
-        assertEquals(A_FLAT_MAJOR, E_FLAT_MAJOR.getNext());
-        assertEquals(D_FLAT_MAJOR, A_FLAT_MAJOR.getNext());
-        assertEquals(G_FLAT_MAJOR, D_FLAT_MAJOR.getNext());
-        assertEquals(C_FLAT_MAJOR, G_FLAT_MAJOR.getNext());
-        assertEquals(F_FLAT_MAJOR, C_FLAT_MAJOR.getNext());
-        assertEquals(B_DOUBLE_FLAT_MAJOR, F_FLAT_MAJOR.getNext());
-        assertEquals(E_DOUBLE_FLAT_MAJOR, B_DOUBLE_FLAT_MAJOR.getNext());
-        assertEquals(A_DOUBLE_FLAT_MAJOR, E_DOUBLE_FLAT_MAJOR.getNext());
-        assertEquals(D_MAJOR, G_MAJOR.getNext());
-        assertEquals(A_MAJOR, D_MAJOR.getNext());
-        assertEquals(E_MAJOR, A_MAJOR.getNext());
-        assertEquals(B_MAJOR, E_MAJOR.getNext());
-        assertEquals(F_SHARP_MAJOR, B_MAJOR.getNext());
-        assertEquals(C_SHARP_MAJOR, F_SHARP_MAJOR.getNext());
-        assertEquals(G_SHARP_MAJOR, C_SHARP_MAJOR.getNext());
-        assertEquals(D_SHARP_MAJOR, G_SHARP_MAJOR.getNext());
-        assertEquals(A_SHARP_MAJOR, D_SHARP_MAJOR.getNext());
-        assertEquals(E_SHARP_MAJOR, A_SHARP_MAJOR.getNext());
-        assertEquals(B_SHARP_MAJOR, E_SHARP_MAJOR.getNext());
+        assertEquals(B_FLAT_MAJOR, F_MAJOR.modulateFlat());
+        assertEquals(E_FLAT_MAJOR, B_FLAT_MAJOR.modulateFlat());
+        assertEquals(A_FLAT_MAJOR, E_FLAT_MAJOR.modulateFlat());
+        assertEquals(D_FLAT_MAJOR, A_FLAT_MAJOR.modulateFlat());
+        assertEquals(G_FLAT_MAJOR, D_FLAT_MAJOR.modulateFlat());
+        assertEquals(C_FLAT_MAJOR, G_FLAT_MAJOR.modulateFlat());
+        assertEquals(F_FLAT_MAJOR, C_FLAT_MAJOR.modulateFlat());
+        assertEquals(B_DOUBLE_FLAT_MAJOR, F_FLAT_MAJOR.modulateFlat());
+        assertEquals(E_DOUBLE_FLAT_MAJOR, B_DOUBLE_FLAT_MAJOR.modulateFlat());
+        assertEquals(A_DOUBLE_FLAT_MAJOR, E_DOUBLE_FLAT_MAJOR.modulateFlat());
 
-        assertEquals(G_MINOR, D_MINOR.getNext());
-        assertEquals(C_MINOR, G_MINOR.getNext());
-        assertEquals(F_MINOR, C_MINOR.getNext());
-        assertEquals(B_FLAT_MINOR, F_MINOR.getNext());
-        assertEquals(E_FLAT_MINOR, B_FLAT_MINOR.getNext());
-        assertEquals(A_FLAT_MINOR, E_FLAT_MINOR.getNext());
-        assertEquals(D_FLAT_MINOR, A_FLAT_MINOR.getNext());
-        assertEquals(G_FLAT_MINOR, D_FLAT_MINOR.getNext());
-        assertEquals(C_FLAT_MINOR, G_FLAT_MINOR.getNext());
-        assertEquals(F_FLAT_MINOR, C_FLAT_MINOR.getNext());
-        assertEquals(B_MINOR, E_MINOR.getNext());
-        assertEquals(F_SHARP_MINOR, B_MINOR.getNext());
-        assertEquals(C_SHARP_MINOR, F_SHARP_MINOR.getNext());
-        assertEquals(G_SHARP_MINOR, C_SHARP_MINOR.getNext());
-        assertEquals(D_SHARP_MINOR, G_SHARP_MINOR.getNext());
-        assertEquals(A_SHARP_MINOR, D_SHARP_MINOR.getNext());
-        assertEquals(E_SHARP_MINOR, A_SHARP_MINOR.getNext());
-        assertEquals(B_SHARP_MINOR, E_SHARP_MINOR.getNext());
-        assertEquals(F_DOUBLE_SHARP_MINOR, B_SHARP_MINOR.getNext());
-        assertEquals(C_DOUBLE_SHARP_MINOR, F_DOUBLE_SHARP_MINOR.getNext());
-        assertEquals(G_DOUBLE_SHARP_MINOR, C_DOUBLE_SHARP_MINOR.getNext());
+        assertEquals(F_MAJOR, C_MAJOR.modulateFlat());
+
+        assertEquals(C_MAJOR, G_MAJOR.modulateFlat());
+        assertEquals(G_MAJOR, D_MAJOR.modulateFlat());
+        assertEquals(D_MAJOR, A_MAJOR.modulateFlat());
+        assertEquals(A_MAJOR, E_MAJOR.modulateFlat());
+        assertEquals(E_MAJOR, B_MAJOR.modulateFlat());
+        assertEquals(B_MAJOR, F_SHARP_MAJOR.modulateFlat());
+        assertEquals(F_SHARP_MAJOR, C_SHARP_MAJOR.modulateFlat());
+        assertEquals(C_SHARP_MAJOR, G_SHARP_MAJOR.modulateFlat());
+        assertEquals(G_SHARP_MAJOR, D_SHARP_MAJOR.modulateFlat());
+        assertEquals(D_SHARP_MAJOR, A_SHARP_MAJOR.modulateFlat());
+        assertEquals(A_SHARP_MAJOR, E_SHARP_MAJOR.modulateFlat());
+        assertEquals(E_SHARP_MAJOR, B_SHARP_MAJOR.modulateFlat());
+        assertEquals(B_SHARP_MAJOR, KeySignature.withName("Fx Major").modulateFlat());
 
 
-        /*
-         * Edge cases should return null (i.e., no wrap-around possible)
-         * because there would be an ambiguous choice of the following:
-         *
-         * -    continue adding sharps or flats
-         *      (with extreme theoretical KeySignatures as the result,
-         *       and ultimately impossible due to finite enum values)
-         *
-         * -    simply advance by ordinal, regardless of Accidental
-         *      (unwanted in nearly all cases because it's not musically 'smart')
-         *
-         * -    wrap around to the first KeySignature with the matching Accidental
-         *      (which isn't technically the "next" KeySignature that would be derived)
-         */
-        assertEquals(NO_KEY_SIGNATURE, A_DOUBLE_FLAT_MAJOR.getNext());
-        assertEquals(NO_KEY_SIGNATURE, B_SHARP_MAJOR.getNext());
-        assertEquals(NO_KEY_SIGNATURE, F_FLAT_MINOR.getNext());
-        assertEquals(NO_KEY_SIGNATURE, G_DOUBLE_SHARP_MINOR.getNext());
+        assertEquals(G_DOUBLE_SHARP_MINOR, KeySignature.withName("Dx Minor").modulateFlat());
+        assertEquals(C_DOUBLE_SHARP_MINOR, G_DOUBLE_SHARP_MINOR.modulateFlat());
+        assertEquals(F_DOUBLE_SHARP_MINOR, C_DOUBLE_SHARP_MINOR.modulateFlat());
+        assertEquals(B_SHARP_MINOR, F_DOUBLE_SHARP_MINOR.modulateFlat());
+        assertEquals(E_SHARP_MINOR, B_SHARP_MINOR.modulateFlat());
+        assertEquals(A_SHARP_MINOR, E_SHARP_MINOR.modulateFlat());
+        assertEquals(D_SHARP_MINOR, A_SHARP_MINOR.modulateFlat());
+        assertEquals(G_SHARP_MINOR, D_SHARP_MINOR.modulateFlat());
+        assertEquals(C_SHARP_MINOR, G_SHARP_MINOR.modulateFlat());
+        assertEquals(F_SHARP_MINOR, C_SHARP_MINOR.modulateFlat());
+        assertEquals(B_MINOR, F_SHARP_MINOR.modulateFlat());
+        assertEquals(E_MINOR, B_MINOR.modulateFlat());
+        assertEquals(A_MINOR, E_MINOR.modulateFlat());
+        assertEquals(D_MINOR, A_MINOR.modulateFlat());
+        assertEquals(G_MINOR, D_MINOR.modulateFlat());
+        assertEquals(C_MINOR, G_MINOR.modulateFlat());
+        assertEquals(F_MINOR, C_MINOR.modulateFlat());
+        assertEquals(B_FLAT_MINOR, F_MINOR.modulateFlat());
+        assertEquals(E_FLAT_MINOR, B_FLAT_MINOR.modulateFlat());
+        assertEquals(A_FLAT_MINOR, E_FLAT_MINOR.modulateFlat());
+        assertEquals(D_FLAT_MINOR, A_FLAT_MINOR.modulateFlat());
+        assertEquals(G_FLAT_MINOR, D_FLAT_MINOR.modulateFlat());
+        assertEquals(C_FLAT_MINOR, G_FLAT_MINOR.modulateFlat());
+        assertEquals(F_FLAT_MINOR, C_FLAT_MINOR.modulateFlat());
     }
 
     @Test
-    public void getPrevious() throws Exception {
-        /*
-         * Empty KeySignatures have no next KeySignature,
-         * because they have an ambiguous choice whether to
-         * advance by sharps or flats with getPrevious().
-         *
-         * Basically, getPrevious() can't read your mind.
-         */
-        assertEquals(NO_KEY_SIGNATURE, C_MAJOR.getPrevious());
-        assertEquals(NO_KEY_SIGNATURE, A_MINOR.getPrevious());
+    public void modulateSharp() throws Exception {
+        assertEquals(NO_KEY_SIGNATURE, NO_KEY_SIGNATURE);
 
         // Basic test cases
-        assertEquals(F_MAJOR, B_FLAT_MAJOR.getPrevious());
-        assertEquals(B_FLAT_MAJOR, E_FLAT_MAJOR.getPrevious());
-        assertEquals(E_FLAT_MAJOR, A_FLAT_MAJOR.getPrevious());
-        assertEquals(A_FLAT_MAJOR, D_FLAT_MAJOR.getPrevious());
-        assertEquals(D_FLAT_MAJOR, G_FLAT_MAJOR.getPrevious());
-        assertEquals(G_FLAT_MAJOR, C_FLAT_MAJOR.getPrevious());
-        assertEquals(C_FLAT_MAJOR, F_FLAT_MAJOR.getPrevious());
-        assertEquals(F_FLAT_MAJOR, B_DOUBLE_FLAT_MAJOR.getPrevious());
-        assertEquals(B_DOUBLE_FLAT_MAJOR, E_DOUBLE_FLAT_MAJOR.getPrevious());
-        assertEquals(E_DOUBLE_FLAT_MAJOR, A_DOUBLE_FLAT_MAJOR.getPrevious());
-        assertEquals(G_MAJOR, D_MAJOR.getPrevious());
-        assertEquals(D_MAJOR, A_MAJOR.getPrevious());
-        assertEquals(A_MAJOR, E_MAJOR.getPrevious());
-        assertEquals(E_MAJOR, B_MAJOR.getPrevious());
-        assertEquals(B_MAJOR, F_SHARP_MAJOR.getPrevious());
-        assertEquals(F_SHARP_MAJOR, C_SHARP_MAJOR.getPrevious());
-        assertEquals(C_SHARP_MAJOR, G_SHARP_MAJOR.getPrevious());
-        assertEquals(G_SHARP_MAJOR, D_SHARP_MAJOR.getPrevious());
-        assertEquals(D_SHARP_MAJOR, A_SHARP_MAJOR.getPrevious());
-        assertEquals(A_SHARP_MAJOR, E_SHARP_MAJOR.getPrevious());
-        assertEquals(E_SHARP_MAJOR, B_SHARP_MAJOR.getPrevious());
+        assertEquals(B_FLAT_MAJOR, E_FLAT_MAJOR.modulateSharp());
+        assertEquals(E_FLAT_MAJOR, A_FLAT_MAJOR.modulateSharp());
+        assertEquals(A_FLAT_MAJOR, D_FLAT_MAJOR.modulateSharp());
+        assertEquals(D_FLAT_MAJOR, G_FLAT_MAJOR.modulateSharp());
+        assertEquals(G_FLAT_MAJOR, C_FLAT_MAJOR.modulateSharp());
+        assertEquals(C_FLAT_MAJOR, F_FLAT_MAJOR.modulateSharp());
+        assertEquals(F_FLAT_MAJOR, B_DOUBLE_FLAT_MAJOR.modulateSharp());
+        assertEquals(B_DOUBLE_FLAT_MAJOR, E_DOUBLE_FLAT_MAJOR.modulateSharp());
+        assertEquals(E_DOUBLE_FLAT_MAJOR, A_DOUBLE_FLAT_MAJOR.modulateSharp());
+        assertEquals(A_DOUBLE_FLAT_MAJOR, KeySignature.withName("Dbb Major").modulateSharp());
+        assertEquals(KeySignature.withName("Dbb Major"), KeySignature.withName("Gbb Major").modulateSharp());
+        assertEquals(KeySignature.withName("Gbb Major"), KeySignature.withName("Cbb Major").modulateSharp());
+        assertEquals(KeySignature.withName("Cbb Major"), KeySignature.withName("Fbb Major").modulateSharp());
+        assertEquals(KeySignature.withName("Fbb Major"), KeySignature.withName("Bbbb Major").modulateSharp());
 
-        assertEquals(D_MINOR, G_MINOR.getPrevious());
-        assertEquals(G_MINOR, C_MINOR.getPrevious());
-        assertEquals(C_MINOR, F_MINOR.getPrevious());
-        assertEquals(F_MINOR, B_FLAT_MINOR.getPrevious());
-        assertEquals(B_FLAT_MINOR, E_FLAT_MINOR.getPrevious());
-        assertEquals(E_FLAT_MINOR, A_FLAT_MINOR.getPrevious());
-        assertEquals(A_FLAT_MINOR, D_FLAT_MINOR.getPrevious());
-        assertEquals(D_FLAT_MINOR, G_FLAT_MINOR.getPrevious());
-        assertEquals(G_FLAT_MINOR, C_FLAT_MINOR.getPrevious());
-        assertEquals(C_FLAT_MINOR, F_FLAT_MINOR.getPrevious());
-        assertEquals(E_MINOR, B_MINOR.getPrevious());
-        assertEquals(B_MINOR, F_SHARP_MINOR.getPrevious());
-        assertEquals(F_SHARP_MINOR, C_SHARP_MINOR.getPrevious());
-        assertEquals(C_SHARP_MINOR, G_SHARP_MINOR.getPrevious());
-        assertEquals(G_SHARP_MINOR, D_SHARP_MINOR.getPrevious());
-        assertEquals(D_SHARP_MINOR, A_SHARP_MINOR.getPrevious());
-        assertEquals(A_SHARP_MINOR, E_SHARP_MINOR.getPrevious());
-        assertEquals(E_SHARP_MINOR, B_SHARP_MINOR.getPrevious());
-        assertEquals(B_SHARP_MINOR, F_DOUBLE_SHARP_MINOR.getPrevious());
-        assertEquals(F_DOUBLE_SHARP_MINOR, C_DOUBLE_SHARP_MINOR.getPrevious());
-        assertEquals(C_DOUBLE_SHARP_MINOR, G_DOUBLE_SHARP_MINOR.getPrevious());
+        assertEquals(F_MAJOR, B_FLAT_MAJOR.modulateSharp());
+        assertEquals(C_MAJOR, F_MAJOR.modulateSharp());
+        assertEquals(G_MAJOR, C_MAJOR.modulateSharp());
+        assertEquals(D_MAJOR, G_MAJOR.modulateSharp());
+        assertEquals(A_MAJOR, D_MAJOR.modulateSharp());
+        assertEquals(E_MAJOR, A_MAJOR.modulateSharp());
+        assertEquals(B_MAJOR, E_MAJOR.modulateSharp());
+        assertEquals(F_SHARP_MAJOR, B_MAJOR.modulateSharp());
+        assertEquals(C_SHARP_MAJOR, F_SHARP_MAJOR.modulateSharp());
+        assertEquals(G_SHARP_MAJOR, C_SHARP_MAJOR.modulateSharp());
+        assertEquals(D_SHARP_MAJOR, G_SHARP_MAJOR.modulateSharp());
+        assertEquals(A_SHARP_MAJOR, D_SHARP_MAJOR.modulateSharp());
+        assertEquals(E_SHARP_MAJOR, A_SHARP_MAJOR.modulateSharp());
+        assertEquals(B_SHARP_MAJOR, E_SHARP_MAJOR.modulateSharp());
+        assertEquals(KeySignature.withName("Fx Major"), B_SHARP_MAJOR.modulateSharp());
 
-        assertEquals(C_MAJOR, F_MAJOR.getPrevious());
-        assertEquals(C_MAJOR, G_MAJOR.getPrevious());
-        assertEquals(A_MINOR, D_MINOR.getPrevious());
-        assertEquals(A_MINOR, E_MINOR.getPrevious());
+        assertEquals(F_SHARP_MINOR, B_MINOR.modulateSharp());
+        assertEquals(B_MINOR, E_MINOR.modulateSharp());
+        assertEquals(E_MINOR, A_MINOR.modulateSharp());
+        assertEquals(A_MINOR, D_MINOR.modulateSharp());
+        assertEquals(D_MINOR, G_MINOR.modulateSharp());
+        assertEquals(G_MINOR, C_MINOR.modulateSharp());
+        assertEquals(C_MINOR, F_MINOR.modulateSharp());
+        assertEquals(F_MINOR, B_FLAT_MINOR.modulateSharp());
+        assertEquals(B_FLAT_MINOR, E_FLAT_MINOR.modulateSharp());
+        assertEquals(E_FLAT_MINOR, A_FLAT_MINOR.modulateSharp());
+        assertEquals(A_FLAT_MINOR, D_FLAT_MINOR.modulateSharp());
+        assertEquals(D_FLAT_MINOR, G_FLAT_MINOR.modulateSharp());
+        assertEquals(G_FLAT_MINOR, C_FLAT_MINOR.modulateSharp());
+        assertEquals(C_FLAT_MINOR, F_FLAT_MINOR.modulateSharp());
+
+
+        assertEquals(F_SHARP_MINOR, B_MINOR.modulateSharp());
+        assertEquals(C_SHARP_MINOR, F_SHARP_MINOR.modulateSharp());
+        assertEquals(G_SHARP_MINOR, C_SHARP_MINOR.modulateSharp());
+        assertEquals(D_SHARP_MINOR, G_SHARP_MINOR.modulateSharp());
+        assertEquals(A_SHARP_MINOR, D_SHARP_MINOR.modulateSharp());
+        assertEquals(E_SHARP_MINOR, A_SHARP_MINOR.modulateSharp());
+        assertEquals(B_SHARP_MINOR, E_SHARP_MINOR.modulateSharp());
+        assertEquals(F_DOUBLE_SHARP_MINOR, B_SHARP_MINOR.modulateSharp());
+        assertEquals(C_DOUBLE_SHARP_MINOR, F_DOUBLE_SHARP_MINOR.modulateSharp());
+        assertEquals(G_DOUBLE_SHARP_MINOR, C_DOUBLE_SHARP_MINOR.modulateSharp());
+        assertEquals(KeySignature.withName("Dx Minor"), G_DOUBLE_SHARP_MINOR.modulateSharp());
+        assertEquals(KeySignature.withName("Ax Minor"), KeySignature.withName("Dx Minor").modulateSharp());
+        assertEquals(KeySignature.withName("Ex Minor"), KeySignature.withName("Ax Minor").modulateSharp());
+        assertEquals(KeySignature.withName("Bx Minor"), KeySignature.withName("Ex Minor").modulateSharp());
+
+        assertEquals(C_MAJOR, F_MAJOR.modulateSharp());
+        assertEquals(D_MAJOR, G_MAJOR.modulateSharp());
+        assertEquals(A_MINOR, D_MINOR.modulateSharp());
+        assertEquals(B_MINOR, E_MINOR.modulateSharp());
+
     }
 
 }

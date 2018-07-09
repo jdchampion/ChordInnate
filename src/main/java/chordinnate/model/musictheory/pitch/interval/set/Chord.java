@@ -2,7 +2,7 @@ package chordinnate.model.musictheory.pitch.interval.set;
 
 import static chordinnate.service.BaseService.getChordTypeService;
 
-import chordinnate.model.musictheory.notation.EnharmonicSpelling;
+import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.Transposable;
@@ -17,6 +17,8 @@ import javax.sound.midi.Sequence;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Joseph on 7/17/16.
@@ -28,31 +30,36 @@ public class Chord extends VerticalIntervalSet
     private EnumMap<Octave, Pitch[]> invertedPitchesByOctave;
     private int inversion, possibleInversions;
 
-    public Chord(@NotNull EnharmonicSpelling root, @NotNull String chordTypeName) {
-        Optional<ChordType> chordType = getChordTypeService().findBySymbol(chordTypeName);
-        if (chordType.isPresent()) {
-            super.commonInitializations(root, chordType.get().getIntervals());
-            this.CHORD_TYPE = chordType.get();
-            this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.getSymbol();
-            this.invertedPitchesByOctave = deepCopyPitchesByOctave();
-            this.inversion = 0;
-            this.possibleInversions = super.intervals.length - 1;
-        } else {
-            throw new RuntimeException("Error creating chord with type [" + chordTypeName + "]");
-        }
-    }
+    private static final String CHORD_REGEX = "^([A-Ga-g])((\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x])*)([^b#x].*)$";
+    private static final Pattern PATTERN = Pattern.compile(CHORD_REGEX);
 
-    public Chord(@NotNull PitchClass root, @NotNull String chordTypeName) {
-        Optional<ChordType> chordType = getChordTypeService().findBySymbol(chordTypeName);
-        if (chordType.isPresent()) {
-            super.commonInitializations(root.ENHARMONIC_SPELLING, chordType.get().getIntervals());
-            this.CHORD_TYPE = chordType.get();
-            this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.getSymbol();
-            this.invertedPitchesByOctave = deepCopyPitchesByOctave();
-            this.inversion = 0;
-            this.possibleInversions = super.intervals.length - 1;
-        } else {
-            throw new RuntimeException("Error creating chord with type [" + chordTypeName + "]");
+    public Chord(@NotNull String name) {
+
+        Matcher matcher = PATTERN.matcher(name);
+
+        boolean valid = false;
+
+        if (matcher.matches()) {
+            String rootName = matcher.group(1) + (matcher.group(2) == null ? "" : matcher.group(2));
+            String chordTypeName = matcher.group(4);
+
+            PitchClass root = PitchClass.withName(rootName, rootName.contains(Accidental.NATURAL.UTF8_SYMBOL));
+            Optional<ChordType> chordType = getChordTypeService().findBySymbol(chordTypeName);
+
+            if (chordType.isPresent()) {
+                super.commonInitializations(root, chordType.get().getIntervals());
+                this.CHORD_TYPE = chordType.get();
+                this.name = super.lowestDiatonic.PITCH_CLASS.getName() + CHORD_TYPE.getSymbol();
+                this.invertedPitchesByOctave = deepCopyPitchesByOctave();
+                this.inversion = 0;
+                this.possibleInversions = super.intervals.length - 1;
+                valid = true;
+            }
+
+        }
+
+        if (!valid) {
+            throw new RuntimeException("Invalid chord name [" + name + "]");
         }
     }
 
@@ -107,8 +114,8 @@ public class Chord extends VerticalIntervalSet
     public Void transpose(boolean direction, @NotNull Interval interval) {
         if (isTransposable(direction, interval)) {
             Pitch lowestTransposed = super.lowestDiatonic.transpose(direction, interval);
-            super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, CHORD_TYPE.getIntervals());
-            this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.getSymbol();
+            super.commonInitializations(lowestTransposed.PITCH_CLASS, CHORD_TYPE.getIntervals());
+            this.name = super.lowestDiatonic.PITCH_CLASS.getName() + CHORD_TYPE.getSymbol();
         }
         return null;
     }
@@ -117,8 +124,8 @@ public class Chord extends VerticalIntervalSet
     public Void transpose(boolean direction, @NotNull PitchClass pitchClass) {
         if (isTransposable(direction, pitchClass)) {
             Pitch lowestTransposed = super.lowestDiatonic.transpose(pitchClass, lowestDiatonic.OCTAVE);
-            super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, CHORD_TYPE.getIntervals());
-            this.name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.getSymbol();
+            super.commonInitializations(lowestTransposed.PITCH_CLASS, CHORD_TYPE.getIntervals());
+            this.name = super.lowestDiatonic.PITCH_CLASS.getName() + CHORD_TYPE.getSymbol();
         }
         return null;
     }
@@ -126,7 +133,7 @@ public class Chord extends VerticalIntervalSet
     @Override
     public Void transpose(@NotNull Pitch pitch) {
         if (isTransposable(pitch)) {
-            int midpoint = maxPlayableOctave.NUMBER / 2;
+            int midpoint = maxPlayableOctave.getNumber() / 2;
             Pitch rootAtMidpoint = getPitchesForOctave(Octave.valueOf("OCTAVE_" + midpoint))[0];
             boolean direction = pitch.ABSOLUTE_PITCH > rootAtMidpoint.ABSOLUTE_PITCH;
             return transpose(direction, pitch.PITCH_CLASS);
@@ -137,9 +144,9 @@ public class Chord extends VerticalIntervalSet
     @Override
     public Void transpose(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         if (isTransposable(pitchClass, octave)) {
-            int midpoint = maxPlayableOctave.NUMBER / 2;
+            int midpoint = maxPlayableOctave.getNumber() / 2;
             Octave octaveAtMidPoint = Octave.valueOf("OCTAVE_" + midpoint);
-            boolean direction = octave.NUMBER > octaveAtMidPoint.NUMBER;
+            boolean direction = octave.getNumber() > octaveAtMidPoint.getNumber();
             return transpose(direction, pitchClass);
         }
         return null;
@@ -150,7 +157,7 @@ public class Chord extends VerticalIntervalSet
         if (inversion == possibleInversions) {
             // Go back to the root inversion
             invertedPitchesByOctave = deepCopyPitchesByOctave();
-            name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.getSymbol();
+            name = super.lowestDiatonic.PITCH_CLASS.getName() + CHORD_TYPE.getSymbol();
             inversion = 0;
         } else {
             for (Octave octave : invertedPitchesByOctave.keySet()) {
@@ -161,8 +168,8 @@ public class Chord extends VerticalIntervalSet
                 }
             }
             // Append the bass note to the name
-            name = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + CHORD_TYPE.getSymbol()
-                    + "/" + super.pitchesByOctave.get(lowestDiatonic.OCTAVE)[++inversion].PITCH_CLASS.ENHARMONIC_SPELLING.NAME;
+            name = super.lowestDiatonic.PITCH_CLASS.getName() + CHORD_TYPE.getSymbol()
+                    + "/" + super.pitchesByOctave.get(lowestDiatonic.OCTAVE)[++inversion].PITCH_CLASS.getName();
         }
 
         return null;

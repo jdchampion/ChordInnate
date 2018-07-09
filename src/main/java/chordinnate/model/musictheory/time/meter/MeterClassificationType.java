@@ -92,19 +92,19 @@ public enum MeterClassificationType {
     ASYMMETRICAL,
 
     /*
-     * Time signature denominator is NOT a dyadic rational (log2(rn_chord_analysis.sql) == int).
+     * Time signature denominator is NOT a dyadic rational (log2(x) == int).
      */
     IRRATIONAL,
 
     /*
      * Time signature numerator is written as a floating point number
-     * that is a dyadic (log2(view_rn_analysis.sql) == int) or triadic (log3(view_rn_analysis.sql) == int) rational.
+     * that is a dyadic (log2(x) == int) or triadic (log3(x) == int) rational.
      */
     PARTIAL,
 
     /*
      * Time signature numerator is written as a fraction
-     * whose fractional denominator is a dyadic (log2(view_rn_analysis.sql) == int) or triadic (log3(view_rn_analysis.sql) == int) rational.
+     * whose fractional denominator is a dyadic (log2(x) == int) or triadic (log3(x) == int) rational.
      */
     FRACTIONAL,
 

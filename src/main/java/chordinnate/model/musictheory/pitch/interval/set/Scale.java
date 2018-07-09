@@ -2,7 +2,7 @@ package chordinnate.model.musictheory.pitch.interval.set;
 
 import static chordinnate.service.BaseService.getScaleTypeService;
 
-import chordinnate.model.musictheory.notation.EnharmonicSpelling;
+import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.Transposable;
@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.sound.midi.Sequence;
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Joseph on 7/15/16.
@@ -26,25 +28,31 @@ public class Scale extends HorizontalIntervalSet
     private ScaleType SCALE_TYPE;
     private String fullName;
 
-    public Scale(@NotNull EnharmonicSpelling root, @NotNull String scaleTypeName) {
-        Optional<ScaleType> scaleType = getScaleTypeService().findByName(scaleTypeName);
-        if (scaleType.isPresent()) {
-            super.commonInitializations(root, scaleType.get().getIntervals());
-            this.SCALE_TYPE = scaleType.get();
-            this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + SCALE_TYPE.getName();
-        } else {
-            throw new RuntimeException("Error creating scale with type [" + scaleTypeName + "]");
-        }
-    }
+    private static final String SCALE_REGEX = "^([A-Ga-g])((\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x])*) (.+)$";
+    private static final Pattern PATTERN = Pattern.compile(SCALE_REGEX);
 
-    public Scale(@NotNull PitchClass root, @NotNull String scaleTypeName) {
-        Optional<ScaleType> scaleType = getScaleTypeService().findByName(scaleTypeName);
-        if (scaleType.isPresent()) {
-            super.commonInitializations(root.ENHARMONIC_SPELLING, scaleType.get().getIntervals());
-            this.SCALE_TYPE = scaleType.get();
-            this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + SCALE_TYPE.getName();
-        } else {
-            throw new RuntimeException("Error creating scale with type [" + scaleTypeName + "]");
+    public Scale(@NotNull String name) {
+
+        Matcher matcher = PATTERN.matcher(name);
+
+        boolean valid = false;
+
+        if (matcher.matches()) {
+            String rootName = matcher.group(1) + (matcher.group(2) == null ? "" : matcher.group(2));
+            String scaleTypeName = matcher.group(4);
+
+            PitchClass root = PitchClass.withName(rootName, rootName.contains(Accidental.NATURAL.UTF8_SYMBOL));
+            Optional<ScaleType> scaleType = getScaleTypeService().findByName(scaleTypeName);
+            if (scaleType.isPresent()) {
+                super.commonInitializations(root, scaleType.get().getIntervals());
+                this.SCALE_TYPE = scaleType.get();
+                this.fullName = root.getName() + " " + SCALE_TYPE.getName();
+                valid = true;
+            }
+        }
+
+        if (!valid) {
+            throw new RuntimeException("Invalid scale name [" + name + "]");
         }
     }
 
@@ -84,8 +92,8 @@ public class Scale extends HorizontalIntervalSet
     public Void transpose(boolean direction, @NotNull Interval interval) {
         if (isTransposable(direction, interval)) {
             Pitch lowestTransposed = super.lowestDiatonic.transpose(direction, interval);
-            super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, this.SCALE_TYPE.getIntervals());
-            this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.SCALE_TYPE.getName();
+            super.commonInitializations(lowestTransposed.PITCH_CLASS, this.SCALE_TYPE.getIntervals());
+            this.fullName = super.lowestDiatonic.PITCH_CLASS.getName() + " " + this.SCALE_TYPE.getName();
         }
         return null;
     }
@@ -94,8 +102,8 @@ public class Scale extends HorizontalIntervalSet
     public Void transpose(boolean direction, @NotNull PitchClass pitchClass) {
         if (isTransposable(direction, pitchClass)) {
             Pitch lowestTransposed = super.lowestDiatonic.transpose(pitchClass, this.lowestDiatonic.OCTAVE);
-            super.commonInitializations(lowestTransposed.PITCH_CLASS.ENHARMONIC_SPELLING, this.SCALE_TYPE.getIntervals());
-            this.fullName = super.lowestDiatonic.PITCH_CLASS.ENHARMONIC_SPELLING.NAME + " " + this.SCALE_TYPE.getName();
+            super.commonInitializations(lowestTransposed.PITCH_CLASS, this.SCALE_TYPE.getIntervals());
+            this.fullName = super.lowestDiatonic.PITCH_CLASS.getName() + " " + this.SCALE_TYPE.getName();
         }
         return null;
     }
@@ -103,7 +111,7 @@ public class Scale extends HorizontalIntervalSet
     @Override
     public Void transpose(@NotNull Pitch pitch) {
         if (isTransposable(pitch)) {
-            int midpoint = maxPlayableOctave.NUMBER / 2;
+            int midpoint = maxPlayableOctave.getNumber() / 2;
             Pitch rootAtMidpoint = getPitchesForOctave(Octave.valueOf("OCTAVE_" + midpoint))[0];
             boolean direction = pitch.ABSOLUTE_PITCH > rootAtMidpoint.ABSOLUTE_PITCH;
             return transpose(direction, pitch.PITCH_CLASS);
@@ -114,9 +122,9 @@ public class Scale extends HorizontalIntervalSet
     @Override
     public Void transpose(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         if (isTransposable(pitchClass, octave)) {
-            int midpoint = maxPlayableOctave.NUMBER / 2;
+            int midpoint = maxPlayableOctave.getNumber() / 2;
             Octave octaveAtMidPoint = Octave.valueOf("OCTAVE_" + midpoint);
-            boolean direction = octave.NUMBER > octaveAtMidPoint.NUMBER;
+            boolean direction = octave.getNumber() > octaveAtMidPoint.getNumber();
             return transpose(direction, pitchClass);
         }
         return null;

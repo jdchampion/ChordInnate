@@ -1,201 +1,211 @@
 package chordinnate.model.musictheory.notation;
 
+import chordinnate.model.Aliased;
+import chordinnate.model.musictheory.pitch.Enharmonic;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
-/**
- * Created by Joseph on 4/14/16.
- */
-public enum EnharmonicSpelling {
-    C_DOUBLE_FLAT(Letter.C, Accidental.DOUBLE_FLAT),
-    C_FLAT(Letter.C, Accidental.FLAT),
-    C_NATURAL(Letter.C, Accidental.NATURAL),
-    C(Letter.C, Accidental.NONE),
-    C_SHARP(Letter.C, Accidental.SHARP),
-    C_DOUBLE_SHARP(Letter.C, Accidental.DOUBLE_SHARP),
+public class EnharmonicSpelling implements Enharmonic<EnharmonicSpelling>, Aliased {
 
-    D_DOUBLE_FLAT(Letter.D, Accidental.DOUBLE_FLAT),
-    D_FLAT(Letter.D, Accidental.FLAT),
-    D_NATURAL(Letter.D, Accidental.NATURAL),
-    D(Letter.D, Accidental.NONE),
-    D_SHARP(Letter.D, Accidental.SHARP),
-    D_DOUBLE_SHARP(Letter.D, Accidental.DOUBLE_SHARP),
+    public static final EnharmonicSpelling C_DOUBLE_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.C_DOUBLE_FLAT);
+    public static final EnharmonicSpelling C_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.C_FLAT);
+    public static final EnharmonicSpelling C_NATURAL = new EnharmonicSpelling(BaseEnharmonicSpelling.C_NATURAL);
+    public static final EnharmonicSpelling C = new EnharmonicSpelling(BaseEnharmonicSpelling.C);
+    public static final EnharmonicSpelling C_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.C_SHARP);
+    public static final EnharmonicSpelling C_DOUBLE_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.C_DOUBLE_SHARP);
 
-    E_DOUBLE_FLAT(Letter.E, Accidental.DOUBLE_FLAT),
-    E_FLAT(Letter.E, Accidental.FLAT),
-    E_NATURAL(Letter.E, Accidental.NATURAL),
-    E(Letter.E, Accidental.NONE),
-    E_SHARP(Letter.E, Accidental.SHARP),
-    E_DOUBLE_SHARP(Letter.E, Accidental.DOUBLE_SHARP),
+    public static final EnharmonicSpelling D_DOUBLE_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.D_DOUBLE_FLAT);
+    public static final EnharmonicSpelling D_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.D_FLAT);
+    public static final EnharmonicSpelling D_NATURAL = new EnharmonicSpelling(BaseEnharmonicSpelling.D_NATURAL);
+    public static final EnharmonicSpelling D = new EnharmonicSpelling(BaseEnharmonicSpelling.D);
+    public static final EnharmonicSpelling D_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.D_SHARP);
+    public static final EnharmonicSpelling D_DOUBLE_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.D_DOUBLE_SHARP);
 
-    F_DOUBLE_FLAT(Letter.F, Accidental.DOUBLE_FLAT),
-    F_FLAT(Letter.F, Accidental.FLAT),
-    F_NATURAL(Letter.F, Accidental.NATURAL),
-    F(Letter.F, Accidental.NONE),
-    F_SHARP(Letter.F, Accidental.SHARP),
-    F_DOUBLE_SHARP(Letter.F, Accidental.DOUBLE_SHARP),
+    public static final EnharmonicSpelling E_DOUBLE_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.E_DOUBLE_FLAT);
+    public static final EnharmonicSpelling E_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.E_FLAT);
+    public static final EnharmonicSpelling E_NATURAL = new EnharmonicSpelling(BaseEnharmonicSpelling.E_NATURAL);
+    public static final EnharmonicSpelling E = new EnharmonicSpelling(BaseEnharmonicSpelling.E);
+    public static final EnharmonicSpelling E_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.E_SHARP);
+    public static final EnharmonicSpelling E_DOUBLE_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.E_DOUBLE_SHARP);
 
-    G_DOUBLE_FLAT(Letter.G, Accidental.DOUBLE_FLAT),
-    G_FLAT(Letter.G, Accidental.FLAT),
-    G_NATURAL(Letter.G, Accidental.NATURAL),
-    G(Letter.G, Accidental.NONE),
-    G_SHARP(Letter.G, Accidental.SHARP),
-    G_DOUBLE_SHARP(Letter.G, Accidental.DOUBLE_SHARP),
+    public static final EnharmonicSpelling F_DOUBLE_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.F_DOUBLE_FLAT);
+    public static final EnharmonicSpelling F_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.F_FLAT);
+    public static final EnharmonicSpelling F_NATURAL = new EnharmonicSpelling(BaseEnharmonicSpelling.F_NATURAL);
+    public static final EnharmonicSpelling F = new EnharmonicSpelling(BaseEnharmonicSpelling.F);
+    public static final EnharmonicSpelling F_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.F_SHARP);
+    public static final EnharmonicSpelling F_DOUBLE_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.F_DOUBLE_SHARP);
 
-    A_DOUBLE_FLAT(Letter.A, Accidental.DOUBLE_FLAT),
-    A_FLAT(Letter.A, Accidental.FLAT),
-    A_NATURAL(Letter.A, Accidental.NATURAL),
-    A(Letter.A, Accidental.NONE),
-    A_SHARP(Letter.A, Accidental.SHARP),
-    A_DOUBLE_SHARP(Letter.A, Accidental.DOUBLE_SHARP),
+    public static final EnharmonicSpelling G_DOUBLE_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.G_DOUBLE_FLAT);
+    public static final EnharmonicSpelling G_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.G_FLAT);
+    public static final EnharmonicSpelling G_NATURAL = new EnharmonicSpelling(BaseEnharmonicSpelling.G_NATURAL);
+    public static final EnharmonicSpelling G = new EnharmonicSpelling(BaseEnharmonicSpelling.G);
+    public static final EnharmonicSpelling G_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.G_SHARP);
+    public static final EnharmonicSpelling G_DOUBLE_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.G_DOUBLE_SHARP);
 
-    B_DOUBLE_FLAT(Letter.B, Accidental.DOUBLE_FLAT),
-    B_FLAT(Letter.B, Accidental.FLAT),
-    B_NATURAL(Letter.B, Accidental.NATURAL),
-    B(Letter.B, Accidental.NONE),
-    B_SHARP(Letter.B, Accidental.SHARP),
-    B_DOUBLE_SHARP(Letter.B, Accidental.DOUBLE_SHARP),;
+    public static final EnharmonicSpelling A_DOUBLE_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.A_DOUBLE_FLAT);
+    public static final EnharmonicSpelling A_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.A_FLAT);
+    public static final EnharmonicSpelling A_NATURAL = new EnharmonicSpelling(BaseEnharmonicSpelling.A_NATURAL);
+    public static final EnharmonicSpelling A = new EnharmonicSpelling(BaseEnharmonicSpelling.A);
+    public static final EnharmonicSpelling A_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.A_SHARP);
+    public static final EnharmonicSpelling A_DOUBLE_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.A_DOUBLE_SHARP);
 
+    public static final EnharmonicSpelling B_DOUBLE_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.B_DOUBLE_FLAT);
+    public static final EnharmonicSpelling B_FLAT = new EnharmonicSpelling(BaseEnharmonicSpelling.B_FLAT);
+    public static final EnharmonicSpelling B_NATURAL = new EnharmonicSpelling(BaseEnharmonicSpelling.B_NATURAL);
+    public static final EnharmonicSpelling B = new EnharmonicSpelling(BaseEnharmonicSpelling.B);
+    public static final EnharmonicSpelling B_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.B_SHARP);
+    public static final EnharmonicSpelling B_DOUBLE_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.B_DOUBLE_SHARP);
 
-    public final Letter LETTER;
-    public final Accidental ACCIDENTAL;
-    public final String NAME;
+    private static final Map<String, EnharmonicSpelling> STANDARD_ENHARMONIC_SPELLINGS = new HashMap<String, EnharmonicSpelling>() {{
+        put("Cbb", EnharmonicSpelling.C_DOUBLE_FLAT);
+        put("Cb", EnharmonicSpelling.C_FLAT);
+        put("C", EnharmonicSpelling.C);
+        put("C_", EnharmonicSpelling.C_NATURAL);
+        put("C#", EnharmonicSpelling.C_SHARP);
+        put("Cx", EnharmonicSpelling.C_DOUBLE_SHARP);
 
-    private static final Map<EnharmonicSpelling, EnharmonicSpelling[]> ALL_ENHARMONIC_TRANSITIONS = new HashMap<>(EnharmonicSpelling.values().length);
+        put("Dbb", EnharmonicSpelling.D_DOUBLE_FLAT);
+        put("Db", EnharmonicSpelling.D_FLAT);
+        put("D", EnharmonicSpelling.D);
+        put("D_", EnharmonicSpelling.D_NATURAL);
+        put("D#", EnharmonicSpelling.D_SHARP);
+        put("Dx", EnharmonicSpelling.D_DOUBLE_SHARP);
 
-    static {
-        for (EnharmonicSpelling e : EnharmonicSpelling.values())
-            ALL_ENHARMONIC_TRANSITIONS.put(e, e.getEnharmonicTransitions());
+        put("Ebb", EnharmonicSpelling.E_DOUBLE_FLAT);
+        put("Eb", EnharmonicSpelling.E_FLAT);
+        put("E", EnharmonicSpelling.E);
+        put("E_", EnharmonicSpelling.E_NATURAL);
+        put("E#", EnharmonicSpelling.E_SHARP);
+        put("Ex", EnharmonicSpelling.E_DOUBLE_SHARP);
+
+        put("Fbb", EnharmonicSpelling.F_DOUBLE_FLAT);
+        put("Fb", EnharmonicSpelling.F_FLAT);
+        put("F", EnharmonicSpelling.F);
+        put("F_", EnharmonicSpelling.F_NATURAL);
+        put("F#", EnharmonicSpelling.F_SHARP);
+        put("Fx", EnharmonicSpelling.F_DOUBLE_SHARP);
+
+        put("Gbb", EnharmonicSpelling.G_DOUBLE_FLAT);
+        put("Gb", EnharmonicSpelling.G_FLAT);
+        put("G", EnharmonicSpelling.G);
+        put("G_", EnharmonicSpelling.G_NATURAL);
+        put("G#", EnharmonicSpelling.G_SHARP);
+        put("Gx", EnharmonicSpelling.G_DOUBLE_SHARP);
+
+        put("Abb", EnharmonicSpelling.A_DOUBLE_FLAT);
+        put("Ab", EnharmonicSpelling.A_FLAT);
+        put("A", EnharmonicSpelling.A);
+        put("A_", EnharmonicSpelling.A_NATURAL);
+        put("A#", EnharmonicSpelling.A_SHARP);
+        put("Ax", EnharmonicSpelling.A_DOUBLE_SHARP);
+
+        put("Bbb", EnharmonicSpelling.B_DOUBLE_FLAT);
+        put("Bb", EnharmonicSpelling.B_FLAT);
+        put("B", EnharmonicSpelling.B);
+        put("B_", EnharmonicSpelling.B_NATURAL);
+        put("B#", EnharmonicSpelling.B_SHARP);
+        put("Bx", EnharmonicSpelling.B_DOUBLE_SHARP);
+    }};
+
+    private Letter LETTER;
+    private List<Accidental> ACCIDENTALS;
+    private List<Accidental> SIMPLIFIED_ACCIDENTALS;
+    private String NAME;
+    private int BASE_MIDI_VALUE;
+
+    private static final String VALID_SYMBOLS_REGEX = "^[A-Ga-g](\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x_])*$";
+    public static final Pattern PATTERN = Pattern.compile(VALID_SYMBOLS_REGEX);
+
+    private EnharmonicSpelling() {}
+
+    private EnharmonicSpelling(BaseEnharmonicSpelling baseEnharmonicSpelling) {
+        this.LETTER = baseEnharmonicSpelling.LETTER;
+        this.ACCIDENTALS = Collections.unmodifiableList(Collections.singletonList(baseEnharmonicSpelling.ACCIDENTAL));
+        this.SIMPLIFIED_ACCIDENTALS = Collections.unmodifiableList(Collections.singletonList(baseEnharmonicSpelling.ACCIDENTAL));
+        this.NAME = baseEnharmonicSpelling.NAME;
+        this.BASE_MIDI_VALUE = baseEnharmonicSpelling.BASE_MIDI_VALUE;
     }
 
-    private static final Map<Accidental, Integer> ACCIDENTAL_INTEGER_MAP = new HashMap<>(Accidental.values().length);
-
-    static {
-        for (Accidental accidental : Accidental.values()) ACCIDENTAL_INTEGER_MAP.put(accidental, accidental.ordinal());
+    private EnharmonicSpelling(String alias, boolean wantNaturalSymbol) {
+        this.LETTER = Letter.valueOf(String.valueOf(alias.charAt(0)));
+        this.ACCIDENTALS = new ArrayList<>();
+        Accidental previous = Accidental.NONE;
+        String accidentals = alias.substring(1);
+        for (int i = 1; i < accidentals.length(); i++) {
+            String token = accidentals.substring(i - 1, i);
+            Accidental toAdd = Accidental.getBySymbol(token);
+            if (Accidental.FLAT.equals(previous) && Accidental.FLAT.equals(toAdd)) {
+                ACCIDENTALS.set(i - 1, Accidental.DOUBLE_FLAT);
+            } else {
+                ACCIDENTALS.add(toAdd);
+            }
+        }
+        this.SIMPLIFIED_ACCIDENTALS = Accidental.simplify(ACCIDENTALS, wantNaturalSymbol);
+        this.NAME = LETTER.name() + Accidental.convertToDisplaySymbols(accidentals, true);
+        this.BASE_MIDI_VALUE = LETTER.BASE_MIDI_VALUE + Accidental.sumAccidentalsToSemitoneModifier(accidentals);
     }
 
-    EnharmonicSpelling(Letter letter, Accidental accidental) {
-        this.LETTER = letter;
-        this.ACCIDENTAL = accidental;
-        this.NAME = letter.toString() + accidental.SYMBOL;
-    }
+    public static EnharmonicSpelling withName(String name, boolean wantNaturalSymbol) {
 
-    public EnharmonicSpelling apply(Accidental accidental) {
-        return ALL_ENHARMONIC_TRANSITIONS.get(this)[ACCIDENTAL_INTEGER_MAP.get(accidental)];
-    }
-
-    /**
-     * Returns the list of all possible applications of Accidentals on the current EnharmonicSpelling.
-     *
-     * @return an array of EnharmonicSpellings that would result from applying an Accidental to it
-     * (order by index: DOUBLE_FLAT, FLAT, NATURAL, NONE, SHARP, DOUBLE_SHARP).
-     */
-    EnharmonicSpelling[] getEnharmonicTransitions() {
-        // Prepare the returned array to hold all possible applications of Accidentals
-        // (e.g., bb, b, natural, none, #, rn_chord_analysis.sql)
-        EnharmonicSpelling[] enharmonicSpellings = new EnharmonicSpelling[6];
-        if (this.equals(F_DOUBLE_FLAT) || this.equals(C_DOUBLE_FLAT)) {
-            // Unique items are the first two elements. Rest follow the same general pattern for DOUBLE_FLAT
-            enharmonicSpellings[0] = getHelper(-2, Accidental.FLAT);
-            enharmonicSpellings[1] = getHelper(-1, Accidental.DOUBLE_FLAT);
-            getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
-        } else if (this.equals(F_FLAT) || this.equals(C_FLAT)) {
-            // Unique item is the first element. Rest follow the same general pattern for FLAT
-            enharmonicSpellings[0] = getHelper(-1, Accidental.DOUBLE_FLAT);
-            getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
-        } else if (this.equals(B_SHARP) || this.equals(E_SHARP)) {
-            // Unique items are the last two elements. Rest follow the same general pattern for SHARP
-            enharmonicSpellings[4] = getHelper(0, Accidental.DOUBLE_SHARP);
-            enharmonicSpellings[5] = getHelper(1, Accidental.DOUBLE_SHARP);
-            getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
-        } else if (this.equals(B_DOUBLE_SHARP) || this.equals(E_DOUBLE_SHARP)) {
-            // Unique items are the last two elements. Rest follow the same general pattern for DOUBLE_SHARP
-            enharmonicSpellings[4] = getHelper(1, Accidental.DOUBLE_SHARP);
-            enharmonicSpellings[5] = getHelper(2, Accidental.SHARP);
-            getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
+        if (!PATTERN.matcher(name).matches()) {
+            throw new RuntimeException("Invalid name for enharmonic spelling provided: " + name);
         } else {
-            // All items follow the general pattern
-            getEnharmonicTransitionsHelper(ACCIDENTAL, enharmonicSpellings);
-        }
+            String letter = String.valueOf(name.charAt(0));
+            String simplifiedAccidentals = Accidental.simplify(name.substring(1), wantNaturalSymbol, true);
 
-        return enharmonicSpellings;
-    }
+            // Try looking up a standard enharmonic spelling and return the static instance if possible
+            String enharmonicSpellingName = letter + simplifiedAccidentals;
+            if (STANDARD_ENHARMONIC_SPELLINGS.get(enharmonicSpellingName) != null) {
+                return STANDARD_ENHARMONIC_SPELLINGS.get(enharmonicSpellingName);
+            }
 
-    /**
-     * Returns the EnharmonicSpelling that is 'vector' letters away from the current EnharonicSpelling, and containing
-     * 'accidental' as its Accidental.
-     *
-     * @param vector     the total letters traversed to find the new EnharmonicSpelling's letter
-     * @param accidental the Accidental that the new EnharmonicSpelling should contain
-     * @return the EnharmonicSpelling matching the two properties in the above description
-     */
-    private EnharmonicSpelling getHelper(int vector, Accidental accidental) {
-        String enumName = LETTER.getLetterByVectorTraversal(vector).name() + ((accidental.equals(Accidental.NONE)) ? "" : "_" + accidental.name());
-        return EnharmonicSpelling.valueOf(enumName);
-    }
-
-    /**
-     * Fills an array with the enharmonic transitions for the current EnharmonicSpelling, after an Accidental had been
-     * applied to it. The conventional ordering of this array will be: DOUBLE_FLAT, FLAT, NATURAL, NONE, SHARP, DOUBLE_SHARP.
-     *
-     * @param accidental          the current Accidental for the EnharmonicSpelling
-     * @param enharmonicSpellings the array to fill with transitions
-     */
-    private void getEnharmonicTransitionsHelper(Accidental accidental, EnharmonicSpelling[] enharmonicSpellings) {
-        // Generic patterns for enharmonic transitions. One of these arrays will be chosen to read from
-        EnharmonicSpelling[]
-                genericDoubleFlatPattern = {getHelper(-1, Accidental.DOUBLE_FLAT), getHelper(-1, Accidental.FLAT), this, this, getHelper(0, Accidental.FLAT), getHelper(0, Accidental.NATURAL)},
-                genericFlatPattern = {getHelper(-1, Accidental.FLAT), getHelper(0, Accidental.DOUBLE_FLAT), this, this, getHelper(0, Accidental.NATURAL), getHelper(0, Accidental.SHARP)},
-                genericNaturalPattern = {getHelper(0, Accidental.DOUBLE_FLAT), getHelper(0, Accidental.FLAT), this, getHelper(0, Accidental.NONE), getHelper(0, Accidental.SHARP), getHelper(0, Accidental.DOUBLE_SHARP)},
-                genericNonAccidentalPattern = {getHelper(0, Accidental.DOUBLE_FLAT), getHelper(0, Accidental.FLAT), getHelper(0, Accidental.NATURAL), this, getHelper(0, Accidental.SHARP), getHelper(0, Accidental.DOUBLE_SHARP)},
-                genericSharpPattern = {getHelper(0, Accidental.FLAT), getHelper(0, Accidental.NATURAL), this, this, getHelper(0, Accidental.DOUBLE_SHARP), getHelper(1, Accidental.SHARP)},
-                genericDoubleSharpPattern = {getHelper(0, Accidental.NATURAL), getHelper(0, Accidental.SHARP), this, this, getHelper(1, Accidental.SHARP), getHelper(1, Accidental.DOUBLE_SHARP)};
-
-        // Choose the array and begin reading
-        switch (accidental) {
-            case DOUBLE_FLAT: {
-                readInto(enharmonicSpellings, genericDoubleFlatPattern);
-                break;
-            }
-            case FLAT: {
-                readInto(enharmonicSpellings, genericFlatPattern);
-                break;
-            }
-            case NATURAL: {
-                readInto(enharmonicSpellings, genericNaturalPattern);
-                break;
-            }
-            case NONE: {
-                readInto(enharmonicSpellings, genericNonAccidentalPattern);
-                break;
-            }
-            case SHARP: {
-                readInto(enharmonicSpellings, genericSharpPattern);
-                break;
-            }
-            case DOUBLE_SHARP: {
-                readInto(enharmonicSpellings, genericDoubleSharpPattern);
-                break;
+            // Create a new (non-standard) EnharmonicSpelling
+            try {
+                return new EnharmonicSpelling(name, wantNaturalSymbol);
+            } catch (Exception e) {
+                throw new RuntimeException("Could not create enharmonic spelling with name: " + name);
             }
         }
+
     }
 
-    /**
-     * A helper function to fill in the remaining elements of the array for getEnharmonicTransitionsHelper().
-     *
-     * @param destination the array to copy the contents of 'source' from
-     * @param source      the array containing the desired elements to copy
-     */
-    private void readInto(EnharmonicSpelling[] destination, EnharmonicSpelling[] source) {
-        for (int i = 0; i < source.length; i++) {
+    public EnharmonicSpelling apply(Accidental toApply, boolean simplify, boolean wantNaturalSymbol) {
 
-            /*
-             * Fill in the array with the source pattern.
-             * Do not overwrite the unique items from getEnharmonicTransitions().
-             */
-            if (destination[i] == null) destination[i] = source[i];
+        List<Accidental> allAccidentals = new ArrayList<>(this.ACCIDENTALS);
+        allAccidentals.add(toApply);
+
+        if (simplify) {
+            allAccidentals = Accidental.simplify(allAccidentals, wantNaturalSymbol);
         }
+
+        StringBuilder sb = new StringBuilder();
+        allAccidentals.forEach(a -> sb.append(a.UTF8_SYMBOL));
+
+        String newName = this.LETTER.name() + sb.toString();
+        return EnharmonicSpelling.withName(newName, wantNaturalSymbol);
+
     }
 
+    @Override
+    public boolean isEnharmonicTo(@NotNull EnharmonicSpelling other) {
+        return this.BASE_MIDI_VALUE == other.BASE_MIDI_VALUE;
+    }
+
+    @Override
+    public String getBaseName() {
+        return this.NAME;
+    }
+
+    @Override
+    public String getName() {
+        StringBuilder sb = new StringBuilder();
+        ACCIDENTALS.forEach(a -> sb.append(a.UTF8_SYMBOL));
+        return this.LETTER + sb.toString();
+    }
 }
