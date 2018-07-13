@@ -66,7 +66,7 @@ public enum Accidental {
 
     public static String simplify(String allAccidentals, boolean wantNaturalSymbol, boolean returnUTF8) {
 
-        if (allAccidentals.isEmpty() || NATURAL.UTF8_SYMBOL.equals(allAccidentals) || NATURAL.SYMBOL.equals(allAccidentals)) {
+        if (allAccidentals.isEmpty() || NATURAL.matchesSymbol(allAccidentals)) {
             if (returnUTF8) {
                 return wantNaturalSymbol ? NATURAL.UTF8_SYMBOL : NONE.UTF8_SYMBOL;
             } else {
@@ -167,6 +167,10 @@ public enum Accidental {
         return simplified;
     }
 
+    public static Accidental getBySymbol(char symbol) {
+        return getBySymbol("" + symbol);
+    }
+
     public static Accidental getBySymbol(String symbol) {
         return UTF8_SYMBOL_TO_ACCIDENTAL.get(convertToUTF8Symbols(symbol));
     }
@@ -185,7 +189,7 @@ public enum Accidental {
 
     public static String convertToDisplaySymbols(String allAccidentals, boolean wantNaturalSymbol) {
         if (allAccidentals.isEmpty() && wantNaturalSymbol) {
-            return "\u266e";
+            return NATURAL.SYMBOL;
         }
 
         return allAccidentals.replaceAll(DOUBLE_FLAT.UTF8_SYMBOL, DOUBLE_FLAT.SYMBOL)

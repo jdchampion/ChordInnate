@@ -4,6 +4,7 @@ import static chordinnate.model.musictheory.pitch.PitchClass.*;
 import static chordinnate.model.musictheory.pitch.key.KeySignatureType.*;
 
 import chordinnate.model.musictheory.notation.Accidental;
+import chordinnate.model.musictheory.notation.Letter;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import org.jetbrains.annotations.NotNull;
@@ -94,6 +95,10 @@ public class KeySignature {
     public static final String KEY_SIGNATURE_REGEX = "^([A-Ga-g])((\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x])*) ([Mm])(ajor|inor)$";
     public static final Pattern PATTERN = Pattern.compile(KEY_SIGNATURE_REGEX);
 
+    private static final String PURE_FLAT_KEY_SIGNATURE_REGEX = "^(([BEA]b+)m?)|([DGC]b+m?)|([DGC]m)|(Fb*m?)$";
+    private static final String PURE_SHARP_KEY_SIGNATURE_REGEX = "^(([FC][#x]+)m?)|([GD](([#x]+m)|[#x]*))|([AEB][#x]*m?)$";
+    private static final String MIXED_FLAT_SHARP_KEY_SIGNATURE_REGEX = "^[A-G]([b#x]*((b[#x])|([#x]b))[b#x]*)m?$";
+
     private static final Map<String, KeySignature> STANDARD_KEYSIG_LOOKUP = Collections.unmodifiableMap(initializeMap());
 
     private static Map<String, KeySignature> initializeMap() {
@@ -140,56 +145,64 @@ public class KeySignature {
         } else {
             this.NAME = KEY.getName() + " " + (KEY_SIGNATURE_TYPE.equals(MAJOR) ? "Major" : "Minor");
 
-            // Determine the starting point for accidentals (always some enharmonic of Bb or F#)
-            PitchClass p = KEY;
-            Interval interval = Interval.getIntervalBetween(KEY, (IS_PURE_FLAT ? PitchClass.B_FLAT : PitchClass.F_SHARP), true);
-            p = p.transpose(true, interval);
-
             // Figure out number of accidentals in the key signature
             int numAccidentals = getNumberOfAccidentals();
             this.indexToChange = numAccidentals % 7;
 
             // Add accidentals
-            String[] accs = new String[7];
             if (IS_MIXED_FLAT_SHARP) {
                 /*
                  * Mixed accidentals are a special case,
                  * because we want to preserve the original accidentals.
-                 * To do this, we pre-load the 'accs' array
-                 * with letter + (original accidentals).
                  */
-                String[] flats = {"B", "E", "A", "D", "G", "C", "F"};
-                String[] sharps = {"F", "C", "G", "D", "A", "E", "B"};
+                PitchClass[] pitchClasses = new PitchClass[7];
 
+                Letter letter = Letter.valueOf(KEY.getName().substring(0, 1));
                 String accidentals = KEY.getName().substring(1);
 
-                int semitones = Accidental.sumAccidentalsToSemitoneModifier(accidentals);
+                boolean isFlat = Accidental.sumAccidentalsToSemitoneModifier(accidentals) < 0
+                    || (letter.name() + Accidental.simplify(accidentals, false, true))
+                        .matches(PURE_FLAT_KEY_SIGNATURE_REGEX);
 
-                for (int i = 0; i < accs.length; i++) {
-                    accs[i] = (semitones < 0 ? flats[i] : sharps[i]) + accidentals;
+                Interval[] intervalsToUse = {Interval.P1, Interval.M2, KEY_SIGNATURE_TYPE.equals(MAJOR) ? Interval.M3 : Interval.m3, Interval.P4, Interval.P5, KEY_SIGNATURE_TYPE.equals(MAJOR) ? Interval.M6 : Interval.m6, KEY_SIGNATURE_TYPE.equals(MAJOR) ? Interval.M7 : Interval.m7};
+
+                int startingIndex = Letter.getVectorDistanceBetween(letter, isFlat ? Letter.B : Letter.F) % 7;
+                int idx = isFlat ? 3 : 4;
+
+                for (int i = 0, j = startingIndex; i < pitchClasses.length; i++, j = (j + idx) % pitchClasses.length) {
+                    pitchClasses[i] = KEY.transpose(true, intervalsToUse[j]);
                 }
-            }
 
-            for (int i = 0; i < numAccidentals; i++) {
-                int j = i % accs.length;
+                this.SIGNATURE = Arrays.stream(pitchClasses).collect(Collectors.toList());
 
-                if (accs[j] == null) {
-                    String utf8Temp = Accidental.convertToUTF8Symbols(p.getName());
-                    String letterAndFirstAccidental = utf8Temp.length() > 1 ? utf8Temp.substring(0, 2) : utf8Temp;
-                    accs[j] = letterAndFirstAccidental;
-                    p = p.transpose(true, IS_PURE_FLAT ? Interval.P4 : Interval.P5);
-                } else {
-                    String temp = accs[j];
-                    accs[j] = String.valueOf(temp.charAt(0))
-                            + temp.substring(1, temp.length() - 1)
-                            + Accidental.simplify(temp.substring(temp.length() - 1) + (IS_PURE_FLAT ? "b" : "#"), false, true);
+            } else {
+
+                // Determine the starting point for accidentals (always some enharmonic of Bb or F#)
+                Interval startInterval = Interval.getIntervalBetween(KEY, (IS_PURE_FLAT ? PitchClass.B_FLAT : PitchClass.F_SHARP), true);
+                PitchClass currentPC = KEY.transpose(true, startInterval);
+
+                String[] accs = new String[7];
+                for (int i = 0; i < numAccidentals; i++) {
+                    int j = i % accs.length;
+
+                    if (accs[j] == null) {
+                        String utf8Temp = Accidental.convertToUTF8Symbols(currentPC.getName());
+                        String letterAndFirstAccidental = utf8Temp.length() > 1 ? utf8Temp.substring(0, 2) : utf8Temp;
+                        accs[j] = letterAndFirstAccidental;
+                        currentPC = currentPC.transpose(true, IS_PURE_FLAT ? Interval.P4 : Interval.P5);
+                    } else {
+                        String temp = accs[j];
+                        accs[j] = String.valueOf(temp.charAt(0))
+                                + temp.substring(1, temp.length() - 1)
+                                + Accidental.simplify(temp.substring(temp.length() - 1) + (IS_PURE_FLAT ? "b" : "#"), false, true);
+                    }
                 }
-            }
 
-            this.SIGNATURE = Arrays.stream(accs)
-                    .filter(a -> a != null && !a.isEmpty())
-                    .map(a -> PitchClass.withName(a, false))
-                    .collect(Collectors.toList());
+                this.SIGNATURE = Arrays.stream(accs)
+                        .filter(a -> a != null && !a.isEmpty())
+                        .map(a -> PitchClass.withName(a, false))
+                        .collect(Collectors.toList());
+            }
         }
     }
 
@@ -223,7 +236,6 @@ public class KeySignature {
 
     private static boolean determineAccidentalHelper(PitchClass key, KeySignatureType type, int flatSharpMixed) {
         if (key == null) return false;
-        int accidentalSemitones = Accidental.sumAccidentalsToSemitoneModifier(key.getName());
 
         /*
          * MAJOR:
@@ -235,32 +247,18 @@ public class KeySignature {
          *  SHARPS: Em Bm, F#m, C#m, G#m, D#m, A#m
          */
         String regex;
-        boolean accidentalSemitoneDirection;
         if (flatSharpMixed == 1) {
-            regex = "^(((Fm?)|([BEA]b))m?)|([DGC][bm])$";
-            accidentalSemitoneDirection = accidentalSemitones < 0;
+            regex = PURE_FLAT_KEY_SIGNATURE_REGEX;
         } else if (flatSharpMixed == 2) {
-            regex = "^(([EB]m?)|([CF]#m?)|([GDA](#m)?))$";
-            accidentalSemitoneDirection = accidentalSemitones > 0;
+            regex = PURE_SHARP_KEY_SIGNATURE_REGEX;
         } else {
             // mixture of flats and sharps
-            String utf8Symbols = Accidental.convertToUTF8Symbols(key.getName());
-            regex = "^[A-G].*((b[#x])|([#x]b)).*$";
-            return utf8Symbols.matches(regex);
+            regex = MIXED_FLAT_SHARP_KEY_SIGNATURE_REGEX;
         }
 
-        String letterAndQuality = String.valueOf(key.getName().charAt(0));
-        if (accidentalSemitones < 0) {
-            letterAndQuality += "b";
-        } else if (accidentalSemitones > 0) {
-            letterAndQuality += "#";
-        }
+        String utf8Name = Accidental.convertToUTF8Symbols(key.getName()) + (type.equals(MINOR) ? "m" : "");
 
-        if (type.equals(MINOR)) {
-            letterAndQuality += "m";
-        }
-
-        return accidentalSemitoneDirection || letterAndQuality.matches(regex);
+        return utf8Name.matches(regex);
 
     }
 
@@ -279,8 +277,7 @@ public class KeySignature {
         }
 
         String accidentals = key.substring(1);
-        int semitones = Math.abs(Accidental.sumAccidentalsToSemitoneModifier(accidentals));
-        String lastAcc = (accidentals.isEmpty() ? "" : String.valueOf(accidentals.charAt(accidentals.length() - 1)));
+        int semitones = Accidental.sumAccidentalsToSemitoneModifier(accidentals);
 
         /*
          * MAJOR:
@@ -292,7 +289,7 @@ public class KeySignature {
          *  SHARPS: Em(1), Bm(2), F#m(3), C#m(4), G#m(5), D#m(6), A#m(7)
          */
         String one, two, three, four, five, six, seven;
-        if (IS_PURE_FLAT || (IS_MIXED_FLAT_SHARP && "b".equals(lastAcc))) {
+        if (IS_PURE_FLAT || ((semitones < 0 || (semitones == 0 && "F".equals(letter))))) {
             one = "F|Dm|";
             two = "B|Gm|";
             three = "E|Cm|";
@@ -343,18 +340,18 @@ public class KeySignature {
                                 int semitones,
                                 String regex1,
                                 String regex2) {
-        if (IS_PURE_FLAT) {
+        if (IS_PURE_FLAT || ((semitones < 0 || (semitones == 0 && "F".equals(letter))))) {
             if (letter.matches(regex1)) {
-                return semitones == 0 ? lookup : (lookup + (7 * (semitones)));
+                return semitones == 0 ? lookup : (lookup + (7 * (Math.abs(semitones))));
             }
-            return semitones == 0 ? lookup : (lookup + (7 * (semitones - 1)));
-        } else if (IS_PURE_SHARP) {
+            return semitones == 0 ? lookup : (lookup + (7 * (Math.abs(semitones) - 1)));
+        } else if (IS_PURE_SHARP || semitones > 0) {
             if (letter.matches(regex2)) {
-                return semitones == 0 ? lookup : (lookup + (7 * (semitones)));
+                return semitones == 0 ? lookup : (lookup + (7 * (Math.abs(semitones))));
             }
-            return semitones == 0 ? lookup : (lookup + (7 * (semitones - 1)));
+            return semitones == 0 ? lookup : (lookup + (7 * (Math.abs(semitones) - 1)));
         } else {
-            return semitones;
+            return Math.abs(semitones);
         }
     }
 
@@ -377,13 +374,13 @@ public class KeySignature {
 
             String letter = matcher.group(1);
             String accidentals = Accidental.convertToUTF8Symbols(matcher.group(2) == null ? "" : matcher.group(2));
-            String type = matcher.group(4) + matcher.group(5);
+            String type = matcher.group(4).toUpperCase() + matcher.group(5);
 
             PitchClass key = PitchClass.withName(letter + accidentals, false);
             return new KeySignature(key, "Major".equals(type) ? MAJOR : MINOR, true);
         }
 
-        throw new RuntimeException();
+        throw new RuntimeException("Invalid Key Signature name: " + name);
     }
 
     public PitchClass getKey() {
@@ -450,6 +447,10 @@ public class KeySignature {
             return cached;
         }
 
+        if (IS_MIXED_FLAT_SHARP) {
+            return KeySignature.withName(newKey.getName() + " " + (KEY_SIGNATURE_TYPE.equals(MAJOR) ? "Major" : "Minor"));
+        }
+
         // Modify the signature as necessary and return a non-standard KeySignature
         List<PitchClass> newSignature = new ArrayList<>(SIGNATURE);
         int newIndexToChange;
@@ -457,7 +458,7 @@ public class KeySignature {
 
             // Add the next flat to the signature
             if (newSignature.size() == 7) {
-                newSignature.set(indexToChange, PitchClass.withName(newSignature.get(indexToChange).getName() + "b", false));
+                newSignature.set(indexToChange, PitchClass.withName(newSignature.get(indexToChange).getName() + Accidental.FLAT.SYMBOL, false));
             } else {
                 PitchClass added = PitchClass.withName(newSignature.get(indexToChange).getName(), false)
                         .transpose(true, Interval.P4);
@@ -498,9 +499,13 @@ public class KeySignature {
             return cached;
         }
 
+        if (IS_MIXED_FLAT_SHARP) {
+            return KeySignature.withName(newKey.getName() + " " + (KEY_SIGNATURE_TYPE.equals(MAJOR) ? "Major" : "Minor"));
+        }
+
         // Modify the signature as necessary and return a non-standard KeySignature
         List<PitchClass> newSignature = new ArrayList<>(SIGNATURE);
-        int newIndexToChange;
+        int newIndexToChange = indexToChange;
         if (IS_PURE_FLAT) {
 
             // Remove the last flat from the signature
@@ -512,7 +517,7 @@ public class KeySignature {
             } else {
                 newSignature.remove(newIndexToChange);
             }
-        } else {
+        } else if (IS_PURE_SHARP) {
 
             // Add the next sharp to the signature
             if (newSignature.size() == 7) {

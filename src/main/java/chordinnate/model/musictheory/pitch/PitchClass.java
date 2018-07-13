@@ -146,7 +146,7 @@ public class PitchClass
         this.ALIAS_ACCIDENTALS = alias.length() > 1 ? Accidental.convertToDisplaySymbols(alias.substring(1), alias.contains(Accidental.NATURAL.UTF8_SYMBOL)) : "";
         this.BASE_MIDI_VALUE = basePitchClass.BASE_MIDI_VALUE;
         this.ALIAS_BASE_MIDI_VALUE = (12 + Letter.valueOf(ALIAS_LETTER).BASE_MIDI_VALUE + Accidental.sumAccidentalsToSemitoneModifier(ALIAS_ACCIDENTALS)) % 12;
-        String a = Accidental.convertToUTF8Symbols(alias);
+        String a = Accidental.convertToUTF8Symbols(ALIAS_ACCIDENTALS);
         String simplified = Accidental.simplify(a, a.contains(Accidental.NATURAL.UTF8_SYMBOL), true);
         this.IS_ALIAS_SIMPLIFIED = a.equals(simplified);
     }
@@ -179,7 +179,7 @@ public class PitchClass
 
             // Create a new (non-standard) PitchClass
             try {
-                return new PitchClass(determineBasePitchClass(letter, simplifiedAccidentals), name);
+                return new PitchClass(determineBasePitchClass(letter, simplifiedAccidentals), Accidental.convertToUTF8Symbols(name));
             } catch (Exception e) {
                 throw new RuntimeException("Could not create pitch class with name: " + name);
             }
@@ -274,9 +274,12 @@ public class PitchClass
                     semitonesBetweenLetters--;
                 }
             }
+            String partition1 = Accidental.convertToUTF8Symbols(ALIAS_ACCIDENTALS);
+            String partition2 = Accidental.simplify(sb.toString(), false, true);
             String candidateName = expectedLetter.name()
-                    + mergeAccidentals(Accidental.convertToUTF8Symbols(ALIAS_ACCIDENTALS),
-                        Accidental.simplify(sb.toString(), false, true));
+                    + (IS_ALIAS_SIMPLIFIED
+                        ? mergeAccidentals(partition1, partition2)
+                        : (partition1 + sb.toString()));
 
             return PitchClass.withName(candidateName, false);
         } else {
