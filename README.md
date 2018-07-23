@@ -42,18 +42,18 @@ Here's a list of ChordInnate's features (with more to come):
     >Pitch.withName("C4").transpose(true, Interval.P5);
     >
     >// C Major (C, D, E, F, G, A, B) -> G Major (G, A, B, C, D, E, F#)
-    >Scale.withName("C Major").transpose(Pitch.withName("G4"));
-    >Scale.withName("C Major").transpose(PitchClass.G, Octave.OCTAVE_4);
-    >Scale.withName("C Major").transpose(true, Interval.P5);
+    >Scale("C Major").transpose(Pitch.withName("G4"));
+    >Scale("C Major").transpose(PitchClass.G, Octave.OCTAVE_4);
+    >Scale("C Major").transpose(true, Interval.P5);
     >
     >// Cmaj7 (C, E, G, B) -> Gmaj7 (G, B, D, F#)
-    >Chord.withName("Cmaj7").transpose(Pitch.withName("G4"));
-    >Chord.withName("Cmaj7").transpose(PitchClass.G, Octave.OCTAVE_4);
-    >Chord.withName("Cmaj7").transpose(true, Interval.P5);
+    >Chord("Cmaj7").transpose(Pitch.withName("G4"));
+    >Chord("Cmaj7").transpose(PitchClass.G, Octave.OCTAVE_4);
+    >Chord("Cmaj7").transpose(true, Interval.P5);
     >```
   - Invert chords to any permutation
     >```java
-    >Chord chord = Chord.withName("Cmaj7");  // 1st inversion: Cmaj7 (C, E, G, B)
+    >Chord chord = Chord("Cmaj7");           // 1st inversion: Cmaj7 (C, E, G, B)
     >chord.invert();                         // 2nd inversion: Cmaj7/E (E, G, B, C)
     >chord.invert();                         // 3rd inversion: Cmaj7/G (G, B, C, E)
     >chord.invert();                         // 4th inversion: Cmaj7/B (B, C, E, G)
@@ -95,9 +95,9 @@ Here's a list of ChordInnate's features (with more to come):
     >```
   - Check diatonality of pitches, chords, and scales
     >```java
-    >Chord.withName("Cmaj7").isDiatonicTo(KeySignature.withName("C Major")); // true
-    >Chord.withName("Cmaj7").isDiatonicTo(KeySignature.withName("A Minor")); // true
-    >Chord.withName("Cmaj7").isDiatonicTo(KeySignature.withName("D Major")); // false
+    >Chord("Cmaj7").isDiatonicTo(KeySignature.withName("C Major")); // true
+    >Chord("Cmaj7").isDiatonicTo(KeySignature.withName("A Minor")); // true
+    >Chord("Cmaj7").isDiatonicTo(KeySignature.withName("D Major")); // false
     >```
   - Check enharmonics of pitches
     >```java
