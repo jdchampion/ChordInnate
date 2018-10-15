@@ -1,7 +1,5 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
-import static chordinnate.service.BaseService.getChordTypeService;
-
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
@@ -11,9 +9,11 @@ import chordinnate.model.musictheory.pitch.interval.Invertible;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.playback.Playable;
+import chordinnate.service.BaseService;
+import chordinnate.service.ChordTypeService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.sound.midi.Sequence;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Optional;
@@ -33,6 +33,8 @@ public class Chord extends VerticalIntervalSet
     private static final String CHORD_REGEX = "^([A-Ga-g])((\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x])*)([^b#x].*)$";
     private static final Pattern PATTERN = Pattern.compile(CHORD_REGEX);
 
+    private static final ChordTypeService service = BaseService.getChordTypeService();
+
     public Chord(@NotNull String name) {
 
         Matcher matcher = PATTERN.matcher(name);
@@ -44,7 +46,7 @@ public class Chord extends VerticalIntervalSet
             String chordTypeName = matcher.group(4);
 
             PitchClass root = PitchClass.withName(rootName, rootName.contains(Accidental.NATURAL.UTF8_SYMBOL));
-            Optional<ChordType> chordType = getChordTypeService().findBySymbol(chordTypeName);
+            Optional<ChordType> chordType = service.findBySymbol(chordTypeName);
 
             if (chordType.isPresent()) {
                 super.commonInitializations(root, chordType.get().getIntervals());
@@ -184,12 +186,6 @@ public class Chord extends VerticalIntervalSet
         return destination;
     }
 
-    @Override
-    public Sequence getMidiSequence() throws Exception {
-        //TODO
-        return null;
-    }
-
     public ChordType getChordType() {
         return CHORD_TYPE;
     }
@@ -202,7 +198,6 @@ public class Chord extends VerticalIntervalSet
         return name;
     }
 
-    //TODO: add method to Invertible and override?
     public Pitch[] getInversionForOctave(Octave octave) {
         return invertedPitchesByOctave.get(octave);
     }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
  */
 public abstract class IntervalSet implements Diatonic {
     EnumMap<Octave, Pitch[]> pitchesByOctave;
-    Set<String> diatonics;
+    LinkedHashSet<String> diatonics;
     Pitch lowestDiatonic, highestDiatonic;
     Octave maxPlayableOctave;
     Interval[] intervals;
@@ -60,8 +61,7 @@ public abstract class IntervalSet implements Diatonic {
 
         this.diatonics = Arrays.stream(pitchesByOctave.get(lowestDiatonic.OCTAVE))
                 .map(p -> p.PITCH_CLASS.getName())
-                .distinct()
-                .collect(Collectors.toSet());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
         this.maxPlayableOctave = pitchesByOctave.get(highestDiatonic.OCTAVE) == null
                 ? highestDiatonic.OCTAVE.getPrevious()

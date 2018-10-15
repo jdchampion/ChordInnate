@@ -9,9 +9,6 @@ import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.playback.Playable;
 import org.jetbrains.annotations.NotNull;
 
-import javax.sound.midi.MidiMessage;
-import javax.sound.midi.Sequence;
-import javax.sound.midi.Track;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
@@ -649,21 +646,6 @@ public class Pitch
                             + octave.getNumber()
             );
         }
-    }
-
-    @Override
-    public Sequence getMidiSequence() throws Exception {
-        //TODO
-        Sequence s = new Sequence(Sequence.PPQ, 1, 1);
-        Track track = s.getTracks()[0];
-        byte[] stuff = new byte[1];
-        MidiMessage message = new MidiMessage(stuff) {
-            @Override
-            public Object clone() {
-                return null;
-            }
-        };
-        return s;
     }
 
     @Override

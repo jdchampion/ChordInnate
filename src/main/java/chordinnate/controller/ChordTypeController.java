@@ -1,28 +1,31 @@
 package chordinnate.controller;
 
 import chordinnate.model.musictheory.pitch.interval.set.ChordType;
-import chordinnate.service.ChordTypeManager;
+import chordinnate.service.ChordTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller("chordTypeController")
+@RestController("chordTypeController")
 public class ChordTypeController {
 
     @Autowired
-    ChordTypeManager manager;
+    ChordTypeService service;
 
     public Optional<ChordType> findChordTypeById(int id) {
-        return manager.findById(id);
+        return service.findById(id);
     }
 
     public Optional<ChordType> findChordTypeBySymbol(String symbol) {
-        return manager.findBySymbol(symbol);
+        return service.findBySymbol(symbol);
     }
 
-    public List<ChordType> findAllChordType() {
-        return manager.findAll();
+    @GetMapping("/chord")
+    public @ResponseBody List<ChordType> findAllChordType() {
+        return service.findAll();
     }
 }

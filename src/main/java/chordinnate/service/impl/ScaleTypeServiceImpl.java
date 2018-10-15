@@ -1,7 +1,7 @@
 package chordinnate.service.impl;
 
 import chordinnate.dao.ScaleTypeDAO;
-import chordinnate.service.ScaleTypeManager;
+import chordinnate.service.ScaleTypeService;
 import chordinnate.model.musictheory.pitch.interval.set.ScaleType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service("scaleTypeManager")
+@Service("scaleTypeService")
 @Transactional
-public class ScaleTypeManagerImpl implements ScaleTypeManager {
+public class ScaleTypeServiceImpl implements ScaleTypeService {
 
-    private ScaleTypeManagerImpl() {
+    ScaleTypeServiceImpl() {
         super();
     }
 

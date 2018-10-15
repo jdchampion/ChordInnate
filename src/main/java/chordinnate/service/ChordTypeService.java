@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Created by Joseph on 6/4/17.
  */
-public interface ChordTypeManager {
+public interface ChordTypeService {
 
     /**
      * Retrieves the ChordType from the database matching the specified ID, if possible.

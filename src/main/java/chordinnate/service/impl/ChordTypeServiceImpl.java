@@ -1,7 +1,7 @@
 package chordinnate.service.impl;
 
 import chordinnate.dao.ChordTypeDAO;
-import chordinnate.service.ChordTypeManager;
+import chordinnate.service.ChordTypeService;
 import chordinnate.model.musictheory.pitch.interval.set.ChordType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service("chordTypeManager")
+@Service("chordTypeService")
 @Transactional
-public class ChordTypeManagerImpl implements ChordTypeManager {
+public class ChordTypeServiceImpl implements ChordTypeService {
 
-    private ChordTypeManagerImpl() {
+    ChordTypeServiceImpl() {
         super();
     }
 

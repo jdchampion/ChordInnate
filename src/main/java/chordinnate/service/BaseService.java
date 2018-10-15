@@ -1,23 +1,30 @@
 package chordinnate.service;
 
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
-public class BaseService {
-
-    private static final ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
-    protected static final ChordTypeManager chordTypeService = (ChordTypeManager) context.getBean(ChordTypeManager.class);
-    protected static final ScaleTypeManager scaleTypeService = (ScaleTypeManager) context.getBean(ScaleTypeManager.class);
+@Component
+public final class BaseService implements ApplicationContextAware {
 
     private BaseService() {}
 
-    public static ChordTypeManager getChordTypeService() {
-        return chordTypeService;
+    @Autowired
+    static ApplicationContext context;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
     }
 
-    public static ScaleTypeManager getScaleTypeService() {
-        return scaleTypeService;
+    public static ChordTypeService getChordTypeService() {
+        return (ChordTypeService) context.getBean("chordTypeService");
+    }
+
+    public static ScaleTypeService getScaleTypeService() {
+        return (ScaleTypeService) context.getBean("scaleTypeService");
     }
 
 }

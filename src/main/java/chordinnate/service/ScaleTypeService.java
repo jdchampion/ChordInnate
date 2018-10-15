@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Created by Joseph on 6/14/17.
  */
-public interface ScaleTypeManager {
+public interface ScaleTypeService {
 
     /**
      * Retrieves the ScaleType from the database matching the specified ID, if possible.

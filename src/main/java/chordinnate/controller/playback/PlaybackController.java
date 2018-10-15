@@ -74,19 +74,19 @@ public final class PlaybackController {
         currentTempo = tempo;
     }
 
-    public static <T extends Playable> void play(@NotNull T t) {
-        restart();
-
-        try {
-            t.getMidiSequence();
-        } catch (Exception ex) {
-            // TODO - add throws Exception to play(T) ?
-            LOGGER.log(Level.SEVERE, "Error during playback.", ex.getCause());
-
-        }
-
-        stop();
-    }
+//    public static <T extends Playable> void play(@NotNull T t) {
+//        restart();
+//
+//        try {
+//            t.getMidiSequence();
+//        } catch (Exception ex) {
+//            // TODO - add throws Exception to play(T) ?
+//            LOGGER.log(Level.SEVERE, "Error during playback.", ex.getCause());
+//
+//        }
+//
+//        stop();
+//    }
 
     /**
      * Plays back the specified Pitch for one (1) second.

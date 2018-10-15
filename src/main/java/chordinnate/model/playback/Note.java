@@ -5,7 +5,6 @@ import chordinnate.model.musictheory.time.rhythm.Beat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.sound.midi.Sequence;
 
 /**
  * Created by Joseph on 6/16/16.
@@ -55,12 +54,6 @@ public class Note implements Playable {
 
     public double getSoundedLength() {
         return soundedLength;
-    }
-
-    @Override
-    public Sequence getMidiSequence() throws Exception {
-        //TODO
-        return null;
     }
 
     public static class Builder {

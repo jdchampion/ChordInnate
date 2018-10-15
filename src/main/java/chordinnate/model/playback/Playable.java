@@ -4,6 +4,6 @@ import javax.sound.midi.Sequence;
 
 public interface Playable {
 
-    Sequence getMidiSequence() throws Exception;
+    // Sequence getMidiSequence() throws Exception;
 
 }

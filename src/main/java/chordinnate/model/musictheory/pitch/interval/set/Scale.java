@@ -1,7 +1,5 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
-import static chordinnate.service.BaseService.getScaleTypeService;
-
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
@@ -10,9 +8,11 @@ import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.playback.Playable;
+import chordinnate.service.BaseService;
+import chordinnate.service.ScaleTypeService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.sound.midi.Sequence;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -31,6 +31,8 @@ public class Scale extends HorizontalIntervalSet
     private static final String SCALE_REGEX = "^([A-Ga-g])((\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x])*) (.+)$";
     private static final Pattern PATTERN = Pattern.compile(SCALE_REGEX);
 
+    private static final ScaleTypeService service = BaseService.getScaleTypeService();
+
     public Scale(@NotNull String name) {
 
         Matcher matcher = PATTERN.matcher(name);
@@ -42,7 +44,7 @@ public class Scale extends HorizontalIntervalSet
             String scaleTypeName = matcher.group(4);
 
             PitchClass root = PitchClass.withName(rootName, rootName.contains(Accidental.NATURAL.UTF8_SYMBOL));
-            Optional<ScaleType> scaleType = getScaleTypeService().findByName(scaleTypeName);
+            Optional<ScaleType> scaleType = service.findByName(scaleTypeName);
             if (scaleType.isPresent()) {
                 super.commonInitializations(root, scaleType.get().getIntervals());
                 this.SCALE_TYPE = scaleType.get();
@@ -138,11 +140,6 @@ public class Scale extends HorizontalIntervalSet
         return destination;
     }
 
-    @Override
-    public Sequence getMidiSequence() throws Exception {
-        //TODO
-        return null;
-    }
 
     public ScaleType getScaleType() {
         return SCALE_TYPE;
