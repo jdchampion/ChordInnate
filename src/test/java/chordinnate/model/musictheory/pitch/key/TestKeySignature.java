@@ -230,7 +230,7 @@ public class TestKeySignature {
 
     @Test
     public void modulateFlat() throws Exception {
-        assertEquals(NO_KEY_SIGNATURE, NO_KEY_SIGNATURE);
+        assertEquals(NO_KEY_SIGNATURE, NO_KEY_SIGNATURE.modulateFlat());
 
         // Basic test cases
         assertEquals(B_FLAT_MAJOR, F_MAJOR.modulateFlat());
@@ -297,7 +297,7 @@ public class TestKeySignature {
 
     @Test
     public void modulateSharp() throws Exception {
-        assertEquals(NO_KEY_SIGNATURE, NO_KEY_SIGNATURE);
+        assertEquals(NO_KEY_SIGNATURE, NO_KEY_SIGNATURE.modulateSharp());
 
         // Basic test cases
         assertEquals(B_FLAT_MAJOR, E_FLAT_MAJOR.modulateSharp());

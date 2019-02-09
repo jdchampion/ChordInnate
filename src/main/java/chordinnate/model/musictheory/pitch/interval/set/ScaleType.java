@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -14,9 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SCALE_TYPE")
-@NamedQueries({
-        @NamedQuery(name = "ScaleType.findByName", query = "SELECT s FROM ScaleType s WHERE s.name = :name")
-})
+@NamedQuery(name = "ScaleType.findByName", query = "SELECT s FROM ScaleType s WHERE UPPER(s.name) = UPPER(:name)")
 public final class ScaleType {
 
     @Column(name = "NAME", nullable = false)

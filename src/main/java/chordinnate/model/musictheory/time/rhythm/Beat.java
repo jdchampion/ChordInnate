@@ -17,47 +17,47 @@ public final class Beat {
     public static final Beat WHOLE = new Beat(Duration.WHOLE, 0, 1);
     public static final Beat DOUBLE_WHOLE = new Beat(Duration.DOUBLE_WHOLE, 0, 1);
     
-    Duration DURATION;
-    int DOT_VALUE;
-    int TUPLET;
-    private double RATIO;
+    Duration duration;
+    int dotValue;
+    int tuplet;
+    private double ratio;
     private boolean isDotted;
     private boolean isTuplet;
 
     private Beat(Duration duration, int dotValue, int tuplet) {
         this.isDotted = dotValue > 0;
         this.isTuplet = tuplet > 1;
-        this.DURATION = duration;
-        this.DOT_VALUE = isDotted ? dotValue : 0;
-        this.TUPLET = isTuplet ? tuplet : 1;
-        this.RATIO = getTotalRatio();
+        this.duration = duration;
+        this.dotValue = isDotted ? dotValue : 0;
+        this.tuplet = isTuplet ? tuplet : 1;
+        this.ratio = getTotalRatio();
     }
 
     private double getTotalRatio() {
-        boolean noDotValue = !isDotted,
-                noTuplet = !isTuplet;
+        boolean noDotValue = !isDotted;
+        boolean noTuplet = !isTuplet;
 
-        if (noDotValue && noTuplet) return DURATION.RATIO;
-        if (noDotValue) return DURATION.RATIO * getTupletRatio();
-        if (noTuplet) return DURATION.RATIO * getDotValueRatio();
-        return (DURATION.RATIO * getDotValueRatio()) * getTupletRatio();
+        if (noDotValue && noTuplet) return duration.ratio;
+        if (noDotValue) return duration.ratio * getTupletRatio();
+        if (noTuplet) return duration.ratio * getDotValueRatio();
+        return (duration.ratio * getDotValueRatio()) * getTupletRatio();
     }
 
     private double getTupletRatio() {
-        int tmp = TUPLET % 2 == 0 ? (TUPLET / (TUPLET / 2)) : (TUPLET - 1);
-        return tmp * (1.0 / TUPLET);
+        int tmp = tuplet % 2 == 0 ? (tuplet / (tuplet / 2)) : (tuplet - 1);
+        return tmp * (1.0 / tuplet);
     }
 
     private double getDotValueRatio() {
         double sum = 0;
-        for (int i = 0; i < DOT_VALUE + 1; i++) {
+        for (int i = 0; i < dotValue + 1; i++) {
             sum += Math.pow(0.5, i);
         }
         return sum;
     }
 
     public double getRatio() {
-        return RATIO;
+        return ratio;
     }
 
     public boolean isDotted() {

@@ -39,21 +39,21 @@ Here's a list of ChordInnate's features (with more to come):
     >Pitch.withName("C4").transpose(Pitch.withName("G4"));
     >Pitch.withName("C4").transpose(PitchClass.G, Octave.OCTAVE_4);
     >Pitch.withName("C4").transpose(true, PitchClass.G);
-    >Pitch.withName("C4").transpose(true, Interval.P5);
+    >Pitch.withName("C4").transpose(true, Interval.PERFECT_5);
     >
     >// C Major (C, D, E, F, G, A, B) -> G Major (G, A, B, C, D, E, F#)
     >Scale("C Major").transpose(Pitch.withName("G4"));
     >Scale("C Major").transpose(PitchClass.G, Octave.OCTAVE_4);
-    >Scale("C Major").transpose(true, Interval.P5);
+    >Scale("C Major").transpose(true, Interval.PERFECT_5);
     >
     >// Cmaj7 (C, E, G, B) -> Gmaj7 (G, B, D, F#)
     >Chord("Cmaj7").transpose(Pitch.withName("G4"));
     >Chord("Cmaj7").transpose(PitchClass.G, Octave.OCTAVE_4);
-    >Chord("Cmaj7").transpose(true, Interval.P5);
+    >Chord("Cmaj7").transpose(true, Interval.PERFECT_5);
     >```
   - Invert chords to any permutation
     >```java
-    >Chord chord = Chord("Cmaj7");           // 1st inversion: Cmaj7 (C, E, G, B)
+    >Chord chord = new Chord("Cmaj7");       // 1st inversion: Cmaj7 (C, E, G, B)
     >chord.invert();                         // 2nd inversion: Cmaj7/E (E, G, B, C)
     >chord.invert();                         // 3rd inversion: Cmaj7/G (G, B, C, E)
     >chord.invert();                         // 4th inversion: Cmaj7/B (B, C, E, G)
@@ -61,17 +61,17 @@ Here's a list of ChordInnate's features (with more to come):
     >```
   - Invert intervals within the same octave
     >```java
-    >Interval.P4.invert()                    // P5
-    >   .invert();                           // P4
+    >Interval.PERFECT_4.invert()             // perfect fifth
+    >   .invert();                           // perfect fourth
     >
-    >Interval.d10.invert()                   // A13
-    >   .invert();                           // d10
+    >Interval.DIMINISHED_10.invert()         // augmented 13th
+    >   .invert();                           // diminished 10th
     >
-    >Interval.m2.invert()                    // M7
-    >   .invert();                           // m2
+    >Interval.MINOR_2.invert()               // major seventh
+    >   .invert();                           // minor second
     >
-    >Interval.withName("AA4").invert()       // dd5
-    >   .invert();                           // AA4
+    >Interval.withName("AA4").invert()       // doubly-diminished fifth
+    >   .invert();                           // doubly-augmented fourth
     >```
   - Modulate key signatures any number of times
     >```java

@@ -32,7 +32,7 @@ public class TimeSignature {
             }
             for (Duration duration : Duration.values()) {
                 if (beatValue != null) break;
-                if ((1 / duration.RATIO) == denominator) beatValue = duration;
+                if ((1 / duration.ratio) == denominator) beatValue = duration;
             }
             if (beatValue == null) {
                 // the beat value is a power of 2, but it's too small of a subdivision

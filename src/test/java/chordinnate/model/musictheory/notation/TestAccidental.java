@@ -9,8 +9,8 @@ public class TestAccidental {
     @Test
     public void matchesSymbol() throws Exception {
         for (Accidental accidental : Accidental.values()) {
-            assertTrue(accidental.matchesSymbol(accidental.SYMBOL));
-            assertTrue(accidental.matchesSymbol(accidental.UTF8_SYMBOL));
+            assertTrue(accidental.matchesSymbol(accidental.symbol));
+            assertTrue(accidental.matchesSymbol(accidental.utf8Symbol));
         }
     }
 

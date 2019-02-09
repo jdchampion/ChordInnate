@@ -6,10 +6,10 @@ package chordinnate.model.musictheory.notation;
 public enum Letter {
     C(0), D(2), E(4), F(5), G(7), A(9), B(11);
 
-    public int BASE_MIDI_VALUE;
+    public final int baseMidiValue;
 
     Letter(int baseMidiValue) {
-        this.BASE_MIDI_VALUE = baseMidiValue;
+        this.baseMidiValue = baseMidiValue;
     }
 
     /**
@@ -33,7 +33,8 @@ public enum Letter {
      * @return the number of indices to move left or right to withShortName to the next Letter
      */
     public static int getVectorDistanceBetween(Letter lhs, Letter rhs) {
-        int thisOrdinal = lhs.ordinal(), otherOrdinal = rhs.ordinal();
+        int thisOrdinal = lhs.ordinal();
+        int otherOrdinal = rhs.ordinal();
         return (thisOrdinal < otherOrdinal) ? otherOrdinal - thisOrdinal : 7 - (thisOrdinal - otherOrdinal);
     }
 }

@@ -44,6 +44,11 @@ public class TestScale {
     }
 
     @Test
+    public void testCaseInsensitiveConstruction() throws Exception {
+        verifyScale(new Scale("c major"), C, D, E, F, G, A, B);
+    }
+
+    @Test
     public void transposeToInterval() throws Exception {
         Scale transposed = new Scale("C Major");
         transposed.transpose(true, Interval.withShortName("M2"));
@@ -97,12 +102,12 @@ public class TestScale {
         int lowRange = lowPitches.length, highRange = highPitches.length;
 
         for (int i = 0; i < lowRange; i++) {
-            assertEquals("Lowest octave for scale [" + scale.getFullName() + "] has the wrong values", expected[i].getBaseName(), lowPitches[i].PITCH_CLASS.getBaseName());
+            assertEquals("Lowest octave for scale [" + scale.getFullName() + "] has the wrong values", expected[i].getBaseName(), lowPitches[i].pitchClass.getBaseName());
         }
         for (int i = 0; i < highRange; i++) {
-            assertEquals("Highest octave for scale [" + scale.getFullName() + "] has the wrong values", expected[i].getBaseName(), highPitches[i].PITCH_CLASS.getBaseName());
+            assertEquals("Highest octave for scale [" + scale.getFullName() + "] has the wrong values", expected[i].getBaseName(), highPitches[i].pitchClass.getBaseName());
         }
 
-        assertEquals(scale.lowestDiatonic.PITCH_CLASS.getName() + " " + scale.getScaleType().getName(), scale.getFullName());
+        assertEquals(scale.lowestDiatonic.pitchClass.getName() + " " + scale.getScaleType().getName(), scale.getFullName());
     }
 }

@@ -55,12 +55,12 @@ public class TestPitchClass {
     @Test
     public void testTransposeInterval() throws Exception {
         Accidental a = Accidental.FLAT;
-        Interval i = Interval.d8;
+        Interval i = Interval.DIMINISHED_8;
         boolean direction = true;
         String[] prefixes = {"C", "D", "E", "F", "G", "A", "B"};
         StringJoiner sj = new StringJoiner(", ");
         for (String s : prefixes) {
-            PitchClass p = PitchClass.withName(s + a.UTF8_SYMBOL, a.equals(Accidental.NATURAL))
+            PitchClass p = PitchClass.withName(s + a.utf8Symbol, a.equals(Accidental.NATURAL))
                     .transpose(direction, i);
             sj.add(p.getName());
         }
@@ -313,10 +313,10 @@ public class TestPitchClass {
              * We'll have to check each of the pertinent values in order to verify equality.
              */
             toCompare = PitchClass.withName(classPrefix + classSuffix, wantNaturalSymbol);
-            assertEquals(toTest.ALIAS_ACCIDENTALS, toCompare.ALIAS_ACCIDENTALS);
-            assertEquals(toTest.ALIAS_BASE_MIDI_VALUE, toCompare.ALIAS_BASE_MIDI_VALUE);
-            assertEquals(toTest.ALIAS_LETTER, toCompare.ALIAS_LETTER);
-            assertEquals(toTest.BASE_PITCH_CLASS, toCompare.BASE_PITCH_CLASS);
+            assertEquals(toTest.aliasAccidentals, toCompare.aliasAccidentals);
+            assertEquals(toTest.aliasBaseMidiValue, toCompare.aliasBaseMidiValue);
+            assertEquals(toTest.aliasLetter, toCompare.aliasLetter);
+            assertEquals(toTest.basePitchClass, toCompare.basePitchClass);
         }
 
     }

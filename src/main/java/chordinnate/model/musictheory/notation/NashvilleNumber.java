@@ -106,16 +106,16 @@ public enum NashvilleNumber {
     DOUBLE_SHARP_THIRTEEN(23, DOUBLE_SHARP, 13),
     ;
 
-    public final int SEMITONE_DISTANCE;
-    public final Accidental ACCIDENTAL;
-    public final int NUMBER;
-    public final String SHORT_NAME;
+    public final int semitoneDistance;
+    public final Accidental accidental;
+    public final int number;
+    public final String shortName;
 
     NashvilleNumber(int semitoneDistance, Accidental quality, int number) {
-        this.SEMITONE_DISTANCE = semitoneDistance;
-        this.ACCIDENTAL = quality;
-        this.NUMBER = number;
-        this.SHORT_NAME = ACCIDENTAL.SYMBOL + NUMBER;
+        this.semitoneDistance = semitoneDistance;
+        this.accidental = quality;
+        this.number = number;
+        this.shortName = accidental.symbol + this.number;
     }
 }
 

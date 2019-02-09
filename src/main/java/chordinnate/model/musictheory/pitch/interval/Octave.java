@@ -1,12 +1,14 @@
 package chordinnate.model.musictheory.pitch.interval;
 
 
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Created by Joseph on 4/14/16.
  */
+@AllArgsConstructor
 public enum Octave {
 
     /*
@@ -29,12 +31,8 @@ public enum Octave {
     OCTAVE_9(9, 108),
     OCTAVE_10(10, 120);
 
-    final int NUMBER, MIDI_START;
-
-    Octave(int octaveNumber, int midiStart) {
-        this.NUMBER = octaveNumber;
-        this.MIDI_START = midiStart;
-    }
+    final int number;
+    final int midiStart;
 
     @Nullable
     public Octave getNext() {
@@ -53,15 +51,15 @@ public enum Octave {
     }
 
     public int getNumber() {
-        return NUMBER;
+        return number;
     }
 
     public int getMidiStart() {
-        return MIDI_START;
+        return midiStart;
     }
 
     public static int getSemitoneDistanceBetween(@NotNull Octave lhs, @NotNull Octave rhs) {
-        return Math.abs(lhs.MIDI_START - rhs.MIDI_START);
+        return Math.abs(lhs.midiStart - rhs.midiStart);
     }
 
     public static int numOctavesBetween(@NotNull Octave lhs, @NotNull Octave rhs) {

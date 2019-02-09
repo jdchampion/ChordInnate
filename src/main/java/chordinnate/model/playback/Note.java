@@ -26,7 +26,7 @@ public class Note implements Playable {
         this.beat = beat;
         this.articulation = articulation;
         this.tied = tied;
-        this.soundedLength = (articulation == null ? 1 : articulation.LENGTH_MODIFIER);
+        this.soundedLength = (articulation == null ? 1 : articulation.lengthModifier);
     }
 
     public Note(@NotNull Pitch pitch, @NotNull Beat beat) {

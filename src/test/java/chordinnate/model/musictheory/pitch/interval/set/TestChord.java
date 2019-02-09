@@ -137,13 +137,13 @@ public class TestChord {
         int lowRange = lowPitches.length, highRange = highPitches.length;
 
         for (int i = 0; i < lowRange; i++) {
-            assertEquals(expected[i].getBaseName(), lowPitches[i].PITCH_CLASS.getBaseName());
+            assertEquals(expected[i].getBaseName(), lowPitches[i].pitchClass.getBaseName());
         }
         for (int i = 0; i < highRange; i++) {
-            assertEquals(expected[i].getBaseName(), highPitches[i].PITCH_CLASS.getBaseName());
+            assertEquals(expected[i].getBaseName(), highPitches[i].pitchClass.getBaseName());
         }
 
-        assertEquals(chord.lowestDiatonic.PITCH_CLASS.getName() + chord.getChordType().getSymbol(), chord.getName());
+        assertEquals(chord.lowestDiatonic.pitchClass.getName() + chord.getChordType().getSymbol(), chord.getName());
     }
 
 }

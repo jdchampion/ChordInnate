@@ -1,14 +1,12 @@
 package chordinnate.model.musictheory.time.meter.fixed;
 
+import lombok.AllArgsConstructor;
+
 /**
  * Created by Joseph on 7/3/16.
  */
+@AllArgsConstructor
 public class FixedMeterNode {
     int count;
     FixedMeter meter;
-
-    FixedMeterNode(int count, FixedMeter meter) {
-        this.count = count;
-        this.meter = meter;
-    }
 }

@@ -9,5 +9,5 @@
 /out
 /target
 
-# Database credentials
-/src/main/resources/databaseconfig.properties
+# External configs
+/config

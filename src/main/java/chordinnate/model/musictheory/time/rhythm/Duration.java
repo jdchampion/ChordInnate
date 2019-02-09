@@ -1,9 +1,12 @@
 package chordinnate.model.musictheory.time.rhythm;
 
 
+import lombok.AllArgsConstructor;
+
 /**
  * Created by Joseph on 6/1/16.
  */
+@AllArgsConstructor
 public enum Duration {
     /*
      * NOTE: Keep these ordered from smallest to largest.
@@ -19,10 +22,6 @@ public enum Duration {
 
     ;
 
-    public final double RATIO;
-
-    Duration(double ratio) {
-        this.RATIO = ratio;
-    }
+    public final double ratio;
     
 }

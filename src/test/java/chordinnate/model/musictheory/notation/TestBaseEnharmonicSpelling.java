@@ -12,158 +12,158 @@ import static org.junit.Assert.*;
 public class TestBaseEnharmonicSpelling {
     @Test
     public void testField_LETTER() throws Exception {
-        assertEquals(Letter.A, A.LETTER);
-        assertEquals(Letter.A, A_DOUBLE_FLAT.LETTER);
-        assertEquals(Letter.A, A_DOUBLE_SHARP.LETTER);
-        assertEquals(Letter.A, A_FLAT.LETTER);
-        assertEquals(Letter.A, A_NATURAL.LETTER);
-        assertEquals(Letter.A, A_SHARP.LETTER);
+        assertEquals(Letter.A, A.letter);
+        assertEquals(Letter.A, A_DOUBLE_FLAT.letter);
+        assertEquals(Letter.A, A_DOUBLE_SHARP.letter);
+        assertEquals(Letter.A, A_FLAT.letter);
+        assertEquals(Letter.A, A_NATURAL.letter);
+        assertEquals(Letter.A, A_SHARP.letter);
 
-        assertEquals(Letter.B, B.LETTER);
-        assertEquals(Letter.B, B_DOUBLE_FLAT.LETTER);
-        assertEquals(Letter.B, B_DOUBLE_SHARP.LETTER);
-        assertEquals(Letter.B, B_FLAT.LETTER);
-        assertEquals(Letter.B, B_NATURAL.LETTER);
-        assertEquals(Letter.B, B_SHARP.LETTER);
+        assertEquals(Letter.B, B.letter);
+        assertEquals(Letter.B, B_DOUBLE_FLAT.letter);
+        assertEquals(Letter.B, B_DOUBLE_SHARP.letter);
+        assertEquals(Letter.B, B_FLAT.letter);
+        assertEquals(Letter.B, B_NATURAL.letter);
+        assertEquals(Letter.B, B_SHARP.letter);
 
-        assertEquals(Letter.C, C.LETTER);
-        assertEquals(Letter.C, C_DOUBLE_FLAT.LETTER);
-        assertEquals(Letter.C, C_DOUBLE_SHARP.LETTER);
-        assertEquals(Letter.C, C_FLAT.LETTER);
-        assertEquals(Letter.C, C_NATURAL.LETTER);
-        assertEquals(Letter.C, C_SHARP.LETTER);
+        assertEquals(Letter.C, C.letter);
+        assertEquals(Letter.C, C_DOUBLE_FLAT.letter);
+        assertEquals(Letter.C, C_DOUBLE_SHARP.letter);
+        assertEquals(Letter.C, C_FLAT.letter);
+        assertEquals(Letter.C, C_NATURAL.letter);
+        assertEquals(Letter.C, C_SHARP.letter);
 
-        assertEquals(Letter.D, D.LETTER);
-        assertEquals(Letter.D, D_DOUBLE_FLAT.LETTER);
-        assertEquals(Letter.D, D_DOUBLE_SHARP.LETTER);
-        assertEquals(Letter.D, D_FLAT.LETTER);
-        assertEquals(Letter.D, D_NATURAL.LETTER);
-        assertEquals(Letter.D, D_SHARP.LETTER);
+        assertEquals(Letter.D, D.letter);
+        assertEquals(Letter.D, D_DOUBLE_FLAT.letter);
+        assertEquals(Letter.D, D_DOUBLE_SHARP.letter);
+        assertEquals(Letter.D, D_FLAT.letter);
+        assertEquals(Letter.D, D_NATURAL.letter);
+        assertEquals(Letter.D, D_SHARP.letter);
 
-        assertEquals(Letter.E, E.LETTER);
-        assertEquals(Letter.E, E_DOUBLE_FLAT.LETTER);
-        assertEquals(Letter.E, E_DOUBLE_SHARP.LETTER);
-        assertEquals(Letter.E, E_FLAT.LETTER);
-        assertEquals(Letter.E, E_NATURAL.LETTER);
-        assertEquals(Letter.E, E_SHARP.LETTER);
+        assertEquals(Letter.E, E.letter);
+        assertEquals(Letter.E, E_DOUBLE_FLAT.letter);
+        assertEquals(Letter.E, E_DOUBLE_SHARP.letter);
+        assertEquals(Letter.E, E_FLAT.letter);
+        assertEquals(Letter.E, E_NATURAL.letter);
+        assertEquals(Letter.E, E_SHARP.letter);
 
-        assertEquals(Letter.F, F.LETTER);
-        assertEquals(Letter.F, F_DOUBLE_FLAT.LETTER);
-        assertEquals(Letter.F, F_DOUBLE_SHARP.LETTER);
-        assertEquals(Letter.F, F_FLAT.LETTER);
-        assertEquals(Letter.F, F_NATURAL.LETTER);
-        assertEquals(Letter.F, F_SHARP.LETTER);
+        assertEquals(Letter.F, F.letter);
+        assertEquals(Letter.F, F_DOUBLE_FLAT.letter);
+        assertEquals(Letter.F, F_DOUBLE_SHARP.letter);
+        assertEquals(Letter.F, F_FLAT.letter);
+        assertEquals(Letter.F, F_NATURAL.letter);
+        assertEquals(Letter.F, F_SHARP.letter);
 
-        assertEquals(Letter.G, G.LETTER);
-        assertEquals(Letter.G, G_DOUBLE_FLAT.LETTER);
-        assertEquals(Letter.G, G_DOUBLE_SHARP.LETTER);
-        assertEquals(Letter.G, G_FLAT.LETTER);
-        assertEquals(Letter.G, G_NATURAL.LETTER);
-        assertEquals(Letter.G, G_SHARP.LETTER);
+        assertEquals(Letter.G, G.letter);
+        assertEquals(Letter.G, G_DOUBLE_FLAT.letter);
+        assertEquals(Letter.G, G_DOUBLE_SHARP.letter);
+        assertEquals(Letter.G, G_FLAT.letter);
+        assertEquals(Letter.G, G_NATURAL.letter);
+        assertEquals(Letter.G, G_SHARP.letter);
     }
 
     @Test
     public void testField_ACCIDENTAL() throws Exception {
-        assertEquals(NONE, A.ACCIDENTAL);
-        assertEquals(DOUBLE_FLAT, A_DOUBLE_FLAT.ACCIDENTAL);
-        assertEquals(DOUBLE_SHARP, A_DOUBLE_SHARP.ACCIDENTAL);
-        assertEquals(FLAT, A_FLAT.ACCIDENTAL);
-        assertEquals(NATURAL, A_NATURAL.ACCIDENTAL);
-        assertEquals(SHARP, A_SHARP.ACCIDENTAL);
+        assertEquals(NONE, A.accidental);
+        assertEquals(DOUBLE_FLAT, A_DOUBLE_FLAT.accidental);
+        assertEquals(DOUBLE_SHARP, A_DOUBLE_SHARP.accidental);
+        assertEquals(FLAT, A_FLAT.accidental);
+        assertEquals(NATURAL, A_NATURAL.accidental);
+        assertEquals(SHARP, A_SHARP.accidental);
 
-        assertEquals(NONE, B.ACCIDENTAL);
-        assertEquals(DOUBLE_FLAT, B_DOUBLE_FLAT.ACCIDENTAL);
-        assertEquals(DOUBLE_SHARP, B_DOUBLE_SHARP.ACCIDENTAL);
-        assertEquals(FLAT, B_FLAT.ACCIDENTAL);
-        assertEquals(NATURAL, B_NATURAL.ACCIDENTAL);
-        assertEquals(SHARP, B_SHARP.ACCIDENTAL);
+        assertEquals(NONE, B.accidental);
+        assertEquals(DOUBLE_FLAT, B_DOUBLE_FLAT.accidental);
+        assertEquals(DOUBLE_SHARP, B_DOUBLE_SHARP.accidental);
+        assertEquals(FLAT, B_FLAT.accidental);
+        assertEquals(NATURAL, B_NATURAL.accidental);
+        assertEquals(SHARP, B_SHARP.accidental);
 
-        assertEquals(NONE, C.ACCIDENTAL);
-        assertEquals(DOUBLE_FLAT, C_DOUBLE_FLAT.ACCIDENTAL);
-        assertEquals(DOUBLE_SHARP, C_DOUBLE_SHARP.ACCIDENTAL);
-        assertEquals(FLAT, C_FLAT.ACCIDENTAL);
-        assertEquals(NATURAL, C_NATURAL.ACCIDENTAL);
-        assertEquals(SHARP, C_SHARP.ACCIDENTAL);
+        assertEquals(NONE, C.accidental);
+        assertEquals(DOUBLE_FLAT, C_DOUBLE_FLAT.accidental);
+        assertEquals(DOUBLE_SHARP, C_DOUBLE_SHARP.accidental);
+        assertEquals(FLAT, C_FLAT.accidental);
+        assertEquals(NATURAL, C_NATURAL.accidental);
+        assertEquals(SHARP, C_SHARP.accidental);
 
-        assertEquals(NONE, D.ACCIDENTAL);
-        assertEquals(DOUBLE_FLAT, D_DOUBLE_FLAT.ACCIDENTAL);
-        assertEquals(DOUBLE_SHARP, D_DOUBLE_SHARP.ACCIDENTAL);
-        assertEquals(FLAT, D_FLAT.ACCIDENTAL);
-        assertEquals(NATURAL, D_NATURAL.ACCIDENTAL);
-        assertEquals(SHARP, D_SHARP.ACCIDENTAL);
+        assertEquals(NONE, D.accidental);
+        assertEquals(DOUBLE_FLAT, D_DOUBLE_FLAT.accidental);
+        assertEquals(DOUBLE_SHARP, D_DOUBLE_SHARP.accidental);
+        assertEquals(FLAT, D_FLAT.accidental);
+        assertEquals(NATURAL, D_NATURAL.accidental);
+        assertEquals(SHARP, D_SHARP.accidental);
 
-        assertEquals(NONE, E.ACCIDENTAL);
-        assertEquals(DOUBLE_FLAT, E_DOUBLE_FLAT.ACCIDENTAL);
-        assertEquals(DOUBLE_SHARP, E_DOUBLE_SHARP.ACCIDENTAL);
-        assertEquals(FLAT, E_FLAT.ACCIDENTAL);
-        assertEquals(NATURAL, E_NATURAL.ACCIDENTAL);
-        assertEquals(SHARP, E_SHARP.ACCIDENTAL);
+        assertEquals(NONE, E.accidental);
+        assertEquals(DOUBLE_FLAT, E_DOUBLE_FLAT.accidental);
+        assertEquals(DOUBLE_SHARP, E_DOUBLE_SHARP.accidental);
+        assertEquals(FLAT, E_FLAT.accidental);
+        assertEquals(NATURAL, E_NATURAL.accidental);
+        assertEquals(SHARP, E_SHARP.accidental);
 
-        assertEquals(NONE, F.ACCIDENTAL);
-        assertEquals(DOUBLE_FLAT, F_DOUBLE_FLAT.ACCIDENTAL);
-        assertEquals(DOUBLE_SHARP, F_DOUBLE_SHARP.ACCIDENTAL);
-        assertEquals(FLAT, F_FLAT.ACCIDENTAL);
-        assertEquals(NATURAL, F_NATURAL.ACCIDENTAL);
-        assertEquals(SHARP, F_SHARP.ACCIDENTAL);
+        assertEquals(NONE, F.accidental);
+        assertEquals(DOUBLE_FLAT, F_DOUBLE_FLAT.accidental);
+        assertEquals(DOUBLE_SHARP, F_DOUBLE_SHARP.accidental);
+        assertEquals(FLAT, F_FLAT.accidental);
+        assertEquals(NATURAL, F_NATURAL.accidental);
+        assertEquals(SHARP, F_SHARP.accidental);
 
-        assertEquals(NONE, G.ACCIDENTAL);
-        assertEquals(DOUBLE_FLAT, G_DOUBLE_FLAT.ACCIDENTAL);
-        assertEquals(DOUBLE_SHARP, G_DOUBLE_SHARP.ACCIDENTAL);
-        assertEquals(FLAT, G_FLAT.ACCIDENTAL);
-        assertEquals(NATURAL, G_NATURAL.ACCIDENTAL);
-        assertEquals(SHARP, G_SHARP.ACCIDENTAL);
+        assertEquals(NONE, G.accidental);
+        assertEquals(DOUBLE_FLAT, G_DOUBLE_FLAT.accidental);
+        assertEquals(DOUBLE_SHARP, G_DOUBLE_SHARP.accidental);
+        assertEquals(FLAT, G_FLAT.accidental);
+        assertEquals(NATURAL, G_NATURAL.accidental);
+        assertEquals(SHARP, G_SHARP.accidental);
     }
 
     @Test
     public void testField_NAME() throws Exception {
-        assertEquals("A", A.NAME);
-        assertEquals("A𝄫", A_DOUBLE_FLAT.NAME);
-        assertEquals("A𝄪", A_DOUBLE_SHARP.NAME);
-        assertEquals("A♭", A_FLAT.NAME);
-        assertEquals("A♮", A_NATURAL.NAME);
-        assertEquals("A♯", A_SHARP.NAME);
+        assertEquals("A", A.baseName);
+        assertEquals("A𝄫", A_DOUBLE_FLAT.baseName);
+        assertEquals("A𝄪", A_DOUBLE_SHARP.baseName);
+        assertEquals("A♭", A_FLAT.baseName);
+        assertEquals("A♮", A_NATURAL.baseName);
+        assertEquals("A♯", A_SHARP.baseName);
 
-        assertEquals("B", B.NAME);
-        assertEquals("B𝄫", B_DOUBLE_FLAT.NAME);
-        assertEquals("B𝄪", B_DOUBLE_SHARP.NAME);
-        assertEquals("B♭", B_FLAT.NAME);
-        assertEquals("B♮", B_NATURAL.NAME);
-        assertEquals("B♯", B_SHARP.NAME);
+        assertEquals("B", B.baseName);
+        assertEquals("B𝄫", B_DOUBLE_FLAT.baseName);
+        assertEquals("B𝄪", B_DOUBLE_SHARP.baseName);
+        assertEquals("B♭", B_FLAT.baseName);
+        assertEquals("B♮", B_NATURAL.baseName);
+        assertEquals("B♯", B_SHARP.baseName);
 
-        assertEquals("C", C.NAME);
-        assertEquals("C𝄫", C_DOUBLE_FLAT.NAME);
-        assertEquals("C𝄪", C_DOUBLE_SHARP.NAME);
-        assertEquals("C♭", C_FLAT.NAME);
-        assertEquals("C♮", C_NATURAL.NAME);
-        assertEquals("C♯", C_SHARP.NAME);
+        assertEquals("C", C.baseName);
+        assertEquals("C𝄫", C_DOUBLE_FLAT.baseName);
+        assertEquals("C𝄪", C_DOUBLE_SHARP.baseName);
+        assertEquals("C♭", C_FLAT.baseName);
+        assertEquals("C♮", C_NATURAL.baseName);
+        assertEquals("C♯", C_SHARP.baseName);
 
-        assertEquals("D", D.NAME);
-        assertEquals("D𝄫", D_DOUBLE_FLAT.NAME);
-        assertEquals("D𝄪", D_DOUBLE_SHARP.NAME);
-        assertEquals("D♭", D_FLAT.NAME);
-        assertEquals("D♮", D_NATURAL.NAME);
-        assertEquals("D♯", D_SHARP.NAME);
+        assertEquals("D", D.baseName);
+        assertEquals("D𝄫", D_DOUBLE_FLAT.baseName);
+        assertEquals("D𝄪", D_DOUBLE_SHARP.baseName);
+        assertEquals("D♭", D_FLAT.baseName);
+        assertEquals("D♮", D_NATURAL.baseName);
+        assertEquals("D♯", D_SHARP.baseName);
 
-        assertEquals("E", E.NAME);
-        assertEquals("E𝄫", E_DOUBLE_FLAT.NAME);
-        assertEquals("E𝄪", E_DOUBLE_SHARP.NAME);
-        assertEquals("E♭", E_FLAT.NAME);
-        assertEquals("E♮", E_NATURAL.NAME);
-        assertEquals("E♯", E_SHARP.NAME);
+        assertEquals("E", E.baseName);
+        assertEquals("E𝄫", E_DOUBLE_FLAT.baseName);
+        assertEquals("E𝄪", E_DOUBLE_SHARP.baseName);
+        assertEquals("E♭", E_FLAT.baseName);
+        assertEquals("E♮", E_NATURAL.baseName);
+        assertEquals("E♯", E_SHARP.baseName);
 
-        assertEquals("F", F.NAME);
-        assertEquals("F𝄫", F_DOUBLE_FLAT.NAME);
-        assertEquals("F𝄪", F_DOUBLE_SHARP.NAME);
-        assertEquals("F♭", F_FLAT.NAME);
-        assertEquals("F♮", F_NATURAL.NAME);
-        assertEquals("F♯", F_SHARP.NAME);
+        assertEquals("F", F.baseName);
+        assertEquals("F𝄫", F_DOUBLE_FLAT.baseName);
+        assertEquals("F𝄪", F_DOUBLE_SHARP.baseName);
+        assertEquals("F♭", F_FLAT.baseName);
+        assertEquals("F♮", F_NATURAL.baseName);
+        assertEquals("F♯", F_SHARP.baseName);
 
-        assertEquals("G", G.NAME);
-        assertEquals("G𝄫", G_DOUBLE_FLAT.NAME);
-        assertEquals("G𝄪", G_DOUBLE_SHARP.NAME);
-        assertEquals("G♭", G_FLAT.NAME);
-        assertEquals("G♮", G_NATURAL.NAME);
-        assertEquals("G♯", G_SHARP.NAME);
+        assertEquals("G", G.baseName);
+        assertEquals("G𝄫", G_DOUBLE_FLAT.baseName);
+        assertEquals("G𝄪", G_DOUBLE_SHARP.baseName);
+        assertEquals("G♭", G_FLAT.baseName);
+        assertEquals("G♮", G_NATURAL.baseName);
+        assertEquals("G♯", G_SHARP.baseName);
     }
 
     @Test

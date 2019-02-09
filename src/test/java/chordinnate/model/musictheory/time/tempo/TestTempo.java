@@ -19,8 +19,8 @@ public class TestTempo {
     public void invalidBPM() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Tempo must be between "
-                + TempoMarking.slowest().MIN_BPM + " and "
-                + TempoMarking.fastest().MAX_BPM + " BPM.");
+                + TempoMarking.slowest().minBpm + " and "
+                + TempoMarking.fastest().maxBpm + " BPM.");
         new Tempo(Beat.QUARTER, 0);
         new Tempo(Beat.QUARTER, -1);
     }
@@ -32,7 +32,7 @@ public class TestTempo {
             tempo.setTempoMarking(tm);
 
             assertEquals(tm, tempo.getTempoMarking());
-            assertEquals(tm.MIN_BPM, tempo.getCurrentBPM());
+            assertEquals(tm.minBpm, tempo.getCurrentBPM());
         }
     }
 

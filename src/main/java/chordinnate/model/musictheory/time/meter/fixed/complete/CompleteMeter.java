@@ -38,7 +38,7 @@ public abstract class CompleteMeter extends FixedMeter {
 
         this.numerator = numerator;
         this.denominator = denominator;
-        this.measureDuration = this.numerator * denominator.RATIO;
+        this.measureDuration = this.numerator * denominator.ratio;
         this.subdivisions = subdivisions;
 
         inferCommonMeterClassifications();
@@ -81,7 +81,7 @@ public abstract class CompleteMeter extends FixedMeter {
     private int sumAll(MeterSubdivision[] subdivisions) {
         int sum = 0;
         for (MeterSubdivision subdivision : subdivisions) {
-            sum += subdivision.GROUPING;
+            sum += subdivision.grouping;
         }
         return sum;
     }
@@ -90,9 +90,8 @@ public abstract class CompleteMeter extends FixedMeter {
      * A logical sequence for classifying CompleteMeters by their common properties.
      */
     private void inferCommonMeterClassifications() {
-        boolean
-                div2 = numerator % 2 == 0,
-                div3 = numerator % 3 == 0;
+        boolean div2 = numerator % 2 == 0;
+        boolean div3 = numerator % 3 == 0;
 
         if (div2 || div3) {
             meterClassificationTypes.add(MeterClassificationType.MULTPLICATIVE);
@@ -123,6 +122,10 @@ public abstract class CompleteMeter extends FixedMeter {
      * Constructor helper method to infer the subdivision groupings for the Meter.
      */
     private void inferSubdivisions() {
+        if (this.numerator == 1) {
+            return;
+        }
+
         if (this.numerator % 4 == 0) {
             groupBy(MeterSubdivision.QUADRUPLE);
         } else if (this.numerator % 3 == 0) {
@@ -136,43 +139,45 @@ public abstract class CompleteMeter extends FixedMeter {
                  */
                 this.subdivisions = new MeterSubdivision[]{MeterSubdivision.TRIPLE, MeterSubdivision.DUPLE};
                 return;
-            } else if (this.numerator == 1) {
-                return;
             }
 
-            /*
-             * Here's where we have to adopt our own convention, based on the numerator:
-             * 1. "Front-load" the pattern with N * (3 + 2) groupings,
-             *     such that numerator - (N * (3 + 2)) != 1.
-             *
-             * 2. Afterwards, fill remaining index/indices of the pattern with 2, 3, or (2 + 2).
-             *
-             * Example: 11/16 --> (3 + 2) + 3 + 3
-             */
-            int divisor = this.numerator / 5,
-                maxIndexesFilled = divisor * 5,
-                lookAheadIndex = this.numerator - 6,
-                actualIndexesFilled = 0;
-            List<MeterSubdivision> meterSubdivisions = new ArrayList<>();
-            // Fill the max amount of groupings with (3 + 2)
-            for (; actualIndexesFilled < maxIndexesFilled
-                    && (actualIndexesFilled < lookAheadIndex); actualIndexesFilled += 5) {
+            inferSubdivisionsHelper();
+        }
+    }
+
+    private void inferSubdivisionsHelper() {
+        /*
+         * Here's where we have to adopt our own convention, based on the numerator:
+         * 1. "Front-load" the pattern with N * (3 + 2) groupings,
+         *     such that numerator - (N * (3 + 2)) != 1.
+         *
+         * 2. Afterwards, fill remaining index/indices of the pattern with 2, 3, or (2 + 2).
+         *
+         * Example: 11/16 --> (3 + 2) + 3 + 3
+         */
+        int divisor = this.numerator / 5;
+        int maxIndexesFilled = divisor * 5;
+        int lookAheadIndex = this.numerator - 6;
+        int actualIndexesFilled = 0;
+        List<MeterSubdivision> meterSubdivisions = new ArrayList<>();
+        // Fill the max amount of groupings with (3 + 2)
+        for (; actualIndexesFilled < maxIndexesFilled
+                && (actualIndexesFilled < lookAheadIndex); actualIndexesFilled += 5) {
+            meterSubdivisions.add(MeterSubdivision.TRIPLE);
+            meterSubdivisions.add(MeterSubdivision.DUPLE);
+        }
+        // Fill in the remaining groupings with a triple (3) or a duple (2)
+        int indexesLeft = this.numerator - actualIndexesFilled;
+        if (indexesLeft % 3 == 0) {
+            for (; actualIndexesFilled < this.numerator; actualIndexesFilled += 3) {
                 meterSubdivisions.add(MeterSubdivision.TRIPLE);
+            }
+        } else {
+            for (; actualIndexesFilled < this.numerator; actualIndexesFilled += 2) {
                 meterSubdivisions.add(MeterSubdivision.DUPLE);
             }
-            // Fill in the remaining groupings with a triple (3) or a duple (2)
-            int indexesLeft = this.numerator - actualIndexesFilled;
-            if (indexesLeft % 3 == 0) {
-                for (; actualIndexesFilled < this.numerator; actualIndexesFilled += 3) {
-                    meterSubdivisions.add(MeterSubdivision.TRIPLE);
-                }
-            } else {
-                for (; actualIndexesFilled < this.numerator; actualIndexesFilled += 2) {
-                    meterSubdivisions.add(MeterSubdivision.DUPLE);
-                }
-            }
-            this.subdivisions = meterSubdivisions.toArray(new MeterSubdivision[meterSubdivisions.size()]);
         }
+        this.subdivisions = meterSubdivisions.toArray(new MeterSubdivision[meterSubdivisions.size()]);
     }
 
     /**
@@ -180,7 +185,7 @@ public abstract class CompleteMeter extends FixedMeter {
      * @param meterSubdivision
      */
     private void groupBy(MeterSubdivision meterSubdivision) {
-        int factor = this.numerator / meterSubdivision.GROUPING;
+        int factor = this.numerator / meterSubdivision.grouping;
         this.subdivisions = new MeterSubdivision[factor];
         for (int i = 0; i < factor; i++) {
             this.subdivisions[i] = meterSubdivision;

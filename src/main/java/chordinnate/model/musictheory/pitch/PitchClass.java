@@ -70,85 +70,87 @@ public class PitchClass
     public static final PitchClass B_SHARP = new PitchClass(BasePitchClass.B_SHARP);
     public static final PitchClass B_DOUBLE_SHARP = new PitchClass(BasePitchClass.B_DOUBLE_SHARP);
 
-    static final Map<String, PitchClass> STANDARD_PITCH_CLASSES = new HashMap<String, PitchClass>() {{
-        put("Cbb", PitchClass.C_DOUBLE_FLAT);
-        put("Cb", PitchClass.C_FLAT);
-        put("C", PitchClass.C);
-        put("C_", PitchClass.C_NATURAL);
-        put("C#", PitchClass.C_SHARP);
-        put("Cx", PitchClass.C_DOUBLE_SHARP);
+    static final Map<String, PitchClass> STANDARD_PITCH_CLASSES = new HashMap<>();
 
-        put("Dbb", PitchClass.D_DOUBLE_FLAT);
-        put("Db", PitchClass.D_FLAT);
-        put("D", PitchClass.D);
-        put("D_", PitchClass.D_NATURAL);
-        put("D#", PitchClass.D_SHARP);
-        put("Dx", PitchClass.D_DOUBLE_SHARP);
+    static {
+        STANDARD_PITCH_CLASSES.put("Cbb", PitchClass.C_DOUBLE_FLAT);
+        STANDARD_PITCH_CLASSES.put("Cb", PitchClass.C_FLAT);
+        STANDARD_PITCH_CLASSES.put("C", PitchClass.C);
+        STANDARD_PITCH_CLASSES.put("C_", PitchClass.C_NATURAL);
+        STANDARD_PITCH_CLASSES.put("C#", PitchClass.C_SHARP);
+        STANDARD_PITCH_CLASSES.put("Cx", PitchClass.C_DOUBLE_SHARP);
 
-        put("Ebb", PitchClass.E_DOUBLE_FLAT);
-        put("Eb", PitchClass.E_FLAT);
-        put("E", PitchClass.E);
-        put("E_", PitchClass.E_NATURAL);
-        put("E#", PitchClass.E_SHARP);
-        put("Ex", PitchClass.E_DOUBLE_SHARP);
+        STANDARD_PITCH_CLASSES.put("Dbb", PitchClass.D_DOUBLE_FLAT);
+        STANDARD_PITCH_CLASSES.put("Db", PitchClass.D_FLAT);
+        STANDARD_PITCH_CLASSES.put("D", PitchClass.D);
+        STANDARD_PITCH_CLASSES.put("D_", PitchClass.D_NATURAL);
+        STANDARD_PITCH_CLASSES.put("D#", PitchClass.D_SHARP);
+        STANDARD_PITCH_CLASSES.put("Dx", PitchClass.D_DOUBLE_SHARP);
 
-        put("Fbb", PitchClass.F_DOUBLE_FLAT);
-        put("Fb", PitchClass.F_FLAT);
-        put("F", PitchClass.F);
-        put("F_", PitchClass.F_NATURAL);
-        put("F#", PitchClass.F_SHARP);
-        put("Fx", PitchClass.F_DOUBLE_SHARP);
+        STANDARD_PITCH_CLASSES.put("Ebb", PitchClass.E_DOUBLE_FLAT);
+        STANDARD_PITCH_CLASSES.put("Eb", PitchClass.E_FLAT);
+        STANDARD_PITCH_CLASSES.put("E", PitchClass.E);
+        STANDARD_PITCH_CLASSES.put("E_", PitchClass.E_NATURAL);
+        STANDARD_PITCH_CLASSES.put("E#", PitchClass.E_SHARP);
+        STANDARD_PITCH_CLASSES.put("Ex", PitchClass.E_DOUBLE_SHARP);
 
-        put("Gbb", PitchClass.G_DOUBLE_FLAT);
-        put("Gb", PitchClass.G_FLAT);
-        put("G", PitchClass.G);
-        put("G_", PitchClass.G_NATURAL);
-        put("G#", PitchClass.G_SHARP);
-        put("Gx", PitchClass.G_DOUBLE_SHARP);
+        STANDARD_PITCH_CLASSES.put("Fbb", PitchClass.F_DOUBLE_FLAT);
+        STANDARD_PITCH_CLASSES.put("Fb", PitchClass.F_FLAT);
+        STANDARD_PITCH_CLASSES.put("F", PitchClass.F);
+        STANDARD_PITCH_CLASSES.put("F_", PitchClass.F_NATURAL);
+        STANDARD_PITCH_CLASSES.put("F#", PitchClass.F_SHARP);
+        STANDARD_PITCH_CLASSES.put("Fx", PitchClass.F_DOUBLE_SHARP);
 
-        put("Abb", PitchClass.A_DOUBLE_FLAT);
-        put("Ab", PitchClass.A_FLAT);
-        put("A", PitchClass.A);
-        put("A_", PitchClass.A_NATURAL);
-        put("A#", PitchClass.A_SHARP);
-        put("Ax", PitchClass.A_DOUBLE_SHARP);
+        STANDARD_PITCH_CLASSES.put("Gbb", PitchClass.G_DOUBLE_FLAT);
+        STANDARD_PITCH_CLASSES.put("Gb", PitchClass.G_FLAT);
+        STANDARD_PITCH_CLASSES.put("G", PitchClass.G);
+        STANDARD_PITCH_CLASSES.put("G_", PitchClass.G_NATURAL);
+        STANDARD_PITCH_CLASSES.put("G#", PitchClass.G_SHARP);
+        STANDARD_PITCH_CLASSES.put("Gx", PitchClass.G_DOUBLE_SHARP);
 
-        put("Bbb", PitchClass.B_DOUBLE_FLAT);
-        put("Bb", PitchClass.B_FLAT);
-        put("B", PitchClass.B);
-        put("B_", PitchClass.B_NATURAL);
-        put("B#", PitchClass.B_SHARP);
-        put("Bx", PitchClass.B_DOUBLE_SHARP);
-    }};
+        STANDARD_PITCH_CLASSES.put("Abb", PitchClass.A_DOUBLE_FLAT);
+        STANDARD_PITCH_CLASSES.put("Ab", PitchClass.A_FLAT);
+        STANDARD_PITCH_CLASSES.put("A", PitchClass.A);
+        STANDARD_PITCH_CLASSES.put("A_", PitchClass.A_NATURAL);
+        STANDARD_PITCH_CLASSES.put("A#", PitchClass.A_SHARP);
+        STANDARD_PITCH_CLASSES.put("Ax", PitchClass.A_DOUBLE_SHARP);
 
-    final BasePitchClass BASE_PITCH_CLASS;
-    final Octave OCTAVE_RANGE;
-    final String ALIAS_LETTER;
-    final String ALIAS_ACCIDENTALS;
-    final int BASE_MIDI_VALUE;
-    final int ALIAS_BASE_MIDI_VALUE;
-    final boolean IS_ALIAS_SIMPLIFIED;
+        STANDARD_PITCH_CLASSES.put("Bbb", PitchClass.B_DOUBLE_FLAT);
+        STANDARD_PITCH_CLASSES.put("Bb", PitchClass.B_FLAT);
+        STANDARD_PITCH_CLASSES.put("B", PitchClass.B);
+        STANDARD_PITCH_CLASSES.put("B_", PitchClass.B_NATURAL);
+        STANDARD_PITCH_CLASSES.put("B#", PitchClass.B_SHARP);
+        STANDARD_PITCH_CLASSES.put("Bx", PitchClass.B_DOUBLE_SHARP);
+    }
+
+    final BasePitchClass basePitchClass;
+    final Octave octaveRange;
+    final String aliasLetter;
+    final String aliasAccidentals;
+    final int baseMidiValue;
+    final int aliasBaseMidiValue;
+    final boolean isAliasSimplified;
 
     private PitchClass(BasePitchClass basePitchClass) {
-        this.BASE_PITCH_CLASS = basePitchClass;
-        this.OCTAVE_RANGE = basePitchClass.OCTAVE_RANGE;
-        this.ALIAS_LETTER = basePitchClass.ENHARMONIC_SPELLING.LETTER.name();
-        this.ALIAS_ACCIDENTALS = basePitchClass.ENHARMONIC_SPELLING.ACCIDENTAL.SYMBOL;
-        this.BASE_MIDI_VALUE = basePitchClass.BASE_MIDI_VALUE;
-        this.ALIAS_BASE_MIDI_VALUE = (12 + BASE_MIDI_VALUE) % 12;
-        this.IS_ALIAS_SIMPLIFIED = true;
+        this.basePitchClass = basePitchClass;
+        this.octaveRange = basePitchClass.octaveRange;
+        this.aliasLetter = basePitchClass.baseEnharmonicSpelling.letter.name();
+        this.aliasAccidentals = basePitchClass.baseEnharmonicSpelling.accidental.symbol;
+        this.baseMidiValue = basePitchClass.baseMidiValue;
+        this.aliasBaseMidiValue = (12 + baseMidiValue) % 12;
+        this.isAliasSimplified = true;
     }
 
     private PitchClass(BasePitchClass basePitchClass, String alias) {
-        this.BASE_PITCH_CLASS = basePitchClass;
-        this.OCTAVE_RANGE = basePitchClass.OCTAVE_RANGE;
-        this.ALIAS_LETTER = String.valueOf(alias.charAt(0));
-        this.ALIAS_ACCIDENTALS = alias.length() > 1 ? Accidental.convertToDisplaySymbols(alias.substring(1), alias.contains(Accidental.NATURAL.UTF8_SYMBOL)) : "";
-        this.BASE_MIDI_VALUE = basePitchClass.BASE_MIDI_VALUE;
-        this.ALIAS_BASE_MIDI_VALUE = (12 + Letter.valueOf(ALIAS_LETTER).BASE_MIDI_VALUE + Accidental.sumAccidentalsToSemitoneModifier(ALIAS_ACCIDENTALS)) % 12;
-        String a = Accidental.convertToUTF8Symbols(ALIAS_ACCIDENTALS);
-        String simplified = Accidental.simplify(a, a.contains(Accidental.NATURAL.UTF8_SYMBOL), true);
-        this.IS_ALIAS_SIMPLIFIED = a.equals(simplified);
+        this.basePitchClass = basePitchClass;
+        this.octaveRange = basePitchClass.octaveRange;
+        this.aliasLetter = String.valueOf(alias.charAt(0));
+        this.aliasAccidentals = alias.length() > 1 ? Accidental.convertToDisplaySymbols(alias.substring(1), alias.contains(Accidental.NATURAL.utf8Symbol)) : "";
+        this.baseMidiValue = basePitchClass.baseMidiValue;
+        this.aliasBaseMidiValue = (12 + Letter.valueOf(aliasLetter).baseMidiValue + Accidental.sumAccidentalsToSemitoneModifier(aliasAccidentals)) % 12;
+        String a = Accidental.convertToUTF8Symbols(aliasAccidentals);
+        String simplified = Accidental.simplify(a, a.contains(Accidental.NATURAL.utf8Symbol), true);
+        this.isAliasSimplified = a.equals(simplified);
     }
 
     /**
@@ -160,7 +162,7 @@ public class PitchClass
     public static PitchClass withName(String name, boolean wantNaturalSymbol) {
 
         if (!EnharmonicSpelling.PATTERN.matcher(name).matches()) {
-            throw new IllegalArgumentException("Invalid pitch class name provided: " + name);
+            throw new IllegalArgumentException("Invalid pitch class baseName provided: " + name);
         } else {
 
             String letter = String.valueOf(name.charAt(0));
@@ -168,8 +170,8 @@ public class PitchClass
             if (name.length() > 1) {
                 simplifiedAccidentals = Accidental.simplify(name.substring(1), wantNaturalSymbol, true);
             } else if (wantNaturalSymbol) {
-                simplifiedAccidentals = Accidental.NATURAL.UTF8_SYMBOL;
-                name += Accidental.NATURAL.UTF8_SYMBOL;
+                simplifiedAccidentals = Accidental.NATURAL.utf8Symbol;
+                name += Accidental.NATURAL.utf8Symbol;
             }
 
             // Try looking up a standard pitch class and return the static instance if possible
@@ -181,7 +183,7 @@ public class PitchClass
             try {
                 return new PitchClass(determineBasePitchClass(letter, simplifiedAccidentals), Accidental.convertToUTF8Symbols(name));
             } catch (Exception e) {
-                throw new RuntimeException("Could not create pitch class with name: " + name);
+                throw new RuntimeException("Could not create pitch class with baseName: " + name);
             }
 
         }
@@ -213,7 +215,7 @@ public class PitchClass
             // Figure out an enharmonically-equivalent BasePitchClass would be. This may require changing the letter.
             BasePitchClass startingPoint = BasePitchClass.valueOf(startingLetter);
 
-            BaseEnharmonicSpelling baseEnharmonicSpelling = startingPoint.ENHARMONIC_SPELLING;
+            BaseEnharmonicSpelling baseEnharmonicSpelling = startingPoint.baseEnharmonicSpelling;
 
             for (char c : simplifiedAccidentals.toCharArray()) {
                 String token = String.valueOf(c);
@@ -232,8 +234,8 @@ public class PitchClass
      * @return the difference in semitones between lhs and rhs
      */
     public static int getSemitoneDistanceBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
-        int r = (rhs.BASE_PITCH_CLASS.BASE_MIDI_VALUE < 0 ? 12 + rhs.BASE_PITCH_CLASS.BASE_MIDI_VALUE : rhs.BASE_PITCH_CLASS.BASE_MIDI_VALUE) % 12;
-        int l = (lhs.BASE_PITCH_CLASS.BASE_MIDI_VALUE < 0 ? 12 + lhs.BASE_PITCH_CLASS.BASE_MIDI_VALUE : lhs.BASE_PITCH_CLASS.BASE_MIDI_VALUE) % 12;
+        int r = (rhs.basePitchClass.baseMidiValue < 0 ? 12 + rhs.basePitchClass.baseMidiValue : rhs.basePitchClass.baseMidiValue) % 12;
+        int l = (lhs.basePitchClass.baseMidiValue < 0 ? 12 + lhs.basePitchClass.baseMidiValue : lhs.basePitchClass.baseMidiValue) % 12;
         int semitoneDistance = r - l;
         return semitoneDistance >= 0 ? semitoneDistance : 12 + semitoneDistance;
     }
@@ -253,7 +255,7 @@ public class PitchClass
                     : Interval.withShortName(interval.getSimpleShortName()).invert();
 
             // 2. Determine the expected letter of the candidate Pitch.
-            Letter beginLetter = Letter.valueOf(ALIAS_LETTER);
+            Letter beginLetter = Letter.valueOf(aliasLetter);
             int idx = beginLetter.ordinal();
             int expectedLetterIndex = direction
                     ? (idx + (interval.getSimpleDiatonic() - 1)) % 7
@@ -261,25 +263,10 @@ public class PitchClass
             Letter expectedLetter = Letter.values()[expectedLetterIndex];
 
             // 3. Get the semitones between the two letters.
-            int semitonesBetweenLetters = Math.abs(beginLetter.BASE_MIDI_VALUE - (12 + expectedLetter.BASE_MIDI_VALUE)) % 12;
+            int semitonesBetweenLetters = Math.abs(beginLetter.baseMidiValue - (12 + expectedLetter.baseMidiValue)) % 12;
 
             // 4. Setup the candidate PitchClass. Add accidentals as necessary.
-            StringBuilder sb = new StringBuilder();
-            while (semitonesBetweenLetters != simpleInterval.getSemitones()) {
-                if (semitonesBetweenLetters < simpleInterval.getSemitones()) {
-                    sb.append("#");
-                    semitonesBetweenLetters++;
-                } else {
-                    sb.append("b");
-                    semitonesBetweenLetters--;
-                }
-            }
-            String partition1 = Accidental.convertToUTF8Symbols(ALIAS_ACCIDENTALS);
-            String partition2 = Accidental.simplify(sb.toString(), false, true);
-            String candidateName = expectedLetter.name()
-                    + (IS_ALIAS_SIMPLIFIED
-                        ? mergeAccidentals(partition1, partition2)
-                        : (partition1 + sb.toString()));
+            String candidateName = determineTransposedName(semitonesBetweenLetters, simpleInterval, expectedLetter);
 
             return PitchClass.withName(candidateName, false);
         } else {
@@ -291,6 +278,25 @@ public class PitchClass
                             + interval.getCompoundShortName()
             );
         }
+    }
+
+    private String determineTransposedName(int semitonesBetweenLetters, Interval simpleInterval, Letter expectedLetter) {
+        StringBuilder sb = new StringBuilder();
+        while (semitonesBetweenLetters != simpleInterval.getSemitones()) {
+            if (semitonesBetweenLetters < simpleInterval.getSemitones()) {
+                sb.append(Accidental.SHARP.utf8Symbol);
+                semitonesBetweenLetters++;
+            } else {
+                sb.append(Accidental.FLAT.utf8Symbol);
+                semitonesBetweenLetters--;
+            }
+        }
+        String partition1 = Accidental.convertToUTF8Symbols(aliasAccidentals);
+        String partition2 = Accidental.simplify(sb.toString(), false, true);
+        return expectedLetter.name()
+                + (isAliasSimplified
+                ? mergeAccidentals(partition1, partition2)
+                : (partition1 + sb.toString()));
     }
 
     /**
@@ -305,7 +311,7 @@ public class PitchClass
         String a1 = lhs.substring(0, lhs.length() - lastOfLHS.length());
         String a2 = rhs.substring(firstOfRHS.length());
 
-        String simplified = Accidental.simplify(lastOfLHS + firstOfRHS, lhs.contains(Accidental.NATURAL.UTF8_SYMBOL), true);
+        String simplified = Accidental.simplify(lastOfLHS + firstOfRHS, lhs.contains(Accidental.NATURAL.utf8Symbol), true);
 
         // TODO: reorder x# to #x ?
 
@@ -328,9 +334,12 @@ public class PitchClass
             String temp = firstOrLast
                     ? allAccidentals.substring(0, 2)
                     : allAccidentals.substring(allAccidentals.length() - 2);
-            return "bb".equals(temp)
-                    ? temp
-                    : (firstOrLast ? String.valueOf(temp.charAt(0)) : temp.substring(1));
+
+            if (Accidental.DOUBLE_FLAT.equals(Accidental.getBySymbol(temp))) {
+                return temp;
+            }
+
+            return firstOrLast ? String.valueOf(temp.charAt(0)) : temp.substring(1);
         }
     }
 
@@ -340,7 +349,7 @@ public class PitchClass
             return true;
         }
 
-        boolean accidentalIsFlatOrSharp = !this.ALIAS_ACCIDENTALS.isEmpty();
+        boolean accidentalIsFlatOrSharp = !this.aliasAccidentals.isEmpty();
 
         /*
          * Key signatures inherit their 'bias' toward flatness / sharpness
@@ -351,7 +360,7 @@ public class PitchClass
          * but the enharmonic spelling contains an accidental,
          * it can't be diatonic to this key signature.
          */
-        if (keySignature.getKey().ALIAS_ACCIDENTALS.isEmpty() && keySignature.getSignature().size() == 0 && accidentalIsFlatOrSharp) {
+        if (keySignature.getKey().aliasAccidentals.isEmpty() && keySignature.getSignature().isEmpty() && accidentalIsFlatOrSharp) {
             return false;
         }
 
@@ -374,7 +383,7 @@ public class PitchClass
          * must be considered NOT diatonic.
          */
         for (PitchClass p : keySignature.getSignature()) {
-            if (ALIAS_LETTER.equals(p.ALIAS_LETTER)) {
+            if (aliasLetter.equals(p.aliasLetter)) {
                 return false;
             }
         }
@@ -396,45 +405,50 @@ public class PitchClass
 
     @Override
     public boolean isEnharmonicTo(@NotNull PitchClass other) {
-        int r = (other.ALIAS_BASE_MIDI_VALUE < 0 ? 12 + other.ALIAS_BASE_MIDI_VALUE : other.ALIAS_BASE_MIDI_VALUE) % 12;
-        int l = (this.ALIAS_BASE_MIDI_VALUE < 0 ? 12 + this.ALIAS_BASE_MIDI_VALUE : this.ALIAS_BASE_MIDI_VALUE) % 12;
+        int r = (other.aliasBaseMidiValue < 0 ? 12 + other.aliasBaseMidiValue : other.aliasBaseMidiValue) % 12;
+        int l = (this.aliasBaseMidiValue < 0 ? 12 + this.aliasBaseMidiValue : this.aliasBaseMidiValue) % 12;
         return r == l;
     }
 
     @Override
     public String getName() {
-        return this.ALIAS_LETTER + this.ALIAS_ACCIDENTALS;
+        return this.aliasLetter + this.aliasAccidentals;
     }
 
     @Override
     public String getBaseName() {
-        return this.BASE_PITCH_CLASS.ENHARMONIC_SPELLING.NAME;
+        return this.basePitchClass.baseEnharmonicSpelling.baseName;
     }
 
     public Octave getOctaveRange() {
-        return OCTAVE_RANGE;
+        return octaveRange;
     }
 
     public int getMidiValue() {
-        return ALIAS_BASE_MIDI_VALUE;
+        return aliasBaseMidiValue;
     }
 
     public int getBaseMidiValue() {
-        return BASE_MIDI_VALUE;
+        return baseMidiValue;
     }
 
     @Override
     public boolean equals(Object other) {
-        if (other == null || !other.getClass().isAssignableFrom(PitchClass.class)) {
+        if (other == null || this.getClass() != other.getClass()) {
             return false;
         }
 
         PitchClass comparison = (PitchClass) other;
 
-        return BASE_PITCH_CLASS.equals(comparison.BASE_PITCH_CLASS)
-                && ALIAS_LETTER.equals(comparison.ALIAS_LETTER)
-                && ALIAS_ACCIDENTALS.equals(comparison.ALIAS_ACCIDENTALS)
-                && ALIAS_BASE_MIDI_VALUE == comparison.ALIAS_BASE_MIDI_VALUE;
+        return basePitchClass.equals(comparison.basePitchClass)
+                && aliasLetter.equals(comparison.aliasLetter)
+                && aliasAccidentals.equals(comparison.aliasAccidentals)
+                && aliasBaseMidiValue == comparison.aliasBaseMidiValue;
 
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 }

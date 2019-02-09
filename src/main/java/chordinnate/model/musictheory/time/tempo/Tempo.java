@@ -8,9 +8,8 @@ import org.jetbrains.annotations.Nullable;
  * Created by Joseph on 6/22/16.
  */
 public class Tempo {
-    private static final int
-            MIN_BPM = TempoMarking.slowest().MIN_BPM,
-            MAX_BPM = TempoMarking.fastest().MAX_BPM;
+    private static final int MIN_BPM = TempoMarking.slowest().minBpm;
+    private static final int MAX_BPM = TempoMarking.fastest().maxBpm;
     private TempoMarking tempoMarking;
     private Beat currentSubdivision;
     private int currentBPM;                 // Beats per minute
@@ -45,7 +44,7 @@ public class Tempo {
          * for the given TempoMarking. This follows
          * typical metronome conventions.
          */
-        this.currentBPM = tempoMarking.MIN_BPM;
+        this.currentBPM = tempoMarking.minBpm;
 
         /*
          * Update the lower-level "millis" variable
@@ -77,10 +76,12 @@ public class Tempo {
      */
     public boolean accel() {
         if (currentBPM + 2 < MAX_BPM) {
-            millis = bpmToMillis(currentBPM += 2);
+            currentBPM += 2;
+            millis = bpmToMillis(currentBPM);
             return true;
         } else if (currentBPM + 1 < MAX_BPM) {
-            millis = bpmToMillis(currentBPM += 1);
+            currentBPM += 1;
+            millis = bpmToMillis(currentBPM);
             return true;
         } else {
             return false;
@@ -93,10 +94,12 @@ public class Tempo {
      */
     public boolean rit() {
         if (currentBPM - 2 >= MIN_BPM) {
-            millis = bpmToMillis(currentBPM -= 2);
+            currentBPM -= 2;
+            millis = bpmToMillis(currentBPM);
             return true;
         } else if (currentBPM - 1 >= MIN_BPM) {
-            millis = bpmToMillis(currentBPM -= 1);
+            currentBPM -= 1;
+            millis = bpmToMillis(currentBPM);
             return true;
         } else {
             return false;
@@ -115,9 +118,9 @@ public class Tempo {
         }
 
         // In case the TempoMarking is not initialized...
-        for (TempoMarking tempoMarking : TempoMarking.values()) {
-            if (tempoMarking.MIN_BPM <= currentBPM) {
-                return tempoMarking;
+        for (TempoMarking tm : TempoMarking.values()) {
+            if (tm.minBpm <= currentBPM) {
+                return tm;
             }
         }
 

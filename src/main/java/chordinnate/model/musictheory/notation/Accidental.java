@@ -1,5 +1,7 @@
 package chordinnate.model.musictheory.notation;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,28 +21,28 @@ public enum Accidental {
     DOUBLE_SHARP("\uD834\uDD2A", "x", 2);
 
     private static final Map<String, Accidental> UTF8_SYMBOL_TO_ACCIDENTAL = Arrays.stream(values())
-            .collect(Collectors.toMap(a -> a.UTF8_SYMBOL, Function.identity()));
+            .collect(Collectors.toMap(a -> a.utf8Symbol, Function.identity()));
 
     public static final String SINGLE_ACCIDENTAL_REGEX = "^([\\uD834\\uDD2B\\u266d\\u266e\\u266f\\uD834\\uDD2A_#x]|bb?)$";
     public static final String MULTIPLE_ACCIDENTALS_REGEX = "^([\\uD834\\uDD2B\\u266d\\u266e\\u266f\\uD834\\uDD2Ab_#x])*$";
     public static final String ACCIDENTALS_REGEX_COMPLEMENT = "([^\\uD834\\uDD2B\\u266d\\u266e\\u266f\\uD834\\uDD2Ab_#x])+";
 
-    public final String SYMBOL;
-    public final String UTF8_SYMBOL;
-    public final int SEMITONE_MODIFIER;
+    public final String symbol;
+    public final String utf8Symbol;
+    public final int semitoneModifier;
 
     Accidental(String symbol, String utf8Symbol, int semitoneModifier) {
-        this.SYMBOL = symbol;
-        this.UTF8_SYMBOL = utf8Symbol;
-        this.SEMITONE_MODIFIER = semitoneModifier;
+        this.symbol = symbol;
+        this.utf8Symbol = utf8Symbol;
+        this.semitoneModifier = semitoneModifier;
     }
 
     public boolean matchesSymbol(String s) {
-        return SYMBOL.equals(s) || UTF8_SYMBOL.equals(s);
+        return symbol.equals(s) || utf8Symbol.equals(s);
     }
 
     public boolean matchesSymbol(char c) {
-        return UTF8_SYMBOL.length() == 1 && UTF8_SYMBOL.charAt(0) == c;
+        return utf8Symbol.length() == 1 && utf8Symbol.charAt(0) == c;
     }
 
     public static int sumAccidentalsToSemitoneModifier(String allAccidentals) {
@@ -57,7 +59,7 @@ public enum Accidental {
             String token = String.valueOf(c);
             if (token.matches(SINGLE_ACCIDENTAL_REGEX)) {
                 Accidental toCheck = getBySymbol(token);
-                total += toCheck.SEMITONE_MODIFIER;
+                total += toCheck.semitoneModifier;
             }
         }
 
@@ -67,11 +69,7 @@ public enum Accidental {
     public static String simplify(String allAccidentals, boolean wantNaturalSymbol, boolean returnUTF8) {
 
         if (allAccidentals.isEmpty() || NATURAL.matchesSymbol(allAccidentals)) {
-            if (returnUTF8) {
-                return wantNaturalSymbol ? NATURAL.UTF8_SYMBOL : NONE.UTF8_SYMBOL;
-            } else {
-                return wantNaturalSymbol ? NATURAL.SYMBOL : NONE.SYMBOL;
-            }
+            return convertNaturals(returnUTF8, wantNaturalSymbol);
         }
 
         int semitoneModifier = sumAccidentalsToSemitoneModifier(allAccidentals);
@@ -82,84 +80,60 @@ public enum Accidental {
 
     public static String convertSemitoneModifierToAccidentals(int semitoneModifier, boolean wantNaturalSymbol, boolean returnUTF8) {
         if (semitoneModifier < 0) {
-            if (semitoneModifier == -2) {
-                return returnUTF8 ? DOUBLE_FLAT.UTF8_SYMBOL : DOUBLE_FLAT.SYMBOL;
-            } else if (semitoneModifier == -1) {
-                return returnUTF8 ? FLAT.UTF8_SYMBOL : FLAT.SYMBOL;
-            } else {
-                StringBuilder simplifiedAccidental = new StringBuilder();
-                int numDoubleFlats = Math.abs(semitoneModifier) / 2;
-                boolean appendFlat = Math.abs(semitoneModifier) % 2 == 1;
-                for (int i = 0; i < numDoubleFlats; i++) {
-                    simplifiedAccidental.append(returnUTF8 ? DOUBLE_FLAT.UTF8_SYMBOL : DOUBLE_FLAT.SYMBOL);
-                }
-                if (appendFlat) {
-                    simplifiedAccidental.append(returnUTF8 ? FLAT.UTF8_SYMBOL : FLAT.SYMBOL);
-                }
-                return simplifiedAccidental.toString();
-            }
+            return convertFlatsOrSharps(semitoneModifier, -2, -1, returnUTF8, DOUBLE_FLAT, FLAT);
         } else if (semitoneModifier > 0) {
-            if (semitoneModifier == 2) {
-                return returnUTF8 ? DOUBLE_SHARP.UTF8_SYMBOL : DOUBLE_SHARP.SYMBOL;
-            } else if (semitoneModifier == 1) {
-                return returnUTF8 ? SHARP.UTF8_SYMBOL : SHARP.SYMBOL;
-            } else {
-                StringBuilder simplifiedAccidental = new StringBuilder();
-                int numDoubleSharps = semitoneModifier / 2;
-                boolean appendSharp = semitoneModifier % 2 == 1;
-                for (int i = 0; i < numDoubleSharps; i++) {
-                    simplifiedAccidental.append(returnUTF8 ? DOUBLE_SHARP.UTF8_SYMBOL : DOUBLE_SHARP.SYMBOL);
-                }
-                if (appendSharp) {
-                    simplifiedAccidental.append(returnUTF8 ? SHARP.UTF8_SYMBOL : SHARP.SYMBOL);
-                }
-                return simplifiedAccidental.toString();
-            }
+            return convertFlatsOrSharps(semitoneModifier, 2, 1, returnUTF8, DOUBLE_SHARP, SHARP);
         } else {
-            if (returnUTF8) {
-                return wantNaturalSymbol ? NATURAL.UTF8_SYMBOL : NONE.UTF8_SYMBOL;
-            } else {
-                return wantNaturalSymbol ? NATURAL.SYMBOL : NONE.SYMBOL;
-            }
+            return convertNaturals(returnUTF8, wantNaturalSymbol);
+        }
+    }
+
+    private static String convertFlatsOrSharps(int semitoneModifier,
+                                               int doubleMod,
+                                               int singleMod,
+                                               boolean returnUTF8,
+                                               Accidental doubleAcc,
+                                               Accidental singleAcc) {
+        if (semitoneModifier == doubleMod) {
+            return returnUTF8 ? doubleAcc.utf8Symbol : doubleAcc.symbol;
+        } else if (semitoneModifier == singleMod) {
+            return returnUTF8 ? singleAcc.utf8Symbol : singleAcc.symbol;
+        } else {
+            return convertFlatsOrSharps(semitoneModifier, returnUTF8, doubleAcc, singleAcc);
+        }
+    }
+
+    private static String convertFlatsOrSharps(int semitoneModifier, boolean returnUTF8, Accidental doubleAcc, Accidental singleAcc) {
+        StringBuilder simplifiedAccidental = new StringBuilder();
+        int numDoubleAccs = Math.abs(semitoneModifier) / 2;
+        boolean appendSingleAcc = Math.abs(semitoneModifier) % 2 == 1;
+        for (int i = 0; i < numDoubleAccs; i++) {
+            simplifiedAccidental.append(returnUTF8 ? doubleAcc.utf8Symbol : doubleAcc.symbol);
+        }
+        if (appendSingleAcc) {
+            simplifiedAccidental.append(returnUTF8 ? singleAcc.utf8Symbol : singleAcc.symbol);
+        }
+        return simplifiedAccidental.toString();
+    }
+
+    private static String convertNaturals(boolean returnUTF8, boolean wantNaturalSymbol) {
+        if (returnUTF8) {
+            return wantNaturalSymbol ? NATURAL.utf8Symbol : NONE.utf8Symbol;
+        } else {
+            return wantNaturalSymbol ? NATURAL.symbol : NONE.symbol;
         }
     }
 
     public static List<Accidental> simplify(List<Accidental> allAccidentals, boolean wantNaturalSymbol) {
 
-        int semitoneModifier = allAccidentals.stream().mapToInt(a -> a.SEMITONE_MODIFIER).sum();
+        int semitoneModifier = allAccidentals.stream().mapToInt(a -> a.semitoneModifier).sum();
 
         List<Accidental> simplified = new ArrayList<>();
 
         if (semitoneModifier < 0) {
-            if (semitoneModifier == -2) {
-                simplified.add(DOUBLE_FLAT);
-            } else if (semitoneModifier == -1) {
-                simplified.add(FLAT);
-            } else {
-                int numDoubleFlats = Math.abs(semitoneModifier) / 2;
-                boolean appendFlat = Math.abs(semitoneModifier) % 2 == 1;
-                for (int i = 0; i < numDoubleFlats; i++) {
-                    simplified.add(DOUBLE_FLAT);
-                }
-                if (appendFlat) {
-                    simplified.add(FLAT);
-                }
-            }
+            simplifyHelper(simplified, semitoneModifier, -2, -1, DOUBLE_FLAT, FLAT);
         } else if (semitoneModifier > 0) {
-            if (semitoneModifier == 2) {
-                simplified.add(DOUBLE_SHARP);
-            } else if (semitoneModifier == 1) {
-                simplified.add(SHARP);
-            } else {
-                int numDoubleSharps = semitoneModifier / 2;
-                boolean appendSharp = semitoneModifier % 2 == 1;
-                for (int i = 0; i < numDoubleSharps; i++) {
-                    simplified.add(DOUBLE_SHARP);
-                }
-                if (appendSharp) {
-                    simplified.add(SHARP);
-                }
-            }
+            simplifyHelper(simplified, semitoneModifier, 2, 1, DOUBLE_SHARP, SHARP);
         } else {
             simplified.add(wantNaturalSymbol ? NATURAL : NONE);
         }
@@ -167,10 +141,29 @@ public enum Accidental {
         return simplified;
     }
 
+    private static void simplifyHelper(List<Accidental> simplified, int semitoneModifier, int doubleSM, int singleSM, Accidental doubleAcc, Accidental singleAcc) {
+        if (semitoneModifier == doubleSM) {
+            simplified.add(doubleAcc);
+        } else if (semitoneModifier == singleSM) {
+            simplified.add(singleAcc);
+        } else {
+            int numDoubleAccs = Math.abs(semitoneModifier) / 2;
+            boolean appendSingleAcc = Math.abs(semitoneModifier) % 2 == 1;
+            for (int i = 0; i < numDoubleAccs; i++) {
+                simplified.add(doubleAcc);
+            }
+            if (appendSingleAcc) {
+                simplified.add(singleAcc);
+            }
+        }
+    }
+
+    @Nullable
     public static Accidental getBySymbol(char symbol) {
         return getBySymbol("" + symbol);
     }
 
+    @Nullable
     public static Accidental getBySymbol(String symbol) {
         return UTF8_SYMBOL_TO_ACCIDENTAL.get(convertToUTF8Symbols(symbol));
     }
@@ -180,23 +173,23 @@ public enum Accidental {
             return "";
         }
 
-        return allAccidentals.replaceAll("\\uD834\\uDD2B", DOUBLE_FLAT.UTF8_SYMBOL)
-                .replaceAll("\\u266d", FLAT.UTF8_SYMBOL)
-                .replaceAll("\\u266e", NATURAL.UTF8_SYMBOL)
-                .replaceAll("\\u266f", SHARP.UTF8_SYMBOL)
-                .replaceAll("\\uD834\\uDD2A", DOUBLE_SHARP.UTF8_SYMBOL);
+        return allAccidentals.replaceAll("\\uD834\\uDD2B", DOUBLE_FLAT.utf8Symbol)
+                .replaceAll("\\u266d", FLAT.utf8Symbol)
+                .replaceAll("\\u266e", NATURAL.utf8Symbol)
+                .replaceAll("\\u266f", SHARP.utf8Symbol)
+                .replaceAll("\\uD834\\uDD2A", DOUBLE_SHARP.utf8Symbol);
     }
 
     public static String convertToDisplaySymbols(String allAccidentals, boolean wantNaturalSymbol) {
         if (allAccidentals.isEmpty() && wantNaturalSymbol) {
-            return NATURAL.SYMBOL;
+            return NATURAL.symbol;
         }
 
-        return allAccidentals.replaceAll(DOUBLE_FLAT.UTF8_SYMBOL, DOUBLE_FLAT.SYMBOL)
-                .replaceAll(FLAT.UTF8_SYMBOL, FLAT.SYMBOL)
-                .replaceAll(NATURAL.UTF8_SYMBOL, wantNaturalSymbol ? NATURAL.SYMBOL : "")
-                .replaceAll(SHARP.UTF8_SYMBOL, SHARP.SYMBOL)
-                .replaceAll(DOUBLE_SHARP.UTF8_SYMBOL, DOUBLE_SHARP.SYMBOL);
+        return allAccidentals.replaceAll(DOUBLE_FLAT.utf8Symbol, DOUBLE_FLAT.symbol)
+                .replaceAll(FLAT.utf8Symbol, FLAT.symbol)
+                .replaceAll(NATURAL.utf8Symbol, wantNaturalSymbol ? NATURAL.symbol : "")
+                .replaceAll(SHARP.utf8Symbol, SHARP.symbol)
+                .replaceAll(DOUBLE_SHARP.utf8Symbol, DOUBLE_SHARP.symbol);
     }
 
 }

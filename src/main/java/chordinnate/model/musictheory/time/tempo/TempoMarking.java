@@ -1,9 +1,12 @@
 package chordinnate.model.musictheory.time.tempo;
 
+import lombok.AllArgsConstructor;
+
 /**
  * Created by Joseph on 6/22/16.
  * References: https://en.wikipedia.org/wiki/Tempo
  */
+@AllArgsConstructor
 public enum TempoMarking {
     /*
      * NOTE: Keep these ordered from slowest to fastest.
@@ -34,12 +37,8 @@ public enum TempoMarking {
 
     ;
 
-    public final int MIN_BPM, MAX_BPM;
-
-    TempoMarking(int minBPM, int maxBPM) {
-        this.MIN_BPM = minBPM;
-        this.MAX_BPM = maxBPM;
-    }
+    public final int minBpm;
+    public final int maxBpm;
 
     public static TempoMarking slowest() {
         return values()[0];

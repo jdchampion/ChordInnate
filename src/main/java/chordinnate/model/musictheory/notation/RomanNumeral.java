@@ -40,9 +40,9 @@ public enum RomanNumeral {
     AUGMENTED_SEVEN("VII+"),
     ;
 
-    public final String SYMBOL;
+    public final String symbol;
 
     RomanNumeral(String symbol) {
-        this.SYMBOL = symbol;
+        this.symbol = symbol;
     }
 }

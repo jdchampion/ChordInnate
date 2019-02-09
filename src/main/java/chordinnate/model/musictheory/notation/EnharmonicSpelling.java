@@ -62,62 +62,64 @@ public class EnharmonicSpelling implements Enharmonic<EnharmonicSpelling>, Alias
     public static final EnharmonicSpelling B_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.B_SHARP);
     public static final EnharmonicSpelling B_DOUBLE_SHARP = new EnharmonicSpelling(BaseEnharmonicSpelling.B_DOUBLE_SHARP);
 
-    private static final Map<String, EnharmonicSpelling> STANDARD_ENHARMONIC_SPELLINGS = new HashMap<String, EnharmonicSpelling>() {{
-        put("Cbb", EnharmonicSpelling.C_DOUBLE_FLAT);
-        put("Cb", EnharmonicSpelling.C_FLAT);
-        put("C", EnharmonicSpelling.C);
-        put("C_", EnharmonicSpelling.C_NATURAL);
-        put("C#", EnharmonicSpelling.C_SHARP);
-        put("Cx", EnharmonicSpelling.C_DOUBLE_SHARP);
+    private static final Map<String, EnharmonicSpelling> STANDARD_ENHARMONIC_SPELLINGS = new HashMap<>();
 
-        put("Dbb", EnharmonicSpelling.D_DOUBLE_FLAT);
-        put("Db", EnharmonicSpelling.D_FLAT);
-        put("D", EnharmonicSpelling.D);
-        put("D_", EnharmonicSpelling.D_NATURAL);
-        put("D#", EnharmonicSpelling.D_SHARP);
-        put("Dx", EnharmonicSpelling.D_DOUBLE_SHARP);
+    static {
+        STANDARD_ENHARMONIC_SPELLINGS.put("Cbb", EnharmonicSpelling.C_DOUBLE_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Cb", EnharmonicSpelling.C_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("C", EnharmonicSpelling.C);
+        STANDARD_ENHARMONIC_SPELLINGS.put("C_", EnharmonicSpelling.C_NATURAL);
+        STANDARD_ENHARMONIC_SPELLINGS.put("C#", EnharmonicSpelling.C_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Cx", EnharmonicSpelling.C_DOUBLE_SHARP);
 
-        put("Ebb", EnharmonicSpelling.E_DOUBLE_FLAT);
-        put("Eb", EnharmonicSpelling.E_FLAT);
-        put("E", EnharmonicSpelling.E);
-        put("E_", EnharmonicSpelling.E_NATURAL);
-        put("E#", EnharmonicSpelling.E_SHARP);
-        put("Ex", EnharmonicSpelling.E_DOUBLE_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Dbb", EnharmonicSpelling.D_DOUBLE_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Db", EnharmonicSpelling.D_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("D", EnharmonicSpelling.D);
+        STANDARD_ENHARMONIC_SPELLINGS.put("D_", EnharmonicSpelling.D_NATURAL);
+        STANDARD_ENHARMONIC_SPELLINGS.put("D#", EnharmonicSpelling.D_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Dx", EnharmonicSpelling.D_DOUBLE_SHARP);
 
-        put("Fbb", EnharmonicSpelling.F_DOUBLE_FLAT);
-        put("Fb", EnharmonicSpelling.F_FLAT);
-        put("F", EnharmonicSpelling.F);
-        put("F_", EnharmonicSpelling.F_NATURAL);
-        put("F#", EnharmonicSpelling.F_SHARP);
-        put("Fx", EnharmonicSpelling.F_DOUBLE_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Ebb", EnharmonicSpelling.E_DOUBLE_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Eb", EnharmonicSpelling.E_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("E", EnharmonicSpelling.E);
+        STANDARD_ENHARMONIC_SPELLINGS.put("E_", EnharmonicSpelling.E_NATURAL);
+        STANDARD_ENHARMONIC_SPELLINGS.put("E#", EnharmonicSpelling.E_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Ex", EnharmonicSpelling.E_DOUBLE_SHARP);
 
-        put("Gbb", EnharmonicSpelling.G_DOUBLE_FLAT);
-        put("Gb", EnharmonicSpelling.G_FLAT);
-        put("G", EnharmonicSpelling.G);
-        put("G_", EnharmonicSpelling.G_NATURAL);
-        put("G#", EnharmonicSpelling.G_SHARP);
-        put("Gx", EnharmonicSpelling.G_DOUBLE_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Fbb", EnharmonicSpelling.F_DOUBLE_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Fb", EnharmonicSpelling.F_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("F", EnharmonicSpelling.F);
+        STANDARD_ENHARMONIC_SPELLINGS.put("F_", EnharmonicSpelling.F_NATURAL);
+        STANDARD_ENHARMONIC_SPELLINGS.put("F#", EnharmonicSpelling.F_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Fx", EnharmonicSpelling.F_DOUBLE_SHARP);
 
-        put("Abb", EnharmonicSpelling.A_DOUBLE_FLAT);
-        put("Ab", EnharmonicSpelling.A_FLAT);
-        put("A", EnharmonicSpelling.A);
-        put("A_", EnharmonicSpelling.A_NATURAL);
-        put("A#", EnharmonicSpelling.A_SHARP);
-        put("Ax", EnharmonicSpelling.A_DOUBLE_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Gbb", EnharmonicSpelling.G_DOUBLE_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Gb", EnharmonicSpelling.G_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("G", EnharmonicSpelling.G);
+        STANDARD_ENHARMONIC_SPELLINGS.put("G_", EnharmonicSpelling.G_NATURAL);
+        STANDARD_ENHARMONIC_SPELLINGS.put("G#", EnharmonicSpelling.G_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Gx", EnharmonicSpelling.G_DOUBLE_SHARP);
 
-        put("Bbb", EnharmonicSpelling.B_DOUBLE_FLAT);
-        put("Bb", EnharmonicSpelling.B_FLAT);
-        put("B", EnharmonicSpelling.B);
-        put("B_", EnharmonicSpelling.B_NATURAL);
-        put("B#", EnharmonicSpelling.B_SHARP);
-        put("Bx", EnharmonicSpelling.B_DOUBLE_SHARP);
-    }};
+        STANDARD_ENHARMONIC_SPELLINGS.put("Abb", EnharmonicSpelling.A_DOUBLE_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Ab", EnharmonicSpelling.A_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("A", EnharmonicSpelling.A);
+        STANDARD_ENHARMONIC_SPELLINGS.put("A_", EnharmonicSpelling.A_NATURAL);
+        STANDARD_ENHARMONIC_SPELLINGS.put("A#", EnharmonicSpelling.A_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Ax", EnharmonicSpelling.A_DOUBLE_SHARP);
 
-    private Letter LETTER;
-    private List<Accidental> ACCIDENTALS;
-    private List<Accidental> SIMPLIFIED_ACCIDENTALS;
-    private String NAME;
-    private int BASE_MIDI_VALUE;
+        STANDARD_ENHARMONIC_SPELLINGS.put("Bbb", EnharmonicSpelling.B_DOUBLE_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Bb", EnharmonicSpelling.B_FLAT);
+        STANDARD_ENHARMONIC_SPELLINGS.put("B", EnharmonicSpelling.B);
+        STANDARD_ENHARMONIC_SPELLINGS.put("B_", EnharmonicSpelling.B_NATURAL);
+        STANDARD_ENHARMONIC_SPELLINGS.put("B#", EnharmonicSpelling.B_SHARP);
+        STANDARD_ENHARMONIC_SPELLINGS.put("Bx", EnharmonicSpelling.B_DOUBLE_SHARP);
+    }
+
+    private Letter letter;
+    private List<Accidental> accidentals;
+    private List<Accidental> simplifiedAccidentals;
+    private String name;
+    private int baseMidiValue;
 
     private static final String VALID_SYMBOLS_REGEX = "^[A-Ga-g](\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x_])*$";
     public static final Pattern PATTERN = Pattern.compile(VALID_SYMBOLS_REGEX);
@@ -125,36 +127,31 @@ public class EnharmonicSpelling implements Enharmonic<EnharmonicSpelling>, Alias
     private EnharmonicSpelling() {}
 
     private EnharmonicSpelling(BaseEnharmonicSpelling baseEnharmonicSpelling) {
-        this.LETTER = baseEnharmonicSpelling.LETTER;
-        this.ACCIDENTALS = Collections.unmodifiableList(Collections.singletonList(baseEnharmonicSpelling.ACCIDENTAL));
-        this.SIMPLIFIED_ACCIDENTALS = Collections.unmodifiableList(Collections.singletonList(baseEnharmonicSpelling.ACCIDENTAL));
-        this.NAME = baseEnharmonicSpelling.NAME;
-        this.BASE_MIDI_VALUE = baseEnharmonicSpelling.BASE_MIDI_VALUE;
+        this.letter = baseEnharmonicSpelling.letter;
+        this.accidentals = Collections.unmodifiableList(Collections.singletonList(baseEnharmonicSpelling.accidental));
+        this.simplifiedAccidentals = Collections.unmodifiableList(Collections.singletonList(baseEnharmonicSpelling.accidental));
+        this.name = baseEnharmonicSpelling.baseName;
+        this.baseMidiValue = baseEnharmonicSpelling.baseMidiValue;
     }
 
     private EnharmonicSpelling(String alias, boolean wantNaturalSymbol) {
-        this.LETTER = Letter.valueOf(String.valueOf(alias.charAt(0)));
-        this.ACCIDENTALS = new ArrayList<>();
-        Accidental previous = Accidental.NONE;
-        String accidentals = alias.substring(1);
-        for (int i = 1; i < accidentals.length(); i++) {
-            String token = accidentals.substring(i - 1, i);
+        this.letter = Letter.valueOf(String.valueOf(alias.charAt(0)));
+        this.accidentals = new ArrayList<>();
+        String accSymbols = alias.substring(1);
+        for (int i = 1; i < accSymbols.length(); i++) {
+            String token = accSymbols.substring(i - 1, i);
             Accidental toAdd = Accidental.getBySymbol(token);
-            if (Accidental.FLAT.equals(previous) && Accidental.FLAT.equals(toAdd)) {
-                ACCIDENTALS.set(i - 1, Accidental.DOUBLE_FLAT);
-            } else {
-                ACCIDENTALS.add(toAdd);
-            }
+            this.accidentals.add(toAdd);
         }
-        this.SIMPLIFIED_ACCIDENTALS = Accidental.simplify(ACCIDENTALS, wantNaturalSymbol);
-        this.NAME = LETTER.name() + Accidental.convertToDisplaySymbols(accidentals, true);
-        this.BASE_MIDI_VALUE = LETTER.BASE_MIDI_VALUE + Accidental.sumAccidentalsToSemitoneModifier(accidentals);
+        this.simplifiedAccidentals = Accidental.simplify(this.accidentals, wantNaturalSymbol);
+        this.name = letter.name() + Accidental.convertToDisplaySymbols(accSymbols, true);
+        this.baseMidiValue = letter.baseMidiValue + Accidental.sumAccidentalsToSemitoneModifier(accSymbols);
     }
 
     public static EnharmonicSpelling withName(String name, boolean wantNaturalSymbol) {
 
         if (!PATTERN.matcher(name).matches()) {
-            throw new RuntimeException("Invalid name for enharmonic spelling provided: " + name);
+            throw new IllegalArgumentException("Invalid baseName for enharmonic spelling provided: " + name);
         } else {
             String letter = String.valueOf(name.charAt(0));
             String simplifiedAccidentals = Accidental.simplify(name.substring(1), wantNaturalSymbol, true);
@@ -169,7 +166,7 @@ public class EnharmonicSpelling implements Enharmonic<EnharmonicSpelling>, Alias
             try {
                 return new EnharmonicSpelling(name, wantNaturalSymbol);
             } catch (Exception e) {
-                throw new RuntimeException("Could not create enharmonic spelling with name: " + name);
+                throw new RuntimeException("Could not create enharmonic spelling with baseName: " + name);
             }
         }
 
@@ -177,7 +174,7 @@ public class EnharmonicSpelling implements Enharmonic<EnharmonicSpelling>, Alias
 
     public EnharmonicSpelling apply(Accidental toApply, boolean simplify, boolean wantNaturalSymbol) {
 
-        List<Accidental> allAccidentals = new ArrayList<>(this.ACCIDENTALS);
+        List<Accidental> allAccidentals = new ArrayList<>(this.accidentals);
         allAccidentals.add(toApply);
 
         if (simplify) {
@@ -185,27 +182,27 @@ public class EnharmonicSpelling implements Enharmonic<EnharmonicSpelling>, Alias
         }
 
         StringBuilder sb = new StringBuilder();
-        allAccidentals.forEach(a -> sb.append(a.UTF8_SYMBOL));
+        allAccidentals.forEach(a -> sb.append(a.utf8Symbol));
 
-        String newName = this.LETTER.name() + sb.toString();
+        String newName = this.letter.name() + sb.toString();
         return EnharmonicSpelling.withName(newName, wantNaturalSymbol);
 
     }
 
     @Override
     public boolean isEnharmonicTo(@NotNull EnharmonicSpelling other) {
-        return this.BASE_MIDI_VALUE == other.BASE_MIDI_VALUE;
+        return this.baseMidiValue == other.baseMidiValue;
     }
 
     @Override
     public String getBaseName() {
-        return this.NAME;
+        return this.name;
     }
 
     @Override
     public String getName() {
         StringBuilder sb = new StringBuilder();
-        ACCIDENTALS.forEach(a -> sb.append(a.UTF8_SYMBOL));
-        return this.LETTER + sb.toString();
+        accidentals.forEach(a -> sb.append(a.utf8Symbol));
+        return this.letter + sb.toString();
     }
 }

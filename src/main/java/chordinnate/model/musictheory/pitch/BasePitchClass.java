@@ -57,13 +57,13 @@ public enum BasePitchClass {
     G_SHARP(BaseEnharmonicSpelling.G_SHARP, 8),
     G_DOUBLE_SHARP(BaseEnharmonicSpelling.G_DOUBLE_SHARP, 9);
 
-    final BaseEnharmonicSpelling ENHARMONIC_SPELLING;
-    final int BASE_MIDI_VALUE;
-    final Octave OCTAVE_RANGE;
+    final BaseEnharmonicSpelling baseEnharmonicSpelling;
+    final int baseMidiValue;
+    final Octave octaveRange;
 
     BasePitchClass(BaseEnharmonicSpelling baseEnharmonicSpelling, int baseMidiValue) {
-        this.ENHARMONIC_SPELLING = baseEnharmonicSpelling;
-        this.BASE_MIDI_VALUE = baseMidiValue;
+        this.baseEnharmonicSpelling = baseEnharmonicSpelling;
+        this.baseMidiValue = baseMidiValue;
 
         /*
          * The playable MIDI range is 0 (C0) to 127 (G10).
@@ -71,7 +71,7 @@ public enum BasePitchClass {
          * The eleventh (highest) Octave is cut off at G10 (highest possible note),
          * so anything higher than G10 must be prevented.
          */
-        this.OCTAVE_RANGE = baseMidiValue < 8 ? Octave.OCTAVE_10 : Octave.OCTAVE_9;
+        this.octaveRange = baseMidiValue < 8 ? Octave.OCTAVE_10 : Octave.OCTAVE_9;
     }
 
 }

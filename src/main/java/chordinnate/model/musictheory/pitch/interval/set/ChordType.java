@@ -1,6 +1,5 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
-import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
 import javax.persistence.Cacheable;
@@ -20,14 +19,8 @@ import javax.persistence.Table;
 @Entity
 @Cacheable
 @Table(name = "CHORD_TYPE")
-@NamedQueries({
-        @NamedQuery(name = "ChordType.findBySymbol", query = "SELECT c FROM ChordType c WHERE c.symbol = :symbol")
-})
+@NamedQuery(name = "ChordType.findBySymbol", query = "SELECT c FROM ChordType c WHERE c.symbol = :symbol")
 public final class ChordType {
-
-    public ChordType() {
-
-    }
 
     @Column(name = "SYMBOL", nullable = false)
     private String symbol;

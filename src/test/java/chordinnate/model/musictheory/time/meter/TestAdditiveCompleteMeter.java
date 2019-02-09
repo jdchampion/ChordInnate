@@ -2,13 +2,17 @@ package chordinnate.model.musictheory.time.meter;
 
 import chordinnate.model.musictheory.time.meter.fixed.complete.AdditiveCompleteMeter;
 import chordinnate.model.musictheory.time.rhythm.Duration;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import static chordinnate.model.musictheory.time.meter.MeterSubdivision.*;
 
+import java.util.StringJoiner;
+
 /**
  * Created by Joseph on 7/6/16.
  */
+@Slf4j
 public class TestAdditiveCompleteMeter {
     // TODO: more formal testing
     @Test
@@ -22,15 +26,16 @@ public class TestAdditiveCompleteMeter {
                 fourFour2 = new AdditiveCompleteMeter(4, Duration.QUARTER, QUADRUPLE),
                 elevenSixteen = new AdditiveCompleteMeter(11, Duration.SIXTEENTH, QUADRUPLE, QUADRUPLE, TRIPLE);
 
-        System.out.print("\n6/8:\n\tClassifications:\t");
+        StringJoiner sj1 = new StringJoiner(" ");
         for (MeterClassificationType mct : MeterClassificationType.values()) {
-            if (sixEight.isType(mct)) System.out.print(mct + " ");
+            if (sixEight.isType(mct)) sj1.add(mct.name());
         }
-        System.out.print("\n\t\t\t\t\t\t===================================================================");
-        System.out.print("\n\tSubdivisions:\t\t");
+        log.info("6/8:\tClassifications:\t" + sj1.toString());
 
+        StringJoiner sj2 = new StringJoiner(" ");
         for (MeterSubdivision meterSubdivision : sixEight.getSubdivisions()) {
-            System.out.print(meterSubdivision + " ");
+            sj2.add(meterSubdivision.name());
         }
+        log.info("6/8:\tSubdivisions:\t" + sj2.toString());
     }
 }

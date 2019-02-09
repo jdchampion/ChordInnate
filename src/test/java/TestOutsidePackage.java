@@ -1,6 +1,6 @@
-import chordinnate.controller.generator.ChordProgression;
-import chordinnate.controller.generator.MajorProgressionGraph1;
-import chordinnate.controller.playback.PlaybackController;
+import chordinnate.service.generator.ChordProgression;
+import chordinnate.service.generator.MajorProgressionGraph1;
+import chordinnate.service.playback.PlaybackController;
 import chordinnate.model.musictheory.general.Texture;
 import chordinnate.model.musictheory.notation.*;
 import chordinnate.model.musictheory.pitch.interval.*;
@@ -38,7 +38,7 @@ public class TestOutsidePackage {
         Texture texture = CHORDAL;
         NashvilleNumber nashvilleNumber = NashvilleNumber.ONE;
         Octave octave = Octave.OCTAVE_4;
-        Interval interval = Interval.P1;
+        Interval interval = Interval.PERFECT_1;
         Interval other = Interval.withShortName("P1");
         EnharmonicSpelling enharmonicSpelling = EnharmonicSpelling.C;
         KeySignature keySignature = KeySignature.C_MAJOR;
