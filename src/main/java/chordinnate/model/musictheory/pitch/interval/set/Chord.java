@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import chordinnate.ChordInnateException;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
@@ -62,7 +63,7 @@ public class Chord extends VerticalIntervalSet
         }
 
         if (!valid) {
-            throw new RuntimeException("Invalid chord baseName [" + name + "]");
+            throw new ChordInnateException("Invalid chord symbol [" + name + "]");
         }
     }
 
@@ -169,7 +170,7 @@ public class Chord extends VerticalIntervalSet
                     entry.getValue()[inversion] = entry.getValue()[inversion].transpose(true, Interval.withShortName("P8"));
                 }
             }
-            // Append the bass note to the baseName
+            // Append the bass note to the name
             name = super.lowestDiatonic.pitchClass.getName() + chordType.getSymbol()
                     + "/" + super.pitchesByOctave.get(lowestDiatonic.octave)[++inversion].pitchClass.getName();
         }

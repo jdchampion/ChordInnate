@@ -376,7 +376,7 @@ public class KeySignature {
             return new KeySignature(key, MAJOR.label.equals(type) ? MAJOR : MINOR, true);
         }
 
-        throw new IllegalArgumentException("Invalid Key Signature name: " + name);
+        throw new IllegalArgumentException("Invalid key signature name [" + name + "]");
     }
 
     public PitchClass getKey() {

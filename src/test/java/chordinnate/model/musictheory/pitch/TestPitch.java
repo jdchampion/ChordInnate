@@ -31,7 +31,7 @@ public class TestPitch {
     @Test
     public void testField_OCTAVE() throws Exception {
         /*
-         * The Octave for each Pitch should match the number indicated in the baseName of the Pitch.
+         * The Octave for each Pitch should match the number indicated in the name of the Pitch.
          * Example: the Pitch "F_SHARP_5" should contain OCTAVE_5
          */
         for (Pitch pitch : Pitch.STANDARD_PITCH_LOOKUP.values()) {

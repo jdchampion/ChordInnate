@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.notation;
 
+import chordinnate.ChordInnateException;
 import chordinnate.model.Aliased;
 import chordinnate.model.musictheory.pitch.Enharmonic;
 import org.jetbrains.annotations.NotNull;
@@ -151,7 +152,7 @@ public class EnharmonicSpelling implements Enharmonic<EnharmonicSpelling>, Alias
     public static EnharmonicSpelling withName(String name, boolean wantNaturalSymbol) {
 
         if (!PATTERN.matcher(name).matches()) {
-            throw new IllegalArgumentException("Invalid baseName for enharmonic spelling provided: " + name);
+            throw new IllegalArgumentException("Invalid enharmonic spelling name [" + name + "]");
         } else {
             String letter = String.valueOf(name.charAt(0));
             String simplifiedAccidentals = Accidental.simplify(name.substring(1), wantNaturalSymbol, true);
@@ -166,7 +167,7 @@ public class EnharmonicSpelling implements Enharmonic<EnharmonicSpelling>, Alias
             try {
                 return new EnharmonicSpelling(name, wantNaturalSymbol);
             } catch (Exception e) {
-                throw new RuntimeException("Could not create enharmonic spelling with baseName: " + name);
+                throw new ChordInnateException("Could not create enharmonic spelling with name: " + name, e);
             }
         }
 

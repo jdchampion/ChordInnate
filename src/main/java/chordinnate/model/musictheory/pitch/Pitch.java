@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.pitch;
 
+import chordinnate.ChordInnateException;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.Letter;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -508,12 +509,12 @@ public class Pitch
                 Octave octave = Octave.valueOf("OCTAVE_" + octaveNumber);
                 return new Pitch(pitchClass, octave);
             } else {
-                throw new IllegalArgumentException("Pitch " + name + " is outside of playable range");
+                throw new ChordInnateException("Pitch [" + name + "] is outside of playable range");
             }
 
         }
 
-        throw new IllegalArgumentException("Invalid pitch baseName provided: " + name);
+        throw new IllegalArgumentException("Invalid pitch name [" + name + "]");
     }
 
     String getName() {
@@ -593,11 +594,11 @@ public class Pitch
             attempted = true;
         }
 
-        throw new RuntimeException(
+        throw new ChordInnateException(
                 (attempted ? "Error transposing" : "Cannot transpose")
-                        + " pitch " + getName()
-                        + (direction ? " up " : " down ")
-                        + "by interval " + interval.getCompoundShortName());
+                        + " pitch [" + getName()
+                        + (direction ? "] up " : "] down ")
+                        + "by interval [" + interval.getCompoundShortName() + "]");
     }
 
     @Override
@@ -631,16 +632,17 @@ public class Pitch
     public Pitch transpose(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         try {
             return Pitch.withName(pitchClass.getName() + octave.getNumber());
-        } catch (IllegalArgumentException iae) {
-            throw iae;
-        } catch (Exception e) {
-            throw new RuntimeException(
-                    ("Cannot transpose pitch "
+        } catch (IllegalArgumentException | ChordInnateException ex1) {
+            throw ex1;
+        } catch (Exception ex2) {
+            throw new ChordInnateException(
+                    ("Cannot transpose pitch ["
                             + getName()
-                            + " to "
+                            + "] to ["
                             + pitchClass.getName()
-                            + octave.getNumber()),
-                    e
+                            + octave.getNumber())
+                            + "]",
+                    ex2
             );
         }
     }

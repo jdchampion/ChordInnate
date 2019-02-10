@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.pitch;
 
+import chordinnate.ChordInnateException;
 import chordinnate.model.Aliased;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.BaseEnharmonicSpelling;
@@ -162,7 +163,7 @@ public class PitchClass
     public static PitchClass withName(String name, boolean wantNaturalSymbol) {
 
         if (!EnharmonicSpelling.PATTERN.matcher(name).matches()) {
-            throw new IllegalArgumentException("Invalid pitch class baseName provided: " + name);
+            throw new IllegalArgumentException("Invalid pitch class name [" + name + "]");
         } else {
 
             String letter = String.valueOf(name.charAt(0));
@@ -183,7 +184,7 @@ public class PitchClass
             try {
                 return new PitchClass(determineBasePitchClass(letter, simplifiedAccidentals), Accidental.convertToUTF8Symbols(name));
             } catch (Exception e) {
-                throw new RuntimeException("Could not create pitch class with baseName: " + name);
+                throw new ChordInnateException("Could not create pitch class with name: " + name, e);
             }
 
         }
@@ -270,7 +271,7 @@ public class PitchClass
 
             return PitchClass.withName(candidateName, false);
         } else {
-            throw new RuntimeException(
+            throw new ChordInnateException(
                     "Cannot transpose pitch class "
                             + getName()
                             + (direction ? " up " : " down ")
