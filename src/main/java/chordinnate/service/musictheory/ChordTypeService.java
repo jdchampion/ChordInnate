@@ -18,8 +18,8 @@ public interface ChordTypeService {
     Optional<ChordType> findById(int id);
 
     /**
-     * Retrieves the ChordType from the database matching the specified baseName, if possible.
-     * @param symbol the ChordType's unique baseName
+     * Retrieves the ChordType from the database matching the specified name, if possible.
+     * @param symbol the ChordType's unique name
      * @return {@link Optional}<{@link ChordType}> that was requested
      */
     Optional<ChordType> findBySymbol(String symbol);

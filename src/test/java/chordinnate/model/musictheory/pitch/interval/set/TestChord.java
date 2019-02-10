@@ -125,7 +125,7 @@ public class TestChord {
      * @param chord
      * @param expected
      */
-    private void verifyChord(Chord chord, PitchClass... expected) {
+    private static void verifyChord(Chord chord, PitchClass... expected) {
         Pitch[]
                 lowPitches = chord.getPitchesForOctave(Octave.OCTAVE_0),
                 highPitches = chord.getPitchesForOctave(chord.maxPlayableOctave);

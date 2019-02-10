@@ -18,8 +18,8 @@ public interface ScaleTypeService {
     Optional<ScaleType> findById(int id);
 
     /**
-     * Retrieves the ScaleType from the database matching the specified baseName, if possible.
-     * @param name the ScaleType's unique baseName
+     * Retrieves the ScaleType from the database matching the specified name, if possible.
+     * @param name the ScaleType's unique name
      * @return {@link Optional}<{@link ScaleType}> that was requested
      */
     Optional<ScaleType> findByName(String name);

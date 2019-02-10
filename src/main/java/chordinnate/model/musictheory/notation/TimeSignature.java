@@ -37,7 +37,7 @@ public class TimeSignature {
             if (beatValue == null) {
                 // the beat value is a power of 2, but it's too small of a subdivision
                 throw new IllegalArgumentException(
-                        "Unsupported beat value for the Time Signature (" + denominator + ")");
+                        "Unsupported beat value for time signature [" + numerator + "/" + denominator + "]");
             }
             this.meter = new NonAdditiveCompleteMeter(numerator, beatValue);
         } else {

@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval;
 
+import chordinnate.ChordInnateException;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import lombok.extern.slf4j.Slf4j;
@@ -288,15 +289,15 @@ public class Interval implements Invertible<Interval> {
     public static final Interval DIMINISHED_71 = new Interval("d71", "d1", "A71", 119, 10);
     public static final Interval PERFECT_71 = new Interval("P71", "P1", "P71", 120, 10);
     public static final Interval AUGMENTED_71 = new Interval("A71", "A1", "d71", 121, 10);
-    public static final Interval DIMINISHED_72 = new Interval("d72", "d2", "A77", 120, 10); // no inversion possible
-    public static final Interval MINOR_72 = new Interval("m72", "m2", "M77", 121, 10); // no inversion possible
-    public static final Interval MAJOR_72 = new Interval("M72", "M2", "m77", 122, 10); // no inversion possible
-    public static final Interval AUGMENTED_72 = new Interval("A72", "A2", "d77", 123, 10); // no inversion possible
-    public static final Interval DIMINISHED_73 = new Interval("d73", "d3", "A76", 122, 10); // no inversion possible
-    public static final Interval MINOR_73 = new Interval("m73", "m3", "M76", 123, 10); // no inversion possible
-    public static final Interval MAJOR_73 = new Interval("M73", "M3", "m76", 124, 10); // no inversion possible
+    public static final Interval DIMINISHED_72 = new Interval("d72", "d2", "A77", 120, 10);
+    public static final Interval MINOR_72 = new Interval("m72", "m2", "M77", 121, 10);
+    public static final Interval MAJOR_72 = new Interval("M72", "M2", "m77", 122, 10);
+    public static final Interval AUGMENTED_72 = new Interval("A72", "A2", "d77", 123, 10);
+    public static final Interval DIMINISHED_73 = new Interval("d73", "d3", "A76", 122, 10);
+    public static final Interval MINOR_73 = new Interval("m73", "m3", "M76", 123, 10);
+    public static final Interval MAJOR_73 = new Interval("M73", "M3", "m76", 124, 10);
     public static final Interval AUGMENTED_73 = new Interval("A73", "A3", "d76", 125, 10);
-    public static final Interval DIMINISHED_74 = new Interval("d74", "d4", "A75", 124, 10); // no inversion possible
+    public static final Interval DIMINISHED_74 = new Interval("d74", "d4", "A75", 124, 10);
     public static final Interval PERFECT_74 = new Interval("P74", "P4", "P75", 125, 10);
     public static final Interval AUGMENTED_74 = new Interval("A74", "A4", "d75", 126, 10);
     public static final Interval DIMINISHED_75 = new Interval("d75", "d5", "A74", 126, 10);
@@ -385,11 +386,41 @@ public class Interval implements Invertible<Interval> {
         INTERVAL_BETWEEN.put("EB", Interval.PERFECT_5);
     }
 
-    String compoundShortName;
-    String simpleShortName;
-    String invertedCompoundShortName;
-    int semitones;
-    int octaves;
+    private static final Map<String, Integer> SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE = new HashMap<>();
+
+    static {
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("d1", Interval.DIMINISHED_1.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("P1", Interval.PERFECT_1.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("A1", Interval.AUGMENTED_1.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("d2", Interval.DIMINISHED_2.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("m2", Interval.MINOR_2.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("M2", Interval.MAJOR_2.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("A2", Interval.AUGMENTED_2.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("d3", Interval.DIMINISHED_3.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("m3", Interval.MINOR_3.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("M3", Interval.MAJOR_3.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("A3", Interval.AUGMENTED_3.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("d4", Interval.DIMINISHED_4.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("P4", Interval.PERFECT_4.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("A4", Interval.AUGMENTED_4.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("d5", Interval.DIMINISHED_5.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("P5", Interval.PERFECT_5.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("A5", Interval.AUGMENTED_5.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("d6", Interval.DIMINISHED_6.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("m6", Interval.MINOR_6.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("M6", Interval.MAJOR_6.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("A6", Interval.AUGMENTED_6.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("d7", Interval.DIMINISHED_7.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("m7", Interval.MINOR_7.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("M7", Interval.MAJOR_7.semitones);
+        SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.put("A7", Interval.AUGMENTED_7.semitones);
+    }
+
+    private final String compoundShortName;
+    private final String simpleShortName;
+    private final String invertedCompoundShortName;
+    private final int semitones;
+    private final int octaves;
 
     Interval(String compoundShortname,
              String simpleShortname,
@@ -456,7 +487,7 @@ public class Interval implements Invertible<Interval> {
                 endAccidentals.append(Accidental.DOUBLE_FLAT.utf8Symbol);
             }
 
-            beginAccidentals = beginAccidentals.deleteCharAt(0);
+            beginAccidentals.deleteCharAt(0);
         }
         endAccidentals = new StringBuilder(Accidental.simplify(endAccidentals.toString(), false, true));
         PitchClass newBegin = PitchClass.withName(beginLetter + beginAccidentals, false);
@@ -586,14 +617,16 @@ public class Interval implements Invertible<Interval> {
     public static Interval getIntervalBetween(@NotNull PitchClass begin, @NotNull PitchClass end, boolean direction) {
         try {
             return determineIntervalBetween(begin, end, direction);
-        } catch (RuntimeException ex) {
-            throw new RuntimeException(
+        } catch (IllegalArgumentException ex) {
+            throw new ChordInnateException(
                     "Could not determine the "
                             + (direction ? "upward " : "downward ")
-                            + "interval between pitch classes "
+                            + "interval between pitch classes ["
                             + begin.getName()
-                            + " and "
+                            + "] and ["
                             + end.getName()
+                            + "]",
+                    ex
             );
         }
     }
@@ -603,27 +636,23 @@ public class Interval implements Invertible<Interval> {
     }
 
     public boolean isDiminished() {
-        return isMatchingQuality("d", simpleShortName);
+        return simpleShortName.contains("d");
     }
 
     public boolean isAugmented() {
-        return isMatchingQuality("A", simpleShortName);
+        return simpleShortName.contains("A");
     }
 
     public boolean isPerfect() {
-        return isMatchingQuality("P", simpleShortName);
+        return simpleShortName.charAt(0) == 'P';
     }
 
     public boolean isMajor() {
-        return isMatchingQuality("M", simpleShortName);
+        return simpleShortName.charAt(0) == 'M';
     }
 
     public boolean isMinor() {
-        return isMatchingQuality("m", simpleShortName);
-    }
-
-    private static boolean isMatchingQuality(String quality, String shortName) {
-        return shortName.startsWith(quality);
+        return simpleShortName.charAt(0) == 'm';
     }
 
     public String getCompoundShortName() {
@@ -634,15 +663,11 @@ public class Interval implements Invertible<Interval> {
         return simpleShortName;
     }
 
-    public String getAbbreviatedQuality() {
-        return simpleShortName.substring(0, 1);
-    }
-
     /**
-     * Retrieves the Interval specified by its compound short baseName.
+     * Retrieves the Interval specified by its compound short name.
      *
-     * @param compoundShortName the abbreviated baseName for the interval
-     * @return an {@link Interval} matching the short baseName
+     * @param compoundShortName the abbreviated name for the interval
+     * @return an {@link Interval} matching the short name
      */
     public static Interval withShortName(String compoundShortName) {
 
@@ -668,48 +693,65 @@ public class Interval implements Invertible<Interval> {
                     return cached;
                 }
 
-                // TODO: compute the midi value from compoundShortName. If < 0 || > 127, fail.
-
-                String temp = simpleShortName.charAt(0) + simpleShortName.replaceAll("\\D", "");
-                cached = STANDARD_INTERVAL_LOOKUP.get(temp);
-
-                int diff = simpleShortName.length() - temp.length();
-                int total = 0;
-                if (diff > 0) {
-                    int modifier;
-                    if (isMatchingQuality("d", quality)) {
-                        modifier = -1;
-                    } else if (isMatchingQuality("A", quality)) {
-                        modifier = 1;
-                    } else {
-                        modifier = 0;
-                    }
-
-                    total = cached.getSemitones() + IntStream.range(0, diff).flatMap(i -> IntStream.of(modifier)).sum();
-                }
+                // For super diminished/augmented intervals (e.g., dd1, AAAAA5, etc.)
 
                 String invertedCompoundShortName = determineInvertedCompoundShortName(quality, compoundDiatonic, simpleDiatonic);
+                int[] semitonesAndOctaves = determineSemitonesAndOctaves(quality, compoundDiatonic);
+                int semitones = semitonesAndOctaves[0];
+                int octaves = semitonesAndOctaves[1];
 
-                return new Interval(compoundShortName, simpleShortName, invertedCompoundShortName, total, cached.octaves);
+                return new Interval(compoundShortName, simpleShortName, invertedCompoundShortName, semitones, octaves);
             }
         }
 
-        throw new IllegalArgumentException("Invalid interval baseName provided: " + compoundShortName);
+        throw new IllegalArgumentException("Invalid interval name [" + compoundShortName + "]");
+    }
+
+    private static int[] determineSemitonesAndOctaves(String quality, int compoundDiatonic) {
+        int total = IntStream.range(0, quality.length())
+                .map(i -> {
+                    if (quality.charAt(i) == 'd') {
+                        return -1;
+                    } else {
+                        return 1;
+                    }
+                }).sum();
+
+        int simpleDiatonic = getSimpleDiatonic(compoundDiatonic);
+
+        int octaves = (compoundDiatonic % 7 == 0 ? ((compoundDiatonic / 7) - 1) : (compoundDiatonic / 7));
+
+        int[] semitonesAndOctaves = new int[2];
+        semitonesAndOctaves[1] = octaves;
+
+        if (total < 0) {
+            int simpleSemitone = SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.get("d" + simpleDiatonic);
+            semitonesAndOctaves[0] = simpleSemitone + (12 * octaves) + (total + 1);
+        } else if (total > 0) {
+            int simpleSemitone = SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.get("A" + simpleDiatonic);
+            semitonesAndOctaves[0] = simpleSemitone + (12 * octaves) + (total - 1);
+        } else {
+            if (simpleDiatonic == 1 || simpleDiatonic == 4 || simpleDiatonic == 5) {
+                semitonesAndOctaves[0] = SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.get("P" + simpleDiatonic);
+            } else {
+                semitonesAndOctaves[0] = SIMPLE_SHORTNAME_TO_SIMPLE_SEMITONE.get("M" + simpleDiatonic);
+            }
+        }
+
+        return semitonesAndOctaves;
     }
 
     private static String determineInvertedCompoundShortName(String quality, int compoundDiatonic, int simpleDiatonic) {
-        final String q;
-        if (isMatchingQuality("d", quality)) {
-            q = "A";
-        } else if (isMatchingQuality("A", quality)) {
-            q = "d";
-        } else {
-            q = quality;
-        }
 
         // Add as many d's / A's to the inversion as there are in the uninverted one.
         String inversion = IntStream.range(0, quality.length())
-                .mapToObj(i -> q)
+                .mapToObj(i -> {
+                    if (quality.charAt(i) == 'd') {
+                        return "A";
+                    } else {
+                        return "d";
+                    }
+                })
                 .collect(Collectors.joining(""));
 
         // Figure out the distance required to get the diatonic of the inversion (i.e.: 1 <-> 1, 2 <-> 7, 3 <-> 6, 4 <-> 5)
@@ -722,23 +764,6 @@ public class Interval implements Invertible<Interval> {
 
     @Override
     public Interval invert() {
-        if (this.equals(DIMINISHED_72)
-                || this.equals(MINOR_72)
-                || this.equals(MAJOR_72)
-                || this.equals(AUGMENTED_72)
-                || this.equals(DIMINISHED_73)
-                || this.equals(MINOR_73)
-                || this.equals(MAJOR_73)
-                || this.equals(DIMINISHED_74)) {
-            throw new RuntimeException(
-                    "Cannot invert interval ["
-                            + compoundShortName
-                            + "]: the inversion ["
-                            + invertedCompoundShortName
-                            + "] would be out of playable range"
-            );
-        }
-
         return Interval.withShortName(invertedCompoundShortName);
     }
 

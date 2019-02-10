@@ -53,7 +53,7 @@ public class Scale extends HorizontalIntervalSet
         }
 
         if (!valid) {
-            throw new RuntimeException("Invalid scale baseName [" + name + "]");
+            throw new IllegalArgumentException("Invalid scale name [" + name + "]");
         }
     }
 
