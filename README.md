@@ -10,12 +10,12 @@
 
 [2]: https://memegenerator.net/img/images/12041137/genie-itty-bitty-living-space.jpg "itty bitty living space"
 
-
-### What is ChordInnate?
+---
+## What is ChordInnate?
 **ChordInnate** is essentially a music theory engine and API. Similar to how a physics engine simulates physical objects and their interactions, ChordInnate models the structure, operation, and interactions of musical components. This can be useful for studying music theory in a sandbox environment, or to provide intelligence for an algorithmic music generator.
 
-
-*Here's a **current** list of ChordInnate's features:*
+---
+## Current Features
 - **Pitch**
   - 1000+ scale types and 50+ chord types
   - All standard major & minor key signatures, with full support for theoretical keys
@@ -148,7 +148,9 @@
   - Support for all standard beat durations (64th note to double-whole note), as well as any tuplet or dot modifications to the beat
   - 20 standard tempo presets, with support for customized tempo BPM
 
-*Still on the TODO (with more to be added here):*
+---
+## TODO
+*This is an (ever-growing) list of features currently in the works for ChordInnate:*
 - [ ] User-extensible chords and scales
 - [ ] Support for dyads, triads, tetrads, etc.
 - [ ] Interval ratios (Just Intonation, 12-Tone Equal Temperament)
@@ -159,8 +161,8 @@
 - [ ] Nashville Numbering system
 - [ ] Support any beat duration
 
-
-### Project History and Motivation for Development
+---
+## Project History and Motivation for Development
 ChordInnate has been an ongoing project since the completion of my freshman year of Computer Science (2013). As a student making a jump from the arts to the sciences, I sought a challenging engineering project that would allow me to hone both my musical and technical skills.
 
 The project originally began as a basic music generator, focusing on chord progressions. By the end of Summer 2013, a working prototype had been developed. While it was exciting to have met my goal, it was clear to me that the program's generation algorithm required more sophistication than `java.util.Random` -- *because that just didn't __sound__ all that great!* 
