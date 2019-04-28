@@ -1,6 +1,12 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import chordinnate.model.musictheory.pitch.interval.Interval;
+import chordinnate.model.musictheory.pitch.interval.IntervalConverter;
+import lombok.Data;
+
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +17,9 @@ import javax.persistence.Table;
 /**
  * Created by Joseph on 8/24/16.
  */
+@Data
 @Entity
+@Cacheable
 @Table(name = "SCALE_TYPE")
 @NamedQuery(name = "ScaleType.findByName", query = "SELECT s FROM ScaleType s WHERE UPPER(s.name) = UPPER(:name)")
 public final class ScaleType {
@@ -23,41 +31,11 @@ public final class ScaleType {
     private String origin;
 
     @Column(name = "INTERVALS", nullable = false)
-    private String intervals;
+    @Convert(converter = IntervalConverter.class)
+    private Interval[] intervals;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
-    }
-
-    public String getIntervals() {
-        return intervals;
-    }
-
-    public void setIntervals(String intervals) {
-        this.intervals = intervals;
-    }
+    
 }

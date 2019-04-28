@@ -4,26 +4,42 @@ import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
+import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import static chordinnate.model.musictheory.pitch.PitchClass.*;
 import static org.junit.Assert.*;
 
+import java.util.Map;
+import java.util.StringJoiner;
+
 /**
  * Created by Joseph on 7/15/16.
  */
+@Slf4j
 public class TestScale {
     @Test
-    public void sanityCheck() throws Exception {
+    public void sanityCheck() {
         // Basic arbitrary testing
         verifyScale(new Scale("C Major"), C, D, E, F, G, A, B);
         verifyScale(new Scale("F# Major"), F_SHARP, G_SHARP, A_SHARP, B, C_SHARP, D_SHARP, E_SHARP);
         verifyScale(new Scale("G Major"), G, A, B, C, D, E, F_SHARP);
         verifyScale(new Scale("B Major"), B, C_SHARP, D_SHARP, E, F_SHARP, G_SHARP, A_SHARP);
+        verifyScale(new Scale("B# Major"), B_SHARP, C_DOUBLE_SHARP, D_DOUBLE_SHARP, E_SHARP, F_DOUBLE_SHARP, G_DOUBLE_SHARP, A_DOUBLE_SHARP);
         verifyScale(new Scale("C Harmonic Minor"), C, D, E_FLAT, F, G, A_FLAT, B);
         verifyScale(new Scale("Bb Harmonic Minor"), B_FLAT, C, D_FLAT, E_FLAT, F, G_FLAT, A);
         verifyScale(new Scale("C Blues"), C, E_FLAT, F, F_SHARP, G, B_FLAT);
+
+        verifyScale(new Scale("C# Major"),
+                PitchClass.withName("C#", false),
+                PitchClass.withName("D#", false),
+                PitchClass.withName("E#", false),
+                PitchClass.withName("F#", false),
+                PitchClass.withName("G#", false),
+                PitchClass.withName("A#", false),
+                PitchClass.withName("B#", false));
 
         verifyScale(new Scale("Cx# Major"),
                 PitchClass.withName("Cx#", false),
@@ -44,12 +60,12 @@ public class TestScale {
     }
 
     @Test
-    public void testCaseInsensitiveConstruction() throws Exception {
+    public void testCaseInsensitiveConstruction() {
         verifyScale(new Scale("c major"), C, D, E, F, G, A, B);
     }
 
     @Test
-    public void transposeToInterval() throws Exception {
+    public void transposeToInterval() {
         Scale transposed = new Scale("C Major");
         transposed.transpose(true, Interval.withShortName("M2"));
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
@@ -58,7 +74,7 @@ public class TestScale {
     }
 
     @Test
-    public void transposeToPitchClass() throws Exception {
+    public void transposeToPitchClass() {
         Scale transposed = new Scale("C Major");
         transposed.transpose(true, PitchClass.D);
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
@@ -67,7 +83,7 @@ public class TestScale {
     }
 
     @Test
-    public void isDiatonicToKeySignature() throws Exception {
+    public void isDiatonicToKeySignature() {
         Scale s = new Scale("C Major");
 
         assertTrue(s.isDiatonicTo(KeySignature.C_MAJOR));
@@ -77,7 +93,7 @@ public class TestScale {
     }
 
     @Test
-    public void isDiatonicToIntervalSet() throws Exception {
+    public void isDiatonicToIntervalSet() {
         Scale s = new Scale("C Major");
         Chord c = new Chord("Cmaj");
         Scale aNaturalMinor = new Scale("A Melodic Minor descending");
@@ -87,25 +103,49 @@ public class TestScale {
         assertTrue(s.isDiatonicTo(aNaturalMinor));
     }
 
+    @Test
+    public void romanNumeralAnalysis() {
+        Scale s = new Scale("C Major");
+
+        RomanNumeral[] expected = {
+                RomanNumeral.MAJOR_ONE,
+                RomanNumeral.MINOR_TWO,
+                RomanNumeral.MINOR_THREE,
+                RomanNumeral.MAJOR_FOUR,
+                RomanNumeral.MAJOR_FIVE,
+                RomanNumeral.MINOR_SIX,
+                RomanNumeral.DIMINISHED_SEVEN
+        };
+
+        RomanNumeral[] actual = s.getRomanNumeralAnalysis();
+
+        assertEquals("Roman Numeral Analysis length is not correct", expected.length, actual.length);
+
+        StringJoiner sj = new StringJoiner(" ");
+        for (int i = 0; i < actual.length; i++) {
+                assertEquals("Incorrect Roman Numeral Analysis", expected[i], actual[i]);
+            sj.add(actual[i].getSymbol());
+        }
+        log.info(s.getFullName() + ": " + sj.toString());
+    }
+
     /**
      * Helper method for testing the returned Pitch values for a given Scale.
      * @param scale
      * @param expected
      */
     private void verifyScale(Scale scale, PitchClass... expected) {
-        Pitch[]
-                lowPitches = scale.getPitchesForOctave(Octave.OCTAVE_0),
-                highPitches = scale.getPitchesForOctave(scale.maxPlayableOctave);
 
         assertEquals("Scale length for scale [" + scale.getFullName() + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.length(), expected.length);
 
-        int lowRange = lowPitches.length, highRange = highPitches.length;
-
-        for (int i = 0; i < lowRange; i++) {
-            assertEquals("Lowest octave for scale [" + scale.getFullName() + "] has the wrong values", expected[i].getBaseName(), lowPitches[i].pitchClass.getBaseName());
-        }
-        for (int i = 0; i < highRange; i++) {
-            assertEquals("Highest octave for scale [" + scale.getFullName() + "] has the wrong values", expected[i].getBaseName(), highPitches[i].pitchClass.getBaseName());
+        for (Map.Entry<Octave, Pitch[]> entry : scale.pitchesByOctave.entrySet()) {
+            int lastAbsolutePitch = Integer.MIN_VALUE;
+            Pitch[] pitches = entry.getValue();
+            for (int i = 0; i < pitches.length; i++) {
+                assertEquals("Octave " + entry.getKey().getNumber() + " for scale [" + scale.getFullName() + "] has the wrong values", expected[i].getBaseName(), pitches[i].pitchClass.getBaseName());
+                assertTrue("Scale is not ascending", lastAbsolutePitch < pitches[i].absolutePitch);
+                lastAbsolutePitch = pitches[i].absolutePitch;
+            }
         }
 
         assertEquals(scale.lowestDiatonic.pitchClass.getName() + " " + scale.getScaleType().getName(), scale.getFullName());

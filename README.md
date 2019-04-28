@@ -1,20 +1,18 @@
 # ChordInnate
 
 #### PHENOMENAL MUSIC POWER...
-![alt text][1]
 
-[1]: https://vignette.wikia.nocookie.net/disney-fan-fiction/images/1/18/Aladdin-disneyscreencaps.com-5096.jpg/revision/latest?cb=20130806160611 "PHENOMENAL MUSIC POWER"
+<img src="https://vignette.wikia.nocookie.net/disney-fan-fiction/images/1/18/Aladdin-disneyscreencaps.com-5096.jpg/revision/latest?cb=20130806160611" alt="PHENOMENAL MUSIC POWER" height="30%" />
 
 ...itty bitty JAR size!
-![alt text][2]
 
-[2]: https://memegenerator.net/img/images/12041137/genie-itty-bitty-living-space.jpg "itty bitty living space"
+<img src="https://memegenerator.net/img/images/12041137/genie-itty-bitty-living-space.jpg" alt="itty bitty living space" height="30%" />
 
 ### What is ChordInnate?
 **ChordInnate** is essentially a music theory engine and API. Similar to how a physics engine simulates physical objects and their interactions, ChordInnate models the structure, operation, and interactions of musical components. This can be useful for studying music theory in a sandbox environment, or to provide intelligence for an algorithmic music generator.
 
 
-Here's a list of ChordInnate's features (with more to come):
+*Here's a **current** list of ChordInnate's features:*
 - **Pitch**
   - 1000+ scale types and 50+ chord types
   - All standard major & minor key signatures, with full support for theoretical keys
@@ -50,6 +48,30 @@ Here's a list of ChordInnate's features (with more to come):
     >Chord("Cmaj7").transpose(Pitch.withName("G4"));
     >Chord("Cmaj7").transpose(PitchClass.G, Octave.OCTAVE_4);
     >Chord("Cmaj7").transpose(true, Interval.PERFECT_5);
+    >```
+  - Add or subtract intervals
+    >```java
+    >Interval.PERFECT_4.plus(Interval.PERFECT_5);    // perfect octave
+    >Interval.PERFECT_8.minus(Interval.PERFECT_5);   // perfect fourth
+    >```
+  - Extensive and highly-expressive notation for Roman Numerals
+    >```java
+    >// Several examples:
+    >RomanNumeral.withSymbol("{I}");                     // major degree 1
+    >RomanNumeral.withSymbol("{ii}");                    // minor degree 2
+    >RomanNumeral.withSymbol("{III+}");                  // augmented degree 3
+    >RomanNumeral.withSymbol("{viio}");                  // diminished degree 7
+    >RomanNumeral.withSymbol("{bIV}");                   // major of flat 4 degree
+    >RomanNumeral.withSymbol("{XII}");                   // major degree 12
+    >RomanNumeral.withSymbol("{I(6/4)");                 // 2nd inversion of major degree 1
+    >RomanNumeral.withSymbol("{V7}/{V}");                // secondary dominant
+    >RomanNumeral.withSymbol("{ii}/{VII+}/{I(6/5)}");    // ridiculous auxiliaries
+    >// ... and so on.
+    >```
+  - Derive the Roman Numeral analysis for any scale
+    >```java
+    >Scale("C Major").getRomanNumeralAnalysis();             // I ii iii IV V vi vii˚
+    >Scale("C Harmonic Minor").getRomanNumeralAnalysis();    // i ii˚ III+ iv V VI vii˚
     >```
   - Invert chords to any permutation
     >```java
@@ -123,10 +145,21 @@ Here's a list of ChordInnate's features (with more to come):
   - Support for all standard beat durations (64th note to double-whole note), as well as any tuplet or dot modifications to the beat
   - 20 standard tempo presets, with support for customized tempo BPM
 
+*Still on the TODO (with more to be added here):*
+- [ ] User-extensible chords and scales
+- [ ] Support for dyads, triads, tetrads, etc.
+- [ ] Interval ratios (Just Intonation, 12-Tone Equal Temperament)
+- [ ] Support for user-entered chord symbols for Roman Numeral ({Isus4}, etc.)
+- [ ] Theory behind Shoenberg's 12-tone technique (tone rows, retrograde inversion)
+- [ ] Borrowed chords
+- [ ] Chord inference based on scale and Roman Numeral
+- [ ] Nashville Numbering system
+- [ ] Support any beat duration
+
 
 ### Project History and Motivation for Development
 ChordInnate has been an ongoing project since the completion of my freshman year of Computer Science (2013). As a student making a jump from the arts to the sciences, I sought a challenging engineering project that would allow me to hone both my musical and technical skills.
 
-The project originally began as a basic music generator, focusing on chord progressions. By the end of Summer 2013, a working prototype had been developed. While it was exciting to have met my goal, it was clear to me that the program's generation algorithm required more sophistication than `java.util.Random` -- *It just didn't __sound__ all that great!* 
+The project originally began as a basic music generator, focusing on chord progressions. By the end of Summer 2013, a working prototype had been developed. While it was exciting to have met my goal, it was clear to me that the program's generation algorithm required more sophistication than `java.util.Random` -- *because that just didn't __sound__ all that great!* 
 
 Since then, ChordInnate has undergone several iterations, shaping it into an *engine* that can be used for generating or analyzing music. I've incorporated many software engineering concepts and principles that I've encountered during my studies at university, and continue to enjoy improving my skills with this project.

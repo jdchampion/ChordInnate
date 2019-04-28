@@ -230,8 +230,8 @@ public class PitchClass
 
     /**
      * Finds the number of semitones between lhs and rhs.
-     * @param lhs the starting BasePitchClass
-     * @param rhs the ending BasePitchClass
+     * @param lhs the starting PitchClass
+     * @param rhs the ending PitchClass
      * @return the difference in semitones between lhs and rhs
      */
     public static int getSemitoneDistanceBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
@@ -239,11 +239,6 @@ public class PitchClass
         int l = (lhs.basePitchClass.baseMidiValue < 0 ? 12 + lhs.basePitchClass.baseMidiValue : lhs.basePitchClass.baseMidiValue) % 12;
         int semitoneDistance = r - l;
         return semitoneDistance >= 0 ? semitoneDistance : 12 + semitoneDistance;
-    }
-
-    @Override
-    public boolean isTransposable(boolean direction, @NotNull Interval interval) {
-        return true;
     }
 
     @Override
@@ -373,14 +368,14 @@ public class PitchClass
          * A property of key signatures is that
          * all enharmonic spellings must have a unique letter.
          *
-         * We've already checked the key signature for a match on BasePitchClass,
+         * We've already checked the key signature for a match on PitchClass,
          * and failed, so we know that the specific enharmonic spelling isn't there.
          *
-         * It is possible at this point for BasePitchClass's letter
+         * It is possible at this point for PitchClass's letter
          * to match a letter in the key signature.
-         * By considering such a BasePitchClass as diatonic, we'd be
+         * By considering such a PitchClass as diatonic, we'd be
          * violating the key signature property of unique letters,
-         * therefore any such BasePitchClass matching a letter from the key signature
+         * therefore any such PitchClass matching a letter from the key signature
          * must be considered NOT diatonic.
          */
         for (PitchClass p : keySignature.getSignature()) {

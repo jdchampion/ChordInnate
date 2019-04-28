@@ -7,9 +7,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Service;
 
 @Service
-public final class BaseService {
+public final class Services {
 
-    private BaseService() {}
+    private Services() {}
 
     private static AnnotationConfigApplicationContext getContext() {
         if (context == null) {

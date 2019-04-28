@@ -188,7 +188,7 @@ public class KeySignature {
         this.indexToChange = numAccidentals % 7;
 
         // Determine the starting point for accidentals (always some enharmonic of Bb or F#)
-        Interval startInterval = Interval.getIntervalBetween(this.key, (isPureFlat ? PitchClass.B_FLAT : PitchClass.F_SHARP), true);
+        Interval startInterval = Interval.between(this.key, (isPureFlat ? PitchClass.B_FLAT : PitchClass.F_SHARP), true);
         PitchClass currentPC = this.key.transpose(true, startInterval);
 
         String[] accs = new String[7];
@@ -532,34 +532,6 @@ public class KeySignature {
         }
 
         return new KeySignature(newKey, keySignatureType, newSignature, newIndexToChange, true);
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == null || this.getClass() != other.getClass()) {
-            return false;
-        }
-
-        KeySignature comparison = (KeySignature) other;
-
-        if (comparison.key == null && this.key == null) {
-            return true;
-        }
-
-        if (comparison.key == null || this.key == null) {
-            return false;
-        }
-
-        return comparison.key.equals(this.key)
-                && comparison.keySignatureType.equals(this.keySignatureType)
-                && comparison.isPureFlat == this.isPureFlat
-                && comparison.isTheoretical == this.isTheoretical
-                && comparison.signature.containsAll(this.signature);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 
 }

@@ -14,12 +14,13 @@ import java.util.Optional;
 @Transactional
 public class ScaleTypeServiceImpl implements ScaleTypeService {
 
-    ScaleTypeServiceImpl() {
+    @Autowired
+    ScaleTypeServiceImpl(ScaleTypeDAO dao) {
         super();
+        this.dao = dao;
     }
 
-    @Autowired
-    ScaleTypeDAO dao;
+    private final ScaleTypeDAO dao;
 
     @Override
     public Optional<ScaleType> findById(int id) {

@@ -1,6 +1,6 @@
 package chordinnate.service.generator;
 
-import chordinnate.model.musictheory.notation.NashvilleNumber;
+import chordinnate.model.musictheory.pitch.interval.NashvilleNumber;
 import org.jgrapht.DirectedGraph;
 import org.jgrapht.graph.AbstractBaseGraph;
 import org.jgrapht.graph.ClassBasedEdgeFactory;

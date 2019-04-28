@@ -5,18 +5,25 @@ import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
+import chordinnate.service.Services;
+import chordinnate.service.musictheory.ChordTypeService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import static chordinnate.model.musictheory.pitch.PitchClass.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Joseph on 7/17/16.
  */
+@Slf4j
 public class TestChord {
 
     @Test
-    public void sanityCheck() throws Exception {
+    public void sanityCheck() {
         // Basic arbitrary testing
         verifyChord(new Chord("Cmaj"), C, E, G);
         verifyChord(new Chord("Fmaj"), F, A, C);
@@ -33,7 +40,7 @@ public class TestChord {
     }
 
     @Test
-    public void transposeToInterval() throws Exception {
+    public void transposeToInterval() {
         Chord transposed = new Chord("Cmaj");
         transposed.transpose(true, Interval.withShortName("M2"));
         verifyChord(transposed, D, F_SHARP, A);
@@ -48,7 +55,7 @@ public class TestChord {
     }
 
     @Test
-    public void transposeToPitchClass() throws Exception {
+    public void transposeToPitchClass() {
         Chord transposed = new Chord("Cmaj");
         transposed.transpose(true, PitchClass.D);
         verifyChord(transposed, D, F_SHARP, A);
@@ -57,7 +64,7 @@ public class TestChord {
     }
 
     @Test
-    public void invert() throws Exception {
+    public void invert() {
         Chord c = new Chord("Cmaj");
         assertEquals(0, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
@@ -77,7 +84,7 @@ public class TestChord {
     }
 
     @Test
-    public void isDiatonicToKeySignature() throws Exception {
+    public void isDiatonicToKeySignature() {
         Chord c = new Chord("Cmaj");
 
         assertTrue(c.isDiatonicTo(KeySignature.C_MAJOR));
@@ -87,7 +94,7 @@ public class TestChord {
     }
 
     @Test
-    public void isDiatonicToIntervalSet() throws Exception {
+    public void isDiatonicToIntervalSet() {
         Chord c = new Chord("Cmaj");
         Scale cMajorScale = new Scale("C Major");
         Scale aNatualMinor = new Scale("A Melodic Minor descending");
@@ -132,7 +139,7 @@ public class TestChord {
 
         assertEquals("Chord length is not the expected length (bad test args?)",
                 expected.length,
-                chord.getChordType().getIntervals().split(",").length);
+                chord.getChordType().getIntervals().length);
 
         int lowRange = lowPitches.length, highRange = highPitches.length;
 
@@ -144,6 +151,21 @@ public class TestChord {
         }
 
         assertEquals(chord.lowestDiatonic.pitchClass.getName() + chord.getChordType().getSymbol(), chord.getName());
+    }
+
+    @Test
+    public void select() {
+        ChordTypeService service = Services.getChordTypeService();
+
+        List<Interval[]> arrList = new ArrayList<>();
+        arrList.add(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_3, Interval.PERFECT_5});
+        arrList.add(new Interval[]{Interval.PERFECT_1, Interval.MINOR_3, Interval.PERFECT_5});
+        arrList.add(new Interval[]{Interval.PERFECT_1, Interval.MINOR_3, Interval.PERFECT_5});
+        arrList.add(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_3, Interval.PERFECT_5});
+
+        List<ChordType> list = service.findAllByIntervals(arrList, false);
+
+        list.forEach(c -> log.info(c.getSymbol()));
     }
 
 }

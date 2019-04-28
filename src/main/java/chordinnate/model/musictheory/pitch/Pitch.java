@@ -425,6 +425,7 @@ public class Pitch
     public static final Pitch B_8 = new Pitch(PitchClass.B, Octave.OCTAVE_8);
     public static final Pitch B_9 = new Pitch(PitchClass.B, Octave.OCTAVE_9);
 
+
     public static final Pitch B_SHARP_0 = new Pitch(PitchClass.B_SHARP, Octave.OCTAVE_0);
     public static final Pitch B_SHARP_1 = new Pitch(PitchClass.B_SHARP, Octave.OCTAVE_1);
     public static final Pitch B_SHARP_2 = new Pitch(PitchClass.B_SHARP, Octave.OCTAVE_2);
@@ -435,6 +436,8 @@ public class Pitch
     public static final Pitch B_SHARP_7 = new Pitch(PitchClass.B_SHARP, Octave.OCTAVE_7);
     public static final Pitch B_SHARP_8 = new Pitch(PitchClass.B_SHARP, Octave.OCTAVE_8);
     public static final Pitch B_SHARP_9 = new Pitch(PitchClass.B_SHARP, Octave.OCTAVE_9);
+    public static final Pitch B_SHARP_10 = new Pitch(PitchClass.B_SHARP, Octave.OCTAVE_10);
+
 
     public static final Pitch B_DOUBLE_SHARP_0 = new Pitch(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_0);
     public static final Pitch B_DOUBLE_SHARP_1 = new Pitch(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_1);
@@ -446,6 +449,7 @@ public class Pitch
     public static final Pitch B_DOUBLE_SHARP_7 = new Pitch(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_7);
     public static final Pitch B_DOUBLE_SHARP_8 = new Pitch(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_8);
     public static final Pitch B_DOUBLE_SHARP_9 = new Pitch(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_9);
+    public static final Pitch B_DOUBLE_SHARP_10 = new Pitch(PitchClass.B_DOUBLE_SHARP, Octave.OCTAVE_10);
 
     public final PitchClass pitchClass;
     public final Octave octave;
@@ -551,11 +555,6 @@ public class Pitch
     }
 
     @Override
-    public boolean isTransposable(@NotNull Pitch pitch) {
-        return true;
-    }
-
-    @Override
     public boolean isTransposable(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         return octave.getMidiStart() <= pitchClass.octaveRange.getMidiStart();
     }
@@ -645,23 +644,5 @@ public class Pitch
                     ex2
             );
         }
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == null || this.getClass() != other.getClass()) {
-            return false;
-        }
-
-        Pitch comparison = (Pitch) other;
-
-        return comparison.pitchClass.equals(this.pitchClass)
-                && comparison.octave.equals(this.octave)
-                && comparison.absolutePitch == this.absolutePitch;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 }

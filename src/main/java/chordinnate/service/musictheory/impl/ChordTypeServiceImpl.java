@@ -1,6 +1,7 @@
 package chordinnate.service.musictheory.impl;
 
 import chordinnate.dao.musictheory.ChordTypeDAO;
+import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.service.musictheory.ChordTypeService;
 import chordinnate.model.musictheory.pitch.interval.set.ChordType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +15,13 @@ import java.util.Optional;
 @Transactional
 public class ChordTypeServiceImpl implements ChordTypeService {
 
-    ChordTypeServiceImpl() {
+    @Autowired
+    ChordTypeServiceImpl(ChordTypeDAO dao) {
         super();
+        this.dao = dao;
     }
 
-    @Autowired
-    ChordTypeDAO dao;
+    private final ChordTypeDAO dao;
 
     @Override
     public Optional<ChordType> findById(int id) {
@@ -32,7 +34,22 @@ public class ChordTypeServiceImpl implements ChordTypeService {
     }
 
     @Override
+    public Optional<ChordType> findByIntervals(Interval... intervals) {
+        return dao.findByIntervals(intervals);
+    }
+
+    @Override
+    public List<ChordType> findAllByIntervals(List<Interval[]> intervals, boolean includeDuplicates) {
+        return dao.findAllByIntervals(intervals, includeDuplicates);
+    }
+
+    @Override
     public List<ChordType> findAll() {
         return dao.findAll();
+    }
+
+    @Override
+    public Optional<ChordType> findByRomanNumeralCriteria(Interval[] intervals, int size, int precedence) {
+        return dao.findByRomanNumeralCriteria(intervals, size, precedence);
     }
 }
