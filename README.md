@@ -1,12 +1,15 @@
 # ChordInnate
 
 #### PHENOMENAL MUSIC POWER...
+![alt text][1]
 
-<img src="https://vignette.wikia.nocookie.net/disney-fan-fiction/images/1/18/Aladdin-disneyscreencaps.com-5096.jpg/revision/latest?cb=20130806160611" alt="PHENOMENAL MUSIC POWER" height="30%" />
+[1]: https://vignette.wikia.nocookie.net/disney-fan-fiction/images/1/18/Aladdin-disneyscreencaps.com-5096.jpg/revision/latest?cb=20130806160611 "PHENOMENAL MUSIC POWER"
 
 ...itty bitty JAR size!
+![alt text][2]
 
-<img src="https://memegenerator.net/img/images/12041137/genie-itty-bitty-living-space.jpg" alt="itty bitty living space" height="30%" />
+[2]: https://memegenerator.net/img/images/12041137/genie-itty-bitty-living-space.jpg "itty bitty living space"
+
 
 ### What is ChordInnate?
 **ChordInnate** is essentially a music theory engine and API. Similar to how a physics engine simulates physical objects and their interactions, ChordInnate models the structure, operation, and interactions of musical components. This can be useful for studying music theory in a sandbox environment, or to provide intelligence for an algorithmic music generator.
@@ -63,7 +66,7 @@
     >RomanNumeral.withSymbol("{viio}");                  // diminished degree 7
     >RomanNumeral.withSymbol("{bIV}");                   // major of flat 4 degree
     >RomanNumeral.withSymbol("{XII}");                   // major degree 12
-    >RomanNumeral.withSymbol("{I(6/4)");                 // 2nd inversion of major degree 1
+    >RomanNumeral.withSymbol("{I(6/4)}");                 // 2nd inversion of major degree 1
     >RomanNumeral.withSymbol("{V7}/{V}");                // secondary dominant
     >RomanNumeral.withSymbol("{ii}/{VII+}/{I(6/5)}");    // ridiculous auxiliaries
     >// ... and so on.
