@@ -9,7 +9,7 @@ abstract class VerticalIntervalSet extends IntervalSet {
      * Retrieves the total depth of the IntervalSet (in terms of parallel pitches)
      * @return the number of parallel pitches in the IntervalSet
      */
-    int depth() {
+    public int depth() {
         return super.intervals.length;
     }
 

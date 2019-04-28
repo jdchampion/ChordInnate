@@ -8,14 +8,7 @@ import java.util.Optional;
 /**
  * Created by Joseph on 6/14/17.
  */
-public interface ScaleTypeService {
-
-    /**
-     * Retrieves the ScaleType from the database matching the specified ID, if possible.
-     * @param id the ScaleType's unique ID (primary key)
-     * @return {@link Optional}<{@link ScaleType}> that was requested
-     */
-    Optional<ScaleType> findById(int id);
+public interface ScaleTypeService extends BaseService<ScaleType> {
 
     /**
      * Retrieves the ScaleType from the database matching the specified name, if possible.
@@ -24,9 +17,4 @@ public interface ScaleTypeService {
      */
     Optional<ScaleType> findByName(String name);
 
-    /**
-     * Retrieves all supported ScaleTypes from the database.
-     * @return {@link List}<{@link ScaleType}> of all supported ScaleTypes
-     */
-    List<ScaleType> findAll();
 }

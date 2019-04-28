@@ -1,7 +1,9 @@
-package chordinnate.model.musictheory.notation;
+package chordinnate.model.musictheory.pitch.interval;
 
 
 import static chordinnate.model.musictheory.notation.Accidental.*;
+
+import chordinnate.model.musictheory.notation.Accidental;
 
 /**
  * Created by Joseph on 5/20/16.

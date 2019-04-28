@@ -24,6 +24,25 @@ final class Bjorklund {
      * @param numPulses
      * @return
      */
+    public static int[] getPulseLocations(int numSlots, int numPulses) {
+        computeBitmap(numSlots, numPulses);
+        int[] pulseLocations = new int[Math.min(numPulses, sequence.length)];
+        int j = 0;
+        for (int i = 0; i < sequence.length; i++) {
+            if (sequence[i]) {
+                pulseLocations[j++] = i;
+            }
+        }
+
+        return pulseLocations;
+    }
+
+    /**
+     *
+     * @param numSlots
+     * @param numPulses
+     * @return
+     */
     public static boolean[] computeBitmap(int numSlots, int numPulses) {
 
         stepStatus = 0;

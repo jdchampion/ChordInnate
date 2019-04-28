@@ -8,15 +8,17 @@ import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 import java.util.StringJoiner;
 
+@Slf4j
 public class TestPitchClass {
 
     @Test
-    public void testWithName() throws Exception {
+    public void testWithName() {
 
         String[] letters = {"A", "B", "C", "D", "E", "F", "G"};
 
@@ -39,7 +41,7 @@ public class TestPitchClass {
     }
 
     @Test
-    public void getSemitoneDistanceBetween() throws Exception {
+    public void getSemitoneDistanceBetween() {
         // Edge cases: 0 -> 11, 11 -> 0
         assertEquals(11, PitchClass.getSemitoneDistanceBetween(C, B));
         assertEquals(1, PitchClass.getSemitoneDistanceBetween(B, C));
@@ -53,7 +55,7 @@ public class TestPitchClass {
 
 
     @Test
-    public void testTransposeInterval() throws Exception {
+    public void testTransposeInterval() {
         Accidental a = Accidental.FLAT;
         Interval i = Interval.DIMINISHED_8;
         boolean direction = true;
@@ -65,11 +67,11 @@ public class TestPitchClass {
             sj.add(p.getName());
         }
 
-        System.out.println(sj.toString());
+        log.info(sj.toString());
     }
 
     @Test
-    public void testIsDiatonic() throws Exception {
+    public void testIsDiatonic() {
         PitchClass pitchClass = C;
         assertTrue(pitchClass.isDiatonicTo(KeySignature.C_MAJOR));
         assertTrue(pitchClass.isDiatonicTo(KeySignature.A_MINOR));
@@ -98,7 +100,7 @@ public class TestPitchClass {
     }
 
     @Test
-    public void isDiatonicToKeySignature() throws Exception {
+    public void isDiatonicToKeySignature() {
         for (PitchClass p : STANDARD_PITCH_CLASSES.values()) assertTrue(p.isDiatonicTo(KeySignature.NO_KEY_SIGNATURE));
 
         PitchClass[]
@@ -209,7 +211,7 @@ public class TestPitchClass {
     }
 
     @Test
-    public void isDiatonicToIntervalSet() throws Exception {
+    public void isDiatonicToIntervalSet() {
         Scale cMajor = new Scale("C Major"),
                 dMajor = new Scale("D Major");
 
@@ -223,7 +225,7 @@ public class TestPitchClass {
     }
 
     @Test
-    public void isEnharmonicTo() throws Exception {
+    public void isEnharmonicTo() {
         // White keys
         assertTrue(C.isEnharmonicTo(B_SHARP));
         assertTrue(C.isEnharmonicTo(D_DOUBLE_FLAT));
@@ -279,7 +281,7 @@ public class TestPitchClass {
         assertTrue(C_DOUBLE_FLAT.isEnharmonicTo(B_FLAT));
     }
 
-    private void testGeneratedPitchClass(String s, boolean wantNaturalSymbol) throws Exception {
+    private void testGeneratedPitchClass(String s, boolean wantNaturalSymbol) {
 
         boolean directTest = true;
         PitchClass toTest = PitchClass.withName(s, wantNaturalSymbol);
@@ -303,9 +305,13 @@ public class TestPitchClass {
 
         PitchClass toCompare;
         if (directTest) {
-            Field field = PitchClass.class.getDeclaredField(classPrefix + classSuffix);
-            toCompare = (PitchClass) field.get(PitchClass.class);
-            assertEquals(toTest, toCompare);
+            try {
+                Field field = PitchClass.class.getDeclaredField(classPrefix + classSuffix);
+                toCompare = (PitchClass) field.get(PitchClass.class);
+                assertEquals(toTest, toCompare);
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
         } else {
             /*
              * PitchClasses with non-standard accidentals will always be dynamically created,

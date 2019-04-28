@@ -5,7 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 interface IntervalTransposable<T> {
 
-    boolean isTransposable(boolean direction, @NotNull Interval interval);
+    default boolean isTransposable(boolean direction, @NotNull Interval interval) {
+        return true;
+    }
 
     T transpose(boolean direction, @NotNull Interval interval);
 

@@ -8,11 +8,17 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Transposable<T> extends IntervalTransposable<T> {
 
-    boolean isTransposable(boolean direction, @NotNull PitchClass pitchClass);
+    default boolean isTransposable(boolean direction, @NotNull PitchClass pitchClass) {
+        return true;
+    }
 
-    boolean isTransposable(@NotNull Pitch pitch);
+    default boolean isTransposable(@NotNull Pitch pitch) {
+        return true;
+    }
 
-    boolean isTransposable(@NotNull PitchClass pitchClass, @NotNull Octave octave);
+    default boolean isTransposable(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
+        return true;
+    }
 
     T transpose(boolean direction, @NotNull PitchClass pitchClass);
 
