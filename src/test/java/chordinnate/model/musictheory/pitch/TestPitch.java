@@ -19,8 +19,8 @@ public class TestPitch {
 
     @SuppressWarnings("ConstantConditions")
     @Test
-    public void test_illegalArgumentException() {
-        expectedException.expect(IllegalArgumentException.class);
+    public void test_RuntimeException() {
+        expectedException.expect(RuntimeException.class);
 
         // Transposition on null items is impossible
         Pitch.C_0.transpose(PitchClass.C, null);

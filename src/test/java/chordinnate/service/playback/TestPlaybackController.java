@@ -10,6 +10,7 @@ import chordinnate.model.musictheory.time.tempo.Tempo;
 import chordinnate.model.playback.Articulation;
 import chordinnate.model.playback.Note;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -17,14 +18,17 @@ import org.junit.Test;
  */
 @Slf4j
 public class TestPlaybackController {
+
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void playPitch() throws Exception {
+    public void playPitch() {
         log.info("Playing back C4 pitch...");
         PlaybackController.play(Pitch.C_4);
     }
 
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void playNote() throws Exception {
+    public void playNote() {
         Tempo tempo = new Tempo(Beat.QUARTER, 60);
         int bpm = tempo.getCurrentBPM();
         Beat TRIPLET_EIGHTH = new Beat.Builder(Duration.EIGHTH).tuplet(3).build(),
@@ -67,15 +71,17 @@ public class TestPlaybackController {
         }
     }
 
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void testScale() throws Exception {
+    public void testScale() {
         Scale scale = new Scale("C Hira-joshi");
         log.info("Playing back C Hira-joshi scale...");
         PlaybackController.play(scale, Octave.OCTAVE_4);
     }
 
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void testChord() throws Exception {
+    public void testChord() {
         Chord c = new Chord("G7");
         log.info("Playing back G7 chord...");
         PlaybackController.play(c);
