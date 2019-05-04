@@ -1,5 +1,7 @@
 # ChordInnate
 
+[![Build Status](https://travis-ci.org/jdchampion/ChordInnate.svg?branch=master)](https://travis-ci.org/jdchampion/ChordInnate)
+
 #### PHENOMENAL MUSIC POWER...
 ![alt text][1]
 
