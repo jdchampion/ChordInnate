@@ -1,0 +1,12 @@
+language: java
+install: true
+jdk:
+  - openjdk11
+  - oraclejdk11
+addons:
+  apt:
+    packages:
+      - sqlite3
+sudo: false
+script:
+  - mvn clean verify
