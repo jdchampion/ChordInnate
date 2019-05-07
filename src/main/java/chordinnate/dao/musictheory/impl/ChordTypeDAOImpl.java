@@ -102,6 +102,7 @@ public class ChordTypeDAOImpl implements ChordTypeDAO {
         TypedQuery<ChordType> q = session.createQuery(cq);
         q.setMaxResults(1);
         List<ChordType> results = q.getResultList();
+        session.close();
         return Optional.ofNullable(!results.isEmpty() ? results.get(0) : null);
     }
 }
