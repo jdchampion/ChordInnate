@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -20,6 +21,7 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = {"chordinnate.dao", "chordinnate.service"})
+@EnableJpaRepositories(basePackages = {"chordinnate.dao"})
 @PropertySource("classpath:database.properties")
 public class DatabaseConfig {
 

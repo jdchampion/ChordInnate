@@ -3,7 +3,6 @@ package chordinnate.model.musictheory.pitch.interval.set;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.IntervalConverter;
 import lombok.Data;
-import org.hibernate.annotations.NamedQuery;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -24,9 +23,6 @@ import javax.persistence.Table;
 @Entity
 @Cacheable
 @Table(name = "CHORD_TYPE")
-@NamedQuery(name = "ChordType.findBySymbol", query = "SELECT c FROM ChordType c WHERE c.symbol = :symbol")
-@NamedQuery(name = "ChordType.findByIntervals", query = "SELECT c FROM ChordType c WHERE c.intervals = :intervals")
-@NamedQuery(name = "ChordType.findAllDistinctByIntervals", query = "SELECT c FROM ChordType c WHERE c.intervals IN :intervals")
 public final class ChordType {
 
     @Column(name = "SYMBOL", nullable = false)
