@@ -82,13 +82,6 @@
             <version>0.1.2</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-maven-plugin -->
-        <dependency>
-            <groupId>org.flywaydb</groupId>
-            <artifactId>flyway-maven-plugin</artifactId>
-            <version>5.2.4</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core -->
         <dependency>
             <groupId>org.jgrapht</groupId>
@@ -161,16 +154,6 @@
                 <configuration>
                     <source>11</source>
                     <target>11</target>
-                </configuration>
-            </plugin>
-
-            <!-- https://mvnrepository.com/artifact/org.flywaydb/flyway-maven-plugin -->
-            <plugin>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-maven-plugin</artifactId>
-                <version>5.2.4</version>
-                <configuration>
-                    <configFile>src/main/resources/database.properties</configFile>
                 </configuration>
             </plugin>
 
