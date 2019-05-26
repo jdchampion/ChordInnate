@@ -66,19 +66,19 @@ public class TestChord {
     @Test
     public void invert() {
         Chord c = new Chord("Cmaj");
-        assertEquals(0, c.getInversion());
+        assertEquals(1, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
         assertEquals("Cmaj", c.getName());
         c.invert();
-        assertEquals(1, c.getInversion());
+        assertEquals(2, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_0, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
         assertEquals("Cmaj/E", c.getName());
         c.invert();
-        assertEquals(2, c.getInversion());
+        assertEquals(3, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_1, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
         assertEquals("Cmaj/G", c.getName());
         c.invert();
-        assertEquals(0, c.getInversion());
+        assertEquals(1, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.getInversionForOctave(Octave.OCTAVE_0));
         assertEquals("Cmaj", c.getName());
     }

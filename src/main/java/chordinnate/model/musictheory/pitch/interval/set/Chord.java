@@ -24,7 +24,6 @@ import java.util.regex.Pattern;
 public class Chord extends VerticalIntervalSet
         implements Invertible<Void>, Playable {
     private ChordType chordType;
-    private String name;
     private EnumMap<Octave, Pitch[]> invertedPitchesByOctave;
     private int inversion;
     private int possibleInversions;
@@ -50,10 +49,9 @@ public class Chord extends VerticalIntervalSet
             if (chordTypeOptional.isPresent()) {
                 super.commonInitializations(root, chordTypeOptional.get().getIntervals());
                 this.chordType = chordTypeOptional.get();
-                this.name = super.lowestDiatonic.pitchClass.getName() + this.chordType.getSymbol();
                 this.invertedPitchesByOctave = deepCopyPitchesByOctave();
-                this.inversion = 0;
-                this.possibleInversions = super.intervals.length - 1;
+                this.inversion = 1;
+                this.possibleInversions = super.intervals.length;
                 valid = true;
             }
 
@@ -80,50 +78,27 @@ public class Chord extends VerticalIntervalSet
     }
 
     @Override
-    public Void transpose(boolean direction, @NotNull Interval interval) {
-        if (isTransposable(direction, interval)) {
-            Pitch lowestTransposed = super.lowestDiatonic.transpose(direction, interval);
-            super.commonInitializations(lowestTransposed.pitchClass, chordType.getIntervals());
-            this.name = super.lowestDiatonic.pitchClass.getName() + chordType.getSymbol();
-        }
-        return null;
-    }
-
-    @Override
-    public Void transpose(boolean direction, @NotNull PitchClass pitchClass) {
-        if (isTransposable(direction, pitchClass)) {
-            Pitch lowestTransposed = super.lowestDiatonic.transpose(pitchClass, lowestDiatonic.octave);
-            super.commonInitializations(lowestTransposed.pitchClass, chordType.getIntervals());
-            this.name = super.lowestDiatonic.pitchClass.getName() + chordType.getSymbol();
-        }
-        return null;
-    }
-
-    @Override
     public Void invert() {
         if (inversion == possibleInversions) {
             // Go back to the root inversion
             invertedPitchesByOctave = deepCopyPitchesByOctave();
-            name = super.lowestDiatonic.pitchClass.getName() + chordType.getSymbol();
-            inversion = 0;
+            inversion = 1;
         } else {
             for (Map.Entry<Octave, Pitch[]> entry : invertedPitchesByOctave.entrySet()) {
                 Octave nextOctave = entry.getKey().getNext();
                 if (nextOctave != null) {
-                    entry.getValue()[inversion] = entry.getValue()[inversion].transpose(true, Interval.withShortName("P8"));
+                    entry.getValue()[inversion - 1] = entry.getValue()[inversion - 1].transpose(true, Interval.withShortName("P8"));
                 }
             }
-            // Append the bass note to the name
-            name = super.lowestDiatonic.pitchClass.getName() + chordType.getSymbol()
-                    + "/" + super.pitchesByOctave.get(lowestDiatonic.octave)[++inversion].pitchClass.getName();
+            inversion += 1;
         }
 
         return null;
     }
 
     @Override
-    Pitch[] getSourcePitchesByOctave(@NotNull Octave octave) {
-        return (inversion == 0 ? super.pitchesByOctave.get(octave) : invertedPitchesByOctave.get(octave));
+    protected Pitch[] getSourcePitchesByOctave(@NotNull Octave octave) {
+        return (inversion == 1 ? super.pitchesByOctave.get(octave) : invertedPitchesByOctave.get(octave));
     }
 
     public ChordType getChordType() {
@@ -135,7 +110,13 @@ public class Chord extends VerticalIntervalSet
     }
 
     public String getName() {
-        return name;
+        if (inversion == 1) {
+            return root.getName() + chordType.getSymbol();
+        } else {
+            // Append the bass note to the name
+            return root.getName() + chordType.getSymbol()
+                    + "/" + pitchesByOctave.get(lowestDiatonic.octave)[inversion - 1].pitchClass.getName();
+        }
     }
 
     public Pitch[] getInversionForOctave(Octave octave) {

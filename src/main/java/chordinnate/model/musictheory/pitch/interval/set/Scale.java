@@ -2,7 +2,6 @@ package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
-import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.playback.Playable;
@@ -29,8 +28,6 @@ public class Scale extends HorizontalIntervalSet implements Playable {
     @Getter(AccessLevel.PACKAGE)
     private ScaleType scaleType;
 
-    private String fullName;
-
     private static final String SCALE_REGEX = "^([A-Ga-g])((\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x])*) (.+)$";
     private static final Pattern PATTERN = Pattern.compile(SCALE_REGEX);
 
@@ -51,7 +48,6 @@ public class Scale extends HorizontalIntervalSet implements Playable {
             if (scaleTypeOptional.isPresent()) {
                 super.commonInitializations(root, scaleTypeOptional.get().getIntervals());
                 this.scaleType = scaleTypeOptional.get();
-                this.fullName = root.getName() + " " + this.scaleType.getName();
                 valid = true;
             }
         }
@@ -59,26 +55,6 @@ public class Scale extends HorizontalIntervalSet implements Playable {
         if (!valid) {
             throw new IllegalArgumentException("Invalid scale name [" + name + "]");
         }
-    }
-
-    @Override
-    public Void transpose(boolean direction, @NotNull Interval interval) {
-        if (isTransposable(direction, interval)) {
-            Pitch lowestTransposed = super.lowestDiatonic.transpose(direction, interval);
-            super.commonInitializations(lowestTransposed.pitchClass, this.scaleType.getIntervals());
-            this.fullName = super.lowestDiatonic.pitchClass.getName() + " " + this.scaleType.getName();
-        }
-        return null;
-    }
-
-    @Override
-    public Void transpose(boolean direction, @NotNull PitchClass pitchClass) {
-        if (isTransposable(direction, pitchClass)) {
-            Pitch lowestTransposed = super.lowestDiatonic.transpose(pitchClass, this.lowestDiatonic.octave);
-            super.commonInitializations(lowestTransposed.pitchClass, this.scaleType.getIntervals());
-            this.fullName = super.lowestDiatonic.pitchClass.getName() + " " + this.scaleType.getName();
-        }
-        return null;
     }
 
     @Override
@@ -98,7 +74,7 @@ public class Scale extends HorizontalIntervalSet implements Playable {
     }
 
     public String getFullName() {
-        return fullName;
+        return root.getName() + " " + scaleType.getName();
     }
 
     public String getOrigin() {
