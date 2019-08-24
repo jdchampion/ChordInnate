@@ -62,6 +62,14 @@ public class Chord extends VerticalIntervalSet
         }
     }
 
+    public Chord(@NotNull PitchClass root, @NotNull ChordType chordType) {
+        super.commonInitializations(root, chordType.getIntervals());
+        this.chordType = chordType;
+        this.invertedPitchesByOctave = deepCopyPitchesByOctave();
+        this.inversion = 1;
+        this.possibleInversions = super.intervals.length;
+    }
+
     /**
      * Creates a deep copy of IntervalSet.pitchesByOctave.
      * @return the deep-copied EnumMap

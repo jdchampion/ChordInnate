@@ -57,6 +57,11 @@ public class Scale extends HorizontalIntervalSet implements Playable {
         }
     }
 
+    public Scale(@NotNull PitchClass root, @NotNull ScaleType scaleType) {
+        super.commonInitializations(root, scaleType.getIntervals());
+        this.scaleType = scaleType;
+    }
+
     @Override
     public RomanNumeral[] getRomanNumeralAnalysis() {
 
@@ -73,7 +78,7 @@ public class Scale extends HorizontalIntervalSet implements Playable {
         return analysis.toArray(new RomanNumeral[0]);
     }
 
-    public String getFullName() {
+    public String getName() {
         return root.getName() + " " + scaleType.getName();
     }
 
