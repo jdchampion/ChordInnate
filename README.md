@@ -1,6 +1,5 @@
-# ChordInnate
+# [ChordInnate](https://chordinnate.herokuapp.com) [![Build Status](https://travis-ci.org/jdchampion/ChordInnate.svg?branch=master)](https://travis-ci.org/jdchampion/ChordInnate) [![Release](https://jitpack.io/v/jdchampion/ChordInnate.svg)](https://jitpack.io/#jdchampion/ChordInnate) ![Deployment](http://heroku-badge.herokuapp.com/?app=chordinnate)
 
-[![Build Status](https://travis-ci.org/jdchampion/ChordInnate.svg?branch=master)](https://travis-ci.org/jdchampion/ChordInnate)
 
 #### PHENOMENAL MUSIC POWER...
 ![alt text][1]

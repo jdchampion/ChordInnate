@@ -123,10 +123,10 @@ public class TestScale {
 
         StringJoiner sj = new StringJoiner(" ");
         for (int i = 0; i < actual.length; i++) {
-                assertEquals("Incorrect Roman Numeral Analysis", expected[i], actual[i]);
+            assertEquals("Incorrect Roman Numeral Analysis", expected[i], actual[i]);
             sj.add(actual[i].getSymbol());
         }
-        log.info(s.getFullName() + ": " + sj.toString());
+        log.info(s.getName() + ": " + sj.toString());
     }
 
     /**
@@ -136,18 +136,18 @@ public class TestScale {
      */
     private void verifyScale(Scale scale, PitchClass... expected) {
 
-        assertEquals("Scale length for scale [" + scale.getFullName() + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.length(), expected.length);
+        assertEquals("Scale length for scale [" + scale.getName() + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.length(), expected.length);
 
         for (Map.Entry<Octave, Pitch[]> entry : scale.pitchesByOctave.entrySet()) {
             int lastAbsolutePitch = Integer.MIN_VALUE;
             Pitch[] pitches = entry.getValue();
             for (int i = 0; i < pitches.length; i++) {
-                assertEquals("Octave " + entry.getKey().getNumber() + " for scale [" + scale.getFullName() + "] has the wrong values", expected[i].getBaseName(), pitches[i].pitchClass.getBaseName());
+                assertEquals("Octave " + entry.getKey().getNumber() + " for scale [" + scale.getName() + "] has the wrong values", expected[i].getBaseName(), pitches[i].pitchClass.getBaseName());
                 assertTrue("Scale is not ascending", lastAbsolutePitch < pitches[i].absolutePitch);
                 lastAbsolutePitch = pitches[i].absolutePitch;
             }
         }
 
-        assertEquals(scale.lowestDiatonic.pitchClass.getName() + " " + scale.getScaleType().getName(), scale.getFullName());
+        assertEquals(scale.lowestDiatonic.pitchClass.getName() + " " + scale.getScaleType().getName(), scale.getName());
     }
 }

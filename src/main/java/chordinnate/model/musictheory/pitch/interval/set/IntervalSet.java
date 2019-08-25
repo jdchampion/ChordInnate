@@ -29,13 +29,15 @@ import java.util.stream.Collectors;
 @Slf4j
 public abstract class IntervalSet implements Transposable<Void>, Diatonic {
     EnumMap<Octave, Pitch[]> pitchesByOctave;
-    LinkedHashSet<String> diatonics;
+    Set<String> diatonics;
+    PitchClass root;
     Pitch lowestDiatonic;
     Pitch highestDiatonic;
     Octave maxPlayableOctave;
     Interval[] intervals;
 
     final void commonInitializations(PitchClass root, Interval[] intervals) {
+        this.root = root;
         this.intervals = intervals;
         this.pitchesByOctave = new EnumMap<>(Octave.class);
         this.lowestDiatonic = Pitch.withName(root.getName() + "0");
@@ -113,7 +115,7 @@ public abstract class IntervalSet implements Transposable<Void>, Diatonic {
         return destination;
     }
 
-    Pitch[] getSourcePitchesByOctave(Octave octave) {
+    protected Pitch[] getSourcePitchesByOctave(Octave octave) {
         return pitchesByOctave.get(octave);
     }
 
@@ -139,6 +141,24 @@ public abstract class IntervalSet implements Transposable<Void>, Diatonic {
             Octave octaveAtMidPoint = Octave.valueOf("OCTAVE_" + midpoint);
             boolean direction = octave.getNumber() > octaveAtMidPoint.getNumber();
             return transpose(direction, pitchClass);
+        }
+        return null;
+    }
+
+    @Override
+    public Void transpose(boolean direction, @NotNull Interval interval) {
+        if (isTransposable(direction, interval)) {
+            Pitch lowestTransposed = lowestDiatonic.transpose(direction, interval);
+            commonInitializations(lowestTransposed.pitchClass, intervals);
+        }
+        return null;
+    }
+
+    @Override
+    public Void transpose(boolean direction, @NotNull PitchClass pitchClass) {
+        if (isTransposable(direction, pitchClass)) {
+            Pitch lowestTransposed = lowestDiatonic.transpose(pitchClass, lowestDiatonic.octave);
+            commonInitializations(lowestTransposed.pitchClass, intervals);
         }
         return null;
     }

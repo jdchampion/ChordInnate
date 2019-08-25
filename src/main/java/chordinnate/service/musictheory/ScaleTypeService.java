@@ -2,7 +2,6 @@ package chordinnate.service.musictheory;
 
 import chordinnate.model.musictheory.pitch.interval.set.ScaleType;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
