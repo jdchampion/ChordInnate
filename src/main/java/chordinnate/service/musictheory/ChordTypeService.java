@@ -9,7 +9,7 @@ import java.util.Optional;
 /**
  * Created by Joseph on 6/4/17.
  */
-public interface ChordTypeService extends BaseService<ChordType> {
+public interface ChordTypeService extends BaseService<ChordType, Integer> {
 
     /**
      * Retrieves the ChordType from the database matching the specified symbol, if possible.

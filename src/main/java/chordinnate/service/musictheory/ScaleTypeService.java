@@ -8,7 +8,7 @@ import java.util.Optional;
 /**
  * Created by Joseph on 6/14/17.
  */
-public interface ScaleTypeService extends BaseService<ScaleType> {
+public interface ScaleTypeService extends BaseService<ScaleType, Integer> {
 
     /**
      * Retrieves the ScaleType from the database matching the specified name, if possible.

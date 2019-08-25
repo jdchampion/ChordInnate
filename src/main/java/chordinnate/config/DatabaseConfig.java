@@ -21,7 +21,7 @@ import java.util.Properties;
 
 @Configuration
 @ComponentScan(basePackages = {"chordinnate.dao", "chordinnate.service"})
-@EnableJpaRepositories(basePackages = {"chordinnate.dao"})
+@EnableJpaRepositories(basePackages = {"chordinnate.repository"})
 @PropertySource("classpath:database.properties")
 public class DatabaseConfig {
 

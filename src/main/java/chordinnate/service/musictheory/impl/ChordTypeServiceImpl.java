@@ -1,10 +1,11 @@
 package chordinnate.service.musictheory.impl;
 
-import chordinnate.dao.musictheory.ChordTypeDAO;
 import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.service.musictheory.ChordTypeService;
 import chordinnate.model.musictheory.pitch.interval.set.ChordType;
+import chordinnate.repository.musictheory.ChordTypeRepository;
+import chordinnate.service.musictheory.ChordTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,36 +16,27 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Repository
 @Service("chordTypeService")
 @Transactional
 public class ChordTypeServiceImpl implements ChordTypeService {
 
     @Autowired
-    ChordTypeServiceImpl(ChordTypeDAO dao) {
+    ChordTypeServiceImpl(ChordTypeRepository repository) {
         super();
-        this.dao = dao;
+        this.repository = repository;
     }
 
-    private final ChordTypeDAO dao;
-
-    @Override
-    public List<ChordType> findAll() {
-        return dao.findAll();
-    }
-
-    @Override
-    public Optional<ChordType> findById(int id) {
-        return dao.findById(id);
-    }
+    private final ChordTypeRepository repository;
 
     @Override
     public Optional<ChordType> findBySymbol(String symbol) {
-        return dao.findBySymbol(symbol);
+        return repository.findBySymbol(symbol);
     }
 
     @Override
     public Optional<ChordType> findByIntervals(Interval... intervals) {
-        return dao.findByIntervals(intervals);
+        return repository.findByIntervals(intervals);
     }
 
     @Override
@@ -59,7 +51,7 @@ public class ChordTypeServiceImpl implements ChordTypeService {
                             .map(i -> Interval.withShortName(i.getSimpleShortName()))
                             .toArray()).collect(Collectors.toList());
 
-            return dao.findAllByIntervals(list);
+            return repository.findAllByIntervals(list);
         }
 
         List<ChordType> list = new ArrayList<>();
@@ -73,6 +65,16 @@ public class ChordTypeServiceImpl implements ChordTypeService {
 
     @Override
     public Optional<ChordType> findByRomanNumeralCriteria(Interval[] intervals, int size, int precedence) {
-        return dao.findByRomanNumeralCriteria(intervals, size, precedence);
+        return repository.findByRomanNumeralCriteria(intervals, size, precedence);
+    }
+
+    @Override
+    public Iterable<ChordType> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Optional<ChordType> findById(Integer integer) {
+        return repository.findById(integer);
     }
 }

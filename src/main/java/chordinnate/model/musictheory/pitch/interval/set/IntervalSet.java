@@ -80,7 +80,7 @@ public abstract class IntervalSet implements Transposable<Void>, Diatonic {
     }
 
     final Map<Interval, List<ChordType>> getDiatonicChordTypes() {
-        List<ChordType> allChordTypes = Services.getChordTypeService().findAll();
+        List<ChordType> allChordTypes = (List<ChordType>) Services.getChordTypeService().findAll();
 
         Map<Interval, List<ChordType>> map = new LinkedHashMap<>();
         for (int i = 0; i < intervals.length; i++) {

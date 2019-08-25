@@ -1,39 +1,40 @@
 package chordinnate.service.musictheory.impl;
 
-import chordinnate.dao.musictheory.ScaleTypeDAO;
-import chordinnate.service.musictheory.ScaleTypeService;
 import chordinnate.model.musictheory.pitch.interval.set.ScaleType;
+import chordinnate.repository.musictheory.ScaleTypeRepository;
+import chordinnate.service.musictheory.ScaleTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
+@Repository
 @Service("scaleTypeService")
 @Transactional
 public class ScaleTypeServiceImpl implements ScaleTypeService {
 
     @Autowired
-    ScaleTypeServiceImpl(ScaleTypeDAO dao) {
+    ScaleTypeServiceImpl(ScaleTypeRepository repository) {
         super();
-        this.dao = dao;
+        this.repository = repository;
     }
 
-    private final ScaleTypeDAO dao;
-
-    @Override
-    public Optional<ScaleType> findById(int id) {
-        return dao.findById(id);
-    }
+    private final ScaleTypeRepository repository;
 
     @Override
     public Optional<ScaleType> findByName(String name) {
-        return dao.findByName(name);
+        return repository.findByName(name);
     }
 
     @Override
-    public List<ScaleType> findAll() {
-        return dao.findAll();
+    public Iterable<ScaleType> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public Optional<ScaleType> findById(Integer integer) {
+        return repository.findById(integer);
     }
 }
