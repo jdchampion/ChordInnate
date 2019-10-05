@@ -5,7 +5,6 @@ import chordinnate.model.musictheory.pitch.interval.set.ChordType;
 import chordinnate.repository.musictheory.ChordTypeRepository;
 import chordinnate.service.musictheory.ChordTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Repository
 @Service("chordTypeService")
 @Transactional
 public class ChordTypeServiceImpl implements ChordTypeService {

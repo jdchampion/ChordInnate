@@ -127,7 +127,4 @@ public class Chord extends VerticalIntervalSet
         }
     }
 
-    public Pitch[] getInversionForOctave(Octave octave) {
-        return invertedPitchesByOctave.get(octave);
-    }
 }
