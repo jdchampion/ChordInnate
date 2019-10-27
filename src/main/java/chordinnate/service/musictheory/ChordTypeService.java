@@ -2,6 +2,7 @@ package chordinnate.service.musictheory;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.ChordType;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,7 +10,8 @@ import java.util.Optional;
 /**
  * Created by Joseph on 6/4/17.
  */
-public interface ChordTypeService extends BaseService<ChordType> {
+@Service
+public interface ChordTypeService extends BaseService<ChordType, Integer> {
 
     /**
      * Retrieves the ChordType from the database matching the specified symbol, if possible.

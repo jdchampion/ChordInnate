@@ -11,6 +11,10 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.regex.Pattern;
 
 /**
@@ -27,7 +31,7 @@ import java.util.regex.Pattern;
 @Getter
 @EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Interval implements Invertible<Interval>, Comparable<Interval> {
+public class Interval implements Serializable, Invertible<Interval>, Comparable<Interval> {
 
     private static final String FIRST_PASS_INTERVAL_REGEX = "^[dmMPA]+(([1-9])|([1-6][0-9])|(7[0-6]))$";
     private static final String SECOND_PASS_INTERVAL_REGEX = "^([mM][2367])|(P[145])|((d+|A+)[1-7])$";
@@ -456,4 +460,13 @@ public class Interval implements Invertible<Interval>, Comparable<Interval> {
 
         return this.compoundShortName.compareTo(o.compoundShortName);
     }
+
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+    }
+
 }

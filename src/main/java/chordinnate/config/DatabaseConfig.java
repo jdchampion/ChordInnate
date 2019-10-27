@@ -20,8 +20,8 @@ import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
-@ComponentScan(basePackages = {"chordinnate.dao", "chordinnate.service"})
-@EnableJpaRepositories(basePackages = {"chordinnate.dao"})
+@ComponentScan(basePackages = {"chordinnate.model", "chordinnate.service"})
+@EnableJpaRepositories(basePackages = {"chordinnate.repository"})
 @PropertySource("classpath:database.properties")
 public class DatabaseConfig {
 

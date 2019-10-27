@@ -1,15 +1,17 @@
-package chordinnate.dao.musictheory;
+package chordinnate.repository.musictheory;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.ChordType;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ChordTypeDAO extends JpaRepository<ChordType, Integer> {
+@Repository
+public interface ChordTypeRepository extends CrudRepository<ChordType, Integer> {
 
     Optional<ChordType> findBySymbol(@Param("symbol") String symbol);
 
@@ -22,4 +24,5 @@ public interface ChordTypeDAO extends JpaRepository<ChordType, Integer> {
     Optional<ChordType> findByRomanNumeralCriteria(@Param("intervals") Interval[] intervals,
                                                    @Param("size") int size,
                                                    @Param("precedence") int precedence);
+
 }
