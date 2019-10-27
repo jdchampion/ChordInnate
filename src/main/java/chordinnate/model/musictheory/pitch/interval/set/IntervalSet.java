@@ -7,6 +7,7 @@ import chordinnate.model.musictheory.pitch.Transposable;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
+import chordinnate.model.playback.Playable;
 import chordinnate.service.Services;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
@@ -27,7 +28,7 @@ import java.util.stream.Collectors;
  * Created by Joseph on 7/15/16.
  */
 @Slf4j
-public abstract class IntervalSet implements Transposable<Void>, Diatonic {
+public abstract class IntervalSet implements Transposable<IntervalSet>, Diatonic, Playable {
     EnumMap<Octave, Pitch[]> pitchesByOctave;
     Set<String> diatonics;
     PitchClass root;
@@ -35,8 +36,9 @@ public abstract class IntervalSet implements Transposable<Void>, Diatonic {
     Pitch highestDiatonic;
     Octave maxPlayableOctave;
     Interval[] intervals;
+    IntervalOrientation orientation;
 
-    final void commonInitializations(PitchClass root, Interval[] intervals) {
+    protected void commonInitializations(PitchClass root, Interval[] intervals) {
         this.root = root;
         this.intervals = intervals;
         this.pitchesByOctave = new EnumMap<>(Octave.class);
@@ -81,6 +83,14 @@ public abstract class IntervalSet implements Transposable<Void>, Diatonic {
                 : highestDiatonic.octave;
     }
 
+    public IntervalOrientation getOrientation() {
+        return orientation;
+    }
+
+    public abstract int getHorizontalSize();
+
+    public abstract int getVerticalSize();
+
     final Map<Interval, List<ChordType>> getDiatonicChordTypes() {
         List<ChordType> allChordTypes = (List<ChordType>) Services.getChordTypeService().findAll();
 
@@ -124,43 +134,43 @@ public abstract class IntervalSet implements Transposable<Void>, Diatonic {
     }
 
     @Override
-    public Void transpose(@NotNull Pitch pitch) {
+    public IntervalSet transpose(@NotNull Pitch pitch) {
         if (isTransposable(pitch)) {
             int midpoint = maxPlayableOctave.getNumber() / 2;
             Pitch rootAtMidpoint = getPitchesForOctave(Octave.valueOf("OCTAVE_" + midpoint))[0];
             boolean direction = pitch.absolutePitch > rootAtMidpoint.absolutePitch;
             return transpose(direction, pitch.pitchClass);
         }
-        return null;
+        return this;
     }
 
     @Override
-    public Void transpose(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
+    public IntervalSet transpose(@NotNull PitchClass pitchClass, @NotNull Octave octave) {
         if (isTransposable(pitchClass, octave)) {
             int midpoint = maxPlayableOctave.getNumber() / 2;
             Octave octaveAtMidPoint = Octave.valueOf("OCTAVE_" + midpoint);
             boolean direction = octave.getNumber() > octaveAtMidPoint.getNumber();
             return transpose(direction, pitchClass);
         }
-        return null;
+        return this;
     }
 
     @Override
-    public Void transpose(boolean direction, @NotNull Interval interval) {
+    public IntervalSet transpose(boolean direction, @NotNull Interval interval) {
         if (isTransposable(direction, interval)) {
             Pitch lowestTransposed = lowestDiatonic.transpose(direction, interval);
             commonInitializations(lowestTransposed.pitchClass, intervals);
         }
-        return null;
+        return this;
     }
 
     @Override
-    public Void transpose(boolean direction, @NotNull PitchClass pitchClass) {
+    public IntervalSet transpose(boolean direction, @NotNull PitchClass pitchClass) {
         if (isTransposable(direction, pitchClass)) {
             Pitch lowestTransposed = lowestDiatonic.transpose(pitchClass, lowestDiatonic.octave);
             commonInitializations(lowestTransposed.pitchClass, intervals);
         }
-        return null;
+        return this;
     }
 
     @Override
@@ -173,5 +183,17 @@ public abstract class IntervalSet implements Transposable<Void>, Diatonic {
     public boolean isDiatonicTo(@NotNull IntervalSet intervalSet) {
         return Arrays.stream(getPitchesForOctave(lowestDiatonic.octave))
                 .allMatch(p -> p.isDiatonicTo(intervalSet));
+    }
+
+    public static IntervalSet verticalInstance(PitchClass root, Interval[] intervals) {
+        IntervalSet intervalSet = new VerticalIntervalSet();
+        intervalSet.commonInitializations(root, intervals);
+        return intervalSet;
+    }
+
+    public static IntervalSet horizontalInstance(PitchClass root, Interval[] intervals) {
+        IntervalSet intervalSet = new HorizontalIntervalSet();
+        intervalSet.commonInitializations(root, intervals);
+        return intervalSet;
     }
 }

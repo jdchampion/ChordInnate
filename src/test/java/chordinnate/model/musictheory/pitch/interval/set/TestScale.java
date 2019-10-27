@@ -136,7 +136,7 @@ public class TestScale {
      */
     private void verifyScale(Scale scale, PitchClass... expected) {
 
-        assertEquals("Scale length for scale [" + scale.getName() + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.length(), expected.length);
+        assertEquals("Scale length for scale [" + scale.getName() + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.getHorizontalSize(), expected.length);
 
         for (Map.Entry<Octave, Pitch[]> entry : scale.pitchesByOctave.entrySet()) {
             int lastAbsolutePitch = Integer.MIN_VALUE;
