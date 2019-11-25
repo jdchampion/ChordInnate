@@ -163,6 +163,8 @@ public class TestChord {
                 expected.length,
                 chord.getChordType().getIntervals().length);
 
+        assertEquals("Chord grouping is incorrect", getExpectedGrouping(chord), chord.getGrouping());
+
         int lowRange = lowPitches.length, highRange = highPitches.length;
 
         for (int i = 0; i < lowRange; i++) {
@@ -173,6 +175,24 @@ public class TestChord {
         }
 
         assertEquals(chord.lowestDiatonic.pitchClass.getName() + chord.getChordType().getSymbol(), chord.getName());
+    }
+
+    private static String getExpectedGrouping(Chord chord) {
+        switch (chord.getVerticalSize()) {
+            case 1: return "monad";
+            case 2: return "dyad";
+            case 3: return "triad";
+            case 4: return "tetrad";
+            case 5: return "pentad";
+            case 6: return "hexad";
+            case 7: return "heptad";
+            case 8: return "octad";
+            case 9: return "ennead";
+            case 10: return "decad";
+            case 11: return "hendecad";
+            case 12: return "dodecad";
+            default: return "UNIT TEST OUT OF RANGE";
+        }
     }
 
     @Test

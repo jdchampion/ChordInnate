@@ -134,9 +134,11 @@ public class TestScale {
      * @param scale
      * @param expected
      */
-    private void verifyScale(Scale scale, PitchClass... expected) {
+    private static void verifyScale(Scale scale, PitchClass... expected) {
 
         assertEquals("Scale length for scale [" + scale.getName() + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.getHorizontalSize(), expected.length);
+
+        assertEquals("Scale grouping is incorrect", getExpectedGrouping(scale), scale.getGrouping());
 
         for (Map.Entry<Octave, Pitch[]> entry : scale.pitchesByOctave.entrySet()) {
             int lastAbsolutePitch = Integer.MIN_VALUE;
@@ -149,5 +151,23 @@ public class TestScale {
         }
 
         assertEquals(scale.lowestDiatonic.pitchClass.getName() + " " + scale.getScaleType().getName(), scale.getName());
+    }
+
+    private static String getExpectedGrouping(Scale scale) {
+        switch (scale.getHorizontalSize()) {
+            case 1: return "monochord";
+            case 2: return "dichord";
+            case 3: return "trichord";
+            case 4: return "tetrachord";
+            case 5: return "pentachord";
+            case 6: return "hexachord";
+            case 7: return "heptachord";
+            case 8: return "octachord";
+            case 9: return "enneachord";
+            case 10: return "decachord";
+            case 11: return "hendecachord";
+            case 12: return "dodecachord";
+            default: return "UNIT TEST OUT OF RANGE";
+        }
     }
 }

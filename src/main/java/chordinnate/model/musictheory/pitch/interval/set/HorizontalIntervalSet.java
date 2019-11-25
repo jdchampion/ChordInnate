@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import chordinnate.model.musictheory.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
@@ -27,6 +28,20 @@ class HorizontalIntervalSet extends IntervalSet {
     @Override
     public int getVerticalSize() {
         return 1;
+    }
+
+    @Override
+    public String getGrouping() {
+
+        int size = getHorizontalSize();
+
+        switch (size) {
+            case 1: return "monochord"; // special case because it is the only grouping with a prefix of 1
+            case 2:
+            case 3: return GreekGrouping.grouping(size) + "chord";
+            default: return GreekGrouping.grouping(size) + "achord";
+        }
+
     }
 
     public RomanNumeral[] getRomanNumeralAnalysis() {

@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import chordinnate.model.musictheory.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 
@@ -22,5 +23,17 @@ class VerticalIntervalSet extends InvertibleIntervalSet {
     @Override
     public int getVerticalSize() {
         return super.intervals.length;
+    }
+
+    @Override
+    public String getGrouping() {
+
+        int size = getVerticalSize();
+
+        if (size == 2) {
+            return "dyad"; // special case because all other 2 prefixes are "di"
+        }
+
+        return GreekGrouping.grouping(size) + "ad";
     }
 }

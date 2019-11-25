@@ -83,13 +83,47 @@ public abstract class IntervalSet implements Transposable<IntervalSet>, Diatonic
                 : highestDiatonic.octave;
     }
 
+    /**
+     * Indicates how pitches are arranged and played for this IntervalSet.
+     *
+     * @return the orientation of this IntervalSet
+     */
     public IntervalOrientation getOrientation() {
         return orientation;
     }
 
+    /**
+     * Returns the count of pitches in this IntervalSet that occur sequentially in time.
+     * Such pitches would appear spread apart on a music score, across a horizontal line.
+     *
+     * @implNote Implementation must follow these rules:
+     * <li>IntervalSet is empty: {@code horizontalSize = 0, verticalSize = 0}</li>
+     * <li>IntervalSet is horizontal: {@code horizontalSize = size, verticalSize = 1}</li>
+     * <li>IntervalSet is vertical: {@code horizontalSize = 1, verticalSize = size}</li>
+     *
+     * @return the count of pitches in this IntervalSet that occur sequentially in time
+     */
     public abstract int getHorizontalSize();
 
+    /**
+     * Returns the count of pitches in this IntervalSet that occur at the same time.
+     * Such pitches would appear vertically stacked on a music score.
+     *
+     * @implNote Implementation must follow these rules:
+     * <li>IntervalSet is empty: {@code horizontalSize = 0, verticalSize = 0}</li>
+     * <li>IntervalSet is horizontal: {@code horizontalSize = size, verticalSize = 1}</li>
+     * <li>IntervalSet is vertical: {@code horizontalSize = 1, verticalSize = size}</li>
+     *
+     * @return the count of pitches in this IntervalSet that occur at the same time
+     */
     public abstract int getVerticalSize();
+
+    /**
+     * Returns the group classification for this IntervalSet, based on its size.
+     *
+     * @return the group classification for this IntervalSet, based on its size
+     */
+    public abstract String getGrouping();
 
     final Map<Interval, List<ChordType>> getDiatonicChordTypes() {
         List<ChordType> allChordTypes = (List<ChordType>) Services.getChordTypeService().findAll();
@@ -185,13 +219,13 @@ public abstract class IntervalSet implements Transposable<IntervalSet>, Diatonic
                 .allMatch(p -> p.isDiatonicTo(intervalSet));
     }
 
-    public static IntervalSet verticalInstance(PitchClass root, Interval[] intervals) {
+    public static IntervalSet verticalInstance(@NotNull PitchClass root, @NotNull Interval[] intervals) {
         IntervalSet intervalSet = new VerticalIntervalSet();
         intervalSet.commonInitializations(root, intervals);
         return intervalSet;
     }
 
-    public static IntervalSet horizontalInstance(PitchClass root, Interval[] intervals) {
+    public static IntervalSet horizontalInstance(@NotNull PitchClass root, @NotNull Interval[] intervals) {
         IntervalSet intervalSet = new HorizontalIntervalSet();
         intervalSet.commonInitializations(root, intervals);
         return intervalSet;

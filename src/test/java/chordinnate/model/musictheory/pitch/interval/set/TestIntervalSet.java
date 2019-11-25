@@ -16,6 +16,7 @@ public class TestIntervalSet {
         assertTrue(vertical instanceof VerticalIntervalSet);
         assertEquals(3, vertical.getVerticalSize());
         assertEquals(1, vertical.getHorizontalSize());
+        assertEquals("triad", vertical.getGrouping());
     }
 
     @Test
@@ -24,6 +25,7 @@ public class TestIntervalSet {
         assertTrue(horizontal instanceof HorizontalIntervalSet);
         assertEquals(1, horizontal.getVerticalSize());
         assertEquals(3, horizontal.getHorizontalSize());
+        assertEquals("trichord", horizontal.getGrouping());
     }
 
 }

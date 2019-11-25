@@ -7,9 +7,7 @@ CREATE TABLE IF NOT EXISTS CHORD_TYPE (
   RN_CAPITAL INTEGER(1) NOT NULL CHECK (RN_CAPITAL = 0 OR RN_CAPITAL = 1),
   RN_PRECEDENCE INTEGER NOT NULL DEFAULT 1 CHECK (RN_PRECEDENCE > 0),
   INTERVALS VARCHAR(100) NOT NULL, -- CHECK (INTERVALS REGEXP 'P1(, [mMPdA][0-9]+)+'),
-  SIZE INTEGER,                     -- set by trigger
-  CLASSIFICATION VARCHAR(20),       -- set by trigger
-  CLASSIFICATION_ALT VARCHAR(20)    -- set by trigger
+  SIZE INTEGER                     -- set by trigger
 );
 
 -- Automatically count the number of notes in the chord
@@ -19,41 +17,6 @@ BEGIN
   UPDATE CHORD_TYPE
   SET SIZE = LENGTH(INTERVALS) - LENGTH(REPLACE(INTERVALS, ',', '')) + 1
   WHERE _ROWID_ = LAST_INSERT_ROWID();
-END;
-
--- Automatically classify the chord based on number of notes
-DROP TRIGGER IF EXISTS TRIG_CHORD_TYPE_CLASS;
-CREATE TRIGGER TRIG_CHORD_TYPE_CLASS AFTER UPDATE ON CHORD_TYPE
-BEGIN
-  UPDATE CHORD_TYPE
-  SET CLASSIFICATION =
-  (CASE
-   WHEN SIZE = 1 THEN 'Monad'
-   WHEN SIZE = 2 THEN 'Dyad'
-   WHEN SIZE = 3 THEN 'Triad'
-   WHEN SIZE = 4 THEN 'Tetrad'
-   WHEN SIZE = 5 THEN 'Pentad'
-   WHEN SIZE = 6 THEN 'Hexad'
-   WHEN SIZE = 7 THEN 'Heptad'
-   WHEN SIZE = 8 THEN 'Octad'
-   WHEN SIZE = 9 THEN 'Ennead'
-   WHEN SIZE = 10 THEN 'Decad'
-   END) WHERE _ROWID_ = LAST_INSERT_ROWID();
-
-  UPDATE CHORD_TYPE
-  SET CLASSIFICATION_ALT =
-  (CASE
-   WHEN SIZE = 1 THEN 'Monochord'
-   WHEN SIZE = 2 THEN 'Dichord'
-   WHEN SIZE = 3 THEN 'Trichord'
-   WHEN SIZE = 4 THEN 'Tetrachord'
-   WHEN SIZE = 5 THEN 'Pentachord'
-   WHEN SIZE = 6 THEN 'Hexachord'
-   WHEN SIZE = 7 THEN 'Heptachord'
-   WHEN SIZE = 8 THEN 'Octachord'
-   WHEN SIZE = 9 THEN 'Nonachord'
-   WHEN SIZE = 10 THEN 'Decachord'
-   END) WHERE _ROWID_ = LAST_INSERT_ROWID();
 END;
 
 INSERT INTO CHORD_TYPE (SYMBOL, RN_SYMBOL, RN_CAPITAL, RN_PRECEDENCE, INTERVALS) VALUES

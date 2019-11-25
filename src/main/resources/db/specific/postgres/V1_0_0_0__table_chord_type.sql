@@ -7,44 +7,14 @@ CREATE TABLE IF NOT EXISTS CHORD_TYPE (
   RN_CAPITAL INTEGER NOT NULL CHECK (RN_CAPITAL = 0 OR RN_CAPITAL = 1),
   RN_PRECEDENCE INTEGER NOT NULL DEFAULT 1 CHECK (RN_PRECEDENCE > 0),
   INTERVALS VARCHAR(100) NOT NULL, -- CHECK (INTERVALS REGEXP 'P1(, [mMPdA][0-9]+)+'),
-  SIZE INTEGER,                     -- set by trigger
-  CLASSIFICATION VARCHAR(20),       -- set by trigger
-  CLASSIFICATION_ALT VARCHAR(20)    -- set by trigger
+  SIZE INTEGER                     -- set by trigger
 );
 
 -- Automatically count the number of notes in the chord
--- Automatically classify the chord based on number of notes
 DROP FUNCTION IF EXISTS TF_CTS;
 CREATE FUNCTION TF_CTS() RETURNS TRIGGER AS $TF_CTS$
 BEGIN
     NEW.SIZE = LENGTH(NEW.INTERVALS) - LENGTH(REPLACE(NEW.INTERVALS, ',', '')) + 1;
-    NEW.CLASSIFICATION :=
-            (CASE
-                 WHEN NEW.SIZE = 1 THEN 'Monad'
-                 WHEN NEW.SIZE = 2 THEN 'Dyad'
-                 WHEN NEW.SIZE = 3 THEN 'Triad'
-                 WHEN NEW.SIZE = 4 THEN 'Tetrad'
-                 WHEN NEW.SIZE = 5 THEN 'Pentad'
-                 WHEN NEW.SIZE = 6 THEN 'Hexad'
-                 WHEN NEW.SIZE = 7 THEN 'Heptad'
-                 WHEN NEW.SIZE = 8 THEN 'Octad'
-                 WHEN NEW.SIZE = 9 THEN 'Ennead'
-                 WHEN NEW.SIZE = 10 THEN 'Decad'
-                END);
-
-    NEW.CLASSIFICATION_ALT :=
-            (CASE
-                 WHEN NEW.SIZE = 1 THEN 'Monochord'
-                 WHEN NEW.SIZE = 2 THEN 'Dichord'
-                 WHEN NEW.SIZE = 3 THEN 'Trichord'
-                 WHEN NEW.SIZE = 4 THEN 'Tetrachord'
-                 WHEN NEW.SIZE = 5 THEN 'Pentachord'
-                 WHEN NEW.SIZE = 6 THEN 'Hexachord'
-                 WHEN NEW.SIZE = 7 THEN 'Heptachord'
-                 WHEN NEW.SIZE = 8 THEN 'Octachord'
-                 WHEN NEW.SIZE = 9 THEN 'Nonachord'
-                 WHEN NEW.SIZE = 10 THEN 'Decachord'
-                END);
     RETURN NEW;
 END;
 $TF_CTS$ LANGUAGE plpgsql;
