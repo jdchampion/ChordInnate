@@ -1,19 +1,13 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.model.musictheory.notation.Accidental;
-import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
 import chordinnate.model.musictheory.pitch.PitchClass;
-import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.model.playback.Playable;
 import chordinnate.service.Services;
 import chordinnate.service.musictheory.ScaleTypeService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +17,7 @@ import java.util.regex.Pattern;
  * References: http://pianoencyclopedia.com/scales/
  * http://www.earmaster.com/music-theory-online/ch04/chapter-4-8.html
  */
-public class Scale extends HorizontalIntervalSet implements Playable {
+public class Scale extends HorizontalIntervalSet {
 
     @Getter(AccessLevel.PACKAGE)
     private ScaleType scaleType;
@@ -60,22 +54,6 @@ public class Scale extends HorizontalIntervalSet implements Playable {
     public Scale(@NotNull PitchClass root, @NotNull ScaleType scaleType) {
         super.commonInitializations(root, scaleType.getIntervals());
         this.scaleType = scaleType;
-    }
-
-    @Override
-    public RomanNumeral[] getRomanNumeralAnalysis() {
-
-        Map<Interval, List<ChordType>> diatonicsByInterval = getDiatonicChordTypes();
-
-        List<RomanNumeral> analysis = new ArrayList<>();
-
-        for (Map.Entry<Interval, List<ChordType>> entry : diatonicsByInterval.entrySet()) {
-            if (!entry.getValue().isEmpty()) {
-                analysis.add(RomanNumeral.from(entry.getKey().getCompoundDiatonic(), entry.getValue().get(0).getIntervals()));
-            }
-        }
-
-        return analysis.toArray(new RomanNumeral[0]);
     }
 
     public String getName() {

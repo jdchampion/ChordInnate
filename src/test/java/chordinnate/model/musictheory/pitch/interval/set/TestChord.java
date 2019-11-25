@@ -65,22 +65,44 @@ public class TestChord {
 
     @Test
     public void invert() {
+        // Sanity check
         Chord c = new Chord("Cmaj");
         assertEquals(1, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.getPitchesForOctave(Octave.OCTAVE_0));
         assertEquals("Cmaj", c.getName());
+
+        // Test inversions independently
         c.invert();
         assertEquals(2, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_0, Pitch.G_0}, c.getPitchesForOctave(Octave.OCTAVE_0));
         assertEquals("Cmaj/E", c.getName());
+
         c.invert();
         assertEquals(3, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_1, Pitch.G_0}, c.getPitchesForOctave(Octave.OCTAVE_0));
         assertEquals("Cmaj/G", c.getName());
+
         c.invert();
         assertEquals(1, c.getInversion());
         assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.getPitchesForOctave(Octave.OCTAVE_0));
         assertEquals("Cmaj", c.getName());
+
+        // Test chained inversions
+        c.invert().invert();
+        assertEquals(3, c.getInversion());
+        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_1, Pitch.G_0}, c.getPitchesForOctave(Octave.OCTAVE_0));
+        assertEquals("Cmaj/G", c.getName());
+
+        c.invert().invert();
+        assertEquals(2, c.getInversion());
+        assertArrayEquals(new Pitch[]{Pitch.C_1, Pitch.E_0, Pitch.G_0}, c.getPitchesForOctave(Octave.OCTAVE_0));
+        assertEquals("Cmaj/E", c.getName());
+
+        c.invert().invert();
+        assertEquals(1, c.getInversion());
+        assertArrayEquals(new Pitch[]{Pitch.C_0, Pitch.E_0, Pitch.G_0}, c.getPitchesForOctave(Octave.OCTAVE_0));
+        assertEquals("Cmaj", c.getName());
+
     }
 
     @Test
@@ -141,6 +163,8 @@ public class TestChord {
                 expected.length,
                 chord.getChordType().getIntervals().length);
 
+        assertEquals("Chord grouping is incorrect", getExpectedGrouping(chord), chord.getGrouping());
+
         int lowRange = lowPitches.length, highRange = highPitches.length;
 
         for (int i = 0; i < lowRange; i++) {
@@ -151,6 +175,24 @@ public class TestChord {
         }
 
         assertEquals(chord.lowestDiatonic.pitchClass.getName() + chord.getChordType().getSymbol(), chord.getName());
+    }
+
+    private static String getExpectedGrouping(Chord chord) {
+        switch (chord.getVerticalSize()) {
+            case 1: return "monad";
+            case 2: return "dyad";
+            case 3: return "triad";
+            case 4: return "tetrad";
+            case 5: return "pentad";
+            case 6: return "hexad";
+            case 7: return "heptad";
+            case 8: return "octad";
+            case 9: return "ennead";
+            case 10: return "decad";
+            case 11: return "hendecad";
+            case 12: return "dodecad";
+            default: return "UNIT TEST OUT OF RANGE";
+        }
     }
 
     @Test

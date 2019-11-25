@@ -5,13 +5,11 @@ CREATE TABLE IF NOT EXISTS SCALE_TYPE (
 	NAME VARCHAR(100) NOT NULL UNIQUE CHECK (NAME <> ''),
 	INTERVALS VARCHAR(100) NOT NULL, -- CHECK (INTERVALS REGEXP 'P1(, [mMPdA][0-9]+)+'), TODO: use GLOB wildcards?
 	SIZE INTEGER,										-- set by trigger
-	CLASSIFICATION VARCHAR(20),			-- set by trigger
 	ORIGIN VARCHAR(100)
 );
 
 -- Do not allow any new entries to this table where the scale name differs only by capitalization or whitespace
 -- Automatically count the number of notes in the scale
--- Automatically classify the scale based on number of notes
 DROP FUNCTION IF EXISTS TF_STMN;
 CREATE FUNCTION TF_STMN() RETURNS TRIGGER AS $TF_STMN$
     BEGIN
@@ -19,20 +17,6 @@ CREATE FUNCTION TF_STMN() RETURNS TRIGGER AS $TF_STMN$
             THEN RAISE EXCEPTION 'Another scale by the same name already exists';
         END IF;
         NEW.SIZE := LENGTH(NEW.INTERVALS) - LENGTH(REPLACE(NEW.INTERVALS, ',', '')) + 1;
-        NEW.CLASSIFICATION := (CASE
-                                  WHEN NEW.SIZE = 1 THEN 'Monotonic'
-                                  WHEN NEW.SIZE = 2 THEN 'Ditonic'
-                                  WHEN NEW.SIZE = 3 THEN 'Tritonic'
-                                  WHEN NEW.SIZE = 4 THEN 'Tetratonic'
-                                  WHEN NEW.SIZE = 5 THEN 'Pentatonic'
-                                  WHEN NEW.SIZE = 6 THEN 'Hexatonic'
-                                  WHEN NEW.SIZE = 7 THEN 'Heptatonic'
-                                  WHEN NEW.SIZE = 8 THEN 'Octatonic'
-                                  WHEN NEW.SIZE = 9 THEN 'Enneatonic'
-                                  WHEN NEW.SIZE = 10 THEN 'Decatonic'
-                                  WHEN NEW.SIZE = 11 THEN 'Undecatonic'
-                                  WHEN NEW.SIZE = 12 THEN 'Dodecatonic'
-            END);
         RETURN NEW;
     END;
 $TF_STMN$ LANGUAGE plpgsql;

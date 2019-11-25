@@ -9,7 +9,7 @@
 ...itty bitty JAR size!
 ![alt text][2]
 
-[2]: https://memegenerator.net/img/images/12041137/genie-itty-bitty-living-space.jpg "itty bitty living space"
+[2]: https://memegenerator.net/img/images/12041137/genie-itty-bitty-living-space.jpg "itty bitty JAR size"
 
 ---
 ## What is ChordInnate?
@@ -153,7 +153,7 @@
 ## TODO
 *This is an (ever-growing) list of features currently in the works for ChordInnate:*
 - [ ] User-extensible chords and scales
-- [ ] Support for dyads, triads, tetrads, etc.
+- [x] Support for dyads, triads, tetrads, etc.
 - [ ] Interval ratios (Just Intonation, 12-Tone Equal Temperament)
 - [ ] Support for user-entered chord symbols for Roman Numeral ({Isus4}, etc.)
 - [ ] Theory behind Shoenberg's 12-tone technique (tone rows, retrograde inversion)
