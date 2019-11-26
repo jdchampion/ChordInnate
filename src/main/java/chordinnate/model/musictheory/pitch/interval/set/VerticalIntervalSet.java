@@ -3,11 +3,14 @@ package chordinnate.model.musictheory.pitch.interval.set;
 import chordinnate.model.musictheory.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by Joseph on 7/15/16.
  */
-class VerticalIntervalSet extends InvertibleIntervalSet {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class VerticalIntervalSet extends InvertibleIntervalSet {
 
     @Override
     protected void commonInitializations(PitchClass root, Interval[] intervals) {

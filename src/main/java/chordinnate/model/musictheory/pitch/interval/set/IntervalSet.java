@@ -219,14 +219,14 @@ public abstract class IntervalSet implements Transposable<IntervalSet>, Diatonic
                 .allMatch(p -> p.isDiatonicTo(intervalSet));
     }
 
-    public static IntervalSet verticalInstance(@NotNull PitchClass root, @NotNull Interval[] intervals) {
-        IntervalSet intervalSet = new VerticalIntervalSet();
+    public static VerticalIntervalSet verticalInstance(@NotNull PitchClass root, @NotNull Interval[] intervals) {
+        VerticalIntervalSet intervalSet = new VerticalIntervalSet();
         intervalSet.commonInitializations(root, intervals);
         return intervalSet;
     }
 
-    public static IntervalSet horizontalInstance(@NotNull PitchClass root, @NotNull Interval[] intervals) {
-        IntervalSet intervalSet = new HorizontalIntervalSet();
+    public static HorizontalIntervalSet horizontalInstance(@NotNull PitchClass root, @NotNull Interval[] intervals) {
+        HorizontalIntervalSet intervalSet = new HorizontalIntervalSet();
         intervalSet.commonInitializations(root, intervals);
         return intervalSet;
     }

@@ -58,12 +58,12 @@ public class Chord extends VerticalIntervalSet {
     }
 
     public String getName() {
-        if (inversion == 1) {
+        if (getInversion() == 1) {
             return root.getName() + chordType.getSymbol();
         } else {
             // Append the bass note to the name
             return root.getName() + chordType.getSymbol()
-                    + "/" + pitchesByOctave.get(lowestDiatonic.octave)[inversion - 1].pitchClass.getName();
+                    + "/" + pitchesByOctave.get(lowestDiatonic.octave)[getInversion() - 1].pitchClass.getName();
         }
     }
 
