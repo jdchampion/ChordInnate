@@ -1,4 +1,6 @@
-package chordinnate.model.musictheory.pitch.interval;
+package chordinnate.model.serialization;
+
+import chordinnate.model.musictheory.pitch.interval.Interval;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

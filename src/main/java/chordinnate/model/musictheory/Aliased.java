@@ -1,4 +1,4 @@
-package chordinnate.model;
+package chordinnate.model.musictheory;
 
 public interface Aliased {
 

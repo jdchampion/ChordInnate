@@ -129,6 +129,15 @@ public class TestScale {
         log.info(s.getName() + ": " + sj.toString());
     }
 
+    @Test
+    public void getOrigin() {
+        Scale withOrigin = new Scale("C Aeolian");
+        assertNotNull(withOrigin.getOrigin());
+
+        Scale withoutOrigin = new Scale("C Major");
+        assertNull(withoutOrigin.getOrigin());
+    }
+
     /**
      * Helper method for testing the returned Pitch values for a given Scale.
      * @param scale

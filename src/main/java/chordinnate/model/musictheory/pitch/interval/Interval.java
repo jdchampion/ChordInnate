@@ -1,6 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval;
 
-import chordinnate.ChordInnateException;
+import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.notation.IntervalQuality;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;

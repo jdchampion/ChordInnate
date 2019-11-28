@@ -1,7 +1,7 @@
 package chordinnate.model.musictheory.pitch;
 
-import chordinnate.ChordInnateException;
-import chordinnate.model.Aliased;
+import chordinnate.exception.ChordInnateException;
+import chordinnate.model.musictheory.Aliased;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.BaseEnharmonicSpelling;
 import chordinnate.model.musictheory.notation.EnharmonicSpelling;

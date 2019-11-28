@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import chordinnate.model.RegionEntity;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.service.Services;
@@ -7,6 +8,7 @@ import chordinnate.service.musictheory.ScaleTypeService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.regex.Matcher;
@@ -60,8 +62,16 @@ public class Scale extends HorizontalIntervalSet {
         return root.getName() + " " + scaleType.getName();
     }
 
+    @Nullable
     public String getOrigin() {
-        return scaleType.getOrigin();
+
+        RegionEntity region = scaleType.getOrigin();
+
+        if (region == null) {
+            return null;
+        }
+
+        return region.getRegionName();
     }
 
 }

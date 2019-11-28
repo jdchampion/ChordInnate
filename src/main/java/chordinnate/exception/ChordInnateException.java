@@ -1,4 +1,4 @@
-package chordinnate;
+package chordinnate.exception;
 
 public class ChordInnateException extends RuntimeException {
     public ChordInnateException() {

@@ -1,7 +1,7 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.model.musictheory.pitch.interval.IntervalConverter;
+import chordinnate.model.serialization.IntervalConverter;
 import lombok.Data;
 
 import javax.persistence.Cacheable;
@@ -25,6 +25,10 @@ import javax.persistence.Table;
 @Table(name = "CHORD_TYPE")
 public final class ChordType {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
     @Column(name = "SYMBOL", nullable = false)
     private String symbol;
 
@@ -43,9 +47,5 @@ public final class ChordType {
 
     @Column(name = "SIZE", nullable = false)
     private int size;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
 
 }
