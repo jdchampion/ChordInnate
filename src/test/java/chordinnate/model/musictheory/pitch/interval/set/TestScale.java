@@ -135,7 +135,7 @@ public class TestScale {
         assertNotNull(withOrigin.getOrigin());
 
         Scale withoutOrigin = new Scale("C Major");
-        assertNull(withoutOrigin.getOrigin());
+        assertNotNull(withoutOrigin.getOrigin());
     }
 
     /**

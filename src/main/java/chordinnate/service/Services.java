@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public final class Services {
 
+    private static AnnotationConfigApplicationContext context;
+
     private Services() {}
 
     private static AnnotationConfigApplicationContext getContext() {
@@ -20,10 +22,6 @@ public final class Services {
 
         return context;
     }
-
-    static AnnotationConfigApplicationContext context;
-
-
 
     public static ChordTypeService getChordTypeService() {
         return (ChordTypeService) getContext().getBean("chordTypeService");

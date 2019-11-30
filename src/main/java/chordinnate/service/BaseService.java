@@ -1,4 +1,4 @@
-package chordinnate.service.musictheory;
+package chordinnate.service;
 
 import org.springframework.stereotype.Service;
 

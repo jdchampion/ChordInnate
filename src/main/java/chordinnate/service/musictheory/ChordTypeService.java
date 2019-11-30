@@ -2,6 +2,7 @@ package chordinnate.service.musictheory;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.ChordType;
+import chordinnate.service.BaseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,5 +38,7 @@ public interface ChordTypeService extends BaseService<ChordType, Integer> {
     List<ChordType> findAllByIntervals(List<Interval[]> intervals, boolean includeDuplicates);
 
     Optional<ChordType> findByRomanNumeralCriteria(Interval[] intervals, int size, int precedence);
+
+    ChordType save(ChordType chordType);
 
 }

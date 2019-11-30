@@ -1,6 +1,7 @@
 package chordinnate.service.musictheory;
 
 import chordinnate.model.musictheory.pitch.interval.set.ScaleType;
+import chordinnate.service.BaseService;
 
 import java.util.Optional;
 
@@ -15,5 +16,9 @@ public interface ScaleTypeService extends BaseService<ScaleType, Integer> {
      * @return {@link Optional}<{@link ScaleType}> that was requested
      */
     Optional<ScaleType> findByName(String name);
+
+    ScaleType save(ScaleType scaleType);
+
+    void delete(ScaleType scaleType);
 
 }

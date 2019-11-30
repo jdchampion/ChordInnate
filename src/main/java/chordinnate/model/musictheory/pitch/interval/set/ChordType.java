@@ -1,7 +1,7 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.model.serialization.IntervalConverter;
+import chordinnate.model.util.IntervalConverter;
 import lombok.Data;
 
 import javax.persistence.Cacheable;

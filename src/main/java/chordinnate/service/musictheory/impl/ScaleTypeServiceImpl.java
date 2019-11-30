@@ -13,13 +13,13 @@ import java.util.Optional;
 @Transactional
 public class ScaleTypeServiceImpl implements ScaleTypeService {
 
+    private final ScaleTypeRepository repository;
+
     @Autowired
     ScaleTypeServiceImpl(ScaleTypeRepository repository) {
         super();
         this.repository = repository;
     }
-
-    private final ScaleTypeRepository repository;
 
     @Override
     public Optional<ScaleType> findByName(String name) {
@@ -32,7 +32,19 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
     }
 
     @Override
-    public Optional<ScaleType> findById(Integer integer) {
-        return repository.findById(integer);
+    public Optional<ScaleType> findById(Integer id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public ScaleType save(ScaleType scaleType) {
+        return repository.save(scaleType);
+
+        // TODO: catch PersistenceException and throw ChordInnateException with friendly message?
+    }
+
+    @Override
+    public void delete(ScaleType scaleType) {
+        repository.delete(scaleType);
     }
 }

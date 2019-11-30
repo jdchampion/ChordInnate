@@ -19,13 +19,13 @@ import java.util.stream.Collectors;
 @Transactional
 public class ChordTypeServiceImpl implements ChordTypeService {
 
+    private final ChordTypeRepository repository;
+
     @Autowired
     ChordTypeServiceImpl(ChordTypeRepository repository) {
         super();
         this.repository = repository;
     }
-
-    private final ChordTypeRepository repository;
 
     @Override
     public Optional<ChordType> findBySymbol(String symbol) {
@@ -72,7 +72,12 @@ public class ChordTypeServiceImpl implements ChordTypeService {
     }
 
     @Override
-    public Optional<ChordType> findById(Integer integer) {
-        return repository.findById(integer);
+    public Optional<ChordType> findById(Integer id) {
+        return repository.findById(id);
+    }
+
+    @Override
+    public ChordType save(ChordType chordType) {
+        return repository.save(chordType);
     }
 }
