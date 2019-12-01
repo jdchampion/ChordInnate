@@ -1,4 +1,4 @@
-package chordinnate.repository.musictheory;
+package chordinnate.repository;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.entity.ChordType;

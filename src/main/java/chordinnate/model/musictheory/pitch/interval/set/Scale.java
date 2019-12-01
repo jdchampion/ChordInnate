@@ -5,7 +5,7 @@ import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.util.RegionLocaleMapper;
 import chordinnate.service.Services;
-import chordinnate.service.musictheory.ScaleTypeService;
+import chordinnate.service.ScaleTypeService;
 import com.ibm.icu.util.Region;
 import lombok.AccessLevel;
 import lombok.Getter;

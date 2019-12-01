@@ -1,9 +1,9 @@
-package chordinnate.service.musictheory.impl;
+package chordinnate.service.impl;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.entity.ChordType;
-import chordinnate.repository.musictheory.ChordTypeRepository;
-import chordinnate.service.musictheory.ChordTypeService;
+import chordinnate.repository.ChordTypeRepository;
+import chordinnate.service.ChordTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

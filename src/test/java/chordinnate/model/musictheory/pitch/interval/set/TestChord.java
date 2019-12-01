@@ -7,7 +7,7 @@ import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.service.Services;
-import chordinnate.service.musictheory.ChordTypeService;
+import chordinnate.service.ChordTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

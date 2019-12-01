@@ -1,8 +1,8 @@
-package chordinnate.service.musictheory.impl;
+package chordinnate.service.impl;
 
 import chordinnate.entity.ScaleType;
-import chordinnate.repository.musictheory.ScaleTypeRepository;
-import chordinnate.service.musictheory.ScaleTypeService;
+import chordinnate.repository.ScaleTypeRepository;
+import chordinnate.service.ScaleTypeService;
 import com.ibm.icu.util.Region;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;

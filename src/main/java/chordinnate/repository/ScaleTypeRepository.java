@@ -1,4 +1,4 @@
-package chordinnate.repository.musictheory;
+package chordinnate.repository;
 
 import chordinnate.entity.ScaleType;
 import org.jetbrains.annotations.NotNull;

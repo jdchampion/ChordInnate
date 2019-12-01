@@ -5,7 +5,7 @@ import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.service.Services;
-import chordinnate.service.musictheory.ChordTypeService;
+import chordinnate.service.ChordTypeService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;

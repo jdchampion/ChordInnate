@@ -1,4 +1,4 @@
-package chordinnate.service.musictheory;
+package chordinnate.service;
 
 import chordinnate.entity.ScaleType;
 import chordinnate.service.BaseService;
