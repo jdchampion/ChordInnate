@@ -159,6 +159,10 @@ public class TestScale {
             }
         }
 
+        assertNotNull(scale.getScaleType().getTagGroupId());
+
+        assertTrue(scale.getScaleType().isPreset());
+
         assertEquals(scale.lowestDiatonic.pitchClass.getName() + " " + scale.getScaleType().getName(), scale.getName());
     }
 

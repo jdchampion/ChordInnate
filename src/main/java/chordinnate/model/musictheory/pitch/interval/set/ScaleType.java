@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.UUID;
 
 /**
  * Created by Joseph on 8/24/16.
@@ -35,5 +36,11 @@ public final class ScaleType {
     @Column(name = "INTERVALS", nullable = false)
     @Convert(converter = IntervalConverter.class)
     private Interval[] intervals;
+
+    @Column(name = "PRESET", nullable = false)
+    private boolean preset;
+
+    @Column(name = "TAG_GROUP_ID", nullable = false)
+    private UUID tagGroupId;
     
 }
