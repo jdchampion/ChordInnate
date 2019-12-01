@@ -2,7 +2,9 @@ package chordinnate.service.musictheory;
 
 import chordinnate.model.musictheory.pitch.interval.set.ScaleType;
 import chordinnate.service.BaseService;
+import com.ibm.icu.util.Region;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -16,6 +18,8 @@ public interface ScaleTypeService extends BaseService<ScaleType, Integer> {
      * @return {@link Optional}<{@link ScaleType}> that was requested
      */
     Optional<ScaleType> findByName(String name);
+
+    Collection<ScaleType> findWithinRegion(Region region);
 
     ScaleType save(ScaleType scaleType);
 
