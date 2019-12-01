@@ -1,6 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval;
 
-import chordinnate.model.musictheory.pitch.interval.set.ChordType;
+import chordinnate.entity.ChordType;
 import chordinnate.service.Services;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

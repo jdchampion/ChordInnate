@@ -1,6 +1,6 @@
 package chordinnate.service.musictheory;
 
-import chordinnate.model.musictheory.pitch.interval.set.ScaleType;
+import chordinnate.entity.ScaleType;
 import chordinnate.service.BaseService;
 import com.ibm.icu.util.Region;
 

@@ -1,6 +1,6 @@
 package chordinnate.repository.musictheory;
 
-import chordinnate.model.musictheory.pitch.interval.set.ScaleType;
+import chordinnate.entity.ScaleType;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

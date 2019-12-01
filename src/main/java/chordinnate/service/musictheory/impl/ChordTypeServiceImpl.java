@@ -1,7 +1,7 @@
 package chordinnate.service.musictheory.impl;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.model.musictheory.pitch.interval.set.ChordType;
+import chordinnate.entity.ChordType;
 import chordinnate.repository.musictheory.ChordTypeRepository;
 import chordinnate.service.musictheory.ChordTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
