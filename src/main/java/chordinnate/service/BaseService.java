@@ -1,5 +1,6 @@
 package chordinnate.service;
 
+import com.sun.istack.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,6 @@ public interface BaseService<T, ID> {
      * @param id the item's unique ID (primary key)
      * @return {@link Optional}<{@link T}> item that was requested
      */
-    Optional<T> findById(ID id);
+    Optional<T> findById(@NotNull ID id);
 
 }

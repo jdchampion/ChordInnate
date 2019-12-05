@@ -15,9 +15,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service("scaleTypeService")
+@Service(ScaleTypeServiceImpl.SERVICE_NAME)
 @Transactional
 public class ScaleTypeServiceImpl implements ScaleTypeService {
+
+    public static final String SERVICE_NAME = "scaleTypeService";
 
     private final ScaleTypeRepository repository;
 

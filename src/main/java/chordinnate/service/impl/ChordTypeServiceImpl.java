@@ -15,9 +15,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service("chordTypeService")
+@Service(ChordTypeServiceImpl.SERVICE_NAME)
 @Transactional
 public class ChordTypeServiceImpl implements ChordTypeService {
+
+    public static final String SERVICE_NAME = "chordTypeService";
 
     private final ChordTypeRepository repository;
 

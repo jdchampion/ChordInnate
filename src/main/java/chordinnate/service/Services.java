@@ -1,6 +1,7 @@
 package chordinnate.service;
 
 import chordinnate.config.DatabaseConfig;
+import chordinnate.service.impl.*;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +23,19 @@ public final class Services {
     }
 
     public static ChordTypeService getChordTypeService() {
-        return (ChordTypeService) getContext().getBean("chordTypeService");
+        return (ChordTypeService) getContext().getBean(ChordTypeServiceImpl.SERVICE_NAME);
     }
 
     public static ScaleTypeService getScaleTypeService() {
-        return (ScaleTypeService) getContext().getBean("scaleTypeService");
+        return (ScaleTypeService) getContext().getBean(ScaleTypeServiceImpl.SERVICE_NAME);
+    }
+
+    public static TagService getTagService() {
+        return (TagService) getContext().getBean(TagServiceImpl.SERVICE_NAME);
+    }
+
+    public static TagGroupRelService getTagGroupRelService() {
+        return (TagGroupRelService) getContext().getBean(TagGroupRelServiceImpl.SERVICE_NAME);
     }
 
 }

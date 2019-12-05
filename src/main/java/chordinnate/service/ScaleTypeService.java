@@ -1,7 +1,6 @@
 package chordinnate.service;
 
 import chordinnate.entity.ScaleType;
-import chordinnate.service.BaseService;
 import com.ibm.icu.util.Region;
 
 import java.util.Collection;
