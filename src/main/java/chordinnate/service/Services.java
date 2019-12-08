@@ -30,12 +30,12 @@ public final class Services {
         return (ScaleTypeService) getContext().getBean(ScaleTypeServiceImpl.SERVICE_NAME);
     }
 
-    public static TagService getTagService() {
-        return (TagService) getContext().getBean(TagServiceImpl.SERVICE_NAME);
+    public static ScaleTypeTagService getScaleTypeTagService() {
+        return (ScaleTypeTagService) getContext().getBean(ScaleTypeTagServiceImpl.SERVICE_NAME);
     }
 
-    public static TagGroupRelService getTagGroupRelService() {
-        return (TagGroupRelService) getContext().getBean(TagGroupRelServiceImpl.SERVICE_NAME);
+    public static ScaleTypeTagRelationService getScaleTypeTagRelationService() {
+        return (ScaleTypeTagRelationService) getContext().getBean(ScaleTypeTagRelationServiceImpl.SERVICE_NAME);
     }
 
 }

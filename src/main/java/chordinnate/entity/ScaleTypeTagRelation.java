@@ -13,22 +13,26 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * An intermediary object representing the relation between a {@link ScaleType}
+ * and one of its associated {@link ScaleTypeTag} objects.
+ */
 @Data
 @Entity
 @EqualsAndHashCode
-@Table(name = "TAG_GROUP_REL")
-public class TagGroupRel {
+@Table(name = "SCALE_TYPE_TAG")
+public final class ScaleTypeTagRelation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "GROUP_ID", referencedColumnName = "TAG_GROUP_ID")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "SCALE_TYPE_ID", referencedColumnName = "ID")
     private ScaleType matchingScaleType;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "TAG_ID")
-    private Tag matchingTag;
+    private ScaleTypeTag matchingTag;
 
 }

@@ -1,6 +1,8 @@
 package chordinnate.service;
 
 import chordinnate.entity.ScaleType;
+import chordinnate.entity.ScaleTypeTag;
+import chordinnate.model.musictheory.pitch.interval.Interval;
 import com.ibm.icu.util.Region;
 
 import java.util.Collection;
@@ -18,7 +20,16 @@ public interface ScaleTypeService extends BaseService<ScaleType, Integer> {
      */
     Optional<ScaleType> findByName(String name);
 
-    Collection<ScaleType> findWithinRegion(Region region);
+    Iterable<ScaleType> findAllByRegion(Region region, boolean includeSubRegions);
+
+    Optional<ScaleType> findByIntervals(Interval... intervals);
+
+    // TODO: revisit this method later to refine the API
+//    Iterable<ScaleType> findAllByIntervals(Collection<Interval> intervals, boolean includeDuplicates);
+
+    Iterable<ScaleType> findAllBySize(int min, int max);
+
+    Iterable<ScaleType> findAllByTags(Collection<ScaleTypeTag> tags);
 
     ScaleType save(ScaleType scaleType);
 

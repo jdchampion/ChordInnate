@@ -17,13 +17,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * Created by Joseph on 8/24/16.
  */
 @Data
-@EqualsAndHashCode(exclude = {"tagGroupRels"})
+@EqualsAndHashCode(exclude = {"scaleTypeTagRelations"})
 @Entity
 @Cacheable
 @Table(name = "SCALE_TYPE")
@@ -31,7 +30,7 @@ public final class ScaleType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "NAME", nullable = false)
     private String name;
@@ -44,12 +43,12 @@ public final class ScaleType implements Serializable {
     private Interval[] intervals;
 
     @Column(name = "PRESET", nullable = false)
-    private boolean preset;
+    private Boolean preset;
 
-    @Column(name = "TAG_GROUP_ID", nullable = false)
-    private UUID tagGroupId;
+    @Column(name = "SIZE", nullable = false)
+    private Integer size;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "matchingScaleType")
-    Set<TagGroupRel> tagGroupRels;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "matchingScaleType")
+    private Set<ScaleTypeTagRelation> scaleTypeTagRelations;
     
 }

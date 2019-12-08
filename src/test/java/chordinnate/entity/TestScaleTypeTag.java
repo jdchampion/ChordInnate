@@ -1,24 +1,23 @@
 package chordinnate.entity;
 
 import chordinnate.service.Services;
-import chordinnate.service.TagService;
+import chordinnate.service.ScaleTypeTagService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 
 @Slf4j
-public class TestTag {
+public class TestScaleTypeTag {
 
     @Test
     public void test() {
 
         // TODO: need to test adding (insert) and removing (delete) a tag from a given ScaleType
-        TagService service = Services.getTagService();
+        ScaleTypeTagService service = Services.getScaleTypeTagService();
 
-        // TODO: the FetchType.EAGER on Tag.tagGroupRels
-        Tag tag = service.findById(9).orElse(null);
+        service.findAllFor(Services.getScaleTypeService().findByName("Adonai Malakh").get()).forEach(scaleTypeTag -> {
+            log.info(scaleTypeTag.getName());
+        });
 
 //        assertNotNull(tag);
 //

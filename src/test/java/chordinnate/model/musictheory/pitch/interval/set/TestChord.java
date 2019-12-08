@@ -1,21 +1,16 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
-import chordinnate.entity.ChordType;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
-import chordinnate.service.Services;
-import chordinnate.service.ChordTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
 import static chordinnate.model.musictheory.pitch.PitchClass.*;
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Joseph on 7/17/16.
@@ -152,6 +147,7 @@ public class TestChord {
 
     /**
      * Helper method for testing the returned Pitch values for a given ChordType.
+     *
      * @param chord
      * @param expected
      */
@@ -194,21 +190,6 @@ public class TestChord {
             case 12: return "dodecad";
             default: return "UNIT TEST OUT OF RANGE";
         }
-    }
-
-    @Test
-    public void select() {
-        ChordTypeService service = Services.getChordTypeService();
-
-        List<Interval[]> arrList = new ArrayList<>();
-        arrList.add(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_3, Interval.PERFECT_5});
-        arrList.add(new Interval[]{Interval.PERFECT_1, Interval.MINOR_3, Interval.PERFECT_5});
-        arrList.add(new Interval[]{Interval.PERFECT_1, Interval.MINOR_3, Interval.PERFECT_5});
-        arrList.add(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_3, Interval.PERFECT_5});
-
-        List<ChordType> list = service.findAllByIntervals(arrList, false);
-
-        list.forEach(c -> log.info(c.getSymbol()));
     }
 
 }
