@@ -4,7 +4,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeast;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -15,6 +14,7 @@ import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.repository.ScaleTypeRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,15 +37,23 @@ public class TestScaleTypeServiceImpl {
 
     private static ScaleTypeServiceImpl service;
     private static ScaleTypeRepository mockRepo;
-    private static final ScaleType SUCCESS = new ScaleType();
+    private static ScaleType TEST_SCALE_TYPE;
 
     @BeforeClass
     public static void init() {
         mockRepo = mock(ScaleTypeRepository.class);
-        when(mockRepo.save(any(ScaleType.class))).thenReturn(SUCCESS);
+        when(mockRepo.save(any(ScaleType.class))).thenReturn(TEST_SCALE_TYPE);
         doNothing().when(mockRepo).delete(any(ScaleType.class));
 
         service = new ScaleTypeServiceImpl(mockRepo);
+    }
+
+    @Before
+    public void setup() {
+        TEST_SCALE_TYPE = new ScaleType();
+        TEST_SCALE_TYPE.setId(1);
+        TEST_SCALE_TYPE.setName("TEST");
+        TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
     }
 
 
@@ -69,11 +77,9 @@ public class TestScaleTypeServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are missing: Name");
 
-        ScaleType s = new ScaleType();
-        s.setName(null);
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
+        TEST_SCALE_TYPE.setName(null);
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -81,11 +87,9 @@ public class TestScaleTypeServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are missing: Intervals");
 
-        ScaleType s = new ScaleType();
-        s.setName("TEST");
-        s.setIntervals(null);
+        TEST_SCALE_TYPE.setIntervals(null);
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -93,11 +97,9 @@ public class TestScaleTypeServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following fields are invalid: Name (cannot be blank)");
 
-        ScaleType s = new ScaleType();
-        s.setName("");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
+        TEST_SCALE_TYPE.setName("");
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -105,12 +107,9 @@ public class TestScaleTypeServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following fields are invalid: Intervals (must contain at least two intervals)");
 
-        ScaleType s = new ScaleType();
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{});
-        s.setPreset(Boolean.FALSE);
+        TEST_SCALE_TYPE.setIntervals(new Interval[]{});
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -118,12 +117,9 @@ public class TestScaleTypeServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following fields are invalid: Intervals (cannot contain duplicates)");
 
-        ScaleType s = new ScaleType();
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.PERFECT_1});
-        s.setPreset(Boolean.FALSE);
+        TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.PERFECT_1});
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -131,12 +127,9 @@ public class TestScaleTypeServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following fields are invalid: Intervals (must be increasing or decreasing at each step)");
 
-        ScaleType s = new ScaleType();
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_3, Interval.MAJOR_2});
-        s.setPreset(Boolean.FALSE);
+        TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_3, Interval.MAJOR_2});
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -144,13 +137,9 @@ public class TestScaleTypeServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following fields are invalid: Size (must match the number of intervals)");
 
-        ScaleType s = new ScaleType();
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        s.setPreset(Boolean.FALSE);
-        s.setSize(0);
+        TEST_SCALE_TYPE.setSize(0);
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -171,10 +160,10 @@ public class TestScaleTypeServiceImpl {
                 .thenReturn(Optional.of(inRepo));
 
         // Attempt to update an existing ScaleType that is a preset
-        ScaleType s = service.findByName("maj").get();
-        s.setName("TEST");
+        TEST_SCALE_TYPE = service.findByName("maj").get();
+        TEST_SCALE_TYPE.setName("TEST");
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -188,42 +177,36 @@ public class TestScaleTypeServiceImpl {
         when(mockRepo.findByName(anyString()))
                 .thenReturn(Optional.empty());
 
-        ScaleType s = new ScaleType();
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        s.setPreset(Boolean.TRUE);
+        TEST_SCALE_TYPE.setPreset(Boolean.TRUE);
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
     public void save_uniqueConstraintViolation_name_multipleEntities() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Another scale type is already defined with this name: TEST\r\n" +
+        expectedException.expectMessage("Another scale type is already defined with this name: NAME 2\r\n" +
                 "Please choose a different name for one of them.");
 
         ScaleType inRepo1 = new ScaleType();
         inRepo1.setId(1);
-        inRepo1.setName("maj");
+        inRepo1.setName("NAME 1");
         inRepo1.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         inRepo1.setPreset(Boolean.FALSE);
 
         ScaleType inRepo2 = new ScaleType();
         inRepo2.setId(2);
-        inRepo2.setName("TEST");
+        inRepo2.setName("NAME 2");
         inRepo2.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         inRepo2.setPreset(Boolean.FALSE);
 
         when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
                 .thenReturn(Arrays.asList(inRepo1, inRepo2));
 
-        ScaleType s = new ScaleType();
-        s.setId(1);
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        s.setPreset(Boolean.FALSE);
+        TEST_SCALE_TYPE.setId(1);
+        TEST_SCALE_TYPE.setName("NAME 2");
 
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -235,11 +218,7 @@ public class TestScaleTypeServiceImpl {
         when(mockRepo.findByName(anyString()))
                 .thenReturn(Optional.empty());
 
-        ScaleType s = new ScaleType();
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-
-        service.save(s);
+        service.save(TEST_SCALE_TYPE);
     }
 
     @Test
@@ -254,51 +233,42 @@ public class TestScaleTypeServiceImpl {
 
     @Test
     public void delete_missingId() {
-        ScaleType s = new ScaleType();
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        s.setPreset(Boolean.FALSE);
 
-        service.delete(s);
+        TEST_SCALE_TYPE.setId(null);
+
+        service.delete(TEST_SCALE_TYPE);
     }
 
     @Test
     public void delete_invalidId() {
-        ScaleType s = new ScaleType();
-        s.setId(1);
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        s.setPreset(Boolean.FALSE);
-
         when(mockRepo.findById(anyInt())).thenReturn(Optional.empty());
 
-        service.delete(s);
+        service.delete(TEST_SCALE_TYPE);
 
-        verify(mockRepo, times(1)).findById(anyInt());
+        verify(mockRepo, atLeast(1)).findById(anyInt());
     }
 
     @Test
     public void delete_recordWithIdHasDifferentData() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot delete scale type #1 (TEST): entity data does not match record data.");
+        expectedException.expectMessage("Cannot delete scale type #1 (DIFFERENT NAME): entity data does not match record data.");
 
         ScaleType inRepo = new ScaleType();
         inRepo.setId(1);
-        inRepo.setName("DIFFERENT");
+        inRepo.setName("NAME");
         inRepo.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         inRepo.setPreset(Boolean.FALSE);
 
         when(mockRepo.findById(anyInt())).thenReturn(Optional.of(inRepo));
 
-        ScaleType s = new ScaleType();
-        s.setId(1);
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        s.setPreset(Boolean.FALSE);
+        TEST_SCALE_TYPE.setId(1);
+        TEST_SCALE_TYPE.setName("DIFFERENT NAME");
+        TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
+        TEST_SCALE_TYPE.setPreset(Boolean.FALSE);
 
-        service.delete(s);
+        service.delete(TEST_SCALE_TYPE);
 
-        verify(mockRepo, times(1)).findById(anyInt());
+        verify(mockRepo, atLeast(1)).findById(anyInt());
     }
 
     @Test
@@ -306,30 +276,20 @@ public class TestScaleTypeServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("Cannot delete preset scale types.");
 
-        ScaleType s = new ScaleType();
-        s.setId(1);
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        s.setPreset(Boolean.TRUE);
+        TEST_SCALE_TYPE.setPreset(Boolean.TRUE);
 
-        when(mockRepo.findById(anyInt())).thenReturn(Optional.of(s));
+        when(mockRepo.findById(anyInt())).thenReturn(Optional.of(TEST_SCALE_TYPE));
 
-        service.delete(s);
+        service.delete(TEST_SCALE_TYPE);
 
-        verify(mockRepo, times(1)).findById(anyInt());
+        verify(mockRepo, atLeast(1)).findById(anyInt());
     }
 
     @Test
     public void delete_success() {
-        ScaleType s = new ScaleType();
-        s.setId(1);
-        s.setName("TEST");
-        s.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        s.setPreset(Boolean.FALSE);
+        when(mockRepo.findById(anyInt())).thenReturn(Optional.of(TEST_SCALE_TYPE));
 
-        when(mockRepo.findById(anyInt())).thenReturn(Optional.of(s));
-
-        service.delete(s);
+        service.delete(TEST_SCALE_TYPE);
 
         verify(mockRepo, atLeast(1)).findById(anyInt());
     }

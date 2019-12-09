@@ -2,8 +2,11 @@ package chordinnate.service.impl;
 
 import chordinnate.entity.ScaleType;
 import chordinnate.entity.ScaleTypeTagRelation;
+import chordinnate.exception.ChordInnateException;
 import chordinnate.repository.ScaleTypeTagRelationRepository;
 import chordinnate.service.ScaleTypeTagRelationService;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +39,12 @@ public class ScaleTypeTagRelationServiceImpl implements ScaleTypeTagRelationServ
 
     @Override
     public ScaleTypeTagRelation save(ScaleTypeTagRelation scaleTypeTagRelation) {
-        // Validate against foreign key constraints before saving
+
+        Pair<Boolean, String> validationResult = ScaleTypeTagRelationValidator.validateBeforeSaving(scaleTypeTagRelation, repository);
+
+        if (BooleanUtils.isFalse(validationResult.getLeft())) {
+            throw new ChordInnateException(validationResult.getRight());
+        }
 
         return repository.save(scaleTypeTagRelation);
     }

@@ -26,6 +26,14 @@ public final class Services {
         return (ChordTypeService) getContext().getBean(ChordTypeServiceImpl.SERVICE_NAME);
     }
 
+    public static ChordTypeTagService getChordTypeTagService() {
+        return (ChordTypeTagService) getContext().getBean(ChordTypeTagServiceImpl.SERVICE_NAME);
+    }
+
+    public static ChordTypeTagRelationService getChordTypeTagRelationService() {
+        return (ChordTypeTagRelationService) getContext().getBean(ChordTypeTagRelationServiceImpl.SERVICE_NAME);
+    }
+
     public static ScaleTypeService getScaleTypeService() {
         return (ScaleTypeService) getContext().getBean(ScaleTypeServiceImpl.SERVICE_NAME);
     }
