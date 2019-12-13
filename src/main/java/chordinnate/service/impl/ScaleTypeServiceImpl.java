@@ -2,18 +2,21 @@ package chordinnate.service.impl;
 
 import chordinnate.entity.ScaleType;
 import chordinnate.entity.ScaleTypeTag;
+import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.repository.ScaleTypeRepository;
 import chordinnate.service.ScaleTypeService;
 import com.ibm.icu.util.Region;
 import org.apache.commons.lang3.BooleanUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -29,6 +32,7 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
     public static final String SERVICE_NAME = "scaleTypeService";
 
     private final ScaleTypeRepository repository;
+    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Autowired
     ScaleTypeServiceImpl(ScaleTypeRepository repository) {
@@ -119,19 +123,43 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
     @Override
     public ScaleType save(ScaleType scaleType) {
 
-        Pair<Boolean, String> validationResult = ScaleTypeValidator.validateBeforeSave(scaleType, repository);
-
-        if (BooleanUtils.isFalse(validationResult.getLeft())) {
-            throw new ChordInnateException(validationResult.getRight());
+        if (scaleType == null) {
+            throw new IllegalArgumentException("Cannot save null entities");
         }
 
+        Set<ConstraintViolation<ScaleType>> violations = validator.validate(scaleType);
+
         /*
-         * Auto-set specific columns that
-         * should not be manipulated from outside the API or backend,
-         * but are required for integrity of the DB.
+         * TODO: can use validator.validateValue() or validator.validateProperty(),
+         *  and choose the ordering of items to validate.
+         *  If that's done, the ScaleTypeSizeValidator and ScaleTypeIntervalValidator can validate properly
+         *  rather than suppress messages
          */
-        scaleType.setPreset(Boolean.FALSE); // Existing presets should never reach this
-        scaleType.setSize(scaleType.getIntervals().length); // Setting for consistency
+
+        if (!violations.isEmpty()) {
+            String violationMessages = violations.stream()
+                    .map(ConstraintViolation::getMessage)
+                    .collect(Collectors.joining("\r\n"));
+
+            throw new ChordInnateConstraintViolation(violationMessages);
+        }
+
+        if (scaleType.getId() != null) {
+
+            ScaleType fromDB = repository.findById(scaleType.getId()).orElse(null);
+
+            if (fromDB == null) {
+                throw new ChordInnateException("Scale Type ID not found: " + scaleType.getId());
+            }
+
+            if (BooleanUtils.isTrue(fromDB.getPreset())) {
+                throw new ChordInnateException("Overwriting preset scale types is not allowed");
+            }
+        }
+
+        if (BooleanUtils.isTrue(scaleType.getPreset())) {
+            throw new ChordInnateException("Creating new preset scale types is not allowed");
+        }
 
         return repository.save(scaleType);
     }
@@ -149,12 +177,12 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
             // Check every field for data integrity before deleting
             ScaleType toDelete = optional.get();
             if (!scaleType.equals(toDelete)) {
-                String errorMessage = "Cannot delete scale type #%d (%s): entity data does not match record data.";
+                String errorMessage = "Cannot delete scale type #%d (%s): entity data does not match record data";
                 throw new ChordInnateException(String.format(errorMessage, scaleType.getId(), scaleType.getName()));
             }
 
             if (BooleanUtils.isTrue(toDelete.getPreset())) {
-                String errorMessage = "Cannot delete preset scale types.";
+                String errorMessage = "Cannot delete preset scale types";
                 throw new ChordInnateException(errorMessage);
             }
         }

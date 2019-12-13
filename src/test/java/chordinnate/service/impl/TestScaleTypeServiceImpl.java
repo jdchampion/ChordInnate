@@ -2,7 +2,6 @@ package chordinnate.service.impl;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
@@ -10,6 +9,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import chordinnate.entity.ScaleType;
+import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.repository.ScaleTypeRepository;
@@ -23,8 +23,6 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -50,32 +48,33 @@ public class TestScaleTypeServiceImpl {
 
     @Before
     public void setup() {
+        // example of a completely valid scale type
         TEST_SCALE_TYPE = new ScaleType();
-        TEST_SCALE_TYPE.setId(1);
         TEST_SCALE_TYPE.setName("TEST");
         TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
+        TEST_SCALE_TYPE.setSize(2);
+        TEST_SCALE_TYPE.setPreset(Boolean.FALSE);
     }
 
 
 
     @Test
     public void save_nullParam() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("No scale type to save.");
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Cannot save null entities");
         service.save(null);
     }
 
     @Test
     public void save_blankParam() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("No scale type to save.");
+        expectedException.expect(ChordInnateConstraintViolation.class);
         service.save(new ScaleType());
     }
 
     @Test
     public void save_missingRequiredField_name() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following required fields are missing: Name");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Name must not be blank");
 
         TEST_SCALE_TYPE.setName(null);
 
@@ -84,8 +83,8 @@ public class TestScaleTypeServiceImpl {
 
     @Test
     public void save_missingRequiredField_intervals() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following required fields are missing: Intervals");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Intervals must not be null");
 
         TEST_SCALE_TYPE.setIntervals(null);
 
@@ -94,8 +93,8 @@ public class TestScaleTypeServiceImpl {
 
     @Test
     public void save_invalidField_name() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Name (cannot be blank)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Name must not be blank");
 
         TEST_SCALE_TYPE.setName("");
 
@@ -104,8 +103,8 @@ public class TestScaleTypeServiceImpl {
 
     @Test
     public void save_invalidField_intervals_notEnough() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Intervals (must contain at least two intervals)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Must contain at least 2 intervals");
 
         TEST_SCALE_TYPE.setIntervals(new Interval[]{});
 
@@ -114,8 +113,8 @@ public class TestScaleTypeServiceImpl {
 
     @Test
     public void save_invalidField_intervals_duplicated() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Intervals (cannot contain duplicates)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Intervals must be increasing or decreasing at each step");
 
         TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.PERFECT_1});
 
@@ -124,8 +123,8 @@ public class TestScaleTypeServiceImpl {
 
     @Test
     public void save_invalidField_intervals_notIncreasingDecreasing() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Intervals (must be increasing or decreasing at each step)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Intervals must be increasing or decreasing at each step");
 
         TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_3, Interval.MAJOR_2});
 
@@ -133,10 +132,22 @@ public class TestScaleTypeServiceImpl {
     }
 
     @Test
-    public void save_invalidField_size() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Size (must match the number of intervals)");
+    public void save_invalidField_size_notMatching() {
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Size must match the number of intervals");
 
+        TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
+        TEST_SCALE_TYPE.setSize(1);
+
+        service.save(TEST_SCALE_TYPE);
+    }
+
+    @Test
+    public void save_invalidField_size_notPositive() {
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Size must be positive (was: 0)");
+
+        TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         TEST_SCALE_TYPE.setSize(0);
 
         service.save(TEST_SCALE_TYPE);
@@ -145,23 +156,20 @@ public class TestScaleTypeServiceImpl {
     @Test
     public void save_overwriteExistingPreset() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot overwrite a preset scale type.");
+        expectedException.expectMessage("Overwriting preset scale types is not allowed");
 
         ScaleType inRepo = new ScaleType();
         inRepo.setId(1);
-        inRepo.setName("maj");
+        inRepo.setName("NAME 1");
         inRepo.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         inRepo.setPreset(Boolean.TRUE);
+        inRepo.setSize(2);
 
-        when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
-                .thenReturn(Collections.singletonList(inRepo));
-
-        when(mockRepo.findByName(anyString()))
-                .thenReturn(Optional.of(inRepo));
+        when(mockRepo.findById(anyInt())).thenReturn(Optional.of(inRepo));
 
         // Attempt to update an existing ScaleType that is a preset
-        TEST_SCALE_TYPE = service.findByName("maj").get();
-        TEST_SCALE_TYPE.setName("TEST");
+        TEST_SCALE_TYPE = service.findById(1).get();
+        TEST_SCALE_TYPE.setName("NAME 2");
 
         service.save(TEST_SCALE_TYPE);
     }
@@ -169,13 +177,7 @@ public class TestScaleTypeServiceImpl {
     @Test
     public void save_attemptToCreateNewPreset() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot add new preset scale types.");
-
-        when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
-                .thenReturn(Collections.emptyList());
-
-        when(mockRepo.findByName(anyString()))
-                .thenReturn(Optional.empty());
+        expectedException.expectMessage("Creating new preset scale types is not allowed");
 
         TEST_SCALE_TYPE.setPreset(Boolean.TRUE);
 
@@ -183,41 +185,7 @@ public class TestScaleTypeServiceImpl {
     }
 
     @Test
-    public void save_uniqueConstraintViolation_name_multipleEntities() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Another scale type is already defined with this name: NAME 2\r\n" +
-                "Please choose a different name for one of them.");
-
-        ScaleType inRepo1 = new ScaleType();
-        inRepo1.setId(1);
-        inRepo1.setName("NAME 1");
-        inRepo1.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        inRepo1.setPreset(Boolean.FALSE);
-
-        ScaleType inRepo2 = new ScaleType();
-        inRepo2.setId(2);
-        inRepo2.setName("NAME 2");
-        inRepo2.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        inRepo2.setPreset(Boolean.FALSE);
-
-        when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
-                .thenReturn(Arrays.asList(inRepo1, inRepo2));
-
-        TEST_SCALE_TYPE.setId(1);
-        TEST_SCALE_TYPE.setName("NAME 2");
-
-        service.save(TEST_SCALE_TYPE);
-    }
-
-    @Test
     public void save_success() {
-
-        when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
-                .thenReturn(Collections.emptyList());
-
-        when(mockRepo.findByName(anyString()))
-                .thenReturn(Optional.empty());
-
         service.save(TEST_SCALE_TYPE);
     }
 
@@ -241,6 +209,8 @@ public class TestScaleTypeServiceImpl {
 
     @Test
     public void delete_invalidId() {
+        TEST_SCALE_TYPE.setId(1);
+
         when(mockRepo.findById(anyInt())).thenReturn(Optional.empty());
 
         service.delete(TEST_SCALE_TYPE);
@@ -251,7 +221,7 @@ public class TestScaleTypeServiceImpl {
     @Test
     public void delete_recordWithIdHasDifferentData() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot delete scale type #1 (DIFFERENT NAME): entity data does not match record data.");
+        expectedException.expectMessage("Cannot delete scale type #1 (DIFFERENT NAME): entity data does not match record data");
 
         ScaleType inRepo = new ScaleType();
         inRepo.setId(1);
@@ -274,8 +244,9 @@ public class TestScaleTypeServiceImpl {
     @Test
     public void delete_recordIsPreset() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot delete preset scale types.");
+        expectedException.expectMessage("Cannot delete preset scale types");
 
+        TEST_SCALE_TYPE.setId(1);
         TEST_SCALE_TYPE.setPreset(Boolean.TRUE);
 
         when(mockRepo.findById(anyInt())).thenReturn(Optional.of(TEST_SCALE_TYPE));
@@ -287,6 +258,8 @@ public class TestScaleTypeServiceImpl {
 
     @Test
     public void delete_success() {
+        TEST_SCALE_TYPE.setId(1);
+
         when(mockRepo.findById(anyInt())).thenReturn(Optional.of(TEST_SCALE_TYPE));
 
         service.delete(TEST_SCALE_TYPE);

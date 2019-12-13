@@ -60,49 +60,49 @@ public class TestChordTypeTagRelationServiceImpl {
     }
 
     @Test
-    public void save_missingRequiredField_scaleType() {
+    public void save_missingRequiredField_chordType() {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are missing: Chord Type");
     }
 
     @Test
-    public void save_missingRequiredField_scaleType_subfields() {
+    public void save_missingRequiredField_chordType_subfields() {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are missing: Chord Type");
     }
 
     @Test
-    public void save_missingRequiredField_scaleTypeTag() {
+    public void save_missingRequiredField_chordTypeTag() {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are missing: Chord Type Tag");
     }
 
     @Test
-    public void save_missingRequiredField_scaleTypeTag_subfields() {
+    public void save_missingRequiredField_chordTypeTag_subfields() {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are missing: Chord Type Tag");
     }
 
     @Test
-    public void save_invalidField_scaleType() {
+    public void save_invalidField_chordType() {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are invalid: Chord Type");
     }
 
     @Test
-    public void save_invalidField_scaleType_subfields() {
+    public void save_invalidField_chordType_subfields() {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are invalid: Chord Type");
     }
 
     @Test
-    public void save_invalidField_scaleTypeTag() {
+    public void save_invalidField_chordTypeTag() {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are invalid: Chord Type Tag");
     }
 
     @Test
-    public void save_invalidField_scaleTypeTag_subfields() {
+    public void save_invalidField_chordTypeTag_subfields() {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("The following required fields are invalid: Chord Type Tag");
     }

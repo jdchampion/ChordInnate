@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,18 +31,5 @@ public interface ChordTypeRepository extends CrudRepository<ChordType, Integer> 
 
     @Query("SELECT c FROM ChordType c JOIN FETCH ChordTypeTagRelation cttr ON c.id = cttr.matchingChordType.id JOIN FETCH ChordTypeTag t ON cttr.matchingTag.id = t.id WHERE t.name IN :tags")
     Iterable<ChordType> findAllByTag(@NotNull @Param("tags") Collection<String> tags);
-
-    /**
-     * Intended for internal use only.
-     * <p>
-     * Retrieves any existing ChordTypes that contain at least one of the specified fields,
-     * which are UNIQUE CONSTRAINT on the CHORD_TYPE table. Used for checking the database before saving.
-     *
-     * @param id
-     * @param symbol
-     * @return
-     */
-    @Query("SELECT c FROM ChordType c WHERE c.id = :id OR c.symbol = :symbol")
-    List<ChordType> findAnyMatchingUniqueConstraints(@Param("id") int id, @Param("symbol") String symbol);
 
 }

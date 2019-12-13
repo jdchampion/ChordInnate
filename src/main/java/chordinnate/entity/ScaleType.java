@@ -1,5 +1,7 @@
 package chordinnate.entity;
 
+import chordinnate.annotation.ValidateIntervals;
+import chordinnate.annotation.ValidateSize;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.util.IntervalConverter;
 import lombok.Data;
@@ -15,6 +17,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -26,27 +32,34 @@ import java.util.Set;
 @Entity
 @Cacheable
 @Table(name = "SCALE_TYPE")
+@ValidateSize
+@ValidateIntervals
 public final class ScaleType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "{scaleType.name.fieldName} {validation.constraints.blank}")
     @Column(name = "NAME", nullable = false)
     private String name;
 
     @Column(name = "ORIGIN")
     private Integer origin;
 
+    @NotNull(message = "{scaleType.intervals.fieldName} {validation.constraints.null}")
+    @Size(min = 2, message = "Must contain at least {min} intervals")
     @Column(name = "INTERVALS", nullable = false)
     @Convert(converter = IntervalConverter.class)
     private Interval[] intervals;
 
-    @Column(name = "PRESET", nullable = false)
-    private Boolean preset;
-
+    @Positive(message = "{scaleType.size.fieldName} {validation.constraints.positive}")
     @Column(name = "SIZE", nullable = false)
     private Integer size;
+
+    @NotNull(message = "{scaleType.preset.fieldName} {validation.constraints.null}")
+    @Column(name = "PRESET", nullable = false)
+    private Boolean preset;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matchingScaleType")
     private Set<ScaleTypeTagRelation> scaleTypeTagRelations;

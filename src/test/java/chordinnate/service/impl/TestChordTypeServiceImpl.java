@@ -2,7 +2,6 @@ package chordinnate.service.impl;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 import static org.powermock.api.mockito.PowerMockito.doNothing;
@@ -10,6 +9,7 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import chordinnate.entity.ChordType;
+import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.repository.ChordTypeRepository;
@@ -23,8 +23,6 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Optional;
 
 @Slf4j
@@ -50,34 +48,35 @@ public class TestChordTypeServiceImpl {
 
     @Before
     public void setup() {
+        // example of a completely valid chord type
         TEST_CHORD_TYPE = new ChordType();
-        TEST_CHORD_TYPE.setId(1);
         TEST_CHORD_TYPE.setSymbol("TEST");
         TEST_CHORD_TYPE.setRnSymbol("TEST");
         TEST_CHORD_TYPE.setRnCapital(Boolean.TRUE);
         TEST_CHORD_TYPE.setRnPrecedence(1);
         TEST_CHORD_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
+        TEST_CHORD_TYPE.setSize(2);
+        TEST_CHORD_TYPE.setPreset(Boolean.FALSE);
     }
 
 
     @Test
     public void save_nullParam() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("No chord type to save.");
+        expectedException.expect(IllegalArgumentException.class);
+        expectedException.expectMessage("Cannot save null entities");
         service.save(null);
     }
 
     @Test
     public void save_blankParam() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("No chord type to save.");
+        expectedException.expect(ChordInnateConstraintViolation.class);
         service.save(new ChordType());
     }
 
     @Test
     public void save_missingRequiredField_symbol() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following required fields are missing: Symbol");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Symbol must not be blank");
 
         TEST_CHORD_TYPE.setSymbol(null);
 
@@ -86,8 +85,8 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_missingRequiredField_rnSymbol() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following required fields are missing: Roman Numeral Symbol");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Roman Numeral Symbol must not be blank");
 
         TEST_CHORD_TYPE.setRnSymbol(null);
 
@@ -96,8 +95,8 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_missingRequiredField_rnCapital() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following required fields are missing: Roman Numeral Capital");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Roman Numeral Capital must not be null");
 
         TEST_CHORD_TYPE.setRnCapital(null);
 
@@ -106,8 +105,8 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_missingRequiredField_rnPrecedence() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following required fields are missing: Roman Numeral Precedence");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Roman Numeral Precedence must not be null");
 
         TEST_CHORD_TYPE.setRnPrecedence(null);
 
@@ -116,8 +115,8 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_missingRequiredField_intervals() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following required fields are missing: Intervals");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Intervals must not be null");
 
         TEST_CHORD_TYPE.setIntervals(null);
 
@@ -126,8 +125,8 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_invalidField_symbol() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Symbol (cannot be blank)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Symbol must not be blank");
 
         TEST_CHORD_TYPE.setSymbol("");
 
@@ -136,8 +135,8 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_invalidField_rnPrecedence() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Roman Numeral Precedence (must be > 0)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Roman Numeral Precedence must be positive (was: 0)");
 
         TEST_CHORD_TYPE.setRnPrecedence(0);
 
@@ -146,8 +145,8 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_invalidField_intervals_notEnough() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Intervals (must contain at least two intervals)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Must contain at least 2 intervals");
 
         TEST_CHORD_TYPE.setIntervals(new Interval[]{});
 
@@ -156,8 +155,8 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_invalidField_intervals_duplicated() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Intervals (cannot contain duplicates)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Intervals must be increasing or decreasing at each step");
 
         TEST_CHORD_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.PERFECT_1});
 
@@ -166,18 +165,30 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void save_invalidField_intervals_notIncreasingDecreasing() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Intervals (must be increasing or decreasing at each step)");
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Intervals must be increasing or decreasing at each step");
 
         TEST_CHORD_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_3, Interval.MAJOR_2});
+        TEST_CHORD_TYPE.setSize(3); // to prevent "invalid size" error
 
         service.save(TEST_CHORD_TYPE);
     }
 
     @Test
-    public void save_invalidField_size() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("The following fields are invalid: Size (must match the number of intervals)");
+    public void save_invalidField_size_notMatching() {
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Size must match the number of intervals");
+
+        TEST_CHORD_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
+        TEST_CHORD_TYPE.setSize(1);
+
+        service.save(TEST_CHORD_TYPE);
+    }
+
+    @Test
+    public void save_invalidField_size_notPositive() {
+        expectedException.expect(ChordInnateConstraintViolation.class);
+        expectedException.expectMessage("Size must be positive (was: 0)");
 
         TEST_CHORD_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         TEST_CHORD_TYPE.setSize(0);
@@ -188,26 +199,23 @@ public class TestChordTypeServiceImpl {
     @Test
     public void save_overwriteExistingPreset() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot overwrite a preset chord type.");
+        expectedException.expectMessage("Overwriting preset chord types is not allowed");
 
         ChordType inRepo = new ChordType();
         inRepo.setId(1);
-        inRepo.setSymbol("maj");
+        inRepo.setSymbol("SYMBOL 1");
         inRepo.setRnSymbol("TEST");
         inRepo.setRnCapital(Boolean.TRUE);
         inRepo.setRnPrecedence(1);
         inRepo.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         inRepo.setPreset(Boolean.TRUE);
+        inRepo.setSize(2);
 
-        when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
-                .thenReturn(Collections.singletonList(inRepo));
-
-        when(mockRepo.findBySymbol(anyString()))
-                .thenReturn(Optional.of(inRepo));
+        when(mockRepo.findById(anyInt())).thenReturn(Optional.of(inRepo));
 
         // Attempt to update an existing ChordType that is a preset
-        TEST_CHORD_TYPE = service.findBySymbol("maj").get();
-        TEST_CHORD_TYPE.setSymbol("TEST");
+        TEST_CHORD_TYPE = service.findById(1).get();
+        TEST_CHORD_TYPE.setSymbol("SYMBOL 2");
 
         service.save(TEST_CHORD_TYPE);
     }
@@ -215,13 +223,7 @@ public class TestChordTypeServiceImpl {
     @Test
     public void save_attemptToCreateNewPreset() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot add new preset chord types.");
-
-        when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
-                .thenReturn(Collections.emptyList());
-
-        when(mockRepo.findBySymbol(anyString()))
-                .thenReturn(Optional.empty());
+        expectedException.expectMessage("Creating new preset chord types is not allowed");
 
         TEST_CHORD_TYPE.setPreset(Boolean.TRUE);
 
@@ -229,47 +231,7 @@ public class TestChordTypeServiceImpl {
     }
 
     @Test
-    public void save_uniqueConstraintViolation_symbol_multipleEntities() {
-        expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Another chord type is already defined with this symbol: SYMBOL 2\r\n" +
-                "Please choose a different symbol for one of them.");
-
-        ChordType inRepo1 = new ChordType();
-        inRepo1.setId(1);
-        inRepo1.setSymbol("SYMBOL 1");
-        inRepo1.setRnSymbol("TEST");
-        inRepo1.setRnCapital(Boolean.TRUE);
-        inRepo1.setRnPrecedence(1);
-        inRepo1.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        inRepo1.setPreset(Boolean.FALSE);
-
-        ChordType inRepo2 = new ChordType();
-        inRepo2.setId(2);
-        inRepo2.setSymbol("SYMBOL 2");
-        inRepo2.setRnSymbol("TEST");
-        inRepo2.setRnCapital(Boolean.TRUE);
-        inRepo2.setRnPrecedence(1);
-        inRepo2.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
-        inRepo2.setPreset(Boolean.FALSE);
-
-        when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
-                .thenReturn(Arrays.asList(inRepo1, inRepo2));
-
-        TEST_CHORD_TYPE.setId(1);
-        TEST_CHORD_TYPE.setSymbol("SYMBOL 2");
-
-        service.save(TEST_CHORD_TYPE);
-    }
-
-    @Test
     public void save_success() {
-
-        when(mockRepo.findAnyMatchingUniqueConstraints(anyInt(), anyString()))
-                .thenReturn(Collections.emptyList());
-
-        when(mockRepo.findBySymbol(anyString()))
-                .thenReturn(Optional.empty());
-
         service.save(TEST_CHORD_TYPE);
     }
 
@@ -302,9 +264,9 @@ public class TestChordTypeServiceImpl {
     }
 
     @Test
-    public void delete_recordWithIdHasDifferentData() {
+    public void delete_existingRecordDoesNotMatchEntity() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot delete chord type #1 (DIFFERENT SYMBOL): entity data does not match record data.");
+        expectedException.expectMessage("Cannot delete chord type #1 (DIFFERENT SYMBOL): entity data does not match record data");
 
         ChordType inRepo = new ChordType();
         inRepo.setId(1);
@@ -333,8 +295,9 @@ public class TestChordTypeServiceImpl {
     @Test
     public void delete_recordIsPreset() {
         expectedException.expect(ChordInnateException.class);
-        expectedException.expectMessage("Cannot delete preset chord types.");
+        expectedException.expectMessage("Cannot delete preset chord types");
 
+        TEST_CHORD_TYPE.setId(1);
         TEST_CHORD_TYPE.setPreset(Boolean.TRUE);
 
         when(mockRepo.findById(anyInt())).thenReturn(Optional.of(TEST_CHORD_TYPE));
@@ -346,6 +309,7 @@ public class TestChordTypeServiceImpl {
 
     @Test
     public void delete_success() {
+        TEST_CHORD_TYPE.setId(1);
 
         when(mockRepo.findById(anyInt())).thenReturn(Optional.of(TEST_CHORD_TYPE));
 
