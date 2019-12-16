@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Data
@@ -26,6 +27,7 @@ public final class ChordTypeTag extends Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @NotBlank(message = "{tag.name.fieldName} {validation.constraints.blank}")
     @Column(name = "NAME")
     private String name;
 
