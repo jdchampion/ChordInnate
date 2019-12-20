@@ -36,7 +36,6 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
 
     @Autowired
     ScaleTypeServiceImpl(ScaleTypeRepository repository) {
-        super();
         this.repository = repository;
     }
 
@@ -67,7 +66,6 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
         Set<Integer> codes = set.stream()
                 .map(Region::getNumericCode)
                 .collect(Collectors.toSet());
-
 
         return repository.findAllByOriginId(codes);
     }

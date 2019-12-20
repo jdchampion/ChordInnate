@@ -29,7 +29,6 @@ public class ChordTypeTagServiceImpl implements ChordTypeTagService {
 
     @Autowired
     ChordTypeTagServiceImpl(ChordTypeTagRepository repository) {
-        super();
         this.repository = repository;
     }
 

@@ -5,7 +5,6 @@ import chordinnate.annotation.ValidateSize;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.util.IntervalConverter;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -22,13 +21,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
  * Created by Joseph on 8/24/16.
  */
 @Data
-@EqualsAndHashCode(exclude = {"scaleTypeTagRelations"})
 @Entity
 @Cacheable
 @Table(name = "SCALE_TYPE")
@@ -63,5 +62,21 @@ public final class ScaleType implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matchingScaleType")
     private Set<ScaleTypeTagRelation> scaleTypeTagRelations;
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        }
+
+        ScaleType comparison = (ScaleType) other;
+
+        return id.equals(comparison.id)
+                && name.equals(comparison.name)
+                && ((origin == null && comparison.origin == null) || origin.equals(comparison.origin))
+                && Arrays.deepEquals(intervals, comparison.intervals)
+                && size.equals(comparison.size)
+                && preset.equals(comparison.preset);
+    }
     
 }

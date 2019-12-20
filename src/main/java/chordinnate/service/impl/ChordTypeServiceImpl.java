@@ -36,7 +36,6 @@ public class ChordTypeServiceImpl implements ChordTypeService {
 
     @Autowired
     ChordTypeServiceImpl(ChordTypeRepository repository) {
-        super();
         this.repository = repository;
     }
 

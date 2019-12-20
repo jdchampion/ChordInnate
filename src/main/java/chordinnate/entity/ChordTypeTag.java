@@ -1,7 +1,6 @@
 package chordinnate.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -20,7 +19,6 @@ import java.util.Set;
 @Entity
 @Cacheable
 @Table(name = "TAG")
-@EqualsAndHashCode(callSuper = true, exclude = {"chordTypeTagRelations"})
 public final class ChordTypeTag extends Tag {
 
     @Id
@@ -33,5 +31,16 @@ public final class ChordTypeTag extends Tag {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matchingTag", cascade = CascadeType.ALL)
     private Set<ChordTypeTagRelation> chordTypeTagRelations;
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        }
+
+        ChordTypeTag comparison = (ChordTypeTag) other;
+
+        return id.equals(comparison.id) && name.equals(comparison.name);
+    }
 
 }

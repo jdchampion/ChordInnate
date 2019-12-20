@@ -29,7 +29,6 @@ public class ScaleTypeTagServiceImpl implements ScaleTypeTagService {
 
     @Autowired
     ScaleTypeTagServiceImpl(ScaleTypeTagRepository repository) {
-        super();
         this.repository = repository;
     }
 

@@ -276,6 +276,7 @@ public class TestChordTypeServiceImpl {
         inRepo.setRnPrecedence(1);
         inRepo.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         inRepo.setPreset(Boolean.FALSE);
+        inRepo.setSize(2);
 
         when(mockRepo.findById(anyInt())).thenReturn(Optional.of(inRepo));
 
@@ -286,6 +287,7 @@ public class TestChordTypeServiceImpl {
         TEST_CHORD_TYPE.setRnPrecedence(1);
         TEST_CHORD_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         TEST_CHORD_TYPE.setPreset(Boolean.FALSE);
+        TEST_CHORD_TYPE.setSize(2);
 
         service.delete(TEST_CHORD_TYPE);
 

@@ -228,6 +228,7 @@ public class TestScaleTypeServiceImpl {
         inRepo.setName("NAME");
         inRepo.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         inRepo.setPreset(Boolean.FALSE);
+        inRepo.setSize(2);
 
         when(mockRepo.findById(anyInt())).thenReturn(Optional.of(inRepo));
 
@@ -235,6 +236,7 @@ public class TestScaleTypeServiceImpl {
         TEST_SCALE_TYPE.setName("DIFFERENT NAME");
         TEST_SCALE_TYPE.setIntervals(new Interval[]{Interval.PERFECT_1, Interval.MAJOR_2});
         TEST_SCALE_TYPE.setPreset(Boolean.FALSE);
+        TEST_SCALE_TYPE.setSize(2);
 
         service.delete(TEST_SCALE_TYPE);
 

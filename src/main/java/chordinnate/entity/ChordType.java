@@ -5,7 +5,6 @@ import chordinnate.annotation.ValidateIntervals;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.util.IntervalConverter;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -22,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -31,7 +31,6 @@ import java.util.Set;
  *             https://en.wikipedia.org/wiki/List_of_chords
  */
 @Data
-@EqualsAndHashCode(exclude = {"chordTypeTagRelations"})
 @Entity
 @Cacheable
 @Table(name = "CHORD_TYPE")
@@ -76,5 +75,23 @@ public final class ChordType implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matchingChordType")
     private Set<ChordTypeTagRelation> chordTypeTagRelations;
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        }
+
+        ChordType comparison = (ChordType) other;
+
+        return id.equals(comparison.id)
+                && symbol.equals(comparison.symbol)
+                && rnSymbol.equals(comparison.rnSymbol)
+                && rnCapital.equals(comparison.rnCapital)
+                && rnPrecedence.equals(comparison.rnPrecedence)
+                && Arrays.deepEquals(intervals, comparison.intervals)
+                && size.equals(comparison.size)
+                && preset.equals(comparison.preset);
+    }
 
 }

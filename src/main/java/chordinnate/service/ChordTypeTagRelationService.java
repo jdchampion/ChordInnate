@@ -5,30 +5,30 @@ import chordinnate.entity.ChordTypeTag;
 import chordinnate.entity.ChordTypeTagRelation;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 /**
  * Used for basic CRUD operations on relations between {@link ChordType}s and their corresponding {@link ChordTypeTag}s.
  */
 @Service
 public interface ChordTypeTagRelationService {
 
-    // TODO: not sure if it's useful to expose this
-    Optional<ChordTypeTagRelation> findById(Integer id);
-
-    // TODO: not sure if this is useful since ChordTypeTagService gets all tags (which is what we really want)
-    Iterable<ChordTypeTagRelation> findAllFor(ChordType chordType);
-
     /**
      * Establishes an association between chord type and tag.
-     * @param chordTypeTagRelation
+     * @param relation
      * @return
      */
-    ChordTypeTagRelation save(ChordTypeTagRelation chordTypeTagRelation);
+    ChordTypeTagRelation save(ChordTypeTagRelation relation);
 
     /**
      * Removes the association between chord type and tag.
-     * @param chordTypeTagRelation
+     * @param relation
      */
-    void delete(ChordTypeTagRelation chordTypeTagRelation);
+    void delete(ChordTypeTagRelation relation);
+
+    void deleteById(Integer id);
+
+    void deleteAllByTag(ChordTypeTag tag);
+
+    void deleteAllByChordType(ChordType chordType);
+
+    void deleteByChordTypeAndTag(ChordType chordType, ChordTypeTag tag);
 }
