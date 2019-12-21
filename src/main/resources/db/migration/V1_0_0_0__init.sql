@@ -1,46 +1,43 @@
 PRAGMA foreign_keys = ON; -- allow foreign key constraints to be used
 
-------------------------------------------------------------------
---                          Tags                                --
-------------------------------------------------------------------
+
+
+
+
+DROP TRIGGER IF EXISTS TRIG_INSERT_CHORD;
+
+DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_MATCHING_NAME_1;
+DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_MATCHING_NAME_2;
+
+DROP TRIGGER IF EXISTS TRIG_INSERT_SCALE;
 
 DROP TABLE IF EXISTS SCALE_TYPE_TAG;
 DROP TABLE IF EXISTS CHORD_TYPE_TAG;
 DROP TABLE IF EXISTS TAG;
+
+DROP TABLE IF EXISTS CHORD_TYPE;
+DROP TABLE IF EXISTS SCALE_TYPE;
+
+
+
+
+
+------------------------------------------------------------------
+--                          Tags                                --
+------------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS TAG(
                                   ID INTEGER PRIMARY KEY,
                                   NAME VARCHAR(50) NOT NULL UNIQUE
 );
 
-CREATE TABLE SCALE_TYPE_TAG(
-                               ID       INTEGER PRIMARY KEY,
-                               SCALE_TYPE_ID INTEGER NOT NULL,
-                               TAG_ID   INTEGER NOT NULL,
-                               FOREIGN KEY (SCALE_TYPE_ID) REFERENCES SCALE_TYPE (ID) ON UPDATE CASCADE ON DELETE CASCADE,
-                               FOREIGN KEY (TAG_ID) REFERENCES TAG (ID) ON UPDATE CASCADE ON DELETE CASCADE,
-                               UNIQUE (SCALE_TYPE_ID, TAG_ID) -- A given tag can only have one relation to a scale type, and vice-versa
-);
 
-CREATE TABLE CHORD_TYPE_TAG(
-                               ID       INTEGER PRIMARY KEY,
-                               CHORD_TYPE_ID INTEGER NOT NULL,
-                               TAG_ID   INTEGER NOT NULL,
-                               FOREIGN KEY (CHORD_TYPE_ID) REFERENCES CHORD_TYPE (ID) ON UPDATE CASCADE ON DELETE CASCADE,
-                               FOREIGN KEY (TAG_ID) REFERENCES TAG (ID) ON UPDATE CASCADE ON DELETE CASCADE,
-                               UNIQUE (CHORD_TYPE_ID, TAG_ID) -- A given tag can only have one relation to a chord type, and vice-versa
-);
+
 
 
 ------------------------------------------------------------------
 --                          Chord Type                          --
 ------------------------------------------------------------------
-
-DROP TRIGGER IF EXISTS TRIG_INSERT_CHORD;
--- DROP TRIGGER IF EXISTS TRIG_CHORD_TYPE_NO_UPDATE_PRESETS;
--- DROP TRIGGER IF EXISTS TRIG_CHORD_TYPE_NO_DELETE_PRESETS;
-
-DROP TABLE IF EXISTS CHORD_TYPE;
 
 CREATE TABLE IF NOT EXISTS CHORD_TYPE (
                                           ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -60,6 +57,93 @@ BEGIN
     SET SIZE = LENGTH(INTERVALS) - LENGTH(REPLACE(INTERVALS, ',', '')) + 1
     WHERE _ROWID_ = LAST_INSERT_ROWID();
 END;
+
+
+
+
+
+------------------------------------------------------------------
+--                        Chord Type Tag                        --
+------------------------------------------------------------------
+
+CREATE TABLE CHORD_TYPE_TAG(
+                               ID       INTEGER PRIMARY KEY,
+                               CHORD_TYPE_ID INTEGER NOT NULL,
+                               TAG_ID   INTEGER NOT NULL,
+                               FOREIGN KEY (CHORD_TYPE_ID) REFERENCES CHORD_TYPE (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+                               FOREIGN KEY (TAG_ID) REFERENCES TAG (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+                               UNIQUE (CHORD_TYPE_ID, TAG_ID) -- A given tag can only have one relation to a chord type, and vice-versa
+);
+
+
+
+
+------------------------------------------------------------------
+--                          Scale Type                          --
+------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS SCALE_TYPE (
+                                          ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                                          NAME VARCHAR(100) NOT NULL UNIQUE CHECK (NAME <> ''),
+                                          INTERVALS VARCHAR(100) NOT NULL, -- CHECK (INTERVALS REGEXP 'P1(, [mMPdA][0-9]+)+'), TODO: use GLOB wildcards?
+                                          SIZE INTEGER,										-- set by trigger
+                                          ORIGIN INTEGER,
+                                          PRESET INTEGER(1) NOT NULL DEFAULT 0 CHECK (PRESET = 0 OR PRESET = 1)
+);
+
+-- Do not allow any duplicate scale names to be added to this table
+-- (case and whitespace are factored out in the dupe check)
+CREATE TRIGGER TRIG_SCALE_TYPE_MATCHING_NAME_1 BEFORE INSERT ON SCALE_TYPE
+BEGIN
+    SELECT
+        (CASE
+             WHEN (SELECT COUNT(*) FROM SCALE_TYPE s WHERE TRIM(s.NAME) = TRIM(new.NAME) COLLATE NOCASE AND s.ID <> new.ID) > 0
+                 THEN RAISE(ABORT, 'Another scale by the same name already exists')
+            END)
+    FROM SCALE_TYPE;
+END;
+CREATE TRIGGER TRIG_SCALE_TYPE_MATCHING_NAME_2 BEFORE UPDATE ON SCALE_TYPE
+BEGIN
+    SELECT
+        (CASE
+             WHEN (SELECT COUNT(*) FROM SCALE_TYPE s WHERE TRIM(s.NAME) = TRIM(new.NAME) COLLATE NOCASE AND s.ID <> new.ID) > 0
+                 THEN RAISE(ABORT, 'Another scale by the same name already exists')
+            END)
+    FROM SCALE_TYPE;
+END;
+
+-- Set up the rest of the DB internals on first insert
+CREATE TRIGGER TRIG_INSERT_SCALE AFTER INSERT ON SCALE_TYPE
+BEGIN
+    UPDATE SCALE_TYPE
+    SET SIZE = LENGTH(INTERVALS) - LENGTH(REPLACE(INTERVALS, ',', '')) + 1
+    WHERE _ROWID_ = LAST_INSERT_ROWID();
+END;
+
+
+
+
+------------------------------------------------------------------
+--                        Scale Type Tag                        --
+------------------------------------------------------------------
+
+CREATE TABLE SCALE_TYPE_TAG(
+                               ID       INTEGER PRIMARY KEY,
+                               SCALE_TYPE_ID INTEGER NOT NULL,
+                               TAG_ID   INTEGER NOT NULL,
+                               FOREIGN KEY (SCALE_TYPE_ID) REFERENCES SCALE_TYPE (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+                               FOREIGN KEY (TAG_ID) REFERENCES TAG (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+                               UNIQUE (SCALE_TYPE_ID, TAG_ID) -- A given tag can only have one relation to a scale type, and vice-versa
+);
+
+
+
+
+
+
+
+
+
 
 INSERT INTO CHORD_TYPE (SYMBOL, RN_SYMBOL, RN_CAPITAL, RN_PRECEDENCE, INTERVALS) VALUES
 ('maj', '', 1, 1, 'P1, M3, P5'),
@@ -116,81 +200,7 @@ INSERT INTO CHORD_TYPE (SYMBOL, RN_SYMBOL, RN_CAPITAL, RN_PRECEDENCE, INTERVALS)
 -- Prevent user from editing preset scale data (except for tags)
 UPDATE CHORD_TYPE SET PRESET = 1;
 
--- CREATE TRIGGER TRIG_CHORD_TYPE_NO_UPDATE_PRESETS BEFORE UPDATE ON CHORD_TYPE
--- BEGIN
---     SELECT
---         (CASE
---              WHEN OLD.PRESET = 1 AND (NEW.SYMBOL <> OLD.SYMBOL OR NEW.RN_SYMBOL <> OLD.RN_SYMBOL OR NEW.RN_CAPITAL <> OLD.RN_CAPITAL OR NEW.RN_PRECEDENCE <> OLD.RN_PRECEDENCE OR NEW.INTERVALS <> OLD.INTERVALS OR NEW.SIZE <> OLD.SIZE OR NEW.PRESET <> OLD.PRESET)
---                  THEN RAISE(ABORT, 'Cannot change fields on preset chord types')
---             END)
---     FROM CHORD_TYPE;
--- END;
 
--- CREATE TRIGGER TRIG_CHORD_TYPE_NO_DELETE_PRESETS BEFORE DELETE ON CHORD_TYPE
--- BEGIN
---     SELECT
---         (CASE
---              WHEN OLD.PRESET = 1
---                  THEN RAISE(ABORT, 'Cannot delete preset chord types')
---             END)
---     FROM CHORD_TYPE;
--- END;
-
-
-
-------------------------------------------------------------------
---                          Scale Type                          --
-------------------------------------------------------------------
-
-
-
-
-DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_MATCHING_NAME_1;
-DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_MATCHING_NAME_2;
-DROP TRIGGER IF EXISTS TRIG_INSERT_SCALE;
--- DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_NO_UPDATE_PRESETS;
--- DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_NO_DELETE_PRESETS;
-
-
-DROP TABLE IF EXISTS SCALE_TYPE;
-
-CREATE TABLE IF NOT EXISTS SCALE_TYPE (
-                                          ID INTEGER PRIMARY KEY AUTOINCREMENT,
-                                          NAME VARCHAR(100) NOT NULL UNIQUE CHECK (NAME <> ''),
-                                          INTERVALS VARCHAR(100) NOT NULL, -- CHECK (INTERVALS REGEXP 'P1(, [mMPdA][0-9]+)+'), TODO: use GLOB wildcards?
-                                          SIZE INTEGER,										-- set by trigger
-                                          ORIGIN INTEGER,
-                                          PRESET INTEGER(1) NOT NULL DEFAULT 0 CHECK (PRESET = 0 OR PRESET = 1)
-);
-
--- Do not allow any duplicate scale names to be added to this table
--- (case and whitespace are factored out in the dupe check)
-CREATE TRIGGER TRIG_SCALE_TYPE_MATCHING_NAME_1 BEFORE INSERT ON SCALE_TYPE
-BEGIN
-    SELECT
-        (CASE
-             WHEN (SELECT COUNT(*) FROM SCALE_TYPE s WHERE TRIM(s.NAME) = TRIM(new.NAME) COLLATE NOCASE AND s.ID <> new.ID) > 0
-                 THEN RAISE(ABORT, 'Another scale by the same name already exists')
-            END)
-    FROM SCALE_TYPE;
-END;
-CREATE TRIGGER TRIG_SCALE_TYPE_MATCHING_NAME_2 BEFORE UPDATE ON SCALE_TYPE
-BEGIN
-    SELECT
-        (CASE
-             WHEN (SELECT COUNT(*) FROM SCALE_TYPE s WHERE TRIM(s.NAME) = TRIM(new.NAME) COLLATE NOCASE AND s.ID <> new.ID) > 0
-                 THEN RAISE(ABORT, 'Another scale by the same name already exists')
-            END)
-    FROM SCALE_TYPE;
-END;
-
--- Set up the rest of the DB internals on first insert
-CREATE TRIGGER TRIG_INSERT_SCALE AFTER INSERT ON SCALE_TYPE
-BEGIN
-    UPDATE SCALE_TYPE
-    SET SIZE = LENGTH(INTERVALS) - LENGTH(REPLACE(INTERVALS, ',', '')) + 1
-    WHERE _ROWID_ = LAST_INSERT_ROWID();
-END;
 
 INSERT INTO SCALE_TYPE (NAME, INTERVALS, ORIGIN) VALUES
 ('Acoustic', 'P1, M2, M3, A4, P5, M6, m7', NULL),
@@ -1218,26 +1228,6 @@ INSERT INTO SCALE_TYPE (NAME, INTERVALS, ORIGIN) VALUES
 
 -- Prevent user from editing preset scale data (except for tags)
 UPDATE SCALE_TYPE SET PRESET = 1;
-
--- CREATE TRIGGER TRIG_SCALE_TYPE_NO_UPDATE_PRESETS BEFORE UPDATE ON SCALE_TYPE
--- BEGIN
---     SELECT
---         (CASE
---              WHEN OLD.PRESET = 1 AND (NEW.NAME <> OLD.NAME OR NEW.INTERVALS <> OLD.INTERVALS OR NEW.SIZE <> OLD.SIZE OR NEW.ORIGIN <> OLD.ORIGIN OR NEW.PRESET <> OLD.PRESET)
---                  THEN RAISE(ABORT, 'Cannot change fields on preset scale types')
---             END)
---     FROM SCALE_TYPE;
--- END;
-
--- CREATE TRIGGER TRIG_SCALE_TYPE_NO_DELETE_PRESETS BEFORE DELETE ON SCALE_TYPE
--- BEGIN
---     SELECT
---         (CASE
---              WHEN OLD.PRESET = 1
---                  THEN RAISE(ABORT, 'Cannot delete preset scale types')
---             END)
---     FROM SCALE_TYPE;
--- END;
 
 
 
