@@ -1,92 +1,85 @@
 CREATE EXTENSION IF NOT EXISTS "plpgsql"; -- procedural SQL
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; -- generate UUIDs
 
-DROP TABLE IF EXISTS TAG_GROUP_REL;
-DROP TABLE IF EXISTS TAG;
+
+
+
+
+DROP TRIGGER IF EXISTS TRIG_INSERT_CHORD ON CHORD_TYPE;
+DROP FUNCTION IF EXISTS TF_IC;
+
+DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_MATCHING_NAME ON SCALE_TYPE;
+DROP FUNCTION IF EXISTS TF_STMN;
+
+DROP TRIGGER IF EXISTS TRIG_INSERT_SCALE ON SCALE_TYPE;
+DROP FUNCTION IF EXISTS TF_IS;
+
+DROP TABLE IF EXISTS SCALE_TYPE_TAG CASCADE;
+DROP TABLE IF EXISTS CHORD_TYPE_TAG CASCADE;
+DROP TABLE IF EXISTS TAG CASCADE;
+
+DROP TABLE IF EXISTS CHORD_TYPE CASCADE;
+DROP TABLE IF EXISTS SCALE_TYPE CASCADE;
+
+
+
+
+
+------------------------------------------------------------------
+--                          Tags                                --
+------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS TAG(
+                                  ID SERIAL PRIMARY KEY,
+                                  NAME VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+
 
 
 ------------------------------------------------------------------
 --                          Chord Type                          --
 ------------------------------------------------------------------
 
-DROP TRIGGER IF EXISTS TRIG_CHORD_TYPE_SIZE ON CHORD_TYPE;
-DROP FUNCTION IF EXISTS TF_CTS;
-
-DROP TABLE IF EXISTS CHORD_TYPE;
-
 CREATE TABLE IF NOT EXISTS CHORD_TYPE (
                                           ID SERIAL PRIMARY KEY,
                                           SYMBOL VARCHAR(20) UNIQUE,
                                           RN_SYMBOL VARCHAR(20) NOT NULL,
-                                          RN_CAPITAL INTEGER NOT NULL CHECK (RN_CAPITAL = 0 OR RN_CAPITAL = 1),
+                                          RN_CAPITAL BOOLEAN NOT NULL,
                                           RN_PRECEDENCE INTEGER NOT NULL DEFAULT 1 CHECK (RN_PRECEDENCE > 0),
                                           INTERVALS VARCHAR(100) NOT NULL, -- CHECK (INTERVALS REGEXP 'P1(, [mMPdA][0-9]+)+'),
-                                          SIZE INTEGER                     -- set by trigger
+                                          SIZE INTEGER,                    -- set by trigger
+                                          PRESET BOOLEAN NOT NULL DEFAULT FALSE
 );
 
 -- Automatically count the number of notes in the chord
-CREATE FUNCTION TF_CTS() RETURNS TRIGGER AS $TF_CTS$
+CREATE FUNCTION TF_IC() RETURNS TRIGGER AS $TF_IC$
 BEGIN
     NEW.SIZE = LENGTH(NEW.INTERVALS) - LENGTH(REPLACE(NEW.INTERVALS, ',', '')) + 1;
     RETURN NEW;
 END;
-$TF_CTS$ LANGUAGE plpgsql;
+$TF_IC$ LANGUAGE plpgsql;
 
-CREATE TRIGGER TRIG_CHORD_TYPE_SIZE BEFORE INSERT OR UPDATE ON CHORD_TYPE
-    FOR EACH ROW EXECUTE PROCEDURE TF_CTS();
+CREATE TRIGGER TRIG_INSERT_CHORD BEFORE INSERT ON CHORD_TYPE
+    FOR EACH ROW EXECUTE PROCEDURE TF_IC();
 
 
-INSERT INTO CHORD_TYPE (SYMBOL, RN_SYMBOL, RN_CAPITAL, RN_PRECEDENCE, INTERVALS) VALUES
-('maj', '', 1, 1, 'P1, M3, P5'),
-('maj7', '', 0, 1, 'P1, M3, P5, M7'),
-('7', '7', 1, 1, 'P1, M3, P5, m7'),
-('add9', 'add9', 1, 1, 'P1, M3, P5, M9'),
-('m', '', 0, 1, 'P1, m3, P5'),
-('m7', '7', 0, 1, 'P1, m3, P5, m7'),
-('dim', '˚', 0, 1, 'P1, m3, d5'),
-('dim7', '˚7', 0, 1, 'P1, m3, d5, d7'),
-('aug', '+', 1, 1, 'P1, M3, A5'),
-('sus4', 'sus4', 1, 1, 'P1, P4, P5'),
-('sus2', 'sus2', 1, 1, 'P1, M2, P5'),
-('maj9', '9', 1, 1, 'P1, M3, P5, M7, M9'),
-('maj13', '13', 1, 1, 'P1, M3, P5, M7, M9, P11, M13'),
-('maj9♯11', '9♯11', 1, 1, 'P1, M3, P5, M7, M9, A11'),
-('maj13♯11', '13♯11', 1, 1, 'P1, M3, P5, M7, M9, A11, M13'),
-('6', '6', 1, 1, 'P1, M3, P5, M6'),
-('6add9', '6add9', 1, 1, 'P1, M3, P5, M6, M9'),
-('maj7♯5', '7♯5', 1, 1, 'P1, M3, A5, M7'),
-('maj7♭5', '7♭5', 1, 1, 'P1, M3, d5, M7'),
-('m9', '9', 0, 1, 'P1, m3, P5, m7, M9'),
-('m11', '11', 0, 1, 'P1, m3, P5, m7, M9, P11'),
-('m13', '13', 0, 1, 'P1, m3, P5, m7, M9, P11, M13'),
-('m6', '6', 0, 1, 'P1, m3, P5, M6'),
-('madd9', 'add9', 0, 1, 'P1, m3, P5, M9'),
-('m6add9', '6add9', 0, 1, 'P1, m3, P5, M6, M9'),
-('mM7', '7', 0, 1, 'P1, m3, P5, M7'),
-('mM9', '9', 0, 1, 'P1, m3, P5, M7, M9'),
-('m7♭5', 'ø7', 0, 2, 'P1, m3, d5, m7'),
-('ø7', 'ø7', 0, 1, 'P1, m3, d5, m7'),
-('m7♯5', '7♯5', 0, 1, 'P1, m3, A5, m7'),
-('9', '9', 1, 1, 'P1, M3, P5, m7, M9'),
-('11', '11', 1, 1, 'P1, M3, P5, m7, M9, P11'),
-('13', '13', 1, 1, 'P1, M3, P5, m7, M9, P11, M13'),
-('7sus4', '7sus4', 1, 1, 'P1, P4, P5, m7'),
-('7♭5', '7♭5', 1, 1, 'P1, M3, d5, m7'),
-('7♯5', '7♯5', 1, 1, 'P1, M3, A5, m7'),
-('7♭9', '7♭9', 1, 1, 'P1, M3, P5, m7, m9'),
-('7♯9', '7♯9', 1, 1, 'P1, M3, P5, m7, A9'),
-('7♭5♭9', '7♭5♭9', 1, 1, 'P1, M3, d5, m7, m9'),
-('7♭5♯9', '7♭5♯9', 1, 1, 'P1, M3, d5, m7, A9'),
-('7♯5♭9', '7♯5♭9', 1, 1, 'P1, M3, A5, m7, m9'),
-('7♯5♯9', '7♯5♯9', 1, 1, 'P1, M3, A5, m7, A9'),
-('9♭5', '9♭5', 1, 1, 'P1, M3, d5, m7, M9'),
-('9♯5', '9♯5', 1, 1, 'P1, M3, A5, m7, M9'),
-('13♯11', '13♯11', 1, 1, 'P1, M3, P5, m7, M9, A11, M13'),
-('13♭9', '13♭9', 1, 1, 'P1, M3, P5, m7, m9, M13'),
-('11♭9', '11♭9', 1, 1, 'P1, M3, P5, m7, m9, P11'),
-('5', 'no3', 1, 1, 'P1, P5'),
-('sus2sus4', 'sus2sus4', 1, 1, 'P1, M2, P4, P5'),
-('-5', '-5', 1, 1, 'P1, M3, d5');
+
+
+
+------------------------------------------------------------------
+--                        Chord Type Tag                        --
+------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS CHORD_TYPE_TAG(
+                               ID       SERIAL PRIMARY KEY,
+                               CHORD_TYPE_ID INTEGER NOT NULL,
+                               TAG_ID   INTEGER NOT NULL,
+                               FOREIGN KEY (CHORD_TYPE_ID) REFERENCES CHORD_TYPE (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+                               FOREIGN KEY (TAG_ID) REFERENCES TAG (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+                               UNIQUE (CHORD_TYPE_ID, TAG_ID) -- A given tag can only have one relation to a chord type, and vice-versa
+);
 
 
 
@@ -96,23 +89,8 @@ INSERT INTO CHORD_TYPE (SYMBOL, RN_SYMBOL, RN_CAPITAL, RN_PRECEDENCE, INTERVALS)
 --                          Scale Type                          --
 ------------------------------------------------------------------
 
-
-
-DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_MATCHING_NAME ON SCALE_TYPE;
-DROP TRIGGER IF EXISTS TRIG_INSERT_SCALE ON SCALE_TYPE;
-DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_NO_UPDATE_PRESETS ON SCALE_TYPE;
-DROP TRIGGER IF EXISTS TRIG_SCALE_TYPE_NO_DELETE_PRESETS ON SCALE_TYPE;
-
-DROP FUNCTION IF EXISTS TF_STMN;
-DROP FUNCTION IF EXISTS TF_IS;
-DROP FUNCTION IF EXISTS TF_STNUP;
-DROP FUNCTION IF EXISTS TF_STNDP;
-
-DROP TABLE IF EXISTS SCALE_TYPE CASCADE;
-
 CREATE TABLE IF NOT EXISTS SCALE_TYPE (
                                           ID SERIAL PRIMARY KEY,
-                                          TAG_GROUP_ID UUID UNIQUE,
                                           NAME VARCHAR(100) NOT NULL UNIQUE CHECK (NAME <> ''),
                                           INTERVALS VARCHAR(100) NOT NULL, -- CHECK (INTERVALS REGEXP 'P1(, [mMPdA][0-9]+)+'), TODO: use GLOB wildcards?
                                           SIZE INTEGER,										-- set by trigger
@@ -122,30 +100,111 @@ CREATE TABLE IF NOT EXISTS SCALE_TYPE (
 
 -- Do not allow any duplicate scale names to be added to this table
 -- (case and whitespace are factored out in the dupe check)
--- Automatically count the number of notes in the scale
 CREATE FUNCTION TF_STMN() RETURNS TRIGGER AS $TF_STMN$
 BEGIN
     IF (SELECT COUNT(*) FROM SCALE_TYPE s WHERE TRIM(s.NAME) ILIKE TRIM(NEW.NAME) AND s.ID <> NEW.ID) > 0
     THEN RAISE EXCEPTION 'Another scale by the same name already exists';
     END IF;
-    NEW.SIZE := LENGTH(NEW.INTERVALS) - LENGTH(REPLACE(NEW.INTERVALS, ',', '')) + 1;
     RETURN NEW;
 END;
 $TF_STMN$ LANGUAGE plpgsql;
 
 CREATE TRIGGER TRIG_SCALE_TYPE_MATCHING_NAME BEFORE INSERT OR UPDATE ON SCALE_TYPE
-    FOR EACH STATEMENT EXECUTE PROCEDURE TF_STMN();
+    FOR EACH ROW EXECUTE PROCEDURE TF_STMN();
 
 -- Set up the rest of the DB internals on first insert
 CREATE FUNCTION TF_IS() RETURNS TRIGGER AS $TF_IS$
 BEGIN
-    NEW.TAG_GROUP_ID = (SELECT uuid_generate_v4());
+    NEW.SIZE := LENGTH(NEW.INTERVALS) - LENGTH(REPLACE(NEW.INTERVALS, ',', '')) + 1;
     RETURN NEW;
 END;
 $TF_IS$ LANGUAGE plpgsql;
 
 CREATE TRIGGER TRIG_INSERT_SCALE BEFORE INSERT ON SCALE_TYPE
     FOR EACH ROW EXECUTE PROCEDURE TF_IS();
+
+
+
+
+
+------------------------------------------------------------------
+--                        Scale Type Tag                        --
+------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS SCALE_TYPE_TAG(
+                                             ID       SERIAL PRIMARY KEY,
+                                             SCALE_TYPE_ID INTEGER NOT NULL,
+                                             TAG_ID   INTEGER NOT NULL,
+                                             FOREIGN KEY (SCALE_TYPE_ID) REFERENCES SCALE_TYPE (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+                                             FOREIGN KEY (TAG_ID) REFERENCES TAG (ID) ON UPDATE CASCADE ON DELETE CASCADE,
+                                             UNIQUE (SCALE_TYPE_ID, TAG_ID) -- A given tag can only have one relation to a scale type, and vice-versa
+);
+
+
+
+
+
+
+
+
+
+
+INSERT INTO CHORD_TYPE (SYMBOL, RN_SYMBOL, RN_CAPITAL, RN_PRECEDENCE, INTERVALS) VALUES
+('maj', '', TRUE, 1, 'P1, M3, P5'),
+('maj7', '', FALSE, 1, 'P1, M3, P5, M7'),
+('7', '7', TRUE, 1, 'P1, M3, P5, m7'),
+('add9', 'add9', TRUE, 1, 'P1, M3, P5, M9'),
+('m', '', FALSE, 1, 'P1, m3, P5'),
+('m7', '7', FALSE, 1, 'P1, m3, P5, m7'),
+('dim', '˚', FALSE, 1, 'P1, m3, d5'),
+('dim7', '˚7', FALSE, 1, 'P1, m3, d5, d7'),
+('aug', '+', TRUE, 1, 'P1, M3, A5'),
+('sus4', 'sus4', TRUE, 1, 'P1, P4, P5'),
+('sus2', 'sus2', TRUE, 1, 'P1, M2, P5'),
+('maj9', '9', TRUE, 1, 'P1, M3, P5, M7, M9'),
+('maj13', '13', TRUE, 1, 'P1, M3, P5, M7, M9, P11, M13'),
+('maj9♯11', '9♯11', TRUE, 1, 'P1, M3, P5, M7, M9, A11'),
+('maj13♯11', '13♯11', TRUE, 1, 'P1, M3, P5, M7, M9, A11, M13'),
+('6', '6', TRUE, 1, 'P1, M3, P5, M6'),
+('6add9', '6add9', TRUE, 1, 'P1, M3, P5, M6, M9'),
+('maj7♯5', '7♯5', TRUE, 1, 'P1, M3, A5, M7'),
+('maj7♭5', '7♭5', TRUE, 1, 'P1, M3, d5, M7'),
+('m9', '9', FALSE, 1, 'P1, m3, P5, m7, M9'),
+('m11', '11', FALSE, 1, 'P1, m3, P5, m7, M9, P11'),
+('m13', '13', FALSE, 1, 'P1, m3, P5, m7, M9, P11, M13'),
+('m6', '6', FALSE, 1, 'P1, m3, P5, M6'),
+('madd9', 'add9', FALSE, 1, 'P1, m3, P5, M9'),
+('m6add9', '6add9', FALSE, 1, 'P1, m3, P5, M6, M9'),
+('mM7', '7', FALSE, 1, 'P1, m3, P5, M7'),
+('mM9', '9', FALSE, 1, 'P1, m3, P5, M7, M9'),
+('m7♭5', 'ø7', FALSE, 2, 'P1, m3, d5, m7'),
+('ø7', 'ø7', FALSE, 1, 'P1, m3, d5, m7'),
+('m7♯5', '7♯5', FALSE, 1, 'P1, m3, A5, m7'),
+('9', '9', TRUE, 1, 'P1, M3, P5, m7, M9'),
+('11', '11', TRUE, 1, 'P1, M3, P5, m7, M9, P11'),
+('13', '13', TRUE, 1, 'P1, M3, P5, m7, M9, P11, M13'),
+('7sus4', '7sus4', TRUE, 1, 'P1, P4, P5, m7'),
+('7♭5', '7♭5', TRUE, 1, 'P1, M3, d5, m7'),
+('7♯5', '7♯5', TRUE, 1, 'P1, M3, A5, m7'),
+('7♭9', '7♭9', TRUE, 1, 'P1, M3, P5, m7, m9'),
+('7♯9', '7♯9', TRUE, 1, 'P1, M3, P5, m7, A9'),
+('7♭5♭9', '7♭5♭9', TRUE, 1, 'P1, M3, d5, m7, m9'),
+('7♭5♯9', '7♭5♯9', TRUE, 1, 'P1, M3, d5, m7, A9'),
+('7♯5♭9', '7♯5♭9', TRUE, 1, 'P1, M3, A5, m7, m9'),
+('7♯5♯9', '7♯5♯9', TRUE, 1, 'P1, M3, A5, m7, A9'),
+('9♭5', '9♭5', TRUE, 1, 'P1, M3, d5, m7, M9'),
+('9♯5', '9♯5', TRUE, 1, 'P1, M3, A5, m7, M9'),
+('13♯11', '13♯11', TRUE, 1, 'P1, M3, P5, m7, M9, A11, M13'),
+('13♭9', '13♭9', TRUE, 1, 'P1, M3, P5, m7, m9, M13'),
+('11♭9', '11♭9', TRUE, 1, 'P1, M3, P5, m7, m9, P11'),
+('5', 'no3', TRUE, 1, 'P1, P5'),
+('sus2sus4', 'sus2sus4', TRUE, 1, 'P1, M2, P4, P5'),
+('-5', '-5', TRUE, 1, 'P1, M3, d5');
+
+-- Prevent user from editing preset scale data (except for tags)
+UPDATE CHORD_TYPE SET PRESET = TRUE;
+
+
 
 INSERT INTO SCALE_TYPE (NAME, INTERVALS, ORIGIN) VALUES
 ('Acoustic', 'P1, M2, M3, A4, P5, M6, m7', NULL),
@@ -1174,49 +1233,7 @@ INSERT INTO SCALE_TYPE (NAME, INTERVALS, ORIGIN) VALUES
 -- Prevent user from editing preset scale data (except for tags)
 UPDATE SCALE_TYPE SET PRESET = TRUE;
 
-CREATE FUNCTION TF_STNUP() RETURNS TRIGGER AS $TF_STNUP$
-BEGIN
-    IF OLD.PRESET AND (NEW.NAME <> OLD.NAME OR NEW.SIZE <> OLD.SIZE OR NEW.INTERVALS <> OLD.INTERVALS OR NEW.ORIGIN <> OLD.ORIGIN)
-    THEN RAISE EXCEPTION 'Cannot change fields on preset scales';
-    END IF;
-    RETURN NEW;
-END;
-$TF_STNUP$ LANGUAGE plpgsql;
 
-CREATE TRIGGER TRIG_SCALE_TYPE_NO_UPDATE_PRESETS BEFORE UPDATE ON SCALE_TYPE
-    FOR EACH ROW EXECUTE PROCEDURE TF_STNUP();
-
-CREATE FUNCTION TF_STNDP() RETURNS TRIGGER AS $TF_STNDP$
-BEGIN
-    IF OLD.PRESET
-    THEN RAISE EXCEPTION 'Cannot delete preset scales';
-    END IF;
-    RETURN NEW;
-END;
-$TF_STNDP$ LANGUAGE plpgsql;
-
-CREATE TRIGGER TRIG_SCALE_TYPE_NO_DELETE_PRESETS BEFORE DELETE ON SCALE_TYPE
-    FOR EACH ROW EXECUTE PROCEDURE TF_STNDP();
-
-
-
-
-------------------------------------------------------------------
---                          Tags                                --
-------------------------------------------------------------------
-
-CREATE TABLE IF NOT EXISTS TAG(
-    ID SERIAL PRIMARY KEY,
-    NAME VARCHAR(50) NOT NULL UNIQUE
-);
-
-CREATE TABLE TAG_GROUP_REL(
-    ID       SERIAL PRIMARY KEY,
-    GROUP_ID UUID NOT NULL,
-    TAG_ID   INTEGER NOT NULL,
-    FOREIGN KEY (GROUP_ID) REFERENCES SCALE_TYPE (TAG_GROUP_ID) ON DELETE CASCADE,
-    FOREIGN KEY (TAG_ID) REFERENCES TAG (ID) ON DELETE CASCADE
-);
 
 -- Default (starter) tags
 INSERT INTO TAG(NAME) VALUES
@@ -1236,122 +1253,122 @@ INSERT INTO TAG(NAME) VALUES
 ('Israeli');
 
 -- Default tag relations
-INSERT INTO TAG_GROUP_REL(GROUP_ID, TAG_ID) VALUES
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Adonai Malakh'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Ahava Rabba'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Chad Gadyo'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Jewish I'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Jewish II'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Magen Abot'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Misheberekh'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Balinese Pelog'), (SELECT ID FROM TAG WHERE NAME = 'Balinese')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Bhairavi Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Bhairav Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Bhairubahar Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Bilawal Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Kafi Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Kalyan Thaat (Yaman)'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Khammaj Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Marwa Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Purvi Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Byzantine Liturgical Chromatic'), (SELECT ID FROM TAG WHERE NAME = 'Byzantine')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Byzantine'), (SELECT ID FROM TAG WHERE NAME = 'Byzantine')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Eskimo Heptatonic'), (SELECT ID FROM TAG WHERE NAME = 'Alaskan')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Eskimo Hexatonic 1'), (SELECT ID FROM TAG WHERE NAME = 'Alaskan')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Eskimo Hexatonic 2 (Alaska : Point Hope)'), (SELECT ID FROM TAG WHERE NAME = 'Alaskan')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Eskimo tetratonic (Alaska : Bethel)'), (SELECT ID FROM TAG WHERE NAME = 'Alaskan')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Genus chromaticum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Genus diatonicum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Genus diatonicum veterum correctum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Genus primum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Genus secundum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Genus tertium'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.1'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.2'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.3'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.4'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.5'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.6'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.7'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.8'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Hawaiian'), (SELECT ID FROM TAG WHERE NAME = 'Hawaiian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Hawaiian 2'), (SELECT ID FROM TAG WHERE NAME = 'Hawaiian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Bhavapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Cakravaka'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Calanata'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Carukesi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Citrambari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Dharmavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Dhatuvardhani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Dhavalambari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Dhenuka'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Divyamani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Gamanasrama'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Ganamurti'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Gangeyabhusani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Gaurimanohari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Gavambodhi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Gayakapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Harikambhoji'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Hatakambari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Hemavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Jalarnava'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Jhalavarali'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Jhankaradhvani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Jyotisvarupini'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Kamavardhani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Kanakangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Kantamani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Kharaharapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Kiravani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Kokilapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Kosalam'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Latangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Manavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Mararanjani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Mayamalavagaula'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Mecakalyani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Naganandini'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Namanarayani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Nasikabhusani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Natabhairavi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Natakapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Navanitam'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Nitimati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Pavani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Ragavardhani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Raghupriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Ramapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Rasikapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Ratnangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Risabhapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Rupavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Sadvidhamargini'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Salaga'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Sanmukhapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Sarasangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Senavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Shankarabharanam'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Shubhapantuvarali'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Simhendramadhyama'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Sucaritra'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Sulini'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Suryakanta'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Suvarnangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Tanarupi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Vacaspati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Vagadhisvari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Vakulabharanam'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Vanaspati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Varunapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Visvambhari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Mela Yagapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Persian'), (SELECT ID FROM TAG WHERE NAME = 'Persian')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Scottish Hexatonic'), (SELECT ID FROM TAG WHERE NAME = 'Scotland')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Scottish Pentatonic'), (SELECT ID FROM TAG WHERE NAME = 'Scotland')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Scriabin'), (SELECT ID FROM TAG WHERE NAME = 'Scotland')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Ute tritonic'), (SELECT ID FROM TAG WHERE NAME = 'Native North American')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Warao ditonic'), (SELECT ID FROM TAG WHERE NAME = 'Native South American')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Warao tetratonic'), (SELECT ID FROM TAG WHERE NAME = 'Native South American')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Warao tritonic'), (SELECT ID FROM TAG WHERE NAME = 'Native South American')),
-((SELECT TAG_GROUP_ID FROM SCALE_TYPE WHERE NAME = 'Yishtabach'), (SELECT ID FROM TAG WHERE NAME = 'Israeli'));
+INSERT INTO SCALE_TYPE_TAG(SCALE_TYPE_ID, TAG_ID) VALUES
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Adonai Malakh'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Ahava Rabba'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Chad Gadyo'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Jewish I'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Jewish II'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Magen Abot'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Misheberekh'), (SELECT ID FROM TAG WHERE NAME = 'Jewish')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Balinese Pelog'), (SELECT ID FROM TAG WHERE NAME = 'Balinese')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Bhairavi Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Bhairav Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Bhairubahar Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Bilawal Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Kafi Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Kalyan Thaat (Yaman)'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Khammaj Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Marwa Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Purvi Thaat'), (SELECT ID FROM TAG WHERE NAME = 'North Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Byzantine Liturgical Chromatic'), (SELECT ID FROM TAG WHERE NAME = 'Byzantine')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Byzantine'), (SELECT ID FROM TAG WHERE NAME = 'Byzantine')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Eskimo Heptatonic'), (SELECT ID FROM TAG WHERE NAME = 'Alaskan')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Eskimo Hexatonic 1'), (SELECT ID FROM TAG WHERE NAME = 'Alaskan')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Eskimo Hexatonic 2 (Alaska : Point Hope)'), (SELECT ID FROM TAG WHERE NAME = 'Alaskan')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Eskimo tetratonic (Alaska : Bethel)'), (SELECT ID FROM TAG WHERE NAME = 'Alaskan')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Genus chromaticum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Genus diatonicum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Genus diatonicum veterum correctum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Genus primum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Genus secundum'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Genus tertium'), (SELECT ID FROM TAG WHERE NAME = 'Latin')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.1'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.2'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.3'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.4'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.5'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.6'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.7'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Gregorian no.8'), (SELECT ID FROM TAG WHERE NAME = 'Church')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Hawaiian'), (SELECT ID FROM TAG WHERE NAME = 'Hawaiian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Hawaiian 2'), (SELECT ID FROM TAG WHERE NAME = 'Hawaiian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Bhavapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Cakravaka'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Calanata'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Carukesi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Citrambari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Dharmavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Dhatuvardhani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Dhavalambari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Dhenuka'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Divyamani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Gamanasrama'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Ganamurti'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Gangeyabhusani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Gaurimanohari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Gavambodhi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Gayakapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Harikambhoji'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Hatakambari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Hemavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Jalarnava'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Jhalavarali'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Jhankaradhvani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Jyotisvarupini'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Kamavardhani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Kanakangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Kantamani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Kharaharapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Kiravani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Kokilapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Kosalam'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Latangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Manavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Mararanjani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Mayamalavagaula'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Mecakalyani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Naganandini'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Namanarayani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Nasikabhusani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Natabhairavi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Natakapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Navanitam'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Nitimati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Pavani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Ragavardhani'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Raghupriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Ramapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Rasikapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Ratnangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Risabhapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Rupavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Sadvidhamargini'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Salaga'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Sanmukhapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Sarasangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Senavati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Shankarabharanam'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Shubhapantuvarali'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Simhendramadhyama'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Sucaritra'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Sulini'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Suryakanta'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Suvarnangi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Tanarupi'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Vacaspati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Vagadhisvari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Vakulabharanam'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Vanaspati'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Varunapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Visvambhari'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Mela Yagapriya'), (SELECT ID FROM TAG WHERE NAME = 'South Indian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Persian'), (SELECT ID FROM TAG WHERE NAME = 'Persian')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Scottish Hexatonic'), (SELECT ID FROM TAG WHERE NAME = 'Scotland')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Scottish Pentatonic'), (SELECT ID FROM TAG WHERE NAME = 'Scotland')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Scriabin'), (SELECT ID FROM TAG WHERE NAME = 'Scotland')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Ute tritonic'), (SELECT ID FROM TAG WHERE NAME = 'Native North American')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Warao ditonic'), (SELECT ID FROM TAG WHERE NAME = 'Native South American')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Warao tetratonic'), (SELECT ID FROM TAG WHERE NAME = 'Native South American')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Warao tritonic'), (SELECT ID FROM TAG WHERE NAME = 'Native South American')),
+((SELECT ID FROM SCALE_TYPE WHERE NAME = 'Yishtabach'), (SELECT ID FROM TAG WHERE NAME = 'Israeli'));
