@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * An intermediary object representing the relation between a {@link ScaleType}
- * and one of its associated {@link ScaleTypeTag} objects.
+ * and one of its associated {@link Tag} objects.
  */
 @Data
 @Entity
@@ -41,9 +41,9 @@ public final class ScaleTypeTagRelation {
     @Valid
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "TAG_ID")
-    private ScaleTypeTag matchingTag;
+    private Tag matchingTag;
 
-    public ScaleTypeTagRelation(ScaleType scaleType, ScaleTypeTag tag) {
+    public ScaleTypeTagRelation(ScaleType scaleType, Tag tag) {
         this.matchingScaleType = scaleType;
         this.matchingTag = tag;
     }

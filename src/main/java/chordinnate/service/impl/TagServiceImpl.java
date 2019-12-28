@@ -1,11 +1,11 @@
 package chordinnate.service.impl;
 
-import chordinnate.entity.ScaleType;
-import chordinnate.entity.ScaleTypeTag;
+import chordinnate.entity.ChordType;
+import chordinnate.entity.Tag;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
-import chordinnate.repository.ScaleTypeTagRepository;
-import chordinnate.service.ScaleTypeTagService;
+import chordinnate.repository.TagRepository;
+import chordinnate.service.TagService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,47 +14,55 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-@Service(ScaleTypeTagServiceImpl.SERVICE_NAME)
+@Service(TagServiceImpl.SERVICE_NAME)
 @Transactional
-public class ScaleTypeTagServiceImpl implements ScaleTypeTagService {
+public class TagServiceImpl implements TagService {
 
-    public static final String SERVICE_NAME = "scaleTypeTagService";
+    public static final String SERVICE_NAME = "tagService";
 
-    private final ScaleTypeTagRepository repository;
+    private final TagRepository repository;
     private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @Autowired
-    ScaleTypeTagServiceImpl(ScaleTypeTagRepository repository) {
+    TagServiceImpl(TagRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Optional<ScaleTypeTag> findById(@NotNull Integer id) {
+    public List<Tag> findAll() {
+        return StreamSupport.stream(repository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Tag> findById(@NotNull Integer id) {
         return repository.findById(id);
     }
 
     @Override
-    public Optional<ScaleTypeTag> findByName(@NotNull String name) {
+    public Optional<Tag> findByName(@NotNull String name) {
         return repository.findByName(name);
     }
 
     @Override
-    public Iterable<ScaleTypeTag> findAllFor(@NotNull ScaleType scaleType) {
-        return repository.findAllFor(scaleType);
+    public List<Tag> findAllFor(@NotNull ChordType chordType) {
+        return repository.findAllFor(chordType);
     }
 
     @Override
-    public ScaleTypeTag save(ScaleTypeTag scaleTypeTag) {
+    public Tag save(Tag chordTypeTag) {
 
-        if (scaleTypeTag == null) {
+        if (chordTypeTag == null) {
             throw new IllegalArgumentException("Cannot save null entities");
         }
 
-        Set<ConstraintViolation<ScaleTypeTag>> violations = validator.validate(scaleTypeTag);
+        Set<ConstraintViolation<Tag>> violations = validator.validate(chordTypeTag);
 
         if (!violations.isEmpty()) {
             String violationMessages = violations.stream()
@@ -64,28 +72,28 @@ public class ScaleTypeTagServiceImpl implements ScaleTypeTagService {
             throw new ChordInnateConstraintViolation(violationMessages);
         }
 
-        return repository.save(scaleTypeTag);
+        return repository.save(chordTypeTag);
     }
 
     @Override
-    public void delete(ScaleTypeTag scaleTypeTag) {
+    public void delete(Tag chordTypeTag) {
 
-        if (scaleTypeTag == null || scaleTypeTag.getId() == null) {
+        if (chordTypeTag == null || chordTypeTag.getId() == null) {
             return;
         }
 
-        Optional<ScaleTypeTag> optional = repository.findById(scaleTypeTag.getId());
+        Optional<Tag> optional = repository.findById(chordTypeTag.getId());
 
         if (optional.isPresent()) {
             // Check every field for data integrity before deleting
-            ScaleTypeTag toDelete = optional.get();
-            if (!scaleTypeTag.equals(toDelete)) {
+            Tag toDelete = optional.get();
+            if (!chordTypeTag.equals(toDelete)) {
                 String errorMessage = "Cannot delete tag #%d (%s): entity data does not match record data";
-                throw new ChordInnateException(String.format(errorMessage, scaleTypeTag.getId(), scaleTypeTag.getName()));
+                throw new ChordInnateException(String.format(errorMessage, chordTypeTag.getId(), chordTypeTag.getName()));
             }
         }
 
-        repository.delete(scaleTypeTag);
+        repository.delete(chordTypeTag);
     }
 
 }

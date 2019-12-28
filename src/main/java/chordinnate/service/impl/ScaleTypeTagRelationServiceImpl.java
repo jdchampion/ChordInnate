@@ -1,8 +1,8 @@
 package chordinnate.service.impl;
 
 import chordinnate.entity.ScaleType;
-import chordinnate.entity.ScaleTypeTag;
 import chordinnate.entity.ScaleTypeTagRelation;
+import chordinnate.entity.Tag;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.repository.ScaleTypeTagRelationRepository;
@@ -88,7 +88,7 @@ public class ScaleTypeTagRelationServiceImpl implements ScaleTypeTagRelationServ
     }
 
     @Override
-    public void deleteAllByTag(ScaleTypeTag tag) {
+    public void deleteAllByTag(Tag tag) {
         repository.deleteAllByTag(tag);
     }
 
@@ -98,7 +98,7 @@ public class ScaleTypeTagRelationServiceImpl implements ScaleTypeTagRelationServ
     }
 
     @Override
-    public void deleteByScaleTypeAndTag(ScaleType scaleType, ScaleTypeTag tag) {
+    public void deleteByScaleTypeAndTag(ScaleType scaleType, Tag tag) {
         repository.deleteAllByScaleTypeAndTag(scaleType, tag);
     }
 }

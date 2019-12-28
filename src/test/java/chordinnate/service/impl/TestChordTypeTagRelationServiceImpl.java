@@ -9,8 +9,8 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import chordinnate.entity.ChordType;
-import chordinnate.entity.ChordTypeTag;
 import chordinnate.entity.ChordTypeTagRelation;
+import chordinnate.entity.Tag;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -59,7 +59,7 @@ public class TestChordTypeTagRelationServiceImpl {
         type.setSize(2);
         type.setPreset(Boolean.FALSE);
 
-        ChordTypeTag tag = new ChordTypeTag();
+        Tag tag = new Tag();
         tag.setName("TAG NAME");
 
         TEST_RELATION = new ChordTypeTagRelation(type, tag);
@@ -103,7 +103,7 @@ public class TestChordTypeTagRelationServiceImpl {
     @Test
     public void save_missingRequiredField_chordTypeTag_subfields() {
         expectedException.expect(ChordInnateException.class);
-        TEST_RELATION.setMatchingTag(new ChordTypeTag());
+        TEST_RELATION.setMatchingTag(new Tag());
         service.save(TEST_RELATION);
     }
 
@@ -150,7 +150,7 @@ public class TestChordTypeTagRelationServiceImpl {
         type.setPreset(Boolean.FALSE);
         type.setSize(2);
 
-        ChordTypeTag tag = new ChordTypeTag();
+        Tag tag = new Tag();
         tag.setId(1);
         tag.setName("TAG NAME");
 

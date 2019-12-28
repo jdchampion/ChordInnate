@@ -1,11 +1,12 @@
 package chordinnate.service;
 
-import chordinnate.entity.ChordTypeTag;
-import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.entity.ChordType;
+import chordinnate.entity.Tag;
+import chordinnate.model.musictheory.pitch.interval.Interval;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -40,9 +41,9 @@ public interface ChordTypeService extends BaseService<ChordType, Integer> {
 
     Optional<ChordType> findByRomanNumeralCriteria(Interval[] intervals, int size, int precedence);
 
-    Iterable<ChordType> findAllBySize(int min, int max);
+    List<ChordType> findAllBySize(int min, int max);
 
-    Iterable<ChordType> findAllByTags(Collection<ChordTypeTag> tags);
+    List<ChordType> findAllByTags(Collection<Tag> tags);
 
     ChordType save(ChordType chordType);
 

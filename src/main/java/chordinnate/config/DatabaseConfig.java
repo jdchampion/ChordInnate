@@ -1,5 +1,6 @@
 package chordinnate.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -26,6 +27,10 @@ import java.util.Properties;
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
 public class DatabaseConfig {
+
+    private static final String DEFAULT_DB_DRIVER = "org.sqlite.JDBC";
+    private static final String DEFAULT_DB_URL = "jdbc:sqlite:src/main/resources/chordinnate.db";
+    private static final String DEFAULT_DIALECT = "com.enigmabridge.hibernate.dialect.SQLiteDialect";
 
     @Value("${db.driver}")
     private String driver;
@@ -56,10 +61,15 @@ public class DatabaseConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driver);
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
+
+        boolean configured = StringUtils.isNotBlank(driver) && StringUtils.isNotBlank(url);
+
+        // Use embedded SQLite DB as default if no configuration specified
+        dataSource.setDriverClassName(configured ? driver : DEFAULT_DB_DRIVER);
+        dataSource.setUrl(configured ? url : DEFAULT_DB_URL);
+        dataSource.setUsername(configured ? username : StringUtils.EMPTY);
+        dataSource.setPassword(configured ? password : StringUtils.EMPTY);
+
         return dataSource;
     }
 
@@ -72,7 +82,7 @@ public class DatabaseConfig {
         em.setJpaVendorAdapter(vendorAdapter);
 
         Properties hibernateProperties = new Properties();
-        hibernateProperties.put("hibernate.dialect", dialect);
+        hibernateProperties.put("hibernate.dialect", StringUtils.isNotBlank(dialect) ? dialect : DEFAULT_DIALECT);
         hibernateProperties.put("hibernate.show_sql", showSql);
         em.setJpaProperties(hibernateProperties);
 

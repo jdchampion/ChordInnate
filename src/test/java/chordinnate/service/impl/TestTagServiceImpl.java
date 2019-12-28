@@ -8,10 +8,10 @@ import static org.powermock.api.mockito.PowerMockito.doNothing;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-import chordinnate.entity.ChordTypeTag;
+import chordinnate.entity.Tag;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
-import chordinnate.repository.ChordTypeTagRepository;
+import chordinnate.repository.TagRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,28 +26,28 @@ import java.util.Optional;
 
 @Slf4j
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ChordTypeTagRepository.class})
-public class TestChordTypeTagServiceImpl {
+@PrepareForTest({TagRepository.class})
+public class TestTagServiceImpl {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 
-    private static ChordTypeTagServiceImpl service;
-    private static ChordTypeTagRepository mockRepo;
-    private static ChordTypeTag TEST_TAG;
+    private static TagServiceImpl service;
+    private static TagRepository mockRepo;
+    private static Tag TEST_TAG;
 
     @BeforeClass
     public static void init() {
-        mockRepo = mock(ChordTypeTagRepository.class);
-        when(mockRepo.save(any(ChordTypeTag.class))).thenReturn(TEST_TAG);
-        doNothing().when(mockRepo).delete(any(ChordTypeTag.class));
+        mockRepo = mock(TagRepository.class);
+        when(mockRepo.save(any(Tag.class))).thenReturn(TEST_TAG);
+        doNothing().when(mockRepo).delete(any(Tag.class));
 
-        service = new ChordTypeTagServiceImpl(mockRepo);
+        service = new TagServiceImpl(mockRepo);
     }
 
     @Before
     public void setup() {
-        TEST_TAG = new ChordTypeTag();
+        TEST_TAG = new Tag();
         TEST_TAG.setName("TEST");
     }
 
@@ -61,7 +61,7 @@ public class TestChordTypeTagServiceImpl {
     @Test
     public void save_blankParam() {
         expectedException.expect(ChordInnateConstraintViolation.class);
-        service.save(new ChordTypeTag());
+        service.save(new Tag());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class TestChordTypeTagServiceImpl {
 
     @Test
     public void delete_blankParam() {
-        service.delete(new ChordTypeTag());
+        service.delete(new Tag());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class TestChordTypeTagServiceImpl {
         expectedException.expect(ChordInnateException.class);
         expectedException.expectMessage("Cannot delete tag #1 (DIFFERENT TAG NAME): entity data does not match record data");
 
-        ChordTypeTag inRepo = new ChordTypeTag();
+        Tag inRepo = new Tag();
         inRepo.setId(1);
         inRepo.setName("TAG NAME");
 

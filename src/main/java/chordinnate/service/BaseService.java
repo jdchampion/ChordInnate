@@ -13,7 +13,7 @@ public interface BaseService<T, ID> {
      * Retrieves all items of the specified type from the database.
      * @return {@link List}<{@link T}> of all items
      */
-    Iterable<T> findAll();
+    List<T> findAll();
 
     /**
      * Retrieves the item from the database matching the specified ID, if possible.

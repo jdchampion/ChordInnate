@@ -1,7 +1,7 @@
 package chordinnate.service.impl;
 
 import chordinnate.entity.ScaleType;
-import chordinnate.entity.ScaleTypeTag;
+import chordinnate.entity.Tag;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service(ScaleTypeServiceImpl.SERVICE_NAME)
 @Transactional
@@ -40,8 +41,9 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
     }
 
     @Override
-    public Iterable<ScaleType> findAll() {
-        return repository.findAll();
+    public List<ScaleType> findAll() {
+        return StreamSupport.stream(repository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -55,7 +57,7 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
     }
 
     @Override
-    public Iterable<ScaleType> findAllByRegion(Region region, boolean includeSubRegions) {
+    public List<ScaleType> findAllByRegion(Region region, boolean includeSubRegions) {
 
         if (!includeSubRegions) {
             return repository.findAllByOriginId(region.getNumericCode());
@@ -91,12 +93,12 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
 
     // TODO: revisit this method later to refine the API
 //    @Override
-//    public Iterable<ScaleType> findAllByIntervals(Collection<Interval> intervals, boolean includeDuplicates) {
+//    public List<ScaleType> findAllByIntervals(Collection<Interval> intervals, boolean includeDuplicates) {
 //        return null;
 //    }
 
     @Override
-    public Iterable<ScaleType> findAllBySize(int min, int max) {
+    public List<ScaleType> findAllBySize(int min, int max) {
 
         if (min < 0 || max < 0 || max > min) {
             return Collections.emptyList();
@@ -106,13 +108,13 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
     }
 
     @Override
-    public Iterable<ScaleType> findAllByTags(Collection<ScaleTypeTag> tags) {
+    public List<ScaleType> findAllByTags(Collection<Tag> tags) {
         if (tags == null || tags.isEmpty()) {
             return Collections.emptyList();
         }
 
         List<String> tagNames = tags.stream()
-                .map(ScaleTypeTag::getName)
+                .map(Tag::getName)
                 .collect(Collectors.toList());
 
         return repository.findAllByTag(tagNames);

@@ -21,22 +21,22 @@ public interface ScaleTypeRepository extends CrudRepository<ScaleType, Integer> 
     Optional<ScaleType> findByIntervals(@Param("intervals") Interval... intervals);
 
     @Query("SELECT s FROM ScaleType s WHERE s.intervals IN :intervals")
-    Iterable<ScaleType> findAllByIntervals(@Param("intervals") Collection<Interval[]> intervals);
+    List<ScaleType> findAllByIntervals(@Param("intervals") Collection<Interval[]> intervals);
 
     @Query("SELECT s FROM ScaleType s WHERE s.origin = :origin")
     Optional<ScaleType> findByOriginId(@NotNull @Param("origin") Integer originId);
 
     @Query("SELECT s FROM ScaleType s WHERE s.origin IN :originIds")
-    Iterable<ScaleType> findAllByOriginId(@NotNull @Param("originIds") Integer... originIds);
+    List<ScaleType> findAllByOriginId(@NotNull @Param("originIds") Integer... originIds);
 
     @Query("SELECT s FROM ScaleType s WHERE s.origin IN :originIds")
-    Iterable<ScaleType> findAllByOriginId(@NotNull @Param("originIds") Collection<Integer> originIds);
+    List<ScaleType> findAllByOriginId(@NotNull @Param("originIds") Collection<Integer> originIds);
 
     @Query("SELECT s FROM ScaleType s WHERE s.size >= :min AND s.size <= :max")
-    Iterable<ScaleType> findAllBySizeRange(@Param("min") int min, @Param("max") int max);
+    List<ScaleType> findAllBySizeRange(@Param("min") int min, @Param("max") int max);
 
-    @Query("SELECT s FROM ScaleType s JOIN FETCH ScaleTypeTagRelation sttr ON s.id = sttr.matchingScaleType.id JOIN FETCH ScaleTypeTag t ON sttr.matchingTag.id = t.id WHERE t.name IN (:tags)")
-    Iterable<ScaleType> findAllByTag(@NotNull @Param("tags") Collection<String> tags);
+    @Query("SELECT s FROM ScaleType s JOIN FETCH ScaleTypeTagRelation sttr ON s.id = sttr.matchingScaleType.id JOIN FETCH Tag t ON sttr.matchingTag.id = t.id WHERE t.name IN (:tags)")
+    List<ScaleType> findAllByTag(@NotNull @Param("tags") Collection<String> tags);
 
     /**
      * Intended for internal use only.

@@ -1,7 +1,7 @@
 package chordinnate.service.impl;
 
 import chordinnate.entity.ChordType;
-import chordinnate.entity.ChordTypeTag;
+import chordinnate.entity.Tag;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -19,10 +19,12 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Slf4j
 @Service(ChordTypeServiceImpl.SERVICE_NAME)
@@ -40,8 +42,9 @@ public class ChordTypeServiceImpl implements ChordTypeService {
     }
 
     @Override
-    public Iterable<ChordType> findAll() {
-        return repository.findAll();
+    public List<ChordType> findAll() {
+        return StreamSupport.stream(repository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -90,7 +93,7 @@ public class ChordTypeServiceImpl implements ChordTypeService {
     }
 
     @Override
-    public Iterable<ChordType> findAllBySize(int min, int max) {
+    public List<ChordType> findAllBySize(int min, int max) {
 
         if (min < 0 || max < 0 || max > min) {
             return Collections.emptyList();
@@ -100,13 +103,13 @@ public class ChordTypeServiceImpl implements ChordTypeService {
     }
 
     @Override
-    public Iterable<ChordType> findAllByTags(Collection<ChordTypeTag> tags) {
+    public List<ChordType> findAllByTags(Collection<Tag> tags) {
         if (tags == null || tags.isEmpty()) {
             return Collections.emptyList();
         }
 
         List<String> tagNames = tags.stream()
-                .map(ChordTypeTag::getName)
+                .map(Tag::getName)
                 .collect(Collectors.toList());
 
         return repository.findAllByTag(tagNames);
@@ -121,11 +124,18 @@ public class ChordTypeServiceImpl implements ChordTypeService {
 
         Set<ConstraintViolation<ChordType>> violations = validator.validate(chordType);
 
+//        violations.addAll(validator.validateProperty(chordType, "symbol"));
+//        violations.addAll(validator.validateProperty(chordType, "symbol"));
+
+
         /*
          * TODO: can use validator.validateValue() or validator.validateProperty(),
          *  and choose the ordering of items to validate.
          *  If that's done, the ChordTypeSizeValidator and ChordTypeIntervalValidator can validate properly
          *  rather than suppress messages
+         *
+         *
+         * TODO: if rnSymbol is blank && isPreset && all fields match existing preset object ==> allow
          */
 
         if (!violations.isEmpty()) {

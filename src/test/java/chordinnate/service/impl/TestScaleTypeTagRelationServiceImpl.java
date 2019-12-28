@@ -9,8 +9,8 @@ import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 import chordinnate.entity.ScaleType;
-import chordinnate.entity.ScaleTypeTag;
 import chordinnate.entity.ScaleTypeTagRelation;
+import chordinnate.entity.Tag;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -56,7 +56,7 @@ public class TestScaleTypeTagRelationServiceImpl {
         scaleType.setSize(2);
         scaleType.setPreset(Boolean.FALSE);
 
-        ScaleTypeTag tag = new ScaleTypeTag();
+        Tag tag = new Tag();
         tag.setName("TAG NAME");
 
         TEST_RELATION = new ScaleTypeTagRelation(scaleType, tag);
@@ -100,7 +100,7 @@ public class TestScaleTypeTagRelationServiceImpl {
     @Test
     public void save_missingRequiredField_scaleTypeTag_subfields() {
         expectedException.expect(ChordInnateException.class);
-        TEST_RELATION.setMatchingTag(new ScaleTypeTag());
+        TEST_RELATION.setMatchingTag(new Tag());
         service.save(TEST_RELATION);
     }
 
@@ -145,7 +145,7 @@ public class TestScaleTypeTagRelationServiceImpl {
         type.setPreset(Boolean.FALSE);
         type.setSize(2);
 
-        ScaleTypeTag tag = new ScaleTypeTag();
+        Tag tag = new Tag();
         tag.setId(1);
         tag.setName("TAG NAME");
 

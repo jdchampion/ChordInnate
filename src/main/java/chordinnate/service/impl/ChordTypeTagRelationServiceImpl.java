@@ -1,8 +1,8 @@
 package chordinnate.service.impl;
 
 import chordinnate.entity.ChordType;
-import chordinnate.entity.ChordTypeTag;
 import chordinnate.entity.ChordTypeTagRelation;
+import chordinnate.entity.Tag;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.repository.ChordTypeTagRelationRepository;
@@ -88,7 +88,7 @@ public class ChordTypeTagRelationServiceImpl implements ChordTypeTagRelationServ
     }
 
     @Override
-    public void deleteAllByTag(ChordTypeTag tag) {
+    public void deleteAllByTag(Tag tag) {
         repository.deleteAllByTag(tag);
     }
 
@@ -98,7 +98,7 @@ public class ChordTypeTagRelationServiceImpl implements ChordTypeTagRelationServ
     }
 
     @Override
-    public void deleteByChordTypeAndTag(ChordType chordType, ChordTypeTag tag) {
+    public void deleteByChordTypeAndTag(ChordType chordType, Tag tag) {
         repository.deleteAllByChordTypeAndTag(chordType, tag);
     }
 }

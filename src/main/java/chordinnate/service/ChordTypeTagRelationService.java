@@ -1,12 +1,12 @@
 package chordinnate.service;
 
 import chordinnate.entity.ChordType;
-import chordinnate.entity.ChordTypeTag;
 import chordinnate.entity.ChordTypeTagRelation;
+import chordinnate.entity.Tag;
 import org.springframework.stereotype.Service;
 
 /**
- * Used for basic CRUD operations on relations between {@link ChordType}s and their corresponding {@link ChordTypeTag}s.
+ * Used for basic CRUD operations on relations between {@link ChordType}s and their corresponding {@link Tag}s.
  */
 @Service
 public interface ChordTypeTagRelationService {
@@ -26,9 +26,9 @@ public interface ChordTypeTagRelationService {
 
     void deleteById(Integer id);
 
-    void deleteAllByTag(ChordTypeTag tag);
+    void deleteAllByTag(Tag tag);
 
     void deleteAllByChordType(ChordType chordType);
 
-    void deleteByChordTypeAndTag(ChordType chordType, ChordTypeTag tag);
+    void deleteByChordTypeAndTag(ChordType chordType, Tag tag);
 }

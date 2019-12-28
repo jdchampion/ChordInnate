@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * An intermediary object representing the relation between a {@link ChordType}
- * and one of its associated {@link ChordTypeTag} objects.
+ * and one of its associated {@link Tag} objects.
  */
 @Data
 @Entity
@@ -41,9 +41,9 @@ public final class ChordTypeTagRelation {
     @Valid
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "TAG_ID")
-    private ChordTypeTag matchingTag;
+    private Tag matchingTag;
 
-    public ChordTypeTagRelation(ChordType chordType, ChordTypeTag tag) {
+    public ChordTypeTagRelation(ChordType chordType, Tag tag) {
         this.matchingChordType = chordType;
         this.matchingTag = tag;
     }

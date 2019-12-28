@@ -22,12 +22,12 @@ public final class Services {
         return context;
     }
 
-    public static ChordTypeService getChordTypeService() {
-        return (ChordTypeService) getContext().getBean(ChordTypeServiceImpl.SERVICE_NAME);
+    public static TagService getTagService() {
+        return (TagService) getContext().getBean(TagServiceImpl.SERVICE_NAME);
     }
 
-    public static ChordTypeTagService getChordTypeTagService() {
-        return (ChordTypeTagService) getContext().getBean(ChordTypeTagServiceImpl.SERVICE_NAME);
+    public static ChordTypeService getChordTypeService() {
+        return (ChordTypeService) getContext().getBean(ChordTypeServiceImpl.SERVICE_NAME);
     }
 
     public static ChordTypeTagRelationService getChordTypeTagRelationService() {
@@ -36,10 +36,6 @@ public final class Services {
 
     public static ScaleTypeService getScaleTypeService() {
         return (ScaleTypeService) getContext().getBean(ScaleTypeServiceImpl.SERVICE_NAME);
-    }
-
-    public static ScaleTypeTagService getScaleTypeTagService() {
-        return (ScaleTypeTagService) getContext().getBean(ScaleTypeTagServiceImpl.SERVICE_NAME);
     }
 
     public static ScaleTypeTagRelationService getScaleTypeTagRelationService() {
