@@ -38,7 +38,7 @@ abstract class InvertibleIntervalSet extends IntervalSet implements Invertible<I
             for (Map.Entry<Octave, Pitch[]> entry : invertedPitchesByOctave.entrySet()) {
                 Octave nextOctave = entry.getKey().getNext();
                 if (nextOctave != null) {
-                    entry.getValue()[inversion - 1] = entry.getValue()[inversion - 1].transpose(true, Interval.PERFECT_8);
+                    entry.getValue()[inversion - 1] = entry.getValue()[inversion - 1].transpose(IntervalDirection.UP, Interval.PERFECT_8);
                 }
             }
             inversion += 1;

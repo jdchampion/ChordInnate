@@ -1,6 +1,7 @@
 package chordinnate.model.musictheory.pitch;
 
 import chordinnate.model.musictheory.pitch.interval.Octave;
+import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface Transposable<T> extends IntervalTransposable<T> {
 
-    default boolean isTransposable(boolean direction, @NotNull PitchClass pitchClass) {
+    default boolean isTransposable(@NotNull IntervalDirection direction, @NotNull PitchClass pitchClass) {
         return true;
     }
 
@@ -20,7 +21,7 @@ public interface Transposable<T> extends IntervalTransposable<T> {
         return true;
     }
 
-    T transpose(boolean direction, @NotNull PitchClass pitchClass);
+    T transpose(@NotNull IntervalDirection direction, @NotNull PitchClass pitchClass);
 
     T transpose(@NotNull Pitch pitch);
 

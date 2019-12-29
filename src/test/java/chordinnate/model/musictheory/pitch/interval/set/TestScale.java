@@ -67,18 +67,18 @@ public class TestScale {
     @Test
     public void transposeToInterval() {
         Scale transposed = new Scale("C Major");
-        transposed.transpose(true, Interval.withShortName("M2"));
+        transposed.transpose(IntervalDirection.UP, Interval.withShortName("M2"));
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
-        transposed.transpose(false, Interval.withShortName("M2"));
+        transposed.transpose(IntervalDirection.DOWN, Interval.withShortName("M2"));
         verifyScale(transposed, C, D, E, F, G, A, B);
     }
 
     @Test
     public void transposeToPitchClass() {
         Scale transposed = new Scale("C Major");
-        transposed.transpose(true, PitchClass.D);
+        transposed.transpose(IntervalDirection.UP, PitchClass.D);
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
-        transposed.transpose(true, PitchClass.C);
+        transposed.transpose(IntervalDirection.UP, PitchClass.C);
         verifyScale(transposed, C, D, E, F, G, A, B);
     }
 

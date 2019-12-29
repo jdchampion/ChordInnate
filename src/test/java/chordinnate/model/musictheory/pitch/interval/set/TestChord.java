@@ -38,9 +38,9 @@ public class TestChord {
     @Test
     public void transposeToInterval() {
         Chord transposed = new Chord("Cmaj");
-        transposed.transpose(true, Interval.withShortName("M2"));
+        transposed.transpose(IntervalDirection.UP, Interval.withShortName("M2"));
         verifyChord(transposed, D, F_SHARP, A);
-        transposed.transpose(false, Interval.withShortName("M2"));
+        transposed.transpose(IntervalDirection.DOWN, Interval.withShortName("M2"));
         verifyChord(transposed, C, E, G);
 
         transposed = new Chord("Dxbbbmaj");
@@ -53,9 +53,9 @@ public class TestChord {
     @Test
     public void transposeToPitchClass() {
         Chord transposed = new Chord("Cmaj");
-        transposed.transpose(true, PitchClass.D);
+        transposed.transpose(IntervalDirection.UP, PitchClass.D);
         verifyChord(transposed, D, F_SHARP, A);
-        transposed.transpose(true, PitchClass.C);
+        transposed.transpose(IntervalDirection.UP, PitchClass.C);
         verifyChord(transposed, C, E, G);
     }
 

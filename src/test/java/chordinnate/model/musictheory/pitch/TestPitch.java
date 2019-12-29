@@ -2,6 +2,7 @@ package chordinnate.model.musictheory.pitch;
 
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
+import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,7 +26,6 @@ public class TestPitch {
         // Transposition on null items is impossible
         Pitch.C_0.transpose(PitchClass.C, null);
         Pitch.C_0.transpose(null, Octave.OCTAVE_0);
-        Pitch.C_0.transpose(null, null);
     }
 
     @Test
@@ -173,143 +173,143 @@ public class TestPitch {
     @Test
     public void transposeInterval() {
         // (expected values verified by http://www.musictheory.net/calculators/interval)
-        assertEquals(Pitch.C_1, Pitch.C_1.transpose(true, PERFECT_1));
-        assertEquals(Pitch.C_2, Pitch.C_1.transpose(true, PERFECT_8));
-        assertEquals(Pitch.C_1, Pitch.C_1.transpose(false, PERFECT_1));
-        assertEquals(Pitch.C_0, Pitch.C_1.transpose(false, PERFECT_8));
+        assertEquals(Pitch.C_1, Pitch.C_1.transpose(IntervalDirection.UP, PERFECT_1));
+        assertEquals(Pitch.C_2, Pitch.C_1.transpose(IntervalDirection.UP, PERFECT_8));
+        assertEquals(Pitch.C_1, Pitch.C_1.transpose(IntervalDirection.DOWN, PERFECT_1));
+        assertEquals(Pitch.C_0, Pitch.C_1.transpose(IntervalDirection.DOWN, PERFECT_8));
 
-        assertEquals(Pitch.C_FLAT_3, Pitch.C_4.transpose(true, DIMINISHED_1));
-        assertEquals(Pitch.C_FLAT_4, Pitch.C_4.transpose(true, DIMINISHED_8));
-        assertEquals(Pitch.C_FLAT_5, Pitch.C_4.transpose(true, DIMINISHED_15));
+        assertEquals(Pitch.C_FLAT_3, Pitch.C_4.transpose(IntervalDirection.UP, DIMINISHED_1));
+        assertEquals(Pitch.C_FLAT_4, Pitch.C_4.transpose(IntervalDirection.UP, DIMINISHED_8));
+        assertEquals(Pitch.C_FLAT_5, Pitch.C_4.transpose(IntervalDirection.UP, DIMINISHED_15));
 
-        assertEquals(Pitch.C_SHARP_4, Pitch.C_4.transpose(false, DIMINISHED_1));
-        assertEquals(Pitch.C_SHARP_3, Pitch.C_4.transpose(false, DIMINISHED_8));
-        assertEquals(Pitch.C_SHARP_2, Pitch.C_4.transpose(false, DIMINISHED_15));
-        assertEquals(Pitch.C_2, Pitch.C_1.transpose(true, PERFECT_8));
-        assertEquals(Pitch.C_3, Pitch.C_1.transpose(true, PERFECT_15));
-        assertEquals(Pitch.C_0, Pitch.C_1.transpose(false, PERFECT_8));
-        assertEquals(Pitch.C_0, Pitch.C_2.transpose(false, PERFECT_15));
+        assertEquals(Pitch.C_SHARP_4, Pitch.C_4.transpose(IntervalDirection.DOWN, DIMINISHED_1));
+        assertEquals(Pitch.C_SHARP_3, Pitch.C_4.transpose(IntervalDirection.DOWN, DIMINISHED_8));
+        assertEquals(Pitch.C_SHARP_2, Pitch.C_4.transpose(IntervalDirection.DOWN, DIMINISHED_15));
+        assertEquals(Pitch.C_2, Pitch.C_1.transpose(IntervalDirection.UP, PERFECT_8));
+        assertEquals(Pitch.C_3, Pitch.C_1.transpose(IntervalDirection.UP, PERFECT_15));
+        assertEquals(Pitch.C_0, Pitch.C_1.transpose(IntervalDirection.DOWN, PERFECT_8));
+        assertEquals(Pitch.C_0, Pitch.C_2.transpose(IntervalDirection.DOWN, PERFECT_15));
 
-        assertEquals(Pitch.C_SHARP_1, Pitch.C_1.transpose(true, AUGMENTED_1));
-        assertEquals(Pitch.C_SHARP_2, Pitch.C_1.transpose(true, AUGMENTED_8));
-        assertEquals(Pitch.C_FLAT_0, Pitch.C_1.transpose(false, AUGMENTED_1));
-        assertEquals(Pitch.C_FLAT_0, Pitch.C_2.transpose(false, AUGMENTED_8));
+        assertEquals(Pitch.C_SHARP_1, Pitch.C_1.transpose(IntervalDirection.UP, AUGMENTED_1));
+        assertEquals(Pitch.C_SHARP_2, Pitch.C_1.transpose(IntervalDirection.UP, AUGMENTED_8));
+        assertEquals(Pitch.C_FLAT_0, Pitch.C_1.transpose(IntervalDirection.DOWN, AUGMENTED_1));
+        assertEquals(Pitch.C_FLAT_0, Pitch.C_2.transpose(IntervalDirection.DOWN, AUGMENTED_8));
 
-        assertEquals(Pitch.withName("Dbbbb4").absolutePitch, Pitch.C_DOUBLE_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Dbbb4").absolutePitch, Pitch.C_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.D_DOUBLE_FLAT_4, Pitch.C_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.D_FLAT_4, Pitch.C_SHARP_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.D_4, Pitch.C_DOUBLE_SHARP_4.transpose(true, DIMINISHED_2));
+        assertEquals(Pitch.withName("Dbbbb4").absolutePitch, Pitch.C_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Dbbb4").absolutePitch, Pitch.C_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.D_DOUBLE_FLAT_4, Pitch.C_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.D_FLAT_4, Pitch.C_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.D_4, Pitch.C_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Ebbbb4").absolutePitch, Pitch.D_DOUBLE_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Ebbb4").absolutePitch, Pitch.D_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.E_DOUBLE_FLAT_4, Pitch.D_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.E_FLAT_4, Pitch.D_SHARP_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.E_4, Pitch.D_DOUBLE_SHARP_4.transpose(true, DIMINISHED_2));
+        assertEquals(Pitch.withName("Ebbbb4").absolutePitch, Pitch.D_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Ebbb4").absolutePitch, Pitch.D_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.E_DOUBLE_FLAT_4, Pitch.D_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.E_FLAT_4, Pitch.D_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.E_4, Pitch.D_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Fbbb4").absolutePitch, Pitch.E_DOUBLE_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.F_DOUBLE_FLAT_4, Pitch.E_FLAT_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.F_FLAT_4, Pitch.E_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.F_4, Pitch.E_SHARP_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.F_SHARP_4, Pitch.E_DOUBLE_SHARP_4.transpose(true, DIMINISHED_2));
+        assertEquals(Pitch.withName("Fbbb4").absolutePitch, Pitch.E_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.F_DOUBLE_FLAT_4, Pitch.E_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.F_FLAT_4, Pitch.E_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.F_4, Pitch.E_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.F_SHARP_4, Pitch.E_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Gbbbb4").absolutePitch, Pitch.F_DOUBLE_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Gbbb4").absolutePitch, Pitch.F_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.G_DOUBLE_FLAT_4, Pitch.F_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.G_FLAT_4, Pitch.F_SHARP_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.G_4, Pitch.F_DOUBLE_SHARP_4.transpose(true, DIMINISHED_2));
+        assertEquals(Pitch.withName("Gbbbb4").absolutePitch, Pitch.F_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Gbbb4").absolutePitch, Pitch.F_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.G_DOUBLE_FLAT_4, Pitch.F_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.G_FLAT_4, Pitch.F_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.G_4, Pitch.F_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Abbbb4").absolutePitch, Pitch.G_DOUBLE_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Abbb4").absolutePitch, Pitch.G_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.A_DOUBLE_FLAT_4, Pitch.G_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.A_FLAT_4, Pitch.G_SHARP_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.A_4, Pitch.G_DOUBLE_SHARP_4.transpose(true, DIMINISHED_2));
+        assertEquals(Pitch.withName("Abbbb4").absolutePitch, Pitch.G_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Abbb4").absolutePitch, Pitch.G_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.A_DOUBLE_FLAT_4, Pitch.G_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.A_FLAT_4, Pitch.G_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.A_4, Pitch.G_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Bbbbb4").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Bbbb4").absolutePitch, Pitch.A_FLAT_4.transpose(true, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.B_DOUBLE_FLAT_4, Pitch.A_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.B_FLAT_4, Pitch.A_SHARP_4.transpose(true, DIMINISHED_2));
-        assertEquals(Pitch.B_4, Pitch.A_DOUBLE_SHARP_4.transpose(true, DIMINISHED_2));
+        assertEquals(Pitch.withName("Bbbbb4").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Bbbb4").absolutePitch, Pitch.A_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.B_DOUBLE_FLAT_4, Pitch.A_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.B_FLAT_4, Pitch.A_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
+        assertEquals(Pitch.B_4, Pitch.A_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.D_FLAT_1, Pitch.C_1.transpose(true, MINOR_2));
-        assertEquals(Pitch.D_FLAT_2, Pitch.C_1.transpose(true, MINOR_9));
-        assertEquals(Pitch.B_0, Pitch.C_1.transpose(false, MINOR_2));
-        assertEquals(Pitch.B_0, Pitch.C_2.transpose(false, MINOR_9));
+        assertEquals(Pitch.D_FLAT_1, Pitch.C_1.transpose(IntervalDirection.UP, MINOR_2));
+        assertEquals(Pitch.D_FLAT_2, Pitch.C_1.transpose(IntervalDirection.UP, MINOR_9));
+        assertEquals(Pitch.B_0, Pitch.C_1.transpose(IntervalDirection.DOWN, MINOR_2));
+        assertEquals(Pitch.B_0, Pitch.C_2.transpose(IntervalDirection.DOWN, MINOR_9));
 
-        assertEquals(Pitch.D_1, Pitch.C_1.transpose(true, MAJOR_2));
-        assertEquals(Pitch.D_2, Pitch.C_1.transpose(true, MAJOR_9));
-        assertEquals(Pitch.B_FLAT_0, Pitch.C_1.transpose(false, MAJOR_2));
-        assertEquals(Pitch.B_FLAT_0, Pitch.C_2.transpose(false, MAJOR_9));
+        assertEquals(Pitch.D_1, Pitch.C_1.transpose(IntervalDirection.UP, MAJOR_2));
+        assertEquals(Pitch.D_2, Pitch.C_1.transpose(IntervalDirection.UP, MAJOR_9));
+        assertEquals(Pitch.B_FLAT_0, Pitch.C_1.transpose(IntervalDirection.DOWN, MAJOR_2));
+        assertEquals(Pitch.B_FLAT_0, Pitch.C_2.transpose(IntervalDirection.DOWN, MAJOR_9));
 
-        assertEquals(Pitch.withName("Bx#5").absolutePitch, Pitch.A_DOUBLE_SHARP_4.transpose(true, AUGMENTED_2).absolutePitch);
-        assertEquals(Pitch.withName("Bx#6").absolutePitch, Pitch.A_DOUBLE_SHARP_4.transpose(true, AUGMENTED_9).absolutePitch);
-        assertEquals(Pitch.B_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transpose(true, AUGMENTED_2));
-        assertEquals(Pitch.B_FLAT_5, Pitch.A_DOUBLE_FLAT_4.transpose(true, AUGMENTED_9));
-        assertEquals(Pitch.withName("Gbbb4").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(false, AUGMENTED_2).absolutePitch);
-        assertEquals(Pitch.withName("Gbbb3").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(false, AUGMENTED_9).absolutePitch);
+        assertEquals(Pitch.withName("Bx#5").absolutePitch, Pitch.A_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, AUGMENTED_2).absolutePitch);
+        assertEquals(Pitch.withName("Bx#6").absolutePitch, Pitch.A_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, AUGMENTED_9).absolutePitch);
+        assertEquals(Pitch.B_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, AUGMENTED_2));
+        assertEquals(Pitch.B_FLAT_5, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, AUGMENTED_9));
+        assertEquals(Pitch.withName("Gbbb4").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.DOWN, AUGMENTED_2).absolutePitch);
+        assertEquals(Pitch.withName("Gbbb3").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.DOWN, AUGMENTED_9).absolutePitch);
 
-        assertEquals(Pitch.E_4, Pitch.C_4.transpose(true, MAJOR_3));
-        assertEquals(Pitch.E_5, Pitch.C_4.transpose(true, MAJOR_10));
-        assertEquals(Pitch.A_FLAT_3, Pitch.C_4.transpose(false, MAJOR_3));
-        assertEquals(Pitch.A_FLAT_2, Pitch.C_4.transpose(false, MAJOR_10));
+        assertEquals(Pitch.E_4, Pitch.C_4.transpose(IntervalDirection.UP, MAJOR_3));
+        assertEquals(Pitch.E_5, Pitch.C_4.transpose(IntervalDirection.UP, MAJOR_10));
+        assertEquals(Pitch.A_FLAT_3, Pitch.C_4.transpose(IntervalDirection.DOWN, MAJOR_3));
+        assertEquals(Pitch.A_FLAT_2, Pitch.C_4.transpose(IntervalDirection.DOWN, MAJOR_10));
 
-        assertEquals(Pitch.G_3, Pitch.C_4.transpose(false, PERFECT_4));
-        assertEquals(Pitch.G_3, Pitch.C_5.transpose(false, PERFECT_11));
-        assertEquals(Pitch.G_3, Pitch.C_6.transpose(false, PERFECT_18));
-        assertEquals(Pitch.G_3, Pitch.C_7.transpose(false, PERFECT_25));
-        assertEquals(Pitch.G_3, Pitch.C_8.transpose(false, PERFECT_32));
-        assertEquals(Pitch.G_3, Pitch.C_9.transpose(false, PERFECT_39));
-        assertEquals(Pitch.G_3, Pitch.C_10.transpose(false, PERFECT_46));
-        assertEquals(Pitch.F_4, Pitch.C_4.transpose(true, PERFECT_4));
-        assertEquals(Pitch.F_4, Pitch.C_3.transpose(true, PERFECT_11));
-        assertEquals(Pitch.F_4, Pitch.C_2.transpose(true, PERFECT_18));
-        assertEquals(Pitch.F_4, Pitch.C_1.transpose(true, PERFECT_25));
-        assertEquals(Pitch.F_4, Pitch.C_0.transpose(true, PERFECT_32));
-        assertEquals(Pitch.G_4, Pitch.C_4.transpose(true, PERFECT_5));
-        assertEquals(Pitch.G_4, Pitch.C_3.transpose(true, PERFECT_12));
-        assertEquals(Pitch.G_4, Pitch.C_2.transpose(true, PERFECT_19));
-        assertEquals(Pitch.G_4, Pitch.C_1.transpose(true, PERFECT_26));
-        assertEquals(Pitch.G_4, Pitch.C_0.transpose(true, PERFECT_33));
-        assertEquals(Pitch.F_3, Pitch.C_4.transpose(false, PERFECT_5));
-        assertEquals(Pitch.F_3, Pitch.C_5.transpose(false, PERFECT_12));
-        assertEquals(Pitch.F_3, Pitch.C_6.transpose(false, PERFECT_19));
-        assertEquals(Pitch.F_3, Pitch.C_7.transpose(false, PERFECT_26));
-        assertEquals(Pitch.F_3, Pitch.C_8.transpose(false, PERFECT_33));
-        assertEquals(Pitch.F_3, Pitch.C_9.transpose(false, PERFECT_40));
-        assertEquals(Pitch.F_3, Pitch.C_10.transpose(false, PERFECT_47));
-        assertEquals(Pitch.A_3, Pitch.D_4.transpose(false, PERFECT_4));
-        assertEquals(Pitch.G_4, Pitch.D_4.transpose(true, PERFECT_4));
-        assertEquals(Pitch.A_4, Pitch.D_4.transpose(true, PERFECT_5));
-        assertEquals(Pitch.G_3, Pitch.D_4.transpose(false, PERFECT_5));
-        assertEquals(Pitch.B_3, Pitch.E_4.transpose(false, PERFECT_4));
-        assertEquals(Pitch.A_4, Pitch.E_4.transpose(true, PERFECT_4));
-        assertEquals(Pitch.B_4, Pitch.E_4.transpose(true, PERFECT_5));
-        assertEquals(Pitch.A_3, Pitch.E_4.transpose(false, PERFECT_5));
-        assertEquals(Pitch.B_FLAT_4, Pitch.F_4.transpose(true, PERFECT_4));
-        assertEquals(Pitch.C_5, Pitch.F_4.transpose(true, PERFECT_5));
-        assertEquals(Pitch.B_FLAT_3, Pitch.F_4.transpose(false, PERFECT_5));
-        assertEquals(Pitch.D_4, Pitch.G_4.transpose(false, PERFECT_4));
-        assertEquals(Pitch.C_5, Pitch.G_4.transpose(true, PERFECT_4));
-        assertEquals(Pitch.D_5, Pitch.G_4.transpose(true, PERFECT_5));
-        assertEquals(Pitch.C_4, Pitch.G_4.transpose(false, PERFECT_5));
-        assertEquals(Pitch.E_4, Pitch.A_4.transpose(false, PERFECT_4));
-        assertEquals(Pitch.D_5, Pitch.A_4.transpose(true, PERFECT_4));
-        assertEquals(Pitch.E_5, Pitch.A_4.transpose(true, PERFECT_5));
-        assertEquals(Pitch.D_4, Pitch.A_4.transpose(false, PERFECT_5));
-        assertEquals(Pitch.F_SHARP_3, Pitch.B_3.transpose(false, PERFECT_4));
-        assertEquals(Pitch.E_4, Pitch.B_3.transpose(true, PERFECT_4));
-        assertEquals(Pitch.F_SHARP_4, Pitch.B_3.transpose(true, PERFECT_5));
-        assertEquals(Pitch.E_3, Pitch.B_3.transpose(false, PERFECT_5));
+        assertEquals(Pitch.G_3, Pitch.C_4.transpose(IntervalDirection.DOWN, PERFECT_4));
+        assertEquals(Pitch.G_3, Pitch.C_5.transpose(IntervalDirection.DOWN, PERFECT_11));
+        assertEquals(Pitch.G_3, Pitch.C_6.transpose(IntervalDirection.DOWN, PERFECT_18));
+        assertEquals(Pitch.G_3, Pitch.C_7.transpose(IntervalDirection.DOWN, PERFECT_25));
+        assertEquals(Pitch.G_3, Pitch.C_8.transpose(IntervalDirection.DOWN, PERFECT_32));
+        assertEquals(Pitch.G_3, Pitch.C_9.transpose(IntervalDirection.DOWN, PERFECT_39));
+        assertEquals(Pitch.G_3, Pitch.C_10.transpose(IntervalDirection.DOWN, PERFECT_46));
+        assertEquals(Pitch.F_4, Pitch.C_4.transpose(IntervalDirection.UP, PERFECT_4));
+        assertEquals(Pitch.F_4, Pitch.C_3.transpose(IntervalDirection.UP, PERFECT_11));
+        assertEquals(Pitch.F_4, Pitch.C_2.transpose(IntervalDirection.UP, PERFECT_18));
+        assertEquals(Pitch.F_4, Pitch.C_1.transpose(IntervalDirection.UP, PERFECT_25));
+        assertEquals(Pitch.F_4, Pitch.C_0.transpose(IntervalDirection.UP, PERFECT_32));
+        assertEquals(Pitch.G_4, Pitch.C_4.transpose(IntervalDirection.UP, PERFECT_5));
+        assertEquals(Pitch.G_4, Pitch.C_3.transpose(IntervalDirection.UP, PERFECT_12));
+        assertEquals(Pitch.G_4, Pitch.C_2.transpose(IntervalDirection.UP, PERFECT_19));
+        assertEquals(Pitch.G_4, Pitch.C_1.transpose(IntervalDirection.UP, PERFECT_26));
+        assertEquals(Pitch.G_4, Pitch.C_0.transpose(IntervalDirection.UP, PERFECT_33));
+        assertEquals(Pitch.F_3, Pitch.C_4.transpose(IntervalDirection.DOWN, PERFECT_5));
+        assertEquals(Pitch.F_3, Pitch.C_5.transpose(IntervalDirection.DOWN, PERFECT_12));
+        assertEquals(Pitch.F_3, Pitch.C_6.transpose(IntervalDirection.DOWN, PERFECT_19));
+        assertEquals(Pitch.F_3, Pitch.C_7.transpose(IntervalDirection.DOWN, PERFECT_26));
+        assertEquals(Pitch.F_3, Pitch.C_8.transpose(IntervalDirection.DOWN, PERFECT_33));
+        assertEquals(Pitch.F_3, Pitch.C_9.transpose(IntervalDirection.DOWN, PERFECT_40));
+        assertEquals(Pitch.F_3, Pitch.C_10.transpose(IntervalDirection.DOWN, PERFECT_47));
+        assertEquals(Pitch.A_3, Pitch.D_4.transpose(IntervalDirection.DOWN, PERFECT_4));
+        assertEquals(Pitch.G_4, Pitch.D_4.transpose(IntervalDirection.UP, PERFECT_4));
+        assertEquals(Pitch.A_4, Pitch.D_4.transpose(IntervalDirection.UP, PERFECT_5));
+        assertEquals(Pitch.G_3, Pitch.D_4.transpose(IntervalDirection.DOWN, PERFECT_5));
+        assertEquals(Pitch.B_3, Pitch.E_4.transpose(IntervalDirection.DOWN, PERFECT_4));
+        assertEquals(Pitch.A_4, Pitch.E_4.transpose(IntervalDirection.UP, PERFECT_4));
+        assertEquals(Pitch.B_4, Pitch.E_4.transpose(IntervalDirection.UP, PERFECT_5));
+        assertEquals(Pitch.A_3, Pitch.E_4.transpose(IntervalDirection.DOWN, PERFECT_5));
+        assertEquals(Pitch.B_FLAT_4, Pitch.F_4.transpose(IntervalDirection.UP, PERFECT_4));
+        assertEquals(Pitch.C_5, Pitch.F_4.transpose(IntervalDirection.UP, PERFECT_5));
+        assertEquals(Pitch.B_FLAT_3, Pitch.F_4.transpose(IntervalDirection.DOWN, PERFECT_5));
+        assertEquals(Pitch.D_4, Pitch.G_4.transpose(IntervalDirection.DOWN, PERFECT_4));
+        assertEquals(Pitch.C_5, Pitch.G_4.transpose(IntervalDirection.UP, PERFECT_4));
+        assertEquals(Pitch.D_5, Pitch.G_4.transpose(IntervalDirection.UP, PERFECT_5));
+        assertEquals(Pitch.C_4, Pitch.G_4.transpose(IntervalDirection.DOWN, PERFECT_5));
+        assertEquals(Pitch.E_4, Pitch.A_4.transpose(IntervalDirection.DOWN, PERFECT_4));
+        assertEquals(Pitch.D_5, Pitch.A_4.transpose(IntervalDirection.UP, PERFECT_4));
+        assertEquals(Pitch.E_5, Pitch.A_4.transpose(IntervalDirection.UP, PERFECT_5));
+        assertEquals(Pitch.D_4, Pitch.A_4.transpose(IntervalDirection.DOWN, PERFECT_5));
+        assertEquals(Pitch.F_SHARP_3, Pitch.B_3.transpose(IntervalDirection.DOWN, PERFECT_4));
+        assertEquals(Pitch.E_4, Pitch.B_3.transpose(IntervalDirection.UP, PERFECT_4));
+        assertEquals(Pitch.F_SHARP_4, Pitch.B_3.transpose(IntervalDirection.UP, PERFECT_5));
+        assertEquals(Pitch.E_3, Pitch.B_3.transpose(IntervalDirection.DOWN, PERFECT_5));
 
-        assertEquals(Pitch.D_5, Pitch.F_SHARP_4.transpose(true, MINOR_6));
-        assertEquals(Pitch.D_6, Pitch.F_SHARP_4.transpose(true, MINOR_13));
-        assertEquals(Pitch.A_SHARP_3, Pitch.F_SHARP_4.transpose(false, MINOR_6));
-        assertEquals(Pitch.A_SHARP_2, Pitch.F_SHARP_4.transpose(false, MINOR_13));
+        assertEquals(Pitch.D_5, Pitch.F_SHARP_4.transpose(IntervalDirection.UP, MINOR_6));
+        assertEquals(Pitch.D_6, Pitch.F_SHARP_4.transpose(IntervalDirection.UP, MINOR_13));
+        assertEquals(Pitch.A_SHARP_3, Pitch.F_SHARP_4.transpose(IntervalDirection.DOWN, MINOR_6));
+        assertEquals(Pitch.A_SHARP_2, Pitch.F_SHARP_4.transpose(IntervalDirection.DOWN, MINOR_13));
 
         // Also test for non-standard pitches
-        assertEquals(Pitch.withName("Bxbbx#bb1").absolutePitch, Pitch.withName("Fxbbx#b0").transpose(true, PERFECT_4).absolutePitch);
-        assertEquals(Pitch.withName("B#1").absolutePitch, Pitch.withName("Fx0").transpose(true, PERFECT_4).absolutePitch);
-        assertEquals(Pitch.withName("Abbbbx4").absolutePitch, Pitch.withName("Fbbbbx4").transpose(true, MAJOR_3).absolutePitch);
+        assertEquals(Pitch.withName("Bxbbx#bb1").absolutePitch, Pitch.withName("Fxbbx#b0").transpose(IntervalDirection.UP, PERFECT_4).absolutePitch);
+        assertEquals(Pitch.withName("B#1").absolutePitch, Pitch.withName("Fx0").transpose(IntervalDirection.UP, PERFECT_4).absolutePitch);
+        assertEquals(Pitch.withName("Abbbbx4").absolutePitch, Pitch.withName("Fbbbbx4").transpose(IntervalDirection.UP, MAJOR_3).absolutePitch);
     }
 
     @Test

@@ -6,6 +6,7 @@ import static org.junit.Assert.*;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
+import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import lombok.extern.slf4j.Slf4j;
@@ -58,12 +59,11 @@ public class TestPitchClass {
     public void testTransposeInterval() {
         Accidental a = Accidental.FLAT;
         Interval i = Interval.DIMINISHED_8;
-        boolean direction = true;
         String[] prefixes = {"C", "D", "E", "F", "G", "A", "B"};
         StringJoiner sj = new StringJoiner(", ");
         for (String s : prefixes) {
             PitchClass p = PitchClass.withName(s + a.utf8Symbol, a.equals(Accidental.NATURAL))
-                    .transpose(direction, i);
+                    .transpose(IntervalDirection.UP, i);
             sj.add(p.getName());
         }
 
