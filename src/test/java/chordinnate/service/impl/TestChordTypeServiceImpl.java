@@ -23,6 +23,8 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.util.Optional;
 
 @Slf4j
@@ -43,7 +45,8 @@ public class TestChordTypeServiceImpl {
         when(mockRepo.save(any(ChordType.class))).thenReturn(TEST_CHORD_TYPE);
         doNothing().when(mockRepo).delete(any(ChordType.class));
 
-        service = new ChordTypeServiceImpl(mockRepo);
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        service = new ChordTypeServiceImpl(mockRepo, validator);
     }
 
     @Before

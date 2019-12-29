@@ -2,6 +2,7 @@ package chordinnate.service.impl;
 
 import chordinnate.entity.ChordType;
 import chordinnate.entity.Tag;
+import chordinnate.entity.validation.Phase1And2Validation;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -15,11 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,11 +33,12 @@ public class ChordTypeServiceImpl implements ChordTypeService {
     public static final String SERVICE_NAME = "chordTypeService";
 
     private final ChordTypeRepository repository;
-    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    private final Validator validator;
 
     @Autowired
-    ChordTypeServiceImpl(ChordTypeRepository repository) {
+    ChordTypeServiceImpl(ChordTypeRepository repository, Validator validator) {
         this.repository = repository;
+        this.validator = validator;
     }
 
     @Override
@@ -122,21 +122,7 @@ public class ChordTypeServiceImpl implements ChordTypeService {
             throw new IllegalArgumentException("Cannot save null entities");
         }
 
-        Set<ConstraintViolation<ChordType>> violations = validator.validate(chordType);
-
-//        violations.addAll(validator.validateProperty(chordType, "symbol"));
-//        violations.addAll(validator.validateProperty(chordType, "symbol"));
-
-
-        /*
-         * TODO: can use validator.validateValue() or validator.validateProperty(),
-         *  and choose the ordering of items to validate.
-         *  If that's done, the ChordTypeSizeValidator and ChordTypeIntervalValidator can validate properly
-         *  rather than suppress messages
-         *
-         *
-         * TODO: if rnSymbol is blank && isPreset && all fields match existing preset object ==> allow
-         */
+        Set<ConstraintViolation<ChordType>> violations = validator.validate(chordType, Phase1And2Validation.class);
 
         if (!violations.isEmpty()) {
             String violationMessages = violations.stream()

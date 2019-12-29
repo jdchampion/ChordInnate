@@ -12,7 +12,7 @@ public class ChordTypeSizeValidator implements ConstraintValidator<ValidateSize,
     public boolean isValid(ChordType chordType, ConstraintValidatorContext context) {
 
         if (chordType.getIntervals() == null) {
-            return true; // not actually valid -- just suppressing extra constraint violation messages
+            return false; // should have already failed Phase1Validation before getting here
         }
 
         return chordType.getSize() != null && chordType.getSize().equals(chordType.getIntervals().length);

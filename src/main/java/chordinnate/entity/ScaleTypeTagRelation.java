@@ -1,5 +1,6 @@
 package chordinnate.entity;
 
+import chordinnate.entity.validation.Phase1Validation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -31,13 +32,13 @@ public final class ScaleTypeTagRelation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "Scale Type {validation.constraints.null}")
+    @NotNull(groups = Phase1Validation.class, message = "Scale Type {validation.constraints.null}")
     @Valid
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "SCALE_TYPE_ID", referencedColumnName = "ID")
     private ScaleType matchingScaleType;
 
-    @NotNull(message = "Tag {validation.constraints.null}")
+    @NotNull(groups = Phase1Validation.class, message = "Tag {validation.constraints.null}")
     @Valid
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "TAG_ID")

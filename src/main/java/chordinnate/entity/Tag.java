@@ -1,5 +1,6 @@
 package chordinnate.entity;
 
+import chordinnate.entity.validation.Phase1Validation;
 import lombok.Data;
 
 import javax.persistence.Cacheable;
@@ -29,7 +30,7 @@ public final class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "{tag.name.fieldName} {validation.constraints.blank}")
+    @NotBlank(groups = Phase1Validation.class, message = "{tag.name.fieldName} {validation.constraints.blank}")
     @Column(name = "NAME")
     private String name;
 

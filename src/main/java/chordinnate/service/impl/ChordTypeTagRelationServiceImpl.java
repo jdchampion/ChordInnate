@@ -3,6 +3,7 @@ package chordinnate.service.impl;
 import chordinnate.entity.ChordType;
 import chordinnate.entity.ChordTypeTagRelation;
 import chordinnate.entity.Tag;
+import chordinnate.entity.validation.Phase1And2Validation;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.repository.ChordTypeTagRelationRepository;
@@ -39,7 +40,7 @@ public class ChordTypeTagRelationServiceImpl implements ChordTypeTagRelationServ
             throw new IllegalArgumentException("Cannot save null entities");
         }
 
-        Set<ConstraintViolation<ChordTypeTagRelation>> violations = validator.validate(relation);
+        Set<ConstraintViolation<ChordTypeTagRelation>> violations = validator.validate(relation, Phase1And2Validation.class);
 
         if (!violations.isEmpty()) {
             String violationMessages = violations.stream()

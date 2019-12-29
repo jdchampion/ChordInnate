@@ -1,7 +1,9 @@
 package chordinnate.entity;
 
-import chordinnate.annotation.ValidateSize;
 import chordinnate.annotation.ValidateIntervals;
+import chordinnate.annotation.ValidateSize;
+import chordinnate.entity.validation.Phase1Validation;
+import chordinnate.entity.validation.Phase2Validation;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.util.IntervalConverter;
 import lombok.Data;
@@ -34,42 +36,42 @@ import java.util.Set;
 @Entity
 @Cacheable
 @Table(name = "CHORD_TYPE")
-@ValidateSize
-@ValidateIntervals
+@ValidateSize(groups = Phase2Validation.class)
 public final class ChordType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @NotBlank(message = "{chordType.symbol.fieldName} {validation.constraints.blank}")
+    @NotBlank(groups = Phase1Validation.class, message = "{chordType.symbol.fieldName} {validation.constraints.blank}")
     @Column(name = "SYMBOL", nullable = false)
     private String symbol;
 
-    @NotBlank(message = "{chordType.rnSymbol.fieldName} {validation.constraints.blank}")
+    @NotBlank(groups = Phase1Validation.class, message = "{chordType.rnSymbol.fieldName} {validation.constraints.blank}")
     @Column(name = "RN_SYMBOL", nullable = false)
     private String rnSymbol;
 
-    @NotNull(message = "{chordType.rnCapital.fieldName} {validation.constraints.null}")
+    @NotNull(groups = Phase1Validation.class, message = "{chordType.rnCapital.fieldName} {validation.constraints.null}")
     @Column(name = "RN_CAPITAL", nullable = false)
     private Boolean rnCapital;
 
-    @NotNull(message = "{chordType.rnPrecedence.fieldName} {validation.constraints.null}")
-    @Positive(message = "{chordType.rnPrecedence.fieldName} {validation.constraints.positive}")
+    @NotNull(groups = Phase1Validation.class, message = "{chordType.rnPrecedence.fieldName} {validation.constraints.null}")
+    @Positive(groups = Phase1Validation.class, message = "{chordType.rnPrecedence.fieldName} {validation.constraints.positive}")
     @Column(name = "RN_PRECEDENCE", nullable = false)
     private Integer rnPrecedence;
 
-    @NotNull(message = "{chordType.intervals.fieldName} {validation.constraints.null}")
-    @Size(min = 2, message = "Must contain at least {min} intervals")
+    @ValidateIntervals(groups = Phase2Validation.class)
+    @NotNull(groups = Phase1Validation.class, message = "{chordType.intervals.fieldName} {validation.constraints.null}")
+    @Size(groups = Phase1Validation.class, min = 2, message = "Must contain at least {min} intervals")
     @Column(name = "INTERVALS", nullable = false)
     @Convert(converter = IntervalConverter.class)
     private Interval[] intervals;
 
-    @Positive(message = "{chordType.size.fieldName} {validation.constraints.positive}")
+    @Positive(groups = Phase1Validation.class, message = "{chordType.size.fieldName} {validation.constraints.positive}")
     @Column(name = "SIZE", nullable = false)
     private Integer size;
 
-    @NotNull(message = "{chordType.preset.fieldName} {validation.constraints.null}")
+    @NotNull(groups = Phase1Validation.class, message = "{chordType.preset.fieldName} {validation.constraints.null}")
     @Column(name = "PRESET", nullable = false)
     private Boolean preset;
 

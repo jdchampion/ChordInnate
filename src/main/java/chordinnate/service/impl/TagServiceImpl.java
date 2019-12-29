@@ -2,6 +2,7 @@ package chordinnate.service.impl;
 
 import chordinnate.entity.ChordType;
 import chordinnate.entity.Tag;
+import chordinnate.entity.validation.Phase1And2Validation;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.repository.TagRepository;
@@ -62,7 +63,7 @@ public class TagServiceImpl implements TagService {
             throw new IllegalArgumentException("Cannot save null entities");
         }
 
-        Set<ConstraintViolation<Tag>> violations = validator.validate(chordTypeTag);
+        Set<ConstraintViolation<Tag>> violations = validator.validate(chordTypeTag, Phase1And2Validation.class);
 
         if (!violations.isEmpty()) {
             String violationMessages = violations.stream()

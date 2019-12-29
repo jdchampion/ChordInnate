@@ -2,6 +2,8 @@ package chordinnate.entity;
 
 import chordinnate.annotation.ValidateIntervals;
 import chordinnate.annotation.ValidateSize;
+import chordinnate.entity.validation.Phase1Validation;
+import chordinnate.entity.validation.Phase2Validation;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.util.IntervalConverter;
 import lombok.Data;
@@ -31,32 +33,32 @@ import java.util.Set;
 @Entity
 @Cacheable
 @Table(name = "SCALE_TYPE")
-@ValidateSize
-@ValidateIntervals
+@ValidateSize(groups = Phase2Validation.class)
 public final class ScaleType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotBlank(message = "{scaleType.name.fieldName} {validation.constraints.blank}")
+    @NotBlank(groups = Phase1Validation.class, message = "{scaleType.name.fieldName} {validation.constraints.blank}")
     @Column(name = "NAME", nullable = false)
     private String name;
 
     @Column(name = "ORIGIN")
     private Integer origin;
 
-    @NotNull(message = "{scaleType.intervals.fieldName} {validation.constraints.null}")
-    @Size(min = 2, message = "Must contain at least {min} intervals")
+    @ValidateIntervals(groups = Phase2Validation.class)
+    @NotNull(groups = Phase1Validation.class, message = "{scaleType.intervals.fieldName} {validation.constraints.null}")
+    @Size(groups = Phase1Validation.class, min = 2, message = "Must contain at least {min} intervals")
     @Column(name = "INTERVALS", nullable = false)
     @Convert(converter = IntervalConverter.class)
     private Interval[] intervals;
 
-    @Positive(message = "{scaleType.size.fieldName} {validation.constraints.positive}")
+    @Positive(groups = Phase1Validation.class, message = "{scaleType.size.fieldName} {validation.constraints.positive}")
     @Column(name = "SIZE", nullable = false)
     private Integer size;
 
-    @NotNull(message = "{scaleType.preset.fieldName} {validation.constraints.null}")
+    @NotNull(groups = Phase1Validation.class, message = "{scaleType.preset.fieldName} {validation.constraints.null}")
     @Column(name = "PRESET", nullable = false)
     private Boolean preset;
 

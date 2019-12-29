@@ -16,7 +16,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ValidateSize {
-    String message() default "Size must match the number of intervals";
+    String message() default "{validation.constraints.sizeMatchIntervals}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

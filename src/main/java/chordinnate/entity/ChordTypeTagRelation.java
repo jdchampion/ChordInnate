@@ -1,5 +1,6 @@
 package chordinnate.entity;
 
+import chordinnate.entity.validation.Phase1Validation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -31,13 +32,13 @@ public final class ChordTypeTagRelation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NotNull(message = "Chord Type {validation.constraints.null}")
+    @NotNull(groups = Phase1Validation.class, message = "Chord Type {validation.constraints.null}")
     @Valid
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "CHORD_TYPE_ID", referencedColumnName = "ID")
     private ChordType matchingChordType;
 
-    @NotNull(message = "Tag {validation.constraints.null}")
+    @NotNull(groups = Phase1Validation.class, message = "Tag {validation.constraints.null}")
     @Valid
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "TAG_ID")

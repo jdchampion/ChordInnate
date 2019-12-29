@@ -23,6 +23,8 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import javax.validation.Validation;
+import javax.validation.Validator;
 import java.util.Optional;
 
 @Slf4j
@@ -43,7 +45,8 @@ public class TestScaleTypeServiceImpl {
         when(mockRepo.save(any(ScaleType.class))).thenReturn(TEST_SCALE_TYPE);
         doNothing().when(mockRepo).delete(any(ScaleType.class));
 
-        service = new ScaleTypeServiceImpl(mockRepo);
+        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+        service = new ScaleTypeServiceImpl(mockRepo, validator);
     }
 
     @Before

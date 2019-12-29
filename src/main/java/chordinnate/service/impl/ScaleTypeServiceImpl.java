@@ -2,6 +2,7 @@ package chordinnate.service.impl;
 
 import chordinnate.entity.ScaleType;
 import chordinnate.entity.Tag;
+import chordinnate.entity.validation.Phase1And2Validation;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Collection;
 import java.util.Collections;
@@ -33,11 +33,12 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
     public static final String SERVICE_NAME = "scaleTypeService";
 
     private final ScaleTypeRepository repository;
-    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    private final Validator validator;
 
     @Autowired
-    ScaleTypeServiceImpl(ScaleTypeRepository repository) {
+    ScaleTypeServiceImpl(ScaleTypeRepository repository, Validator validator) {
         this.repository = repository;
+        this.validator = validator;
     }
 
     @Override
@@ -127,14 +128,7 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
             throw new IllegalArgumentException("Cannot save null entities");
         }
 
-        Set<ConstraintViolation<ScaleType>> violations = validator.validate(scaleType);
-
-        /*
-         * TODO: can use validator.validateValue() or validator.validateProperty(),
-         *  and choose the ordering of items to validate.
-         *  If that's done, the ScaleTypeSizeValidator and ScaleTypeIntervalValidator can validate properly
-         *  rather than suppress messages
-         */
+        Set<ConstraintViolation<ScaleType>> violations = validator.validate(scaleType, Phase1And2Validation.class);
 
         if (!violations.isEmpty()) {
             String violationMessages = violations.stream()

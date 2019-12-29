@@ -1,13 +1,12 @@
 package chordinnate.entity.validation;
 
 import chordinnate.annotation.ValidateIntervals;
-import chordinnate.entity.ScaleType;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ScaleTypeIntervalValidator implements ConstraintValidator<ValidateIntervals, ScaleType> {
+public class IntervalValidator implements ConstraintValidator<ValidateIntervals, Interval[]> {
 
     @Override
     public void initialize(ValidateIntervals constraintAnnotation) {
@@ -15,13 +14,11 @@ public class ScaleTypeIntervalValidator implements ConstraintValidator<ValidateI
     }
 
     @Override
-    public boolean isValid(ScaleType scaleType, ConstraintValidatorContext context) {
+    public boolean isValid(Interval[] intervals, ConstraintValidatorContext context) {
 
-        if (scaleType == null || scaleType.getIntervals() == null || scaleType.getIntervals().length < 2) {
-            return true; // not actually valid -- just suppressing extra constraint violation messages
+        if (intervals == null || intervals.length < 2) {
+            return false; // should have already failed Phase1Validation before getting here
         }
-
-        Interval[] intervals = scaleType.getIntervals();
 
         int comparison = intervals[0].compareTo(intervals[1]);
         for (int i = 2; i < intervals.length + 1; i++) {

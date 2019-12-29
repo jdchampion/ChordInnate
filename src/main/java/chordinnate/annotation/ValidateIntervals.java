@@ -1,7 +1,6 @@
 package chordinnate.annotation;
 
-import chordinnate.entity.validation.ChordTypeIntervalValidator;
-import chordinnate.entity.validation.ScaleTypeIntervalValidator;
+import chordinnate.entity.validation.IntervalValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -11,12 +10,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = {ChordTypeIntervalValidator.class, ScaleTypeIntervalValidator.class})
-@Target({ElementType.TYPE})
+@Constraint(validatedBy = {IntervalValidator.class})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface ValidateIntervals {
-    String message() default "Intervals must be increasing or decreasing at each step";
+    String message() default "{validation.constraints.intervals}";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

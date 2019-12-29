@@ -3,6 +3,7 @@ package chordinnate.service.impl;
 import chordinnate.entity.ScaleType;
 import chordinnate.entity.ScaleTypeTagRelation;
 import chordinnate.entity.Tag;
+import chordinnate.entity.validation.Phase1And2Validation;
 import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.repository.ScaleTypeTagRelationRepository;
@@ -39,7 +40,7 @@ public class ScaleTypeTagRelationServiceImpl implements ScaleTypeTagRelationServ
             throw new IllegalArgumentException("Cannot save null entities");
         }
 
-        Set<ConstraintViolation<ScaleTypeTagRelation>> violations = validator.validate(relation);
+        Set<ConstraintViolation<ScaleTypeTagRelation>> violations = validator.validate(relation, Phase1And2Validation.class);
 
         if (!violations.isEmpty()) {
             String violationMessages = violations.stream()
