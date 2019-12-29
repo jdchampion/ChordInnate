@@ -16,9 +16,10 @@
 **ChordInnate** is essentially a music theory engine and API. Similar to how a physics engine simulates physical objects and their interactions, ChordInnate models the structure, operation, and interactions of musical components. This can be useful for studying music theory in a sandbox environment, or to provide intelligence for an algorithmic music generator.
 
 ---
-## Current Features
+## Some Key Features
 - **Pitch**
-  - 1000+ scale types and 50+ chord types
+  - 1000+ preset scale types and 50+ preset chord types, with support for user extensibility
+  - A relational 'tagging' system to allow the user to group or associate chords and scales in any arbitrary way
   - All standard major & minor key signatures, with full support for theoretical keys
   - Declare pitches, keys, chords, or scales with any number of accidentals
     >```java
@@ -31,7 +32,7 @@
     >Pitch cDoubleSharp4 = Pitch.withName("Cx4");
     >Pitch cCrazyAccidentals4 = Pitch.withName("Cxbb#b#xbbb#b4"); //...seriously.
     >```
-  - Transpose pitches, scales, and chords with any:
+  - Transpose pitches, scales, and chords by providing:
     - pitch
     - pitch class + octave
     - direction + pitch class
@@ -40,18 +41,18 @@
     >// C4 -> G4
     >Pitch.withName("C4").transpose(Pitch.withName("G4"));
     >Pitch.withName("C4").transpose(PitchClass.G, Octave.OCTAVE_4);
-    >Pitch.withName("C4").transpose(true, PitchClass.G);
-    >Pitch.withName("C4").transpose(true, Interval.PERFECT_5);
+    >Pitch.withName("C4").transpose(IntervalDirection.UP, PitchClass.G);
+    >Pitch.withName("C4").transpose(IntervalDirection.UP, Interval.PERFECT_5);
     >
     >// C Major (C, D, E, F, G, A, B) -> G Major (G, A, B, C, D, E, F#)
     >Scale("C Major").transpose(Pitch.withName("G4"));
     >Scale("C Major").transpose(PitchClass.G, Octave.OCTAVE_4);
-    >Scale("C Major").transpose(true, Interval.PERFECT_5);
+    >Scale("C Major").transpose(IntervalDirection.UP, Interval.PERFECT_5);
     >
     >// Cmaj7 (C, E, G, B) -> Gmaj7 (G, B, D, F#)
     >Chord("Cmaj7").transpose(Pitch.withName("G4"));
     >Chord("Cmaj7").transpose(PitchClass.G, Octave.OCTAVE_4);
-    >Chord("Cmaj7").transpose(true, Interval.PERFECT_5);
+    >Chord("Cmaj7").transpose(IntervalDirection.UP, Interval.PERFECT_5);
     >```
   - Add or subtract intervals
     >```java
@@ -67,7 +68,7 @@
     >RomanNumeral.withSymbol("{viio}");                  // diminished degree 7
     >RomanNumeral.withSymbol("{bIV}");                   // major of flat 4 degree
     >RomanNumeral.withSymbol("{XII}");                   // major degree 12
-    >RomanNumeral.withSymbol("{I(6/4)}");                 // 2nd inversion of major degree 1
+    >RomanNumeral.withSymbol("{I(6/4)}");                // 2nd inversion of major degree 1
     >RomanNumeral.withSymbol("{V7}/{V}");                // secondary dominant
     >RomanNumeral.withSymbol("{ii}/{VII+}/{I(6/5)}");    // ridiculous auxiliaries
     >// ... and so on.
@@ -152,8 +153,8 @@
 ---
 ## TODO
 *This is an (ever-growing) list of features currently in the works for ChordInnate:*
-- [ ] User-extensible chords and scales
-- [x] Support for dyads, triads, tetrads, etc.
+- [x] ~~User-extensible chords and scales~~
+- [x] ~~Support for dyads, triads, tetrads, etc.~~
 - [ ] Interval ratios (Just Intonation, 12-Tone Equal Temperament)
 - [ ] Support for user-entered chord symbols for Roman Numeral ({Isus4}, etc.)
 - [ ] Theory behind Shoenberg's 12-tone technique (tone rows, retrograde inversion)
@@ -161,6 +162,7 @@
 - [ ] Chord inference based on scale and Roman Numeral
 - [ ] Nashville Numbering system
 - [ ] Support any beat duration
+- [ ] Support for microtones
 
 ---
 ## Project History and Motivation for Development
@@ -168,4 +170,4 @@ ChordInnate has been an ongoing project since the completion of my freshman year
 
 The project originally began as a basic music generator, focusing on chord progressions. By the end of Summer 2013, a working prototype had been developed. While it was exciting to have met my goal, it was clear to me that the program's generation algorithm required more sophistication than `java.util.Random` -- *because that just didn't __sound__ all that great!* 
 
-Since then, ChordInnate has undergone several iterations, shaping it into an *engine* that can be used for generating or analyzing music. I've incorporated many software engineering concepts and principles that I've encountered during my studies at university, and continue to enjoy improving my skills with this project.
+Since then, ChordInnate has undergone several iterations, shaping it into an *engine* that can be used for generating or analyzing music. I've incorporated many software engineering concepts and principles that I've encountered during my studies at work / school, and continue to enjoy improving my skills with this project.
