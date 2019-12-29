@@ -1,10 +1,11 @@
 package chordinnate.entity;
 
-import chordinnate.annotation.ValidateIntervals;
+import chordinnate.annotation.ValidateIntervalContour;
 import chordinnate.annotation.ValidateSize;
 import chordinnate.entity.validation.Phase1Validation;
 import chordinnate.entity.validation.Phase2Validation;
 import chordinnate.model.musictheory.pitch.interval.Interval;
+import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.util.IntervalConverter;
 import lombok.Data;
 
@@ -47,7 +48,7 @@ public final class ScaleType implements Serializable {
     @Column(name = "ORIGIN")
     private Integer origin;
 
-    @ValidateIntervals(groups = Phase2Validation.class)
+    @ValidateIntervalContour(groups = Phase2Validation.class, message = "Intervals must be increasing or decreasing at each step", directions = {IntervalDirection.ASCENDING, IntervalDirection.DESCENDING})
     @NotNull(groups = Phase1Validation.class, message = "{scaleType.intervals.fieldName} {validation.constraints.null}")
     @Size(groups = Phase1Validation.class, min = 2, message = "Must contain at least {min} intervals")
     @Column(name = "INTERVALS", nullable = false)
