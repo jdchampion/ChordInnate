@@ -602,7 +602,7 @@ public class Pitch
     }
 
     @Override
-    public Pitch transpose(IntervalDirection direction, @NotNull PitchClass pitchClass) {
+    public Pitch transpose(@NotNull IntervalDirection direction, @NotNull PitchClass pitchClass) {
         if (isTransposable(direction, pitchClass)) {
             Pitch candidate1 = Pitch.withName(pitchClass.getName() + this.octave.getNumber());
             Pitch candidate2 = direction.getCompareTo() == 1
