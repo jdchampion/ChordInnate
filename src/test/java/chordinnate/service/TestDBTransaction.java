@@ -79,15 +79,15 @@ public class TestDBTransaction {
         assertEquals(1, stFound.getScaleTypeTagRelations().size());
         assertEquals(sttr, stFound.getScaleTypeTagRelations().stream().findFirst().get());
 
-//        ChordTypeTagRelation cttr = chordTypeTagRelationService.save(new ChordTypeTagRelation(ct, tag));
-//        assertNotNull(sttr);
-//
-//        List<ChordType> ctList = chordTypeService.findAllByTags(Collections.singleton(tag));
-//        assertEquals(1, ctList.size());
-//        assertTrue(ctList.stream().allMatch(scaleType -> scaleType.equals(ct)));
-//
-//        ChordType ctFound = ctList.get(0);
-//        assertEquals(1, ctFound.getChordTypeTagRelations().size());
-//        assertEquals(cttr, ctFound.getChordTypeTagRelations().stream().findFirst().get());
+        ChordTypeTagRelation cttr = chordTypeTagRelationService.save(new ChordTypeTagRelation(ct, tag));
+        assertNotNull(sttr);
+
+        List<ChordType> ctList = chordTypeService.findAllByTags(Collections.singleton(tag));
+        assertEquals(1, ctList.size());
+        assertTrue(ctList.stream().allMatch(scaleType -> scaleType.equals(ct)));
+
+        ChordType ctFound = ctList.get(0);
+        assertEquals(1, ctFound.getChordTypeTagRelations().size());
+        assertEquals(cttr, ctFound.getChordTypeTagRelations().stream().findFirst().get());
     }
 }

@@ -47,7 +47,7 @@ public final class ChordType implements Serializable {
     @Column(name = "SYMBOL", nullable = false)
     private String symbol;
 
-    @NotBlank(groups = Phase1Validation.class, message = "{chordType.rnSymbol.fieldName} {validation.constraints.blank}")
+    @NotNull(groups = Phase1Validation.class, message = "{chordType.rnSymbol.fieldName} {validation.constraints.null}")
     @Column(name = "RN_SYMBOL", nullable = false)
     private String rnSymbol;
 

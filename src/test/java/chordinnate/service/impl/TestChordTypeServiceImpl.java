@@ -89,7 +89,7 @@ public class TestChordTypeServiceImpl {
     @Test
     public void save_missingRequiredField_rnSymbol() {
         expectedException.expect(ChordInnateConstraintViolation.class);
-        expectedException.expectMessage("Roman Numeral Symbol must not be blank");
+        expectedException.expectMessage("Roman Numeral Symbol must not be null");
 
         TEST_CHORD_TYPE.setRnSymbol(null);
 
