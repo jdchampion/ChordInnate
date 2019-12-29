@@ -43,7 +43,7 @@ public class IntervalContourValidator implements ConstraintValidator<ValidateInt
                 directionPredicate = integer -> integer == firstComparison;
 
                 if (firstComparison == 0) {
-                    while (++start < intervals.length) {
+                    while (++start < intervals.length + 2) {
                         int comparison = intervals[start - 3].compareTo(intervals[start - 2]);
                         if (comparison != 0) {
                             directionPredicate = integer -> integer == 0 || integer == comparison;
