@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Joseph on 4/18/16.
  */
-public class TestPitch {
+public class PitchTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 

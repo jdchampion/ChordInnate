@@ -30,7 +30,7 @@ import java.util.Optional;
 @Slf4j
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ScaleTypeRepository.class})
-public class TestScaleTypeServiceImpl {
+public class ScaleTypeServiceImplTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();

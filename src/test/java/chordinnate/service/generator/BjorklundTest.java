@@ -7,7 +7,7 @@ import org.junit.Test;
  * Created by Joseph on 6/22/16.
  */
 @Slf4j
-public class TestBjorklund {
+public class BjorklundTest {
     @Test
     public void sandbox() throws Exception {
         for (int i = 2; i < 10; i++) {

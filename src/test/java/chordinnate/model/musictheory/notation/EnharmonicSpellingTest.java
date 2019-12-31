@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TestEnharmonicSpelling {
+public class EnharmonicSpellingTest {
     @Test
     public void testWithName() throws Exception {
         assertEquals(EnharmonicSpelling.C, EnharmonicSpelling.withName("C", false));

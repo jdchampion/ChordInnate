@@ -7,7 +7,7 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by Joseph on 5/21/16.
  */
-public class TestLetter {
+public class LetterTest {
     @Test
     public void getLetterByVectorTraversal() throws Exception {
         // Left edge case: C (forwards)

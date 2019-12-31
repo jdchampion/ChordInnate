@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * Created by Joseph on 7/17/16.
  */
 @Slf4j
-public class TestChord {
+public class ChordTest {
 
     @Test
     public void sanityCheck() {

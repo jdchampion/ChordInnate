@@ -12,7 +12,7 @@ import java.util.StringJoiner;
  * Created by Joseph on 7/6/16.
  */
 @Slf4j
-public class TestTimeSignature {
+public class TimeSignatureTest {
     // TODO: more formal testing
     @Test
     public void quickVisualTest() throws Exception {

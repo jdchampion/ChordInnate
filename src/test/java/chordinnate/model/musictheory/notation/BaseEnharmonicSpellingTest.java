@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Joseph on 4/14/16.
  */
-public class TestBaseEnharmonicSpelling {
+public class BaseEnharmonicSpellingTest {
     @Test
     public void testField_LETTER() throws Exception {
         assertEquals(Letter.A, A.letter);

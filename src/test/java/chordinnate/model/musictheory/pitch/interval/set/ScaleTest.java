@@ -19,7 +19,7 @@ import java.util.StringJoiner;
  * Created by Joseph on 7/15/16.
  */
 @Slf4j
-public class TestScale {
+public class ScaleTest {
     @Test
     public void sanityCheck() {
         // Basic arbitrary testing

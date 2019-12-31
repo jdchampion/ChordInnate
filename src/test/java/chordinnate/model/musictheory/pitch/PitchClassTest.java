@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 import java.util.StringJoiner;
 
 @Slf4j
-public class TestPitchClass {
+public class PitchClassTest {
 
     @Test
     public void testWithName() {

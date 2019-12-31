@@ -30,7 +30,7 @@ import java.util.Optional;
 @Slf4j
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ChordTypeTagRelationRepository.class})
-public class TestChordTypeTagRelationServiceImpl {
+public class ChordTypeTagRelationServiceImplTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();

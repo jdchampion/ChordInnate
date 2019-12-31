@@ -26,7 +26,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = DatabaseConfig.class)
 @Transactional
-public class TestDBTransaction {
+public class DBTransactionTest {
 
     @Autowired
     TagService tagService;

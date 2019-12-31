@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Joseph on 7/3/16.
  */
-public class TestFreeMeter {
+public class FreeMeterTest {
     // TODO: more formal testing
     @Test
     public void is() throws Exception {

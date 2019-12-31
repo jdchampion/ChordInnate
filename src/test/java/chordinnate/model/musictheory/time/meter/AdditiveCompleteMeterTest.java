@@ -13,7 +13,7 @@ import java.util.StringJoiner;
  * Created by Joseph on 7/6/16.
  */
 @Slf4j
-public class TestAdditiveCompleteMeter {
+public class AdditiveCompleteMeterTest {
     // TODO: more formal testing
     @Test
     public void is() throws Exception {

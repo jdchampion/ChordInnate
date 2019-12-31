@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Joseph on 4/14/16.
  */
-public class TestInterval {
+public class IntervalTest {
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
 

@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 /**
  * Created by Joseph on 7/1/16.
  */
-public class TestBeat {
+public class BeatTest {
     @Test
     public void getRatio() throws Exception {
         assertEquals(0.015625, Beat.SIXTY_FOURTH.getRatio(), 0);

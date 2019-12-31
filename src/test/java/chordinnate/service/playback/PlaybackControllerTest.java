@@ -17,7 +17,7 @@ import org.junit.Test;
  * Created by Joseph on 6/16/16.
  */
 @Slf4j
-public class TestPlaybackController {
+public class PlaybackControllerTest {
 
     @Ignore("Disabled for Travis CI and faster testing")
     @Test

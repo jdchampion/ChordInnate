@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TestAccidental {
+public class AccidentalTest {
 
     @Test
     public void matchesSymbol() throws Exception {

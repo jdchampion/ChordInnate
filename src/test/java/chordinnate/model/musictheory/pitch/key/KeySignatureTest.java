@@ -9,7 +9,7 @@ import static chordinnate.model.musictheory.pitch.key.KeySignature.*;
 /**
  * Created by Joseph on 4/14/16.
  */
-public class TestKeySignature {
+public class KeySignatureTest {
     @Test
     public void testfield_SIGNATURE() {
         KeySignature dMinor = KeySignature.D_MINOR;

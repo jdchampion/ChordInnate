@@ -27,7 +27,7 @@ import java.util.Optional;
 @Slf4j
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({TagRepository.class})
-public class TestTagServiceImpl {
+public class TagServiceImplTest {
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();
