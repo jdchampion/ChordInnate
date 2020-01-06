@@ -2,6 +2,7 @@ package chordinnate.entity;
 
 import chordinnate.entity.validation.Phase1Validation;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -24,6 +25,7 @@ import java.util.Set;
 @Entity
 @Cacheable
 @Table(name = "TAG")
+@NoArgsConstructor
 public final class Tag {
 
     @Id
@@ -39,6 +41,10 @@ public final class Tag {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matchingTag", cascade = CascadeType.ALL)
     private Set<ChordTypeTagRelation> chordTypeTagRelations;
+
+    public Tag(String name) {
+        this.name = name;
+    }
 
     @Override
     public boolean equals(Object other) {

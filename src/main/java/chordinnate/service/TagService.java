@@ -1,6 +1,7 @@
 package chordinnate.service;
 
 import chordinnate.entity.ChordType;
+import chordinnate.entity.ScaleType;
 import chordinnate.entity.Tag;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,9 @@ public interface TagService extends BaseService<Tag, Integer> {
 
     List<Tag> findAllFor(ChordType chordType);
 
-    Tag save(Tag chordTypeTag);
+    List<Tag> findAllFor(ScaleType scaleType);
 
-    void delete(Tag chordTypeTag);
+    Tag save(Tag tag);
+
+    void delete(Tag tag);
 }
