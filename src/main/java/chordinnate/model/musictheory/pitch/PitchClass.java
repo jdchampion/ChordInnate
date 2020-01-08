@@ -1,13 +1,14 @@
 package chordinnate.model.musictheory.pitch;
 
-import chordinnate.ChordInnateException;
-import chordinnate.model.Aliased;
+import chordinnate.exception.ChordInnateException;
+import chordinnate.model.musictheory.Aliased;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.BaseEnharmonicSpelling;
 import chordinnate.model.musictheory.notation.EnharmonicSpelling;
 import chordinnate.model.musictheory.notation.Letter;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
+import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalSet;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import org.jetbrains.annotations.NotNull;
@@ -242,18 +243,18 @@ public class PitchClass
     }
 
     @Override
-    public PitchClass transpose(boolean direction, @NotNull Interval interval) {
+    public PitchClass transpose(@NotNull IntervalDirection direction, @NotNull Interval interval) {
         if (isTransposable(direction, interval)) {
 
             // 1. Get the simple interval (use the inversion if going downward)
-            Interval simpleInterval = direction
+            Interval simpleInterval = direction.getCompareTo() == 1
                     ? Interval.withShortName(interval.getSimpleShortName())
                     : Interval.withShortName(interval.getSimpleShortName()).invert();
 
             // 2. Determine the expected letter of the candidate Pitch.
             Letter beginLetter = Letter.valueOf(aliasLetter);
             int idx = beginLetter.ordinal();
-            int expectedLetterIndex = direction
+            int expectedLetterIndex = direction.getCompareTo() == 1
                     ? (idx + (interval.getSimpleDiatonic() - 1)) % 7
                     : (idx + (7 - (interval.getSimpleDiatonic() - 1))) % 7;
             Letter expectedLetter = Letter.values()[expectedLetterIndex];
@@ -269,7 +270,7 @@ public class PitchClass
             throw new ChordInnateException(
                     "Cannot transpose pitch class "
                             + getName()
-                            + (direction ? " up " : " down ")
+                            + (direction.name().toLowerCase() + " ")
                             + "by interval "
                             + interval.getCompoundShortName()
             );

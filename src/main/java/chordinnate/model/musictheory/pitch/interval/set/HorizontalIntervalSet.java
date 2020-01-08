@@ -1,9 +1,12 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import chordinnate.entity.ChordType;
 import chordinnate.model.musictheory.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +15,8 @@ import java.util.Map;
 /**
  * Created by Joseph on 7/15/16.
  */
-class HorizontalIntervalSet extends IntervalSet {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class HorizontalIntervalSet extends IntervalSet {
 
     @Override
     protected void commonInitializations(PitchClass root, Interval[] intervals) {

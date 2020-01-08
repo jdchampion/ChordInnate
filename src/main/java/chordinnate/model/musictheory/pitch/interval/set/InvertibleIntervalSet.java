@@ -5,6 +5,8 @@ import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Invertible;
 import chordinnate.model.musictheory.pitch.interval.Octave;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumMap;
@@ -12,8 +14,10 @@ import java.util.Map;
 
 abstract class InvertibleIntervalSet extends IntervalSet implements Invertible<InvertibleIntervalSet> {
 
+    @Getter(AccessLevel.PUBLIC)
+    private int inversion;
+
     private EnumMap<Octave, Pitch[]> invertedPitchesByOctave;
-    protected int inversion;
     private int possibleInversions;
 
     @Override
@@ -34,7 +38,7 @@ abstract class InvertibleIntervalSet extends IntervalSet implements Invertible<I
             for (Map.Entry<Octave, Pitch[]> entry : invertedPitchesByOctave.entrySet()) {
                 Octave nextOctave = entry.getKey().getNext();
                 if (nextOctave != null) {
-                    entry.getValue()[inversion - 1] = entry.getValue()[inversion - 1].transpose(true, Interval.PERFECT_8);
+                    entry.getValue()[inversion - 1] = entry.getValue()[inversion - 1].transpose(IntervalDirection.UP, Interval.PERFECT_8);
                 }
             }
             inversion += 1;
@@ -63,7 +67,4 @@ abstract class InvertibleIntervalSet extends IntervalSet implements Invertible<I
         return (inversion == 1 ? super.pitchesByOctave.get(octave) : invertedPitchesByOctave.get(octave));
     }
 
-    public int getInversion() {
-        return inversion;
-    }
 }

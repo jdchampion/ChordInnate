@@ -1,9 +1,12 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import chordinnate.entity.ScaleType;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.PitchClass;
+import chordinnate.model.util.RegionLocaleMapper;
 import chordinnate.service.Services;
-import chordinnate.service.musictheory.ScaleTypeService;
+import chordinnate.service.ScaleTypeService;
+import com.ibm.icu.util.Region;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -61,7 +64,12 @@ public class Scale extends HorizontalIntervalSet {
     }
 
     public String getOrigin() {
-        return scaleType.getOrigin();
+
+        if (scaleType.getOrigin() == null) {
+            return "Unknown";
+        }
+
+        return RegionLocaleMapper.displayName(Region.getInstance(scaleType.getOrigin()));
     }
 
 }

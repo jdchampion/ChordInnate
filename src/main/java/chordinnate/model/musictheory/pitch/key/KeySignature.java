@@ -7,6 +7,7 @@ import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.Letter;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
+import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
@@ -175,7 +176,7 @@ public class KeySignature {
         int idx = isFlat ? 3 : 4;
 
         for (int i = 0, j = startingIndex; i < pitchClasses.length; i++, j = (j + idx) % pitchClasses.length) {
-            pitchClasses[i] = this.key.transpose(true, intervalsToUse[j]);
+            pitchClasses[i] = this.key.transpose(IntervalDirection.UP, intervalsToUse[j]);
         }
 
         return Arrays.stream(pitchClasses).collect(Collectors.toList());
@@ -189,7 +190,7 @@ public class KeySignature {
 
         // Determine the starting point for accidentals (always some enharmonic of Bb or F#)
         Interval startInterval = Interval.between(this.key, (isPureFlat ? PitchClass.B_FLAT : PitchClass.F_SHARP), true);
-        PitchClass currentPC = this.key.transpose(true, startInterval);
+        PitchClass currentPC = this.key.transpose(IntervalDirection.UP, startInterval);
 
         String[] accs = new String[7];
         for (int i = 0; i < numAccidentals; i++) {
@@ -199,7 +200,7 @@ public class KeySignature {
                 String utf8Temp = Accidental.convertToUTF8Symbols(currentPC.getName());
                 String letterAndFirstAccidental = utf8Temp.length() > 1 ? utf8Temp.substring(0, 2) : utf8Temp;
                 accs[j] = letterAndFirstAccidental;
-                currentPC = currentPC.transpose(true, isPureFlat ? Interval.PERFECT_4 : Interval.PERFECT_5);
+                currentPC = currentPC.transpose(IntervalDirection.UP, isPureFlat ? Interval.PERFECT_4 : Interval.PERFECT_5);
             } else {
                 String temp = accs[j];
                 accs[j] = String.valueOf(temp.charAt(0))
@@ -411,7 +412,7 @@ public class KeySignature {
         if (this.equals(NO_KEY_SIGNATURE)) {
             return NO_KEY_SIGNATURE;
         }
-        PitchClass relativePitch = key.transpose(keySignatureType.equals(MINOR), Interval.MINOR_3);
+        PitchClass relativePitch = key.transpose(keySignatureType.equals(MINOR) ? IntervalDirection.UP : IntervalDirection.DOWN, Interval.MINOR_3);
         return KeySignature.withName(determineName(relativePitch, keySignatureType, true));
     }
 
@@ -437,7 +438,7 @@ public class KeySignature {
         }
 
         // Try to find from cache
-        PitchClass newKey = key.transpose(true, Interval.PERFECT_4);
+        PitchClass newKey = key.transpose(IntervalDirection.UP, Interval.PERFECT_4);
         KeySignature cached = STANDARD_KEYSIG_LOOKUP.get(Accidental.convertToUTF8Symbols(determineName(newKey, keySignatureType, false)));
         if (cached != null) {
             return cached;
@@ -457,7 +458,7 @@ public class KeySignature {
                 newSignature.set(indexToChange, PitchClass.withName(newSignature.get(indexToChange).getName() + Accidental.FLAT.symbol, false));
             } else {
                 PitchClass added = PitchClass.withName(newSignature.get(indexToChange).getName(), false)
-                        .transpose(true, Interval.PERFECT_4);
+                        .transpose(IntervalDirection.UP, Interval.PERFECT_4);
                 newSignature.add(added);
             }
 
@@ -493,7 +494,7 @@ public class KeySignature {
         }
 
         // Try to find from cache
-        PitchClass newKey = key.transpose(true, Interval.PERFECT_5);
+        PitchClass newKey = key.transpose(IntervalDirection.UP, Interval.PERFECT_5);
         KeySignature cached = STANDARD_KEYSIG_LOOKUP.get(Accidental.convertToUTF8Symbols(determineName(newKey, keySignatureType, false)));
         if (cached != null) {
             return cached;
@@ -524,7 +525,7 @@ public class KeySignature {
                 newSignature.set(indexToChange, PitchClass.withName(current, false));
             } else {
                 PitchClass added = PitchClass.withName(newSignature.get(indexToChange).getName(), false)
-                        .transpose(true, Interval.PERFECT_5);
+                        .transpose(IntervalDirection.UP, Interval.PERFECT_5);
                 newSignature.add(added);
             }
 

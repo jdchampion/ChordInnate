@@ -1,10 +1,11 @@
 package chordinnate.model.musictheory.pitch;
 
-import chordinnate.ChordInnateException;
+import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.Letter;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
+import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalSet;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.playback.Playable;
@@ -541,15 +542,15 @@ public class Pitch
     }
 
     @Override
-    public boolean isTransposable(boolean direction, @NotNull Interval interval) {
-        return direction
+    public boolean isTransposable(@NotNull IntervalDirection direction, @NotNull Interval interval) {
+        return direction.getCompareTo() == 1
                 ? absolutePitch + interval.getSemitones() <= 127
                 : absolutePitch - interval.getSemitones() >= 0;
     }
 
     @Override
-    public boolean isTransposable(boolean direction, @NotNull PitchClass pitchClass) {
-        return direction
+    public boolean isTransposable(@NotNull IntervalDirection direction, @NotNull PitchClass pitchClass) {
+        return direction.getCompareTo() == 1
                 ? absolutePitch + pitchClass.aliasBaseMidiValue <= 127
                 : absolutePitch - pitchClass.aliasBaseMidiValue >= 0;
     }
@@ -560,12 +561,12 @@ public class Pitch
     }
 
     @Override
-    public Pitch transpose(boolean direction, @NotNull Interval interval) {
+    public Pitch transpose(@NotNull IntervalDirection direction, @NotNull Interval interval) {
         boolean attempted = false;
         if (isTransposable(direction, interval)) {
 
             int goal = pitchClass.aliasBaseMidiValue + octave.getMidiStart()
-                    + (interval.getSemitones() * (direction ? 1 : -1));
+                    + (interval.getSemitones() * (direction.getCompareTo()));
 
             PitchClass newPitchClass = pitchClass.transpose(direction, interval);
 
@@ -595,20 +596,20 @@ public class Pitch
 
         throw new ChordInnateException(
                 (attempted ? "Error transposing" : "Cannot transpose")
-                        + " pitch [" + getName()
-                        + (direction ? "] up " : "] down ")
-                        + "by interval [" + interval.getCompoundShortName() + "]");
+                        + " pitch [" + getName() + "] "
+                        + direction.name().toLowerCase()
+                        + " by interval [" + interval.getCompoundShortName() + "]");
     }
 
     @Override
-    public Pitch transpose(boolean direction, @NotNull PitchClass pitchClass) {
+    public Pitch transpose(@NotNull IntervalDirection direction, @NotNull PitchClass pitchClass) {
         if (isTransposable(direction, pitchClass)) {
             Pitch candidate1 = Pitch.withName(pitchClass.getName() + this.octave.getNumber());
-            Pitch candidate2 = direction
+            Pitch candidate2 = direction.getCompareTo() == 1
                     ? Pitch.withName(pitchClass.getName() + (this.octave.getNumber() + 1))
                     : Pitch.withName(pitchClass.getName() + (this.octave.getNumber() - 1));
 
-            if (direction) {
+            if (direction.getCompareTo() == 1) {
                 return candidate1.absolutePitch > this.absolutePitch ? candidate1 : candidate2;
             } else {
                 return candidate1.absolutePitch < this.absolutePitch ? candidate1 : candidate2;

@@ -1,14 +1,15 @@
 package chordinnate.model.musictheory.pitch;
 
 import chordinnate.model.musictheory.pitch.interval.Interval;
+import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import org.jetbrains.annotations.NotNull;
 
 interface IntervalTransposable<T> {
 
-    default boolean isTransposable(boolean direction, @NotNull Interval interval) {
-        return true;
+    default boolean isTransposable(@NotNull IntervalDirection direction, @NotNull Interval interval) {
+        return direction.getCompareTo() != 0;
     }
 
-    T transpose(boolean direction, @NotNull Interval interval);
+    T transpose(@NotNull IntervalDirection direction, @NotNull Interval interval);
 
 }

@@ -1,6 +1,6 @@
 package chordinnate.model.musictheory.pitch.interval;
 
-import chordinnate.model.musictheory.pitch.interval.set.ChordType;
+import chordinnate.entity.ChordType;
 import chordinnate.service.Services;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -245,7 +245,7 @@ public class RomanNumeral {
 
         if (optional.isPresent()) {
             ChordType chordType = optional.get();
-            capitalize = chordType.isRnCapital();
+            capitalize = chordType.getRnCapital();
             chordSymbol = chordType.getRnSymbol();
         } else {
             capitalize = Arrays.asList(shortNames).contains(Interval.MINOR_3);

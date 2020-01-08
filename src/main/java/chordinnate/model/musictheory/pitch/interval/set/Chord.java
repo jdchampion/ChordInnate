@@ -1,10 +1,11 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
-import chordinnate.ChordInnateException;
+import chordinnate.entity.ChordType;
+import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.service.Services;
-import chordinnate.service.musictheory.ChordTypeService;
+import chordinnate.service.ChordTypeService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -58,12 +59,12 @@ public class Chord extends VerticalIntervalSet {
     }
 
     public String getName() {
-        if (inversion == 1) {
+        if (getInversion() == 1) {
             return root.getName() + chordType.getSymbol();
         } else {
             // Append the bass note to the name
             return root.getName() + chordType.getSymbol()
-                    + "/" + pitchesByOctave.get(lowestDiatonic.octave)[inversion - 1].pitchClass.getName();
+                    + "/" + pitchesByOctave.get(lowestDiatonic.octave)[getInversion() - 1].pitchClass.getName();
         }
     }
 
