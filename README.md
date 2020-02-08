@@ -80,11 +80,11 @@
     >```
   - Invert chords to any permutation
     >```java
-    >Chord chord = new Chord("Cmaj7");       // 1st inversion: Cmaj7 (C, E, G, B)
-    >chord.invert();                         // 2nd inversion: Cmaj7/E (E, G, B, C)
-    >chord.invert();                         // 3rd inversion: Cmaj7/G (G, B, C, E)
-    >chord.invert();                         // 4th inversion: Cmaj7/B (B, C, E, G)
-    >chord.invert();                         // 1st inversion: Cmaj7 (C, E, G, B)
+    >Chord chord = new Chord("Cmaj7")        // 1st inversion: Cmaj7 (C, E, G, B)
+    >    .invert()                           // 2nd inversion: Cmaj7/E (E, G, B, C)
+    >    .invert()                           // 3rd inversion: Cmaj7/G (G, B, C, E)
+    >    .invert()                           // 4th inversion: Cmaj7/B (B, C, E, G)
+    >    .invert();                          // 1st inversion: Cmaj7 (C, E, G, B)
     >```
   - Invert intervals within the same octave
     >```java
@@ -102,12 +102,12 @@
     >```
   - Modulate key signatures any number of times
     >```java
-    >KeySignature.withname("C Major")
+    >KeySignature.withName("C Major")
     >   .modulateFlat()                  // F Major
     >   .modulateFlat()                  // Bb Major
     >   .modulateFlat();                 // Eb Major
     >
-    >KeySignature.withname("C Major")
+    >KeySignature.withName("C Major")
     >   .modulateSharp()                 // G Major
     >   .modulateSharp()                 // D Major
     >   .modulateSharp();                // A Major
