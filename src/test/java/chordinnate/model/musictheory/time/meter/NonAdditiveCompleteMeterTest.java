@@ -1,7 +1,7 @@
 package chordinnate.model.musictheory.time.meter;
 
 import chordinnate.model.musictheory.time.meter.fixed.complete.NonAdditiveCompleteMeter;
-import chordinnate.model.musictheory.time.rhythm.Duration;
+import chordinnate.model.musictheory.time.rhythm.BeatDuration;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -16,14 +16,14 @@ public class NonAdditiveCompleteMeterTest {
     @Test
     public void is() throws Exception {
         NonAdditiveCompleteMeter
-                fourFour1 = new NonAdditiveCompleteMeter(4, Duration.QUARTER),
-                nineEight = new NonAdditiveCompleteMeter(9, Duration.EIGHTH),
-                sixEight = new NonAdditiveCompleteMeter(6, Duration.EIGHTH),
-                threeEight = new NonAdditiveCompleteMeter(3, Duration.EIGHTH),
-                twelveEight = new NonAdditiveCompleteMeter(12, Duration.EIGHTH),
-                fourFour2 = new NonAdditiveCompleteMeter(4, Duration.QUARTER, MeterSubdivision.QUADRUPLE),
-                oneFour = new NonAdditiveCompleteMeter(1, Duration.QUARTER),
-                elevenSixteen = new NonAdditiveCompleteMeter(11, Duration.SIXTEENTH);
+                fourFour1 = new NonAdditiveCompleteMeter(4, BeatDuration.QUARTER),
+                nineEight = new NonAdditiveCompleteMeter(9, BeatDuration.EIGHTH),
+                sixEight = new NonAdditiveCompleteMeter(6, BeatDuration.EIGHTH),
+                threeEight = new NonAdditiveCompleteMeter(3, BeatDuration.EIGHTH),
+                twelveEight = new NonAdditiveCompleteMeter(12, BeatDuration.EIGHTH),
+                fourFour2 = new NonAdditiveCompleteMeter(4, BeatDuration.QUARTER, MeterSubdivision.QUADRUPLE),
+                oneFour = new NonAdditiveCompleteMeter(1, BeatDuration.QUARTER),
+                elevenSixteen = new NonAdditiveCompleteMeter(11, BeatDuration.SIXTEENTH);
 
         StringJoiner sj1 = new StringJoiner(" ");
         for (MeterClassificationType mct : MeterClassificationType.values()) {

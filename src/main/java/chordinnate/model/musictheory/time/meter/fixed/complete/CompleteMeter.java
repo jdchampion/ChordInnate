@@ -3,7 +3,9 @@ package chordinnate.model.musictheory.time.meter.fixed.complete;
 import chordinnate.model.musictheory.time.meter.MeterClassificationType;
 import chordinnate.model.musictheory.time.meter.MeterSubdivision;
 import chordinnate.model.musictheory.time.meter.fixed.FixedMeter;
-import chordinnate.model.musictheory.time.rhythm.Duration;
+import chordinnate.model.musictheory.time.rhythm.BeatDuration;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,23 +16,20 @@ import java.util.List;
  *
  * Created by Joseph on 7/3/16.
  */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class CompleteMeter extends FixedMeter {
     int numerator; // Defined in constructor
 
     /*
-     * Every instance of Duration is a power of 2,
+     * Every instance of BeatDuration is a power of 2,
      * so using it as the denominator field
      * ensures that the denominator will be a power of 2.
      */
-    Duration denominator; // Defined in constructor
+    BeatDuration denominator; // Defined in constructor
 
     MeterSubdivision[] subdivisions; // Defined in constructor
 
-    CompleteMeter() {
-
-    }
-
-    CompleteMeter(int numerator, Duration denominator, MeterSubdivision[] subdivisions, boolean verifyMatch, boolean inferSubdivisions) {
+    CompleteMeter(int numerator, BeatDuration denominator, MeterSubdivision[] subdivisions, boolean verifyMatch, boolean inferSubdivisions) {
 
         if (verifyMatch) {
             verifyMatch(numerator, subdivisions);
@@ -148,8 +147,8 @@ public abstract class CompleteMeter extends FixedMeter {
     private void inferSubdivisionsHelper() {
         /*
          * Here's where we have to adopt our own convention, based on the numerator:
-         * 1. "Front-load" the pattern with N * (3 + 2) groupings,
-         *     such that numerator - (N * (3 + 2)) != 1.
+         * 1. "Front-load" the pattern with N groupings of (3 + 2),
+         *     such that numerator - N != 1.
          *
          * 2. Afterwards, fill remaining index/indices of the pattern with 2, 3, or (2 + 2).
          *
@@ -177,7 +176,7 @@ public abstract class CompleteMeter extends FixedMeter {
                 meterSubdivisions.add(MeterSubdivision.DUPLE);
             }
         }
-        this.subdivisions = meterSubdivisions.toArray(new MeterSubdivision[meterSubdivisions.size()]);
+        this.subdivisions = meterSubdivisions.toArray(new MeterSubdivision[0]);
     }
 
     /**

@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
  * Created by Joseph on 6/1/16.
  */
 @AllArgsConstructor
-public enum Duration {
+public enum BeatDuration {
     /*
      * NOTE: Keep these ordered from smallest to largest.
      */

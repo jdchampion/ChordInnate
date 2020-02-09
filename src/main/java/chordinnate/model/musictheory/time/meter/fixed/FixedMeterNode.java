@@ -7,6 +7,6 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class FixedMeterNode {
-    int count;
+    int measureCount;
     FixedMeter meter;
 }

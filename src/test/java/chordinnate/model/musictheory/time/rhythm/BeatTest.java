@@ -19,11 +19,11 @@ public class BeatTest {
         assertEquals(1.0, Beat.WHOLE.getRatio(), 0);
         assertEquals(2.0, Beat.DOUBLE_WHOLE.getRatio(), 0);
 
-        Beat DOTTED_HALF = new Beat.Builder(Duration.HALF).dots(1).build();
-        Beat DOUBLE_DOTTED_HALF = new Beat.Builder(Duration.HALF).dots(2).build();
-        Beat TRIPLET_EIGHTH = new Beat.Builder(Duration.EIGHTH).tuplet(3).build();
-        Beat QUADRUPLET_EIGHTH = new Beat.Builder(Duration.EIGHTH).tuplet(4).build();
-        Beat TRIPLET_DOTTED_HALF = new Beat.Builder(Duration.HALF).dots(1).tuplet(3).build();
+        Beat DOTTED_HALF = new Beat.Builder(BeatDuration.HALF).dots(1).build();
+        Beat DOUBLE_DOTTED_HALF = new Beat.Builder(BeatDuration.HALF).dots(2).build();
+        Beat TRIPLET_EIGHTH = new Beat.Builder(BeatDuration.EIGHTH).tuplet(3).build();
+        Beat QUADRUPLET_EIGHTH = new Beat.Builder(BeatDuration.EIGHTH).tuplet(4).build();
+        Beat TRIPLET_DOTTED_HALF = new Beat.Builder(BeatDuration.HALF).dots(1).tuplet(3).build();
 
         // Dotted half = 3/4 whole note = 0.75
         assertEquals(0.75, DOTTED_HALF.getRatio(), 0);

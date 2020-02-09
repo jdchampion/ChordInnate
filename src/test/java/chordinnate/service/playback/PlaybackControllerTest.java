@@ -5,7 +5,7 @@ import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.time.rhythm.Beat;
-import chordinnate.model.musictheory.time.rhythm.Duration;
+import chordinnate.model.musictheory.time.rhythm.BeatDuration;
 import chordinnate.model.musictheory.time.tempo.Tempo;
 import chordinnate.model.playback.Articulation;
 import chordinnate.model.playback.Note;
@@ -31,8 +31,8 @@ public class PlaybackControllerTest {
     public void playNote() {
         Tempo tempo = new Tempo(Beat.QUARTER, 60);
         int bpm = tempo.getCurrentBPM();
-        Beat TRIPLET_EIGHTH = new Beat.Builder(Duration.EIGHTH).tuplet(3).build(),
-                DOTTED_HALF = new Beat.Builder(Duration.HALF).dots(1).build();
+        Beat TRIPLET_EIGHTH = new Beat.Builder(BeatDuration.EIGHTH).tuplet(3).build(),
+                DOTTED_HALF = new Beat.Builder(BeatDuration.HALF).dots(1).build();
         for (Articulation articulation : Articulation.values()) {
 
             Note n1 = new Note.Builder(Pitch.G_4, TRIPLET_EIGHTH)

@@ -8,26 +8,26 @@ import org.jetbrains.annotations.NotNull;
  * Created by Joseph on 7/1/16.
  */
 public final class Beat {
-    public static final Beat SIXTY_FOURTH = new Beat(Duration.SIXTY_FOURTH, 0, 1);
-    public static final Beat THIRTY_SECOND = new Beat(Duration.THIRTY_SECOND, 0, 1);
-    public static final Beat SIXTEENTH = new Beat(Duration.SIXTEENTH, 0, 1);
-    public static final Beat EIGHTH = new Beat(Duration.EIGHTH, 0, 1);
-    public static final Beat QUARTER = new Beat(Duration.QUARTER, 0, 1);
-    public static final Beat HALF = new Beat(Duration.HALF, 0, 1);
-    public static final Beat WHOLE = new Beat(Duration.WHOLE, 0, 1);
-    public static final Beat DOUBLE_WHOLE = new Beat(Duration.DOUBLE_WHOLE, 0, 1);
+    public static final Beat SIXTY_FOURTH = new Beat(BeatDuration.SIXTY_FOURTH, 0, 1);
+    public static final Beat THIRTY_SECOND = new Beat(BeatDuration.THIRTY_SECOND, 0, 1);
+    public static final Beat SIXTEENTH = new Beat(BeatDuration.SIXTEENTH, 0, 1);
+    public static final Beat EIGHTH = new Beat(BeatDuration.EIGHTH, 0, 1);
+    public static final Beat QUARTER = new Beat(BeatDuration.QUARTER, 0, 1);
+    public static final Beat HALF = new Beat(BeatDuration.HALF, 0, 1);
+    public static final Beat WHOLE = new Beat(BeatDuration.WHOLE, 0, 1);
+    public static final Beat DOUBLE_WHOLE = new Beat(BeatDuration.DOUBLE_WHOLE, 0, 1);
     
-    Duration duration;
+    BeatDuration beatDuration;
     int dotValue;
     int tuplet;
     private double ratio;
     private boolean isDotted;
     private boolean isTuplet;
 
-    private Beat(Duration duration, int dotValue, int tuplet) {
+    private Beat(BeatDuration beatDuration, int dotValue, int tuplet) {
         this.isDotted = dotValue > 0;
         this.isTuplet = tuplet > 1;
-        this.duration = duration;
+        this.beatDuration = beatDuration;
         this.dotValue = isDotted ? dotValue : 0;
         this.tuplet = isTuplet ? tuplet : 1;
         this.ratio = getTotalRatio();
@@ -37,10 +37,10 @@ public final class Beat {
         boolean noDotValue = !isDotted;
         boolean noTuplet = !isTuplet;
 
-        if (noDotValue && noTuplet) return duration.ratio;
-        if (noDotValue) return duration.ratio * getTupletRatio();
-        if (noTuplet) return duration.ratio * getDotValueRatio();
-        return (duration.ratio * getDotValueRatio()) * getTupletRatio();
+        if (noDotValue && noTuplet) return beatDuration.ratio;
+        if (noDotValue) return beatDuration.ratio * getTupletRatio();
+        if (noTuplet) return beatDuration.ratio * getDotValueRatio();
+        return (beatDuration.ratio * getDotValueRatio()) * getTupletRatio();
     }
 
     private double getTupletRatio() {
@@ -69,12 +69,12 @@ public final class Beat {
     }
 
     public static class Builder {
-        private Duration duration;
+        private BeatDuration beatDuration;
         private int dots;
         private int tuplet;
 
-        public Builder(@NotNull Duration duration) {
-            this.duration = duration;
+        public Builder(@NotNull BeatDuration beatDuration) {
+            this.beatDuration = beatDuration;
             this.dots = 0;
             this.tuplet = 1;
         }
@@ -90,7 +90,7 @@ public final class Beat {
         }
 
         public Beat build() {
-            return new Beat(duration, dots, tuplet);
+            return new Beat(beatDuration, dots, tuplet);
         }
 
     }

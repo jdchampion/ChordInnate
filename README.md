@@ -161,7 +161,7 @@
 - [ ] Borrowed chords
 - [ ] Chord inference based on scale and Roman Numeral
 - [ ] Nashville Numbering system
-- [ ] Support any beat duration
+- [ ] Support any beat beatDuration
 - [ ] Support for microtones
 
 ---

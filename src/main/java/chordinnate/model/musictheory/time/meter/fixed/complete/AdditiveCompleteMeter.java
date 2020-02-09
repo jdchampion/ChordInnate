@@ -2,7 +2,7 @@ package chordinnate.model.musictheory.time.meter.fixed.complete;
 
 import chordinnate.model.musictheory.time.meter.MeterClassificationType;
 import chordinnate.model.musictheory.time.meter.MeterSubdivision;
-import chordinnate.model.musictheory.time.rhythm.Duration;
+import chordinnate.model.musictheory.time.rhythm.BeatDuration;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -18,7 +18,7 @@ public final class AdditiveCompleteMeter extends CompleteMeter {
      * @param denominator the duration value for each beat
      * @param subdivisions the subdivision pattern for this Meter
      */
-    public AdditiveCompleteMeter(int numerator, @NotNull Duration denominator, @NotNull MeterSubdivision... subdivisions) {
+    public AdditiveCompleteMeter(int numerator, @NotNull BeatDuration denominator, @NotNull MeterSubdivision... subdivisions) {
         super(numerator, denominator, subdivisions, true, true);
         this.meterClassificationTypes.add(MeterClassificationType.ADDITIVE); // By definition of an additive meter
     }
