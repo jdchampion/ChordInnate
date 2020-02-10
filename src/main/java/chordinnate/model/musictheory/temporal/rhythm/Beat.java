@@ -1,4 +1,4 @@
-package chordinnate.model.musictheory.time.rhythm;
+package chordinnate.model.musictheory.temporal.rhythm;
 
 import org.jetbrains.annotations.NotNull;
 

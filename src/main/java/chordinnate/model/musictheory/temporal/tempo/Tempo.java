@@ -1,6 +1,6 @@
-package chordinnate.model.musictheory.time.tempo;
+package chordinnate.model.musictheory.temporal.tempo;
 
-import chordinnate.model.musictheory.time.rhythm.Beat;
+import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

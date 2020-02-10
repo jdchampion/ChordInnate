@@ -1,4 +1,4 @@
-package chordinnate.model.musictheory.time.tempo;
+package chordinnate.model.musictheory.temporal.tempo;
 
 import lombok.AllArgsConstructor;
 

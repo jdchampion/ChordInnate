@@ -1,6 +1,6 @@
-package chordinnate.model.musictheory.time.meter;
+package chordinnate.model.musictheory.temporal.meter;
 
-import chordinnate.model.musictheory.notation.TimeSignature;
+import chordinnate.model.musictheory.temporal.TimeSignature;
 import chordinnate.model.util.MathUtils;
 import org.apache.commons.lang3.math.Fraction;
 
@@ -187,7 +187,7 @@ public enum MeterType {
 
     public static Set<MeterType> classify(TimeSignature timeSignature) {
 
-        if (timeSignature == null) {
+        if (timeSignature == null || TimeSignature.NONE.equals(timeSignature)) {
             return Collections.singleton(FREE);
         }
 

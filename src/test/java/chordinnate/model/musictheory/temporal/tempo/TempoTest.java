@@ -1,7 +1,7 @@
-package chordinnate.model.musictheory.time.tempo;
+package chordinnate.model.musictheory.temporal.tempo;
 
-import chordinnate.model.musictheory.time.rhythm.Beat;
-import chordinnate.model.musictheory.time.rhythm.BeatDuration;
+import chordinnate.model.musictheory.temporal.rhythm.Beat;
+import chordinnate.model.musictheory.temporal.rhythm.BeatDuration;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

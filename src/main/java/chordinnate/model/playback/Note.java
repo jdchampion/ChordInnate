@@ -1,7 +1,7 @@
 package chordinnate.model.playback;
 
 import chordinnate.model.musictheory.pitch.Pitch;
-import chordinnate.model.musictheory.time.rhythm.Beat;
+import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

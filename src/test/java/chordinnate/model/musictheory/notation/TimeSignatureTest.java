@@ -1,7 +1,8 @@
 package chordinnate.model.musictheory.notation;
 
-import static chordinnate.model.musictheory.time.meter.MeterSubdivision.*;
+import static chordinnate.model.musictheory.temporal.meter.MeterSubdivision.*;
 
+import chordinnate.model.musictheory.temporal.TimeSignature;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.Fraction;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package chordinnate.model.musictheory.notation;
+package chordinnate.model.musictheory.temporal;
 
-import chordinnate.model.musictheory.time.meter.MeterSubdivision;
+import chordinnate.model.musictheory.temporal.meter.MeterSubdivision;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 @Data
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TimeSignature {
+
+    public static final TimeSignature NONE = new TimeSignature(Double.POSITIVE_INFINITY, 1);
 
     private Number numerator;
     private Number denominator;
