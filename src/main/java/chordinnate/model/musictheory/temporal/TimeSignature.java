@@ -65,7 +65,7 @@ public class TimeSignature {
 
         } else {
             numeratorString = "(" + numeratorStressPattern.stream()
-                    .map(Object::toString)
+                    .map(msd -> String.valueOf(msd.grouping))
                     .collect(Collectors.joining(" + ")) + ")";
         }
 
