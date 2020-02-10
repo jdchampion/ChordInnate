@@ -1,4 +1,4 @@
-package chordinnate.model.musictheory.nomenclature;
+package chordinnate.model.util.nomenclature;
 
 import com.ibm.icu.text.RuleBasedNumberFormat;
 import lombok.AccessLevel;

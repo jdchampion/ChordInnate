@@ -1,7 +1,7 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.entity.ChordType;
-import chordinnate.model.musictheory.nomenclature.GreekGrouping;
+import chordinnate.model.util.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
