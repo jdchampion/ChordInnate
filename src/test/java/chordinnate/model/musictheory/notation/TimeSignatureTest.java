@@ -1,5 +1,7 @@
 package chordinnate.model.musictheory.notation;
 
+import static chordinnate.model.musictheory.time.meter.MeterSubdivision.*;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.Fraction;
 import org.junit.Test;
@@ -16,7 +18,7 @@ public class TimeSignatureTest {
         TimeSignature ts = new TimeSignature(2, 4);
         log.info(ts.getDisplayString());
 
-        ts = new TimeSignature(Arrays.asList(2, 3, 2, 2), 8);
+        ts = new TimeSignature(Arrays.asList(DUPLE, TRIPLE, DUPLE, DUPLE), 8);
         log.info(ts.getDisplayString());
 
         ts = new TimeSignature(Fraction.getFraction(5, 4), 4);

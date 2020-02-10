@@ -12,29 +12,29 @@ import java.util.StringJoiner;
  */
 @Slf4j
 public class NonAdditiveCompleteMeterTest {
-    // TODO: more formal testing
-    @Test
-    public void is() throws Exception {
-        NonAdditiveCompleteMeter
-                fourFour1 = new NonAdditiveCompleteMeter(4, BeatDuration.QUARTER),
-                nineEight = new NonAdditiveCompleteMeter(9, BeatDuration.EIGHTH),
-                sixEight = new NonAdditiveCompleteMeter(6, BeatDuration.EIGHTH),
-                threeEight = new NonAdditiveCompleteMeter(3, BeatDuration.EIGHTH),
-                twelveEight = new NonAdditiveCompleteMeter(12, BeatDuration.EIGHTH),
-                fourFour2 = new NonAdditiveCompleteMeter(4, BeatDuration.QUARTER, MeterSubdivision.QUADRUPLE),
-                oneFour = new NonAdditiveCompleteMeter(1, BeatDuration.QUARTER),
-                elevenSixteen = new NonAdditiveCompleteMeter(11, BeatDuration.SIXTEENTH);
-
-        StringJoiner sj1 = new StringJoiner(" ");
-        for (MeterClassificationType mct : MeterClassificationType.values()) {
-            if (sixEight.isType(mct)) sj1.add(mct.name());
-        }
-        log.info("6/8:\tClassifications:\t" + sj1.toString());
-
-        StringJoiner sj2 = new StringJoiner(" ");
-        for (MeterSubdivision meterSubdivision : sixEight.getSubdivisions()) {
-            sj2.add(meterSubdivision.name());
-        }
-        log.info("6/8:\tSubdivisions:\t" + sj2.toString());
-    }
+//    // TODO: more formal testing
+//    @Test
+//    public void is() throws Exception {
+//        NonAdditiveCompleteMeter
+//                fourFour1 = new NonAdditiveCompleteMeter(4, BeatDuration.QUARTER),
+//                nineEight = new NonAdditiveCompleteMeter(9, BeatDuration.EIGHTH),
+//                sixEight = new NonAdditiveCompleteMeter(6, BeatDuration.EIGHTH),
+//                threeEight = new NonAdditiveCompleteMeter(3, BeatDuration.EIGHTH),
+//                twelveEight = new NonAdditiveCompleteMeter(12, BeatDuration.EIGHTH),
+//                fourFour2 = new NonAdditiveCompleteMeter(4, BeatDuration.QUARTER, MeterSubdivision.QUADRUPLE),
+//                oneFour = new NonAdditiveCompleteMeter(1, BeatDuration.QUARTER),
+//                elevenSixteen = new NonAdditiveCompleteMeter(11, BeatDuration.SIXTEENTH);
+//
+//        StringJoiner sj1 = new StringJoiner(" ");
+//        for (MeterType mct : MeterType.values()) {
+//            if (sixEight.isType(mct)) sj1.add(mct.name());
+//        }
+//        log.info("6/8:\tClassifications:\t" + sj1.toString());
+//
+//        StringJoiner sj2 = new StringJoiner(" ");
+//        for (MeterSubdivision meterSubdivision : sixEight.getSubdivisions()) {
+//            sj2.add(meterSubdivision.name());
+//        }
+//        log.info("6/8:\tSubdivisions:\t" + sj2.toString());
+//    }
 }

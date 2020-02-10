@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.notation;
 
+import chordinnate.model.musictheory.time.meter.MeterSubdivision;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class TimeSignature {
 
     private Number numerator;
     private Number denominator;
-    private List<Number> numeratorStressPattern;
+    private List<MeterSubdivision> numeratorStressPattern;
 
     public TimeSignature(@NotNull Number numerator, @NotNull Number denominator) {
         validate(numerator, denominator, null);
@@ -31,24 +32,17 @@ public class TimeSignature {
      * @param numeratorStressPattern
      * @param denominator
      */
-    public TimeSignature(@NotNull List<Number> numeratorStressPattern, @NotNull Number denominator) {
-        double total = numeratorStressPattern.stream().mapToDouble(Number::doubleValue).sum();
+    public TimeSignature(@NotNull List<MeterSubdivision> numeratorStressPattern, @NotNull Number denominator) {
+        int total = numeratorStressPattern.stream().mapToInt(ms -> ms.grouping).sum();
         validate(total, denominator, numeratorStressPattern);
         this.numerator = total;
         this.denominator = denominator;
         this.numeratorStressPattern = numeratorStressPattern;
     }
 
-    private void validate(Number numerator, Number denominator, List<Number> numeratorStressPattern) {
+    private void validate(Number numerator, Number denominator, List<MeterSubdivision> numeratorStressPattern) {
         if (numerator.doubleValue() < 1 || denominator.doubleValue() < 1) {
             throw new IllegalArgumentException("Numerator or denominator < 1; both must be >= 1");
-        }
-
-        if (numeratorStressPattern != null) {
-            boolean additiveFractionsExist = numeratorStressPattern.stream().anyMatch(n -> n instanceof Fraction);
-            if (additiveFractionsExist) {
-                throw new UnsupportedOperationException("Stress pattern must consist of whole numbers");
-            }
         }
 
         if (denominator instanceof Fraction || denominator.doubleValue() != denominator.intValue()) {

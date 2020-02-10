@@ -1,6 +1,6 @@
 package chordinnate.model.musictheory.time.meter.fixed.complete;
 
-import chordinnate.model.musictheory.time.meter.MeterClassificationType;
+import chordinnate.model.musictheory.time.meter.MeterType;
 import chordinnate.model.musictheory.time.meter.MeterSubdivision;
 import chordinnate.model.musictheory.time.meter.fixed.FixedMeter;
 import chordinnate.model.musictheory.time.rhythm.BeatDuration;
@@ -93,26 +93,26 @@ public abstract class CompleteMeter extends FixedMeter {
         boolean div3 = numerator % 3 == 0;
 
         if (div2 || div3) {
-            meterClassificationTypes.add(MeterClassificationType.MULTPLICATIVE);
-            meterClassificationTypes.add(div2 ? MeterClassificationType.IMPERFECT : MeterClassificationType.ODD);
+            meterTypes.add(MeterType.MULTPLICATIVE);
+            meterTypes.add(div2 ? MeterType.IMPERFECT : MeterType.ODD);
             if (numerator < 6) {
-                meterClassificationTypes.add(MeterClassificationType.SIMPLE);
+                meterTypes.add(MeterType.SIMPLE);
             } else if (div3) {
-                meterClassificationTypes.add(MeterClassificationType.PERFECT);
+                meterTypes.add(MeterType.PERFECT);
                 if (numerator > 3) {
-                    meterClassificationTypes.add(MeterClassificationType.COMPOUND);
+                    meterTypes.add(MeterType.COMPOUND);
                 }
             } else {
                 // NOTE: additive cannot be evaluated from here. Do so in AdditiveCompleteMeter.
                 // numerator >= 5 && !div3
-                meterClassificationTypes.add(MeterClassificationType.COMPLEX);
+                meterTypes.add(MeterType.COMPLEX);
             }
         } else {
-            meterClassificationTypes.add(MeterClassificationType.ODD);
+            meterTypes.add(MeterType.ODD);
             if (numerator > 1) {
-                meterClassificationTypes.add(MeterClassificationType.COMPLEX);
-                meterClassificationTypes.add(MeterClassificationType.IRREGULAR);
-                meterClassificationTypes.add(MeterClassificationType.ASYMMETRICAL);
+                meterTypes.add(MeterType.COMPLEX);
+                meterTypes.add(MeterType.IRREGULAR);
+                meterTypes.add(MeterType.ASYMMETRICAL);
             }
         }
     }
@@ -189,10 +189,10 @@ public abstract class CompleteMeter extends FixedMeter {
         for (int i = 0; i < factor; i++) {
             this.subdivisions[i] = meterSubdivision;
         }
-        if (isType(MeterClassificationType.SIMPLE)) {
-            meterClassificationTypes.add(MeterClassificationType.valueOf("SIMPLE_"+meterSubdivision));
+        if (isType(MeterType.SIMPLE)) {
+            meterTypes.add(MeterType.valueOf("SIMPLE_"+meterSubdivision));
         } else {
-            meterClassificationTypes.add(MeterClassificationType.valueOf("COMPOUND_"+meterSubdivision));
+            meterTypes.add(MeterType.valueOf("COMPOUND_"+meterSubdivision));
         }
     }
 

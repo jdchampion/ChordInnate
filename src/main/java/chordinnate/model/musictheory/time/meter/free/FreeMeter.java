@@ -2,7 +2,7 @@ package chordinnate.model.musictheory.time.meter.free;
 
 
 import chordinnate.model.musictheory.time.meter.Meter;
-import chordinnate.model.musictheory.time.meter.MeterClassificationType;
+import chordinnate.model.musictheory.time.meter.MeterType;
 
 /**
  * Meters for which there are no measurement (i.e., subdivisions) of time.
@@ -12,6 +12,6 @@ import chordinnate.model.musictheory.time.meter.MeterClassificationType;
 public final class FreeMeter extends Meter {
     public FreeMeter() {
         super.measureDuration = Double.POSITIVE_INFINITY;
-        super.meterClassificationTypes.add(MeterClassificationType.FREE);
+        super.meterTypes.add(MeterType.FREE);
     }
 }
