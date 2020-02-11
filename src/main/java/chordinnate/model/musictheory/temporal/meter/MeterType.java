@@ -161,22 +161,30 @@ public enum MeterType {
         } else if (list.size() == 1) {
             set.add(FIXED);
         } else {
-            set.add(MIXED);
+            Set<String> uniqueTimeSigs = new HashSet<>();
 
             String[] alternatePair = new String[2];
             alternatePair[0] = list.get(0).getDisplayString();
             alternatePair[1] = list.get(1).getDisplayString();
 
+            uniqueTimeSigs.add(alternatePair[0]);
+            uniqueTimeSigs.add(alternatePair[1]);
+
             boolean isAlternating = true;
             for (int i = 2, j = 0; i < list.size(); i++, j = (j + 1) % 2) {
-                if (list.get(i).getDisplayString().equals(alternatePair[j])) {
+                String current = list.get(i).getDisplayString();
+                uniqueTimeSigs.add(current);
+                if (isAlternating && !current.equals(alternatePair[j])) {
                     isAlternating = false;
-                    break;
                 }
             }
 
             if (isAlternating) {
                 set.add(ALTERNATING);
+            }
+
+            if (uniqueTimeSigs.size() > 1) {
+                set.add(MIXED);
             }
         }
 

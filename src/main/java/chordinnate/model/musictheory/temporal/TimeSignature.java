@@ -1,6 +1,7 @@
 package chordinnate.model.musictheory.temporal;
 
 import chordinnate.model.musictheory.temporal.meter.MeterSubdivision;
+import chordinnate.model.util.MathUtils;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,17 @@ public class TimeSignature {
     private void validate(Number numerator, Number denominator, List<MeterSubdivision> numeratorStressPattern) {
         if (numerator.doubleValue() < 1 || denominator.doubleValue() < 1) {
             throw new IllegalArgumentException("Numerator or denominator < 1; both must be >= 1");
+        }
+
+        if (numerator instanceof  Fraction) {
+            Fraction num = (Fraction) numerator;
+            int fractionalDenominator = num.getDenominator();
+            boolean fdLog2 = MathUtils.isPowerOf(2, fractionalDenominator);
+            boolean fdLog3 = MathUtils.isPowerOf(3, fractionalDenominator);
+
+            if (!fdLog2 && !fdLog3) {
+                throw new UnsupportedOperationException("The denominator for the fractional part of this time signature must be a power of 2 or 3");
+            }
         }
 
         if (denominator instanceof Fraction || denominator.doubleValue() != denominator.intValue()) {

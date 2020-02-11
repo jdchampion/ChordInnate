@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  *
  * Created by Joseph on 7/1/16.
  */
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public final class Beat {
