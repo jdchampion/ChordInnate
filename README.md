@@ -140,11 +140,18 @@
     - simple
     - compound
     - complex
+    - complete
+    - additive
+    - multiplicative
+    - fixed
+    - alternating
+    - mixed
     - perfect
     - imperfect
     - odd
     - irregular
     - asymmetrical
+    - fractional
     - free
   - Automatic classification of meter type based on time signature
   - Support for all standard beat durations (64th note to double-whole note), as well as any tuplet or dot modifications to the beat
@@ -161,7 +168,7 @@
 - [ ] Borrowed chords
 - [ ] Chord inference based on scale and Roman Numeral
 - [ ] Nashville Numbering system
-- [ ] Support any beat beatDuration
+- [ ] Support any beat duration
 - [ ] Support for microtones
 
 ---
