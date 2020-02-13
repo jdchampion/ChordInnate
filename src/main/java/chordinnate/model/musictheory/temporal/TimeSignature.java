@@ -49,13 +49,11 @@ public class TimeSignature {
         }
 
         if (numerator instanceof  Fraction) {
-            Fraction num = (Fraction) numerator;
-            int fractionalDenominator = num.getDenominator();
-            boolean fdLog2 = MathUtils.isPowerOf(2, fractionalDenominator);
-            boolean fdLog3 = MathUtils.isPowerOf(3, fractionalDenominator);
+            boolean fdLog2 = MathUtils.isPowerOf(2, denominator.doubleValue());
+            boolean fdLog3 = MathUtils.isPowerOf(3, denominator.doubleValue());
 
             if (!fdLog2 && !fdLog3) {
-                throw new UnsupportedOperationException("The denominator for the fractional part of this time signature must be a power of 2 or 3");
+                throw new UnsupportedOperationException("The denominator of a fractional time signature must be a power of 2 or 3");
             }
         }
 
