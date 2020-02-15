@@ -132,14 +132,12 @@ public enum MeterType {
     IRRATIONAL,
 
     /**
-     * Time signature numerator is written as a floating point number
-     * whose denominator is a dyadic (log2(x) == int) or triadic (log3(x) == int) rational.
+     * Time signature numerator is written as a floating point number.
      */
     PARTIAL,
 
     /**
-     * Time signature numerator is written as a fraction
-     * whose fractional denominator is a dyadic (log2(x) == int) or triadic (log3(x) == int) rational.
+     * Time signature numerator is written as a fraction.
      */
     FRACTIONAL,
 
@@ -204,27 +202,23 @@ public enum MeterType {
         double numerator = timeSignature.getNumerator().doubleValue();
         double denominator = timeSignature.getDenominator().doubleValue();
 
-        boolean log2Denom = MathUtils.isPowerOf(2, denominator);
-        boolean log3Denom = MathUtils.isPowerOf(3, denominator);
-
         if (timeSignature.getNumerator() instanceof Fraction) {
             meterTypes.add(FRACTIONAL);
         } else {
-            if (log2Denom || log3Denom) {
-                if (timeSignature.getNumerator() instanceof Double) {
-                    meterTypes.add(PARTIAL);
-                } else {
-                    meterTypes.add(COMPLETE);
-                }
+            if (timeSignature.getNumerator() instanceof Double) {
+                meterTypes.add(PARTIAL);
+            } else {
+                meterTypes.add(COMPLETE);
             }
         }
 
-        if (!log2Denom) {
+        if (!MathUtils.isPowerOf(2, denominator)) {
             meterTypes.add(IRRATIONAL);
         }
 
-        if (timeSignature.getNumeratorStressPattern() != null
-                && timeSignature.getNumeratorStressPattern().size() > 1) {
+        if (timeSignature.isDisplayStressPattern()
+                && timeSignature.getStressPattern() != null
+                && timeSignature.getStressPattern().size() > 1) {
             meterTypes.add(ADDITIVE);
         }
 

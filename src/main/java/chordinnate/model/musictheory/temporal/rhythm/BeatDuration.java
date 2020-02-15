@@ -8,9 +8,6 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public enum BeatDuration {
-    /*
-     * NOTE: Keep these ordered from smallest to largest.
-     */
     SIXTY_FOURTH(0.015625),
     THIRTY_SECOND(0.03125),
     SIXTEENTH(0.0625),

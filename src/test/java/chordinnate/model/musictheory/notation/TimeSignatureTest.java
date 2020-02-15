@@ -19,7 +19,7 @@ public class TimeSignatureTest {
         TimeSignature ts = new TimeSignature(2, 4);
         log.info(ts.getDisplayString());
 
-        ts = new TimeSignature(Arrays.asList(DUPLE, TRIPLE, DUPLE, DUPLE), 8);
+        ts = new TimeSignature(Arrays.asList(DUPLE, TRIPLE, DUPLE, DUPLE), true, 8);
         log.info(ts.getDisplayString());
 
         ts = new TimeSignature(Fraction.getFraction(5, 4), 4);

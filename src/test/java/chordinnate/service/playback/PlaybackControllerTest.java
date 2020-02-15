@@ -31,8 +31,8 @@ public class PlaybackControllerTest {
     public void playNote() {
         Tempo tempo = new Tempo(Beat.QUARTER, 60);
         int bpm = tempo.getCurrentBPM();
-        Beat TRIPLET_EIGHTH = Beat.builder().beatDuration(BeatDuration.EIGHTH).tuplet(3).build(),
-                DOTTED_HALF = Beat.builder().beatDuration(BeatDuration.HALF).dots(1).build();
+        Beat TRIPLET_EIGHTH = Beat.builder().duration(BeatDuration.EIGHTH).tuplet(3).build(),
+                DOTTED_HALF = Beat.builder().duration(BeatDuration.HALF).dots(1).build();
         for (Articulation articulation : Articulation.values()) {
 
             Note n1 = new Note.Builder(Pitch.G_4, TRIPLET_EIGHTH)

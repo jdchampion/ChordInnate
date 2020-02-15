@@ -19,11 +19,11 @@ public class BeatTest {
         assertEquals(1.0, Beat.WHOLE.getRatio(), 0);
         assertEquals(2.0, Beat.DOUBLE_WHOLE.getRatio(), 0);
 
-        Beat DOTTED_HALF = Beat.builder().beatDuration(BeatDuration.HALF).dots(1).build();
-        Beat DOUBLE_DOTTED_HALF = Beat.builder().beatDuration(BeatDuration.HALF).dots(2).build();
-        Beat TRIPLET_EIGHTH = Beat.builder().beatDuration(BeatDuration.EIGHTH).tuplet(3).build();
-        Beat QUADRUPLET_EIGHTH = Beat.builder().beatDuration(BeatDuration.EIGHTH).tuplet(4).build();
-        Beat TRIPLET_DOTTED_HALF = Beat.builder().beatDuration(BeatDuration.HALF).dots(1).tuplet(3).build();
+        Beat DOTTED_HALF = Beat.builder().duration(BeatDuration.HALF).dots(1).build();
+        Beat DOUBLE_DOTTED_HALF = Beat.builder().duration(BeatDuration.HALF).dots(2).build();
+        Beat TRIPLET_EIGHTH = Beat.builder().duration(BeatDuration.EIGHTH).tuplet(3).build();
+        Beat QUADRUPLET_EIGHTH = Beat.builder().duration(BeatDuration.EIGHTH).tuplet(4).build();
+        Beat TRIPLET_DOTTED_HALF = Beat.builder().duration(BeatDuration.HALF).dots(1).tuplet(3).build();
 
         // Dotted half = 3/4 whole note = 0.75
         assertEquals(0.75, DOTTED_HALF.getRatio(), 0);
@@ -34,7 +34,7 @@ public class BeatTest {
         // Triplet eighth = 1/3 quarter
         assertEquals((1.0 / 3.0) * 0.25, TRIPLET_EIGHTH.getRatio(), 0);
 
-        // Quadruplet eight = 1/4 quarter = sixteenth = 0.0625
+        // Quadruplet eighth = 1/4 quarter = sixteenth = 0.0625
         assertEquals(0.0625, QUADRUPLET_EIGHTH.getRatio(), 0);
 
         // Triplet dotted half = 1/3 [2 * dotted half] = 1/3 [six quarters] = 0.5

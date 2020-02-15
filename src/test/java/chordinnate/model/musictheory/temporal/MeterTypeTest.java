@@ -1,9 +1,12 @@
 package chordinnate.model.musictheory.temporal;
 
+import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.meter.MeterSubdivision;
 import chordinnate.model.musictheory.temporal.meter.MeterType;
 import chordinnate.model.musictheory.temporal.meter.Metered;
+import chordinnate.model.musictheory.temporal.rhythm.Beat;
+import chordinnate.model.playback.Note;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.math.Fraction;
 import org.junit.Test;
@@ -24,8 +27,8 @@ public class MeterTypeTest {
 
     @Test
     public void classify_fixed() {
-        Metered measure = new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.emptyList());
-        assertTrue(MeterType.classify(measure).contains(MeterType.FIXED));
+        Metered measure = new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.WHOLE)));
+        assertTrue(measure.isMeterType(MeterType.FIXED));
     }
 
     @Test
@@ -39,14 +42,14 @@ public class MeterTypeTest {
         Motif motif = new Motif();
 
         Cell cell1 = new Cell();
-        cell1.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.emptyList()));
+        cell1.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.WHOLE))));
 
         Cell cell2 = new Cell();
-        cell2.setMeasure(new Measure(new TimeSignature(2, 4), KeySignature.NO_KEY_SIGNATURE, Collections.emptyList()));
+        cell2.setMeasure(new Measure(new TimeSignature(2, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.HALF))));
 
         motif.setCells(Arrays.asList(cell1, cell2));
 
-        assertTrue(MeterType.classify(motif).contains(MeterType.MIXED));
+        assertTrue(motif.isMeterType(MeterType.MIXED));
     }
 
     @Test
@@ -54,17 +57,17 @@ public class MeterTypeTest {
         Motif motif = new Motif();
 
         Cell cell1 = new Cell();
-        cell1.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.emptyList()));
+        cell1.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.WHOLE))));
 
         Cell cell2 = new Cell();
-        cell2.setMeasure(new Measure(new TimeSignature(2, 4), KeySignature.NO_KEY_SIGNATURE, Collections.emptyList()));
+        cell2.setMeasure(new Measure(new TimeSignature(2, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.HALF))));
 
         Cell cell3 = new Cell();
-        cell3.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.emptyList()));
+        cell3.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.WHOLE))));
 
         motif.setCells(Arrays.asList(cell1, cell2, cell3));
 
-        assertTrue(MeterType.classify(motif).contains(MeterType.ALTERNATING));
+        assertTrue(motif.isMeterType(MeterType.ALTERNATING));
     }
 
     @Test
@@ -105,7 +108,7 @@ public class MeterTypeTest {
 
     @Test
     public void classify_additive() {
-        TimeSignature ts = new TimeSignature(Arrays.asList(MeterSubdivision.DUPLE, MeterSubdivision.TRIPLE, MeterSubdivision.DUPLE, MeterSubdivision.DUPLE), 8);
+        TimeSignature ts = new TimeSignature(Arrays.asList(MeterSubdivision.DUPLE, MeterSubdivision.TRIPLE, MeterSubdivision.DUPLE, MeterSubdivision.DUPLE), true, 8);
         assertTrue(MeterType.classify(ts).contains(MeterType.ADDITIVE));
     }
 

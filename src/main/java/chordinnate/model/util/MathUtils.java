@@ -7,4 +7,8 @@ public class MathUtils {
         return Math.ceil(v) == Math.floor(v);
     }
 
+    public static double invert(double val) {
+        return Math.pow(val, -1);
+    }
+
 }

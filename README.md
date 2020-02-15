@@ -153,7 +153,6 @@
     - asymmetrical
     - fractional
     - free
-  - Automatic classification of meter type based on time signature
   - Support for all standard beat durations (64th note to double-whole note), as well as any tuplet or dot modifications to the beat
   - 20 standard tempo presets, with support for customized tempo BPM
 
@@ -169,6 +168,8 @@
 - [ ] Chord inference based on scale and Roman Numeral
 - [ ] Nashville Numbering system
 - [ ] Support any beat duration
+- [ ] Cadence detection and classification
+- [ ] Support for polymeter
 - [ ] Support for microtones
 
 ---

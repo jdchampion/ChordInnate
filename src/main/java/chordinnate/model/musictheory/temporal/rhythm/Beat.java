@@ -1,6 +1,7 @@
 package chordinnate.model.musictheory.temporal.rhythm;
 
 
+import chordinnate.model.util.MathUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 public final class Beat {
+
+    // TODO: add more static finals
+    // TODO: add constructor for dynamic Beat using any value of (2^(-x)) for the beat duration
+
     public static final Beat SIXTY_FOURTH = new Beat(BeatDuration.SIXTY_FOURTH, 0, 1);
     public static final Beat THIRTY_SECOND = new Beat(BeatDuration.THIRTY_SECOND, 0, 1);
     public static final Beat SIXTEENTH = new Beat(BeatDuration.SIXTEENTH, 0, 1);
@@ -24,7 +29,7 @@ public final class Beat {
     public static final Beat WHOLE = new Beat(BeatDuration.WHOLE, 0, 1);
     public static final Beat DOUBLE_WHOLE = new Beat(BeatDuration.DOUBLE_WHOLE, 0, 1);
     
-    BeatDuration beatDuration;
+    BeatDuration duration;
     private int dots = 0;
     private int tuplet = 1;
 
@@ -40,15 +45,15 @@ public final class Beat {
         boolean noDotValue = !isDotted();
         boolean noTuplet = !isTuplet();
 
-        if (noDotValue && noTuplet) return beatDuration.ratio;
-        if (noDotValue) return beatDuration.ratio * getTupletRatio();
-        if (noTuplet) return beatDuration.ratio * getDotValueRatio();
-        return (beatDuration.ratio * getDotValueRatio()) * getTupletRatio();
+        if (noDotValue && noTuplet) return duration.ratio;
+        if (noDotValue) return duration.ratio * getTupletRatio();
+        if (noTuplet) return duration.ratio * getDotValueRatio();
+        return (duration.ratio * getDotValueRatio()) * getTupletRatio();
     }
 
     private double getTupletRatio() {
         int tmp = tuplet % 2 == 0 ? (tuplet / (tuplet / 2)) : (tuplet - 1);
-        return tmp * (1.0 / tuplet);
+        return tmp * MathUtils.invert(tuplet);
     }
 
     private double getDotValueRatio() {
