@@ -1,7 +1,6 @@
 package chordinnate.model.musictheory.temporal.tempo;
 
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.model.musictheory.temporal.rhythm.BeatDuration;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -39,8 +38,8 @@ public class TempoTest {
     @Test
     public void getMillisForBeat() throws Exception {
         Tempo tempo = new Tempo(Beat.QUARTER, 120);
-        Beat TRIPLET_EIGHTH = Beat.builder().duration(BeatDuration.EIGHTH).tuplet(3).build(),
-                DOTTED_TRIPLET_QUARTER = Beat.builder().duration(BeatDuration.QUARTER).dots(1).tuplet(3).build();
+        Beat TRIPLET_EIGHTH = Beat.TRIPLET_EIGHTH,
+                DOTTED_TRIPLET_QUARTER = Beat.builder().value(Beat.VALUE_QUARTER).dots(1).tuplet(3).build();
         assertEquals(500, tempo.getMillisFor(Beat.QUARTER));
         assertEquals(250, tempo.getMillisFor(Beat.EIGHTH));
         assertEquals(125, tempo.getMillisFor(Beat.SIXTEENTH));

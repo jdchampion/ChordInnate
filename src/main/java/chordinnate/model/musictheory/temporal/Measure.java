@@ -53,7 +53,7 @@ public class Measure implements Metered, Playable {
             return true;
         }
 
-        double total = rhythm.stream().mapToDouble(n -> n.getBeat().getRatio()).sum();
+        double total = rhythm.stream().mapToDouble(n -> n.getBeat().getDuration()).sum();
 
         return total == duration;
     }

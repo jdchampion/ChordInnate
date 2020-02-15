@@ -21,7 +21,7 @@ public class Tempo {
             this.currentBPM = bpm;
             this.currentSubdivision = subdivision;
             this.millis = bpmToMillis(bpm);
-            this.ratio = currentSubdivision.getRatio();
+            this.ratio = currentSubdivision.getDuration();
         } else {
             throw new IllegalArgumentException("Tempo must be between " + MIN_BPM + " and " + MAX_BPM + " BPM.");
         }
@@ -55,7 +55,7 @@ public class Tempo {
 
     public void setSubdivision(@NotNull Beat beat) {
         this.currentSubdivision = beat;
-        this.ratio = beat.getRatio();
+        this.ratio = beat.getDuration();
     }
 
     public int getCurrentBPM() {
@@ -128,6 +128,6 @@ public class Tempo {
     }
 
     public long getMillisFor(Beat beat) {
-        return beat == null ? 0 : (long) (millis * (beat.getRatio() / currentSubdivision.getRatio()));
+        return beat == null ? 0 : (long) (millis * (beat.getDuration() / currentSubdivision.getDuration()));
     }
 }

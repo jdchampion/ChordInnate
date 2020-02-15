@@ -17,7 +17,7 @@
 
 ---
 ## Some Key Features
-- **Pitch**
+#### PITCH
   - 1000+ preset scale types and 50+ preset chord types, with support for user extensibility
   - A relational 'tagging' system to allow the user to group or associate chords and scales in any arbitrary way
   - All standard major & minor key signatures, with full support for theoretical keys
@@ -135,30 +135,38 @@
     >```java
     >PitchClass.getSemitoneDistanceBetween(PitchClass.C, PitchClass.D);      // 2
     >```
-- **Rhythm**
-  - Support (and automatic classification) for meter types:
-    - simple
-    - compound
-    - complex
-    - complete
-    - additive
-    - multiplicative
-    - fixed
-    - alternating
-    - mixed
-    - perfect
-    - imperfect
-    - odd
-    - irregular
-    - asymmetrical
-    - fractional
-    - free
-  - Support for all standard beat durations (64th note to double-whole note), as well as any tuplet or dot modifications to the beat
+
+---
+
+#### RHYTHM
+  - Presets for all standard beat durations (128th note to double-whole note)
+  - Support for any (valid) custom beat duration, including tuplets or dot modifications to the beat
+
+---
+
+#### METER
   - 20 standard tempo presets, with support for customized tempo BPM
+  - Support (and automatic classification) for meter types:
+      - simple
+      - compound
+      - complex
+      - complete
+      - additive
+      - multiplicative
+      - fixed
+      - alternating
+      - mixed
+      - perfect
+      - imperfect
+      - odd
+      - irregular
+      - asymmetrical
+      - fractional
+      - free
 
 ---
 ## TODO
-*This is an (ever-growing) list of features currently in the works for ChordInnate:*
+*This is an (ever-growing) list of features that are planned or currently in the works for ChordInnate:*
 - [x] ~~User-extensible chords and scales~~
 - [x] ~~Support for dyads, triads, tetrads, etc.~~
 - [ ] Interval ratios (Just Intonation, 12-Tone Equal Temperament)
@@ -167,7 +175,7 @@
 - [ ] Borrowed chords
 - [ ] Chord inference based on scale and Roman Numeral
 - [ ] Nashville Numbering system
-- [ ] Support any beat duration
+- [x] ~~Support any beat duration~~
 - [ ] Cadence detection and classification
 - [ ] Support for polymeter
 - [ ] Support for microtones

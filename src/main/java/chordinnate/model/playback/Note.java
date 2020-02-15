@@ -32,7 +32,7 @@ public class Note implements Playable {
     public Note(@NotNull Pitch pitch, @NotNull Beat beat) {
         this.pitch = pitch;
         this.beat = beat;
-        this.soundedLength = beat.getRatio();
+        this.soundedLength = beat.getDuration();
     }
 
     public Pitch getPitch() {
