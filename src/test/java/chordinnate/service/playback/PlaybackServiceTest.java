@@ -16,13 +16,13 @@ import org.junit.Test;
  * Created by Joseph on 6/16/16.
  */
 @Slf4j
-public class PlaybackControllerTest {
+public class PlaybackServiceTest {
 
     @Ignore("Disabled for Travis CI and faster testing")
     @Test
     public void playPitch() {
         log.info("Playing back C4 pitch...");
-        PlaybackController.play(Pitch.C_4);
+        PlaybackService.play(Pitch.C_4);
     }
 
     @Ignore("Disabled for Travis CI and faster testing")
@@ -34,11 +34,15 @@ public class PlaybackControllerTest {
                 DOTTED_HALF = Beat.DOTTED_HALF;
         for (Articulation articulation : Articulation.values()) {
 
-            Note n1 = new Note.Builder(Pitch.G_4, TRIPLET_EIGHTH)
+            Note n1 = Note.builder()
+                    .pitch(Pitch.G_4)
+                    .beat(TRIPLET_EIGHTH)
                     .articulation(articulation)
                     .build();
             Note n2 = new Note(Pitch.E_FLAT_4, DOTTED_HALF);
-            Note n3 = new Note.Builder(Pitch.F_4, TRIPLET_EIGHTH)
+            Note n3 = Note.builder()
+                    .pitch(Pitch.F_4)
+                    .beat(TRIPLET_EIGHTH)
                     .articulation(articulation)
                     .build();
             Note n4 = new Note(Pitch.D_4, DOTTED_HALF);
@@ -56,17 +60,17 @@ public class PlaybackControllerTest {
                     "\nUnsounded length: " + difference + " ms";
             log.info("\n" + sb);
 
-            PlaybackController.setTempo(tempo);
+            PlaybackService.setTempo(tempo);
 
             // Play the opening for Beethoven's Symphony No. 5
-            PlaybackController.play(n1);
-            PlaybackController.play(n1);
-            PlaybackController.play(n1);
-            PlaybackController.play(n2);
-            PlaybackController.play(n3);
-            PlaybackController.play(n3);
-            PlaybackController.play(n3);
-            PlaybackController.play(n4);
+            PlaybackService.play(n1);
+            PlaybackService.play(n1);
+            PlaybackService.play(n1);
+            PlaybackService.play(n2);
+            PlaybackService.play(n3);
+            PlaybackService.play(n3);
+            PlaybackService.play(n3);
+            PlaybackService.play(n4);
         }
     }
 
@@ -75,7 +79,7 @@ public class PlaybackControllerTest {
     public void testScale() {
         Scale scale = new Scale("C Hira-joshi");
         log.info("Playing back C Hira-joshi scale...");
-        PlaybackController.play(scale, Octave.OCTAVE_4);
+        PlaybackService.play(scale, Octave.OCTAVE_4);
     }
 
     @Ignore("Disabled for Travis CI and faster testing")
@@ -83,7 +87,7 @@ public class PlaybackControllerTest {
     public void testChord() {
         Chord c = new Chord("G7");
         log.info("Playing back G7 chord...");
-        PlaybackController.play(c);
+        PlaybackService.play(c);
     }
 
 }

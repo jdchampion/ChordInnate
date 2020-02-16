@@ -18,7 +18,7 @@ public class Measure implements Metered, Playable {
 
     private TimeSignature timeSignature;
     private KeySignature keySignature;
-    private Tempo tempo; // TODO: add here or on Note?
+    private Tempo tempo;
     private List<Note> rhythm;
     private double duration;
 

@@ -7,6 +7,7 @@ import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Note;
+import chordinnate.model.playback.Playable;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ import javax.sound.midi.*;
  * Created by Joseph on 6/16/16.
  */
 @Slf4j
-public final class PlaybackController {
+public final class PlaybackService {
     private static MidiChannel[] midiChannels;
     private static Synthesizer synthesizer;
     private static Tempo currentTempo = new Tempo(Beat.QUARTER, 120);
@@ -32,7 +33,7 @@ public final class PlaybackController {
         }
     }
 
-    private PlaybackController() {}
+    private PlaybackService() {}
 
     /**
      * Restarts the Synthesizer if it has been stopped.
@@ -75,7 +76,7 @@ public final class PlaybackController {
 //        try {
 //            t.getMidiSequence();
 //        } catch (Exception ex) {
-//            // TODO - add throws Exception to play(T) ?
+//            // TODO - add throws Exception to play(Playable) ?
 //            LOGGER.log(Level.SEVERE, "Error during playback.", ex);
 //
 //        }
@@ -86,7 +87,7 @@ public final class PlaybackController {
     /**
      * Plays back the specified Pitch for one (1) second.
      * @param pitch the Pitch to play
-     * TODO - deprecate this when play(T) works
+     * TODO - deprecate this when play(Playable) works
      */
     public static void play(@NotNull Pitch pitch) {
         prepareController();
@@ -103,7 +104,7 @@ public final class PlaybackController {
     /**
      * Plays back the specified Note, at the current Tempo.
      * @param note the Note to play
-     * TODO - deprecate this when play(T) works
+     * TODO - deprecate this when play(Playable) works
      */
     public static void play(@NotNull Note note) {
         prepareController();
@@ -123,7 +124,7 @@ public final class PlaybackController {
     }
 
     /**
-     * TODO - deprecate this when play(T) works
+     * TODO - deprecate this when play(Playable) works
      * @param chord
      */
     public static void play(@NotNull Chord chord) {
@@ -154,7 +155,7 @@ public final class PlaybackController {
     }
 
     /**
-     * TODO - deprecate this when play(T) works
+     * TODO - deprecate this when play(Playable) works
      * @param scale
      * @param octave
      */
@@ -167,5 +168,9 @@ public final class PlaybackController {
         } catch (Exception ex) {
             log.error("Error during playback.", ex);
         }
+    }
+
+    public static void play(@NotNull Playable playable) {
+        // TODO: finish
     }
 }

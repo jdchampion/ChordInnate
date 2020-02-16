@@ -48,7 +48,7 @@ public class Tempo {
 
         /*
          * Update the lower-level "millis" variable
-         * for use by the PlaybackController class.
+         * for use by the PlaybackService class.
          */
         this.millis = bpmToMillis(currentBPM);
     }
