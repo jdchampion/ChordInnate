@@ -1,12 +1,7 @@
 package chordinnate.service.playback;
 
 import chordinnate.model.musictheory.pitch.Pitch;
-import chordinnate.model.musictheory.pitch.interval.Octave;
-import chordinnate.model.musictheory.pitch.interval.set.Chord;
-import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.model.musictheory.temporal.tempo.Tempo;
-import chordinnate.model.playback.Articulation;
 import chordinnate.model.playback.Note;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
@@ -18,76 +13,68 @@ import org.junit.Test;
 @Slf4j
 public class PlaybackServiceTest {
 
-    @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void playPitch() {
-        log.info("Playing back C4 pitch...");
-        PlaybackService.play(Pitch.C_4);
+    public void play_Pitch() {
+
+    }
+
+    @Test
+    public void play_HorizontalIntervalSet() {
+
+    }
+
+    @Test
+    public void play_VerticalIntervalSet() {
+
     }
 
     @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void playNote() {
-        Tempo tempo = new Tempo(Beat.QUARTER, 60);
-        int bpm = tempo.getCurrentBPM();
-        Beat TRIPLET_EIGHTH = Beat.TRIPLET_EIGHTH,
-                DOTTED_HALF = Beat.DOTTED_HALF;
-        for (Articulation articulation : Articulation.values()) {
+    public void play_Note() {
+        Note note = Note.builder(Pitch.C_5, Beat.WHOLE).build();
 
-            Note n1 = Note.builder()
-                    .pitch(Pitch.G_4)
-                    .beat(TRIPLET_EIGHTH)
-                    .articulation(articulation)
-                    .build();
-            Note n2 = new Note(Pitch.E_FLAT_4, DOTTED_HALF);
-            Note n3 = Note.builder()
-                    .pitch(Pitch.F_4)
-                    .beat(TRIPLET_EIGHTH)
-                    .articulation(articulation)
-                    .build();
-            Note n4 = new Note(Pitch.D_4, DOTTED_HALF);
-
-            long fullLength = tempo.getMillisFor(n1.getBeat());
-            long soundedLength = (long) (n1.getSoundedLength() * fullLength);
-            long difference = fullLength - soundedLength;
-            Pitch pitch = n1.getPitch();
-            Beat beat = n1.getBeat();
-
-            String sb = (articulation == null ? "" : (articulation + " ")) +
-                    pitch.pitchClass.getName() + " " + beat + " at tempo = " + bpm + " bpm:" +
-                    "\nFull length: " + fullLength + " ms" +
-                    "\nSounded length: " + soundedLength + " ms" +
-                    "\nUnsounded length: " + difference + " ms";
-            log.info("\n" + sb);
-
-            PlaybackService.setTempo(tempo);
-
-            // Play the opening for Beethoven's Symphony No. 5
-            PlaybackService.play(n1);
-            PlaybackService.play(n1);
-            PlaybackService.play(n1);
-            PlaybackService.play(n2);
-            PlaybackService.play(n3);
-            PlaybackService.play(n3);
-            PlaybackService.play(n3);
-            PlaybackService.play(n4);
-        }
+        log.info("PLAYING: {}", note.toString()); // TODO: better diagnostic string
+        PlaybackService.play(note);
     }
 
-    @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void testScale() {
-        Scale scale = new Scale("C Hira-joshi");
-        log.info("Playing back C Hira-joshi scale...");
-        PlaybackService.play(scale, Octave.OCTAVE_4);
+    public void play_Measure() {
+
     }
 
-    @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void testChord() {
-        Chord c = new Chord("G7");
-        log.info("Playing back G7 chord...");
-        PlaybackService.play(c);
+    public void play_Cell() {
+
+    }
+
+    @Test
+    public void play_Motif() {
+
+    }
+
+    @Test
+    public void play_PhraseMember() {
+
+    }
+
+    @Test
+    public void play_Phrase() {
+
+    }
+
+    @Test
+    public void play_PhraseGroup() {
+
+    }
+
+    @Test
+    public void play_Period() {
+
+    }
+
+    @Test
+    public void play_DoublePeriod() {
+
     }
 
 }

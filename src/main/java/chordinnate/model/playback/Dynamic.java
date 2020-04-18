@@ -1,6 +1,7 @@
 package chordinnate.model.playback;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 /**
  * Created by Joseph on 6/1/16.
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
  * References: https://en.wikipedia.org/wiki/Dynamics_%28music%29
  *             https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html
  */
+@Getter
 @AllArgsConstructor
 public enum Dynamic {
     PIANISSISSISSIMO("pppp", 8),
@@ -23,7 +25,7 @@ public enum Dynamic {
 
     ;
 
-    public final String symbol;
-    final int volumeLevel;
+    private final String symbol;
+    private final int velocity;
 
 }

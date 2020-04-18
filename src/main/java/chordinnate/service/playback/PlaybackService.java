@@ -1,176 +1,128 @@
 package chordinnate.service.playback;
 
-import chordinnate.model.musictheory.pitch.Pitch;
-import chordinnate.model.musictheory.pitch.interval.Octave;
-import chordinnate.model.musictheory.pitch.interval.set.Chord;
-import chordinnate.model.musictheory.pitch.interval.set.Scale;
-import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.model.musictheory.temporal.tempo.Tempo;
-import chordinnate.model.playback.Note;
 import chordinnate.model.playback.Playable;
+import chordinnate.service.playback.visitor.SequenceVisitor;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import javax.sound.midi.*;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiChannel;
+import javax.sound.midi.MidiDevice;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.Synthesizer;
 
 /**
  * Created by Joseph on 6/16/16.
  */
 @Slf4j
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PlaybackService {
-    private static MidiChannel[] midiChannels;
-    private static Synthesizer synthesizer;
-    private static Tempo currentTempo = new Tempo(Beat.QUARTER, 120);
 
-    static {
+    private static final int SEQUENCER_DEVICE = 0;
+    private static final int SYNTHESIZER_DEVICE = 1;
+
+    private static Sequencer prepareSequencer() {
+        MidiDevice midiDevice = null;
+
         try {
-            synthesizer = MidiSystem.getSynthesizer();
-            midiChannels = synthesizer.getChannels();
-            synthesizer.open();
-            Thread.sleep(1000); // allows the synthesizer to finish initialization before playing
-        } catch (Exception ex) {
-            log.error("Error initializing the synthesizer.", ex);
+            midiDevice = initializeAndOpen(null, SEQUENCER_DEVICE);
+        } catch (MidiUnavailableException ex) {
+            log.error("Error initializing the MIDI device", ex);
         }
+
+        return (Sequencer) midiDevice;
     }
 
-    private PlaybackService() {}
+    private static Sequencer prepareSequencer(Sequence sequence) {
+        Sequencer sequencer = prepareSequencer();
 
-    /**
-     * Restarts the Synthesizer if it has been stopped.
-     */
-    private static void prepareController() {
         try {
-            if (!synthesizer.isOpen()) {
-                synthesizer.open();
+            sequencer.setSequence(sequence);
+        } catch (InvalidMidiDataException ex) {
+            log.error("Error sending sequence to the MIDI device {}", sequencer.getDeviceInfo().getName(), ex);
+        }
+
+        return sequencer;
+    }
+
+    private static Synthesizer prepareSynthesizer() {
+        MidiDevice midiDevice = null;
+        try {
+            midiDevice =  initializeAndOpen(null, SYNTHESIZER_DEVICE);
+        } catch (MidiUnavailableException ex) {
+            log.error("Error initializing the MIDI device", ex);
+        }
+
+        return (Synthesizer) midiDevice;
+    }
+
+    private static MidiDevice initializeAndOpen(MidiDevice midiDevice, final int deviceType) throws MidiUnavailableException {
+        if (midiDevice == null) {
+            try {
+                if (deviceType == SEQUENCER_DEVICE) {
+                    midiDevice = MidiSystem.getSequencer();
+                } else if (deviceType == SYNTHESIZER_DEVICE) {
+                    midiDevice = MidiSystem.getSynthesizer();
+                } else {
+                    return null;
+                }
+            } catch (MidiUnavailableException ex) {
+                throw new MidiUnavailableException("Error initializing the MIDI device");
+            }
+        }
+
+        try {
+            if (!midiDevice.isOpen()) {
+                midiDevice.open();
             }
         } catch (MidiUnavailableException ex) {
-            log.error("Error restarting the synthesizer.", ex);
+            throw new MidiUnavailableException("Error preparing the MIDI device " + midiDevice.getDeviceInfo().getName());
         }
+
+        return midiDevice;
     }
 
-    /**
-     * Stops the Synthesizer.
-     */
-    public static void stop() {
+    private static MidiDevice stop(final MidiDevice midiDevice) {
         try {
-            for (MidiChannel midiChannel: midiChannels) {
-                midiChannel.allSoundOff();
+            if (midiDevice instanceof Synthesizer) {
+                MidiChannel[] channels = ((Synthesizer) midiDevice).getChannels();
+                for (MidiChannel midiChannel : channels) {
+                    midiChannel.allSoundOff();
+                }
             }
-            synthesizer.close();
+            midiDevice.close();
         } catch (Exception ex) {
-            log.error("Error stopping the synthesizer.", ex);
+            log.error("Error stopping the MIDI device {}", midiDevice.getDeviceInfo().getName(), ex);
         }
+
+        return midiDevice;
     }
 
-    /**
-     * Sets the current Tempo for playback.
-     * @param tempo the Tempo to set
-     */
-    public static void setTempo(Tempo tempo) {
-        currentTempo = tempo;
-    }
+    private static void playBackSequence(Sequence sequence) {
 
-//    public static <T extends Playable> void play(@NotNull T t) {
-//        prepareController();
-//
-//        try {
-//            t.getMidiSequence();
-//        } catch (Exception ex) {
-//            // TODO - add throws Exception to play(Playable) ?
-//            LOGGER.log(Level.SEVERE, "Error during playback.", ex);
-//
-//        }
-//
-//        stop();
-//    }
-
-    /**
-     * Plays back the specified Pitch for one (1) second.
-     * @param pitch the Pitch to play
-     * TODO - deprecate this when play(Playable) works
-     */
-    public static void play(@NotNull Pitch pitch) {
-        prepareController();
-        try {
-            int noteNumber = pitch.absolutePitch;
-            midiChannels[0].noteOn(noteNumber, 127);
-            Thread.sleep(1000);
-            midiChannels[0].noteOff(noteNumber);
-        } catch (Exception ex) {
-            log.error("Error during playback.", ex);
-        }
-    }
-
-    /**
-     * Plays back the specified Note, at the current Tempo.
-     * @param note the Note to play
-     * TODO - deprecate this when play(Playable) works
-     */
-    public static void play(@NotNull Note note) {
-        prepareController();
-        long fullLength = currentTempo.getMillisFor(note.getBeat());
-        long soundedLength = (long) (fullLength * note.getSoundedLength());
-        long difference = fullLength - soundedLength;
+        Sequencer sequencer = prepareSequencer(sequence);
 
         try {
-            int noteNumber = note.getPitch().absolutePitch;
-            midiChannels[0].noteOn(noteNumber, 127);
-            Thread.sleep(soundedLength);
-            midiChannels[0].noteOff(noteNumber);
-            Thread.sleep(difference);
-        } catch (Exception ex) {
-            log.error("Error during playback.", ex);
+            sequencer.start();
+        } catch (IllegalStateException ex) {
+            log.error("Error starting the MIDI device {}", sequencer.getDeviceInfo().getName(), ex);
         }
+
+        while (sequencer.isRunning()) ;
+
+        stop(sequencer);
     }
 
     /**
-     * TODO - deprecate this when play(Playable) works
-     * @param chord
+     *
+     * @param playable
      */
-    public static void play(@NotNull Chord chord) {
-        playLayered(chord.getPitchesForOctave(Octave.OCTAVE_4));
-    }
-
-    /**
-     * TODO - move to Playable interface as a default method?
-     * @param pitches
-     */
-    private static void playLayered(Pitch[] pitches) {
-        prepareController();
-        try {
-            for (Pitch p : pitches) {
-                int noteNumber = p.absolutePitch;
-                midiChannels[0].noteOn(noteNumber, 127);
-            }
-
-            Thread.sleep(1000); // hold the note
-
-            for (Pitch p : pitches) {
-                int noteNumber = p.absolutePitch;
-                midiChannels[0].noteOff(noteNumber);
-            }
-        } catch (Exception ex) {
-            log.error("Error during playback.", ex);
-        }
-    }
-
-    /**
-     * TODO - deprecate this when play(Playable) works
-     * @param scale
-     * @param octave
-     */
-    public static void play(@NotNull Scale scale, Octave octave) {
-        prepareController();
-        try {
-            for (Pitch p : scale.getPitchesForOctave(octave)) {
-                play(p);
-            }
-        } catch (Exception ex) {
-            log.error("Error during playback.", ex);
-        }
-    }
-
     public static void play(@NotNull Playable playable) {
-        // TODO: finish
+        playBackSequence(playable.accept(new SequenceVisitor()));
     }
 }

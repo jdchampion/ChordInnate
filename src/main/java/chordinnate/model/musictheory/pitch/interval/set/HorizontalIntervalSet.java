@@ -1,6 +1,7 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.entity.ChordType;
+import chordinnate.service.playback.visitor.SequenceVisitor;
 import chordinnate.model.util.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -8,6 +9,7 @@ import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.sound.midi.Sequence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +48,11 @@ public class HorizontalIntervalSet extends IntervalSet {
             default: return GreekGrouping.grouping(size) + "achord";
         }
 
+    }
+
+    @Override
+    public Sequence accept(SequenceVisitor sequenceVisitor) {
+        return sequenceVisitor.getSequence(this);
     }
 
     public RomanNumeral[] getRomanNumeralAnalysis() {

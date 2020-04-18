@@ -173,7 +173,7 @@ public abstract class IntervalSet implements Transposable<IntervalSet>, Diatonic
         if (isTransposable(pitch)) {
             int midpoint = maxPlayableOctave.getNumber() / 2;
             Pitch rootAtMidpoint = getPitchesForOctave(Octave.valueOf("OCTAVE_" + midpoint))[0];
-            boolean direction = pitch.absolutePitch > rootAtMidpoint.absolutePitch;
+            boolean direction = pitch.getMidiValue() > rootAtMidpoint.getMidiValue();
             return transpose(direction ? IntervalDirection.UP : IntervalDirection.DOWN, pitch.pitchClass);
         }
         return this;

@@ -154,8 +154,8 @@ public class ScaleTest {
             Pitch[] pitches = entry.getValue();
             for (int i = 0; i < pitches.length; i++) {
                 assertEquals("Octave " + entry.getKey().getNumber() + " for scale [" + scale.getName() + "] has the wrong values", expected[i].getBaseName(), pitches[i].pitchClass.getBaseName());
-                assertTrue("Scale is not ascending", lastAbsolutePitch < pitches[i].absolutePitch);
-                lastAbsolutePitch = pitches[i].absolutePitch;
+                assertTrue("Scale is not ascending", lastAbsolutePitch < pitches[i].getMidiValue());
+                lastAbsolutePitch = pitches[i].getMidiValue();
             }
         }
 

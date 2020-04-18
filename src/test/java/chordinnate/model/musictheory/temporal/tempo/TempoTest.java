@@ -24,33 +24,4 @@ public class TempoTest {
         new Tempo(Beat.QUARTER, -1);
     }
 
-    @Test
-    public void setTempoMarking() throws Exception {
-        Tempo tempo = new Tempo(Beat.QUARTER, 120);
-        for (TempoMarking tm : TempoMarking.values()) {
-            tempo.setTempoMarking(tm);
-
-            assertEquals(tm, tempo.getTempoMarking());
-            assertEquals(tm.minBpm, tempo.getCurrentBPM());
-        }
-    }
-
-    @Test
-    public void getMillisForBeat() throws Exception {
-        Tempo tempo = new Tempo(Beat.QUARTER, 120);
-        Beat TRIPLET_EIGHTH = Beat.TRIPLET_EIGHTH,
-                DOTTED_TRIPLET_QUARTER = Beat.builder().value(Beat.VALUE_QUARTER).dots(1).tuplet(3).build();
-        assertEquals(500, tempo.getMillisFor(Beat.QUARTER));
-        assertEquals(250, tempo.getMillisFor(Beat.EIGHTH));
-        assertEquals(125, tempo.getMillisFor(Beat.SIXTEENTH));
-        assertEquals(62, tempo.getMillisFor(Beat.THIRTY_SECOND));
-        assertEquals(166, tempo.getMillisFor(TRIPLET_EIGHTH));
-        assertEquals(500, tempo.getMillisFor(DOTTED_TRIPLET_QUARTER));
-
-        tempo = new Tempo(Beat.QUARTER, 240);
-        assertEquals(250, tempo.getMillisFor(Beat.QUARTER));
-        tempo = new Tempo(Beat.QUARTER, 60);
-        assertEquals(1000, tempo.getMillisFor(Beat.QUARTER));
-    }
-
 }

@@ -158,7 +158,7 @@ public final class Beat {
         }
     }
 
-    public static Builder builder() {
-        return new Builder();
+    public static Builder builder(@NotNull Fraction beatValue) {
+        return new Builder().value(beatValue);
     }
 }

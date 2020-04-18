@@ -1,10 +1,13 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
+import chordinnate.service.playback.visitor.SequenceVisitor;
 import chordinnate.model.util.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import javax.sound.midi.Sequence;
 
 /**
  * Created by Joseph on 7/15/16.
@@ -38,5 +41,10 @@ public class VerticalIntervalSet extends InvertibleIntervalSet {
         }
 
         return GreekGrouping.grouping(size) + "ad";
+    }
+
+    @Override
+    public Sequence accept(SequenceVisitor sequenceVisitor) {
+        return sequenceVisitor.getSequence(this);
     }
 }

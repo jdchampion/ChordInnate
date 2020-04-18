@@ -97,4 +97,9 @@ public final class ChordType implements Serializable {
                 && preset.equals(comparison.preset);
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
 }

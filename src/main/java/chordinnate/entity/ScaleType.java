@@ -8,6 +8,7 @@ import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.util.IntervalConverter;
 import lombok.Data;
+import org.apache.commons.lang3.ObjectUtils;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -76,10 +77,15 @@ public final class ScaleType implements Serializable {
 
         return id.equals(comparison.id)
                 && name.equals(comparison.name)
-                && ((origin == null && comparison.origin == null) || origin.equals(comparison.origin))
+                && ObjectUtils.equals(origin, comparison.origin)
                 && Arrays.deepEquals(intervals, comparison.intervals)
                 && size.equals(comparison.size)
                 && preset.equals(comparison.preset);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
     
 }

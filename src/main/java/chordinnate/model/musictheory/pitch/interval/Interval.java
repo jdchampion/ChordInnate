@@ -391,7 +391,7 @@ public class Interval implements Serializable, Invertible<Interval>, Comparable<
      * @throws ChordInnateException if no Interval could be determined
      */
     public static Interval between(@NotNull Pitch begin, @NotNull Pitch end) {
-        return between(begin.pitchClass, end.pitchClass, begin.absolutePitch < end.absolutePitch);
+        return between(begin.pitchClass, end.pitchClass, begin.getMidiValue() < end.getMidiValue());
     }
 
     public Interval plus(@NotNull Interval other) {
