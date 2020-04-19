@@ -121,7 +121,7 @@ public class MidiEventDataBundle {
     }
 
     private static long calculateMicrosecondsPerReferenceBeat(Tempo tempo) {
-        return Math.round(MidiConstants.USEC_PER_REF_BEAT_AT_60_BPM / (tempo.getBeatsPerMinute() / MidiConstants.SIXTY_BPM));
+        return Math.round(MidiConstants.DEFAULT_USEC_PER_PULSE / (tempo.getBeatsPerMinute() / MidiConstants.DEFAULT_TEMPO_BPM));
     }
 
     private static long calculateMillisecondsPerReferenceBeat(Tempo tempo) {

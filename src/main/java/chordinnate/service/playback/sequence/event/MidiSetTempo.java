@@ -30,10 +30,10 @@ public class MidiSetTempo extends MidiEventGenerator {
         long usecPerPulse = newEventState.getMicroSecondsPerTempoPulse();
 
         byte[] data = {
-                (byte) ((usecPerPulse & 0xff000000) >> 24),
-                (byte) ((usecPerPulse & 0x00ff0000) >> 16),
-                (byte) ((usecPerPulse & 0x0000ff00) >> 8),
-                (byte) (usecPerPulse & 0x000000ff)
+                (byte) ((usecPerPulse & 0xFF000000) >> 24),
+                (byte) ((usecPerPulse & 0x00FF0000) >> 16),
+                (byte) ((usecPerPulse & 0x0000FF00) >> 8),
+                (byte) (usecPerPulse & 0x000000FF)
         };
 
         // Remove empty data bytes by right-shifting the start index

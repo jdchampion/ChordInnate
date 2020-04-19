@@ -24,6 +24,6 @@ public class MidiConstants {
     public static final KeySignature DEFAULT_KEY_SIGNATURE = KeySignature.NO_KEY_SIGNATURE;
 
     public static final int DEFAULT_TICK_RESOLUTION = 96; // number of ticks per reference beat of tempo
-    public static final int USEC_PER_REF_BEAT_AT_60_BPM = 1000000; // microseconds
-    public static final double SIXTY_BPM = 60.0; // used for computing tempo ratios
+    public static final int DEFAULT_USEC_PER_PULSE = 500000; // microseconds
+    public static final double DEFAULT_TEMPO_BPM = 120.0; // used for computing tempo ratios
 }

@@ -24,6 +24,10 @@ public class MidiEndOfTrack extends MidiEventGenerator {
 
     @Override
     public void addEvent(Sequence sequence, MidiEventDataBundle newEventState) throws InvalidMidiDataException {
-        // TODO
+        /*
+         * TODO: this class is likely unnecessary,
+         *  since all constructors for Track internally add and manage
+         *  the "end of track" message on every Track.
+         */
     }
 }
