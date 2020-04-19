@@ -4,7 +4,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Sequence;
+import javax.sound.midi.ShortMessage;
 
 /**
  * Generates a MIDI CHANNEL_PRESSURE_CHANGE message.
@@ -12,6 +14,7 @@ import javax.sound.midi.Sequence;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MidiChannelPressureChange extends MidiAfterTouch {
+
     private static MidiChannelPressureChange instance;
 
     public static MidiChannelPressureChange getInstance() {
@@ -23,6 +26,9 @@ public class MidiChannelPressureChange extends MidiAfterTouch {
 
     @Override
     public void addEvent(Sequence sequence, MidiEventDataBundle newEventState) throws InvalidMidiDataException {
-        // TODO: use DnH as the status byte
+        ShortMessage sm = new ShortMessage();
+        sm.setMessage(ShortMessage.CHANNEL_PRESSURE, newEventState.getChannel(), newEventState.getNoteValue(), newEventState.getVelocity());
+        MidiEvent event = new MidiEvent(sm, newEventState.getStartTick());
+        getTrack(sequence, newEventState).add(event);
     }
 }

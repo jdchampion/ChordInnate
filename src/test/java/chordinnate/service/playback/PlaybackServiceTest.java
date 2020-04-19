@@ -2,6 +2,7 @@ package chordinnate.service.playback;
 
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
+import chordinnate.model.playback.Effect;
 import chordinnate.model.playback.Note;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
@@ -35,6 +36,31 @@ public class PlaybackServiceTest {
 
         log.info("PLAYING: {}", note.toString()); // TODO: better diagnostic string
         PlaybackService.play(note);
+    }
+
+    @Test
+    public void play_Note_controlChange() {
+        // TODO
+    }
+
+    @Test
+    public void play_Note_programChange() {
+        // TODO
+    }
+
+    @Test
+    public void play_Note_polyKeyPressureChange() {
+        // TODO
+    }
+
+    @Test
+    public void play_Note_channelPressureChange() {
+        // TODO
+    }
+
+    @Test
+    public void play_Note_pitchBendChange() {
+        // TODO
     }
 
     @Test

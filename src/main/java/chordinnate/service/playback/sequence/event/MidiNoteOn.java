@@ -26,9 +26,9 @@ public class MidiNoteOn extends MidiEventGenerator {
 
     @Override
     public void addEvent(Sequence sequence, MidiEventDataBundle newEventState) throws InvalidMidiDataException {
-        ShortMessage noteOn = new ShortMessage();
-        noteOn.setMessage(ShortMessage.NOTE_ON, newEventState.getChannel(), newEventState.getNoteValue(), newEventState.getVelocity());
-        MidiEvent noteOnEvent = new MidiEvent(noteOn, newEventState.getStartTick());
-        getTrack(sequence, newEventState).add(noteOnEvent);
+        ShortMessage sm = new ShortMessage();
+        sm.setMessage(ShortMessage.NOTE_ON, newEventState.getChannel(), newEventState.getNoteValue(), newEventState.getVelocity());
+        MidiEvent event = new MidiEvent(sm, newEventState.getStartTick());
+        getTrack(sequence, newEventState).add(event);
     }
 }

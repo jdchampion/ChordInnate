@@ -4,7 +4,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiEvent;
 import javax.sound.midi.Sequence;
+import javax.sound.midi.ShortMessage;
 
 /**
  * Generates a MIDI CONTROL_CHANGE message.
@@ -24,6 +26,9 @@ public class MidiControlChange extends MidiEventGenerator {
 
     @Override
     public void addEvent(Sequence sequence, MidiEventDataBundle newEventState) throws InvalidMidiDataException {
-        // TODO
+        ShortMessage sm = new ShortMessage();
+        sm.setMessage(ShortMessage.CONTROL_CHANGE, newEventState.getChannel(), newEventState.getNoteValue(), newEventState.getVelocity());
+        MidiEvent event = new MidiEvent(sm, newEventState.getStartTick());
+        getTrack(sequence, newEventState).add(event);
     }
 }
