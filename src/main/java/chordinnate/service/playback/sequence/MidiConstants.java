@@ -14,7 +14,7 @@ public class MidiConstants {
      * TODO: This class currently serves more like a config class.
      *  Would be better to make most of these fields user-configurable.
      */
-    public static final int DEFAULT_MIDI_TYPE = 0;
+    public static final MidiType DEFAULT_MIDI_TYPE = MidiType.TYPE_ZERO;
     public static final int DEFAULT_TRACK = 0;
     public static final int DEFAULT_CHANNEL = 0;
     public static final int DEFAULT_INSTRUMENT = 0; // Grand Piano

@@ -10,15 +10,18 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class Tempo {
 
+    // TODO: make configurable? (MIN_BPM should always be >= 1)
     private static final int MIN_BPM = 20;
     private static final int MAX_BPM = 240;
 
+    @NotNull
     private final Beat referenceBeat;
-    private final int bpm;                 // Beats per minute
 
-    public Tempo(@NotNull Beat subdivision, int bpm) {
-        if (bpm >= MIN_BPM && bpm <= MAX_BPM) {
-            this.bpm = bpm;
+    private final int beatsPerMinute;
+
+    public Tempo(@NotNull Beat subdivision, int beatsPerMinute) {
+        if (beatsPerMinute >= MIN_BPM && beatsPerMinute <= MAX_BPM) {
+            this.beatsPerMinute = beatsPerMinute;
             this.referenceBeat = subdivision;
         } else {
             throw new IllegalArgumentException("Tempo must be between " + MIN_BPM + " and " + MAX_BPM + " BPM.");

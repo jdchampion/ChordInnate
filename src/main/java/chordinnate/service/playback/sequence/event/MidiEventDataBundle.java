@@ -5,6 +5,7 @@ import chordinnate.model.musictheory.temporal.TimeSignature;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Note;
 import chordinnate.service.playback.sequence.MidiConstants;
+import chordinnate.service.playback.sequence.MidiType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class MidiEventDataBundle {
     /**
      * MIDI types: 0, 1, 2
      */
-    private int midiType;
+    private MidiType midiType;
 
     private TimeSignature timeSignature;
 
@@ -120,7 +121,7 @@ public class MidiEventDataBundle {
     }
 
     private static long calculateMicrosecondsPerReferenceBeat(Tempo tempo) {
-        return Math.round(MidiConstants.USEC_PER_REF_BEAT_AT_60_BPM / (tempo.getBpm() / MidiConstants.SIXTY_BPM));
+        return Math.round(MidiConstants.USEC_PER_REF_BEAT_AT_60_BPM / (tempo.getBeatsPerMinute() / MidiConstants.SIXTY_BPM));
     }
 
     private static long calculateMillisecondsPerReferenceBeat(Tempo tempo) {
@@ -133,7 +134,7 @@ public class MidiEventDataBundle {
 
     public static class Builder {
 
-        private int midiType = MidiConstants.DEFAULT_MIDI_TYPE;
+        private MidiType midiType = MidiConstants.DEFAULT_MIDI_TYPE;
         private TimeSignature timeSignature = MidiConstants.DEFAULT_TIME_SIGNATURE; // TODO: set based on config
         private KeySignature keySignature = MidiConstants.DEFAULT_KEY_SIGNATURE; // TODO: set based on config
         private Tempo tempo = MidiConstants.DEFAULT_TEMPO; // TODO: set based on config
@@ -147,7 +148,7 @@ public class MidiEventDataBundle {
         @Nullable
         private Note note;
 
-        public Builder midiType(int midiType) {
+        public Builder midiType(@NotNull MidiType midiType) {
             this.midiType = midiType;
             return this;
         }

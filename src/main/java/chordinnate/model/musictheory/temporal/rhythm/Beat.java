@@ -55,8 +55,11 @@ public final class Beat {
     public static final Beat TRIPLET_SIXTEENTH = new Beat(VALUE_SIXTEENTH, 0, 3);
     public static final Beat TRIPLET_THIRTY_SECOND = new Beat(VALUE_THIRTY_SECOND, 0, 3);
 
+    @NotNull
     private Fraction beatValue;
+
     private int dotCount = 0;
+
     private int tupletCount = 1;
 
     private static final Map<String, Beat> STANDARD_BEAT_LOOKUP = Collections.unmodifiableMap(initMap());

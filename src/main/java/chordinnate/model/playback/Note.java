@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.sound.midi.Sequence;
 
@@ -22,10 +23,20 @@ import javax.sound.midi.Sequence;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Note implements Playable {
+
+    @NotNull
     private Pitch pitch;
+
+    @NotNull
     private Beat beat;
+
+    @Nullable
     private Articulation articulation;
+
+    @Nullable
     private Dynamic dynamic;
+
+    @Nullable
     private Effect effect;
 
     @Builder.Default
