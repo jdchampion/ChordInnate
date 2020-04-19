@@ -3,7 +3,6 @@ package chordinnate.service.playback.sequence;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
 import chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet;
-import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.Cell;
 import chordinnate.model.musictheory.temporal.DoublePeriod;
 import chordinnate.model.musictheory.temporal.Measure;
@@ -12,10 +11,9 @@ import chordinnate.model.musictheory.temporal.Period;
 import chordinnate.model.musictheory.temporal.Phrase;
 import chordinnate.model.musictheory.temporal.PhraseGroup;
 import chordinnate.model.musictheory.temporal.PhraseMember;
-import chordinnate.model.musictheory.temporal.TimeSignature;
 import chordinnate.model.playback.Note;
-import chordinnate.service.playback.sequence.event.MidiAfterTouch;
 import chordinnate.service.playback.sequence.event.MidiChannelPrefix;
+import chordinnate.service.playback.sequence.event.MidiChannelPressureChange;
 import chordinnate.service.playback.sequence.event.MidiControlChange;
 import chordinnate.service.playback.sequence.event.MidiCopyrightNotice;
 import chordinnate.service.playback.sequence.event.MidiCuePoint;
@@ -29,6 +27,7 @@ import chordinnate.service.playback.sequence.event.MidiMarker;
 import chordinnate.service.playback.sequence.event.MidiNoteOff;
 import chordinnate.service.playback.sequence.event.MidiNoteOn;
 import chordinnate.service.playback.sequence.event.MidiPitchBendChange;
+import chordinnate.service.playback.sequence.event.MidiPolyKeyPressureChange;
 import chordinnate.service.playback.sequence.event.MidiProgramChange;
 import chordinnate.service.playback.sequence.event.MidiSMPTEOffset;
 import chordinnate.service.playback.sequence.event.MidiSequenceName;
@@ -46,11 +45,12 @@ import javax.sound.midi.Sequence;
 public class SequenceGeneratorImpl implements SequenceGenerator {
 
     // MIDI Voice Events
-    private static final MidiEventGenerator NOTE_ON = MidiNoteOn.getInstance();
     private static final MidiEventGenerator NOTE_OFF = MidiNoteOff.getInstance();
+    private static final MidiEventGenerator NOTE_ON = MidiNoteOn.getInstance();
+    private static final MidiEventGenerator POLY_KEY_PRESSURE_CHANGE = MidiPolyKeyPressureChange.getInstance();
     private static final MidiEventGenerator CONTROL_CHANGE = MidiControlChange.getInstance();
     private static final MidiEventGenerator PROGRAM_CHANGE = MidiProgramChange.getInstance();
-    private static final MidiEventGenerator AFTER_TOUCH = MidiAfterTouch.getInstance();
+    private static final MidiEventGenerator CHANNEL_PRESSURE_CHANGE = MidiChannelPressureChange.getInstance();
     private static final MidiEventGenerator PITCH_BEND_CHANGE = MidiPitchBendChange.getInstance();
 
     // MIDI Meta Events
