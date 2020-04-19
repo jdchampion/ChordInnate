@@ -2,7 +2,6 @@ package chordinnate.service.playback;
 
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.model.playback.Effect;
 import chordinnate.model.playback.Note;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
@@ -12,7 +11,7 @@ import org.junit.Test;
  * Created by Joseph on 6/16/16.
  */
 @Slf4j
-public class PlaybackServiceTest {
+public class PlaybackServiceIT {
 
     @Test
     public void play_Pitch() {

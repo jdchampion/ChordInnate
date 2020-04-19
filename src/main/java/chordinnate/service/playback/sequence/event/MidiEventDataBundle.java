@@ -2,7 +2,6 @@ package chordinnate.service.playback.sequence.event;
 
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.TimeSignature;
-import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Note;
 import chordinnate.service.playback.sequence.MidiConstants;
@@ -44,7 +43,7 @@ public class MidiEventDataBundle {
     private long startTick;
 
     /**
-     * Updated automatically when a {@link Note} is provided,
+     * Automatically calculated when a {@link Note} is provided to the {@link MidiEventDataBundle},
      * and optionally, {@link Tempo}.
      *
      * @see MidiEventDataBundle#setNote(Note)
@@ -58,16 +57,18 @@ public class MidiEventDataBundle {
     private int instrument;
 
     /**
-     * MIDI code: 0 - 127<br>
-     * Updated automatically when a {@link Note} is provided.
+     * MIDI code: 0 - 127<p/>
+     * Can be provided directly if no {@link Note} is provided to the {@link MidiEventDataBundle}.
+     * If a {@link Note} is provided, its value will automatically be calculated.
      *
      * @see MidiEventDataBundle#setNote(Note)
      */
     private int velocity;
 
     /**
-     * MIDI code: 0 - 127<br>
-     * Updated automatically when a {@link Note} is provided.
+     * MIDI code: 0 - 127<p/>
+     * Can be provided directly if no {@link Note} is provided to the {@link MidiEventDataBundle}.
+     * If a {@link Note} is provided, its value will automatically be calculated.
      *
      * @see MidiEventDataBundle#setNote(Note)
      */
@@ -77,13 +78,17 @@ public class MidiEventDataBundle {
     private Note note;
 
     /**
-     * Updated automatically when a {@link Note} is provided,
-     * and optionally, {@link Tempo}.
+     * This field defines the length of time (in usec) for a
+     * single pulse ("reference beat") for the current {@link Tempo}.<p/>
+     *
+     * Updated automatically when a {@link Note} is provided to the {@link MidiEventDataBundle},
+     * and optionally, {@link Tempo}. If no {@link Tempo} is provided,
+     * the system will use the default tempo to calculate the value.
      *
      * @see MidiEventDataBundle#setNote(Note)
      * @see MidiEventDataBundle#setTempo(Tempo)
      */
-    private long microSecondsPerReferenceBeat;
+    private long microSecondsPerTempoPulse;
 
     private void setNote(@NotNull Note note) {
         this.note = note;
@@ -91,21 +96,27 @@ public class MidiEventDataBundle {
         if (note.getDynamic() != null) {
             this.velocity = note.getDynamic().getVelocity();
         }
-        this.endTick = startTick + calculateTickCount(note.getBeat(), tempo);
-        this.microSecondsPerReferenceBeat = calculateMicrosecondsPerReferenceBeat(tempo);
+        this.endTick = startTick + calculateTickCount(note, tempo);
+        this.microSecondsPerTempoPulse = calculateMicrosecondsPerReferenceBeat(tempo);
     }
 
     private void setTempo(@NotNull Tempo tempo) {
         this.tempo = tempo;
         if (this.note != null) {
-            this.endTick = startTick + calculateTickCount(note.getBeat(), tempo);
-            this.microSecondsPerReferenceBeat = calculateMicrosecondsPerReferenceBeat(tempo);
+            this.endTick = startTick + calculateTickCount(note, tempo);
+            this.microSecondsPerTempoPulse = calculateMicrosecondsPerReferenceBeat(tempo);
         }
     }
 
-    private static long calculateTickCount(Beat beat, Tempo tempo) {
-        double ratio = tempo.getReferenceBeat().getDuration() / beat.getDuration();
-        return Math.round(MidiConstants.DEFAULT_TICK_RESOLUTION / ratio);
+    private static long calculateTickCount(Note note, Tempo tempo) {
+
+        double articulationDurationFactor = 1.0;
+        if (note.getArticulation() != null) {
+            articulationDurationFactor = note.getArticulation().getDurationFactor();
+        }
+
+        double ratio = tempo.getReferenceBeat().getDuration() / note.getBeat().getDuration();
+        return Math.round(articulationDurationFactor * (MidiConstants.DEFAULT_TICK_RESOLUTION / ratio));
     }
 
     private static long calculateMicrosecondsPerReferenceBeat(Tempo tempo) {

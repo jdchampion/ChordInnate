@@ -27,13 +27,13 @@ public class MidiSetTempo extends MidiEventGenerator {
 
     @Override
     public void addEvent(Sequence sequence, MidiEventDataBundle newEventState) throws InvalidMidiDataException {
-        long mspq = newEventState.getMicroSecondsPerReferenceBeat();
+        long usecPerPulse = newEventState.getMicroSecondsPerTempoPulse();
 
         byte[] data = {
-                (byte) ((mspq & 0xff000000) >> 24),
-                (byte) ((mspq & 0x00ff0000) >> 16),
-                (byte) ((mspq & 0x0000ff00) >> 8),
-                (byte) (mspq & 0x000000ff)
+                (byte) ((usecPerPulse & 0xff000000) >> 24),
+                (byte) ((usecPerPulse & 0x00ff0000) >> 16),
+                (byte) ((usecPerPulse & 0x0000ff00) >> 8),
+                (byte) (usecPerPulse & 0x000000ff)
         };
 
         // Remove empty data bytes by right-shifting the start index

@@ -40,10 +40,6 @@ public class Note implements Playable {
         return new NoteBuilder().pitch(pitch).beat(beat);
     }
 
-    public double getSoundedLength() {
-        return (articulation == null ? 1 : articulation.lengthModifier);
-    }
-
     @Override
     public Sequence accept(SequenceGenerator sequenceGenerator) {
         return sequenceGenerator.getSequence(this);
