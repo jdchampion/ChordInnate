@@ -2,7 +2,8 @@ package chordinnate.model.playback;
 
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.service.playback.visitor.SequenceVisitor;
+import chordinnate.service.playback.Playable;
+import chordinnate.service.playback.sequence.SequenceGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,7 +45,7 @@ public class Note implements Playable {
     }
 
     @Override
-    public Sequence accept(SequenceVisitor sequenceVisitor) {
-        return sequenceVisitor.getSequence(this);
+    public Sequence accept(SequenceGenerator sequenceGenerator) {
+        return sequenceGenerator.getSequence(this);
     }
 }

@@ -1,4 +1,4 @@
-package chordinnate.service.playback.visitor;
+package chordinnate.service.playback.sequence;
 
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
@@ -15,7 +15,7 @@ import chordinnate.model.playback.Note;
 
 import javax.sound.midi.Sequence;
 
-public interface PlayableVisitor {
+public interface SequenceGenerator {
 
     /**
      * Generates a playable MIDI Sequence for a single Pitch.

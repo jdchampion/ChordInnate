@@ -1,7 +1,6 @@
 package chordinnate.service.playback;
 
-import chordinnate.model.playback.Playable;
-import chordinnate.service.playback.visitor.SequenceVisitor;
+import chordinnate.service.playback.sequence.SequenceGeneratorImpl;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -113,16 +112,18 @@ public final class PlaybackService {
             log.error("Error starting the MIDI device {}", sequencer.getDeviceInfo().getName(), ex);
         }
 
+        // FIXME: listen for a signal rather than using a spinlock?
         while (sequencer.isRunning()) ;
 
         stop(sequencer);
     }
 
     /**
-     *
-     * @param playable
+     * Generates a MIDI musical sequence from the data contained
+     * in the {@link Playable} object, and performs it.
+     * @param playable data structure to generate MIDI with
      */
     public static void play(@NotNull Playable playable) {
-        playBackSequence(playable.accept(new SequenceVisitor()));
+        playBackSequence(playable.accept(new SequenceGeneratorImpl()));
     }
 }

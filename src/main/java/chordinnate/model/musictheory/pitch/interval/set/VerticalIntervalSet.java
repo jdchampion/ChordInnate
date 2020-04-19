@@ -1,9 +1,9 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
-import chordinnate.service.playback.visitor.SequenceVisitor;
-import chordinnate.model.util.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
+import chordinnate.model.util.nomenclature.GreekGrouping;
+import chordinnate.service.playback.sequence.SequenceGenerator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -44,7 +44,7 @@ public class VerticalIntervalSet extends InvertibleIntervalSet {
     }
 
     @Override
-    public Sequence accept(SequenceVisitor sequenceVisitor) {
-        return sequenceVisitor.getSequence(this);
+    public Sequence accept(SequenceGenerator sequenceGenerator) {
+        return sequenceGenerator.getSequence(this);
     }
 }

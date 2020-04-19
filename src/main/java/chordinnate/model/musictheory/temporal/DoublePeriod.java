@@ -1,8 +1,8 @@
 package chordinnate.model.musictheory.temporal;
 
 import chordinnate.model.musictheory.temporal.meter.Metered;
-import chordinnate.model.playback.Playable;
-import chordinnate.service.playback.visitor.SequenceVisitor;
+import chordinnate.service.playback.Playable;
+import chordinnate.service.playback.sequence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,8 +28,8 @@ public class DoublePeriod implements Metered, Playable {
     }
 
     @Override
-    public Sequence accept(SequenceVisitor sequenceVisitor) {
-        return sequenceVisitor.getSequence(this);
+    public Sequence accept(SequenceGenerator sequenceGenerator) {
+        return sequenceGenerator.getSequence(this);
     }
 
 }

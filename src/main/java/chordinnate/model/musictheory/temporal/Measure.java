@@ -5,9 +5,9 @@ import chordinnate.model.musictheory.temporal.meter.MeterType;
 import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Note;
-import chordinnate.model.playback.Playable;
-import chordinnate.service.playback.visitor.SequenceVisitor;
 import chordinnate.model.util.MathUtils;
+import chordinnate.service.playback.Playable;
+import chordinnate.service.playback.sequence.SequenceGenerator;
 import lombok.Getter;
 
 import javax.sound.midi.Sequence;
@@ -66,8 +66,8 @@ public class Measure implements Metered, Playable {
     }
 
     @Override
-    public Sequence accept(SequenceVisitor sequenceVisitor) {
-        return sequenceVisitor.getSequence(this);
+    public Sequence accept(SequenceGenerator sequenceGenerator) {
+        return sequenceGenerator.getSequence(this);
     }
 
 }
