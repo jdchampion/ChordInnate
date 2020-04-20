@@ -30,6 +30,8 @@ public class MidiEventDataBundle {
 
     private int sequenceNumber;
 
+    private String text;
+
     private TimeSignature timeSignature;
 
     private KeySignature keySignature;
@@ -138,6 +140,7 @@ public class MidiEventDataBundle {
 
         private MidiType midiType = MidiConstants.DEFAULT_MIDI_TYPE;
         private int sequenceNumber = 0;
+        private String text = "";
         private TimeSignature timeSignature = MidiConstants.DEFAULT_TIME_SIGNATURE; // TODO: set based on config
         private KeySignature keySignature = MidiConstants.DEFAULT_KEY_SIGNATURE; // TODO: set based on config
         private Tempo tempo = MidiConstants.DEFAULT_TEMPO; // TODO: set based on config
@@ -158,6 +161,11 @@ public class MidiEventDataBundle {
 
         public Builder sequenceNumber(int sequenceNumber) {
             this.sequenceNumber = sequenceNumber;
+            return this;
+        }
+
+        public Builder text(String text) {
+            this.text = text;
             return this;
         }
 
@@ -220,6 +228,7 @@ public class MidiEventDataBundle {
             MidiEventDataBundle bundle = new MidiEventDataBundle();
             bundle.midiType = this.midiType;
             bundle.sequenceNumber = this.sequenceNumber;
+            bundle.text = this.text;
             bundle.timeSignature = this.timeSignature;
             bundle.keySignature = this.keySignature;
             bundle.tempo = this.tempo;
