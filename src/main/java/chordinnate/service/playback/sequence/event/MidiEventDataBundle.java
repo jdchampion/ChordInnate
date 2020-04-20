@@ -31,6 +31,12 @@ public class MidiEventDataBundle {
     private int sequenceNumber;
 
     private String text;
+    private String copyright;
+    private String trackName;
+    private String instrumentName;
+    private String lyric;
+    private String marker;
+    private String cuePoint;
 
     private TimeSignature timeSignature;
 
@@ -141,6 +147,12 @@ public class MidiEventDataBundle {
         private MidiType midiType = MidiConstants.DEFAULT_MIDI_TYPE;
         private int sequenceNumber = 0;
         private String text = "";
+        private String copyright = "";
+        private String trackName = "";
+        private String instrumentName = "";
+        private String lyric = "";
+        private String marker = "";
+        private String cuePoint = "";
         private TimeSignature timeSignature = MidiConstants.DEFAULT_TIME_SIGNATURE; // TODO: set based on config
         private KeySignature keySignature = MidiConstants.DEFAULT_KEY_SIGNATURE; // TODO: set based on config
         private Tempo tempo = MidiConstants.DEFAULT_TEMPO; // TODO: set based on config
@@ -166,6 +178,36 @@ public class MidiEventDataBundle {
 
         public Builder text(String text) {
             this.text = text;
+            return this;
+        }
+
+        public Builder copyright(String copyright) {
+            this.copyright = copyright;
+            return this;
+        }
+
+        public Builder trackName(String trackName) {
+            this.trackName = trackName;
+            return this;
+        }
+
+        public Builder instrumentName(String instrumentName) {
+            this.instrumentName = instrumentName;
+            return this;
+        }
+
+        public Builder lyric(String lyric) {
+            this.lyric = lyric;
+            return this;
+        }
+
+        public Builder marker(String marker) {
+            this.marker = marker;
+            return this;
+        }
+
+        public Builder cuePoint(String cuePoint) {
+            this.cuePoint = cuePoint;
             return this;
         }
 
@@ -229,6 +271,12 @@ public class MidiEventDataBundle {
             bundle.midiType = this.midiType;
             bundle.sequenceNumber = this.sequenceNumber;
             bundle.text = this.text;
+            bundle.copyright = this.copyright;
+            bundle.trackName = this.trackName;
+            bundle.instrumentName = this.instrumentName;
+            bundle.lyric = this.lyric;
+            bundle.marker = this.marker;
+            bundle.cuePoint = this.cuePoint;
             bundle.timeSignature = this.timeSignature;
             bundle.keySignature = this.keySignature;
             bundle.tempo = this.tempo;

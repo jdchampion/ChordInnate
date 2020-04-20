@@ -30,7 +30,6 @@ import chordinnate.service.playback.sequence.event.MidiPitchBendChange;
 import chordinnate.service.playback.sequence.event.MidiPolyKeyPressureChange;
 import chordinnate.service.playback.sequence.event.MidiProgramChange;
 import chordinnate.service.playback.sequence.event.MidiSMPTEOffset;
-import chordinnate.service.playback.sequence.event.MidiSequenceName;
 import chordinnate.service.playback.sequence.event.MidiSequenceNumber;
 import chordinnate.service.playback.sequence.event.MidiSetTempo;
 import chordinnate.service.playback.sequence.event.MidiTextEvent;
@@ -57,7 +56,6 @@ public class SequenceGeneratorImpl implements SequenceGenerator {
     private static final MidiEventGenerator SEQUENCE_NUMBER = MidiSequenceNumber.getInstance();
     private static final MidiEventGenerator TEXT_EVENT = MidiTextEvent.getInstance();
     private static final MidiEventGenerator COPYRIGHT_NOTICE = MidiCopyrightNotice.getInstance();
-    private static final MidiEventGenerator SEQUENCE_NAME = MidiSequenceName.getInstance();
     private static final MidiEventGenerator TRACK_NAME = MidiTrackName.getInstance();
     private static final MidiEventGenerator INSTRUMENT_NAME = MidiInstrumentName.getInstance();
     private static final MidiEventGenerator LYRIC = MidiLyric.getInstance();
