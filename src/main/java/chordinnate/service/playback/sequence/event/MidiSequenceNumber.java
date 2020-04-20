@@ -51,7 +51,7 @@ public class MidiSequenceNumber extends MidiEventGenerator {
         mm.setMessage(0x00, data, data.length);
         MidiEvent event = new MidiEvent(mm, newEventState.getStartTick());
 
-        // MIDI 0 and MIDI 1 will only contain a single Track, so this message must go there in those cases
+        // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
         if (MidiType.TYPE_ZERO.equals(newEventState.getMidiType()) || MidiType.TYPE_ONE.equals(newEventState.getMidiType())) {
             assert newEventState.getTrackNumber() == 0;
         }

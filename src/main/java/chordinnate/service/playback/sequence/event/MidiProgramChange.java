@@ -1,5 +1,6 @@
 package chordinnate.service.playback.sequence.event;
 
+import chordinnate.service.playback.sequence.MidiType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +30,12 @@ public class MidiProgramChange extends MidiEventGenerator {
         ShortMessage sm = new ShortMessage();
         sm.setMessage(ShortMessage.PROGRAM_CHANGE, newEventState.getChannel(), newEventState.getInstrument(), 0);
         MidiEvent event = new MidiEvent(sm, newEventState.getStartTick());
+
+        // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
+        if (MidiType.TYPE_ZERO.equals(newEventState.getMidiType()) || MidiType.TYPE_ONE.equals(newEventState.getMidiType())) {
+            assert newEventState.getTrackNumber() == 0;
+        }
+
         getTrack(sequence, newEventState).add(event);
     }
 }

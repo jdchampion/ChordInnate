@@ -50,7 +50,9 @@ public class MidiSetTempo extends MidiEventGenerator {
         mm.setMessage(0x51, data, 3);
         MidiEvent event = new MidiEvent(mm, newEventState.getStartTick());
 
+        // ALL MIDI types (0, 1, 2) should place this event on Track 0.
         assert newEventState.getTrackNumber() == 0;
+
         getTrack(sequence, newEventState).add(event);
     }
 }
