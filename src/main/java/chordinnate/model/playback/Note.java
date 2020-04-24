@@ -5,15 +5,18 @@ import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.SequenceGenerator;
+import chordinnate.service.playback.sequence.event.MidiEventGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -24,6 +27,7 @@ import java.util.Set;
 /**
  * Created by Joseph on 6/16/16.
  */
+@Slf4j
 @Data
 @Builder
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -163,5 +167,14 @@ public class Note implements Playable {
     @Override
     public Sequence accept(SequenceGenerator sequenceGenerator) {
         return sequenceGenerator.getSequence(this);
+    }
+
+    @Override
+    public void accept(MidiEventGenerator midiEventGenerator) {
+        try {
+            midiEventGenerator.addEvents(this);
+        } catch (InvalidMidiDataException e) {
+            log.error("Error adding MIDI events", e);
+        }
     }
 }

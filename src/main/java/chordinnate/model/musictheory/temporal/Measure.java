@@ -8,16 +8,22 @@ import chordinnate.model.playback.Note;
 import chordinnate.model.util.MathUtils;
 import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.SequenceGenerator;
+import chordinnate.service.playback.sequence.event.MidiEventGenerator;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @Getter
 public class Measure implements Metered, Playable {
 
+    @Getter(AccessLevel.PRIVATE)
     private TimeSignature timeSignature;
     private KeySignature keySignature;
     private Tempo tempo;
@@ -68,6 +74,15 @@ public class Measure implements Metered, Playable {
     @Override
     public Sequence accept(SequenceGenerator sequenceGenerator) {
         return sequenceGenerator.getSequence(this);
+    }
+
+    @Override
+    public void accept(MidiEventGenerator midiEventGenerator) {
+        try {
+            midiEventGenerator.addEvents(this);
+        } catch (InvalidMidiDataException e) {
+            log.error("Error adding MIDI events", e);
+        }
     }
 
 }

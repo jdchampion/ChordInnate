@@ -1,6 +1,7 @@
 package chordinnate.service.playback;
 
 import chordinnate.service.playback.sequence.SequenceGenerator;
+import chordinnate.service.playback.sequence.event.MidiEventGenerator;
 
 import javax.sound.midi.Sequence;
 
@@ -9,4 +10,5 @@ import javax.sound.midi.Sequence;
  */
 public interface Playable {
     Sequence accept(SequenceGenerator sequenceGenerator); // visitor design pattern
+    void accept(MidiEventGenerator midiEventGenerator);
 }

@@ -11,99 +11,74 @@ import chordinnate.model.musictheory.temporal.Period;
 import chordinnate.model.musictheory.temporal.Phrase;
 import chordinnate.model.musictheory.temporal.PhraseGroup;
 import chordinnate.model.musictheory.temporal.PhraseMember;
+import chordinnate.model.musictheory.temporal.rhythm.Beat;
+import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Note;
-import chordinnate.service.playback.sequence.event.MidiChannelPrefix;
-import chordinnate.service.playback.sequence.event.MidiChannelPressureChange;
-import chordinnate.service.playback.sequence.event.MidiControlChange;
-import chordinnate.service.playback.sequence.event.MidiCopyrightNotice;
-import chordinnate.service.playback.sequence.event.MidiCuePoint;
-import chordinnate.service.playback.sequence.event.MidiEndOfTrack;
-import chordinnate.service.playback.sequence.event.MidiEventDataBundle;
+import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.event.MidiEventGenerator;
-import chordinnate.service.playback.sequence.event.MidiInstrumentName;
-import chordinnate.service.playback.sequence.event.MidiKeySignature;
-import chordinnate.service.playback.sequence.event.MidiLyric;
-import chordinnate.service.playback.sequence.event.MidiMarker;
-import chordinnate.service.playback.sequence.event.MidiNoteOff;
-import chordinnate.service.playback.sequence.event.MidiNoteOn;
-import chordinnate.service.playback.sequence.event.MidiPitchBendChange;
-import chordinnate.service.playback.sequence.event.MidiPolyKeyPressureChange;
-import chordinnate.service.playback.sequence.event.MidiProgramChange;
-import chordinnate.service.playback.sequence.event.MidiSMPTEOffset;
-import chordinnate.service.playback.sequence.event.MidiSequenceNumber;
-import chordinnate.service.playback.sequence.event.MidiSetTempo;
-import chordinnate.service.playback.sequence.event.MidiTextEvent;
-import chordinnate.service.playback.sequence.event.MidiTimeSignature;
-import chordinnate.service.playback.sequence.event.MidiTrackName;
+import chordinnate.service.playback.sequence.event.MidiEventGeneratorImpl;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
+import java.util.concurrent.Callable;
 
 @Slf4j
 public class SequenceGeneratorImpl implements SequenceGenerator {
 
-    // MIDI Voice Events
-    private static final MidiEventGenerator NOTE_OFF = MidiNoteOff.getInstance();
-    private static final MidiEventGenerator NOTE_ON = MidiNoteOn.getInstance();
-    private static final MidiEventGenerator POLY_KEY_PRESSURE_CHANGE = MidiPolyKeyPressureChange.getInstance();
-    private static final MidiEventGenerator CONTROL_CHANGE = MidiControlChange.getInstance();
-    private static final MidiEventGenerator PROGRAM_CHANGE = MidiProgramChange.getInstance();
-    private static final MidiEventGenerator CHANNEL_PRESSURE_CHANGE = MidiChannelPressureChange.getInstance();
-    private static final MidiEventGenerator PITCH_BEND_CHANGE = MidiPitchBendChange.getInstance();
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class MidiEventGeneratorCallable implements Callable<Void> {
 
-    // MIDI Meta Events
-    private static final MidiEventGenerator SEQUENCE_NUMBER = MidiSequenceNumber.getInstance();
-    private static final MidiEventGenerator TEXT_EVENT = MidiTextEvent.getInstance();
-    private static final MidiEventGenerator COPYRIGHT_NOTICE = MidiCopyrightNotice.getInstance();
-    private static final MidiEventGenerator TRACK_NAME = MidiTrackName.getInstance();
-    private static final MidiEventGenerator INSTRUMENT_NAME = MidiInstrumentName.getInstance();
-    private static final MidiEventGenerator LYRIC = MidiLyric.getInstance();
-    private static final MidiEventGenerator MARKER = MidiMarker.getInstance();
-    private static final MidiEventGenerator CUE_POINT = MidiCuePoint.getInstance();
-    private static final MidiEventGenerator CHANNEL_PREFIX = MidiChannelPrefix.getInstance();
-    private static final MidiEventGenerator END_OF_TRACK = MidiEndOfTrack.getInstance();
-    private static final MidiEventGenerator SET_TEMPO = MidiSetTempo.getInstance();
-    private static final MidiEventGenerator SMPTE_OFFSET = MidiSMPTEOffset.getInstance();
-    private static final MidiEventGenerator TIME_SIGNATURE = MidiTimeSignature.getInstance();
-    private static final MidiEventGenerator KEY_SIGNATURE = MidiKeySignature.getInstance();
+        private MidiType midiType = MidiConstants.DEFAULT_MIDI_TYPE;
+        private MidiEventGenerator generator;
+        private Playable playable;
+        private Sequence sequence; // the sequence we're about to create
+        private Tempo tempo = MidiConstants.DEFAULT_TEMPO;
+        private int trackNumber = MidiConstants.DEFAULT_TRACK;
+        private int channel = MidiConstants.DEFAULT_CHANNEL;
+        private int instrument = MidiConstants.DEFAULT_INSTRUMENT;
+        private long tick = 0;
+
+        @Override
+        public Void call() throws Exception {
+            playable.accept(generator);
+            return null;
+        }
+    }
 
     @Override
     public Sequence getSequence(Pitch pitch) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(Note.builder(pitch, Beat.QUARTER).build());
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(HorizontalIntervalSet horizontalIntervalSet) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(horizontalIntervalSet);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(VerticalIntervalSet verticalIntervalSet) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(verticalIntervalSet);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(Note note) {
-        Sequence sequence;
-        try {
-            sequence = newSequence();
-
-            MidiEventDataBundle newEventState = MidiEventDataBundle.builder().note(note).build();
-
-            SEQUENCE_NUMBER.addEvent(sequence, newEventState);
-            SET_TEMPO.addEvent(sequence, newEventState);
-            PROGRAM_CHANGE.addEvent(sequence, newEventState);
-            NOTE_ON.addEvent(sequence, newEventState);
-            NOTE_OFF.addEvent(sequence, newEventState);
-            END_OF_TRACK.addEvent(sequence, newEventState);
-
-        } catch (InvalidMidiDataException ex) {
-            log.error("Error creating sequence", ex);
-            return null;
-        }
-
-        return sequence;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(note);
+        return buildSequence(callable);
     }
 
     @Override
@@ -144,6 +119,31 @@ public class SequenceGeneratorImpl implements SequenceGenerator {
     @Override
     public Sequence getSequence(DoublePeriod doublePeriod) {
         return null;
+    }
+
+    private Sequence buildSequence(MidiEventGeneratorCallable caller) {
+        Sequence sequence;
+        try {
+            sequence = newSequence();
+            caller.setSequence(sequence);
+
+            MidiEventGeneratorImpl generator = new MidiEventGeneratorImpl(caller);
+
+            // Always add these to the beginning of every MIDI sequence
+            generator.addSequenceNumberEvent(0, caller.getTrackNumber(), 0);
+            generator.addSetTempoEvent(0, caller.getTempo());
+            generator.addProgramChangeEvent(0, caller.getTrackNumber(), caller.getChannel(), caller.getInstrument());
+
+            // Pass the generator to the callable, and use the callable to add all custom MIDI events
+            caller.setGenerator(generator);
+            caller.call();
+
+            generator.addEndOfTrackEvent();
+
+        } catch (Exception ex) {
+            return null;
+        }
+        return sequence;
     }
 
     private Sequence newSequence() throws InvalidMidiDataException {

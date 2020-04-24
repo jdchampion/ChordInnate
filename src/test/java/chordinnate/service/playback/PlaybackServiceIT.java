@@ -1,6 +1,10 @@
 package chordinnate.service.playback;
 
 import chordinnate.model.musictheory.pitch.Pitch;
+import chordinnate.model.musictheory.pitch.interval.set.Chord;
+import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
+import chordinnate.model.musictheory.pitch.interval.set.Scale;
+import chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.playback.Note;
 import lombok.extern.slf4j.Slf4j;
@@ -18,14 +22,22 @@ public class PlaybackServiceIT {
 
     }
 
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
     public void play_HorizontalIntervalSet() {
+        HorizontalIntervalSet scale = new Scale("Db Major");
 
+        log.info("PLAYING: Db Major Scale");
+        PlaybackService.play(scale);
     }
 
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
     public void play_VerticalIntervalSet() {
+        VerticalIntervalSet chord = new Chord("Gm");
 
+        log.info("PLAYING: Gm");
+        PlaybackService.play(chord);
     }
 
     @Ignore("Disabled for Travis CI and faster testing")

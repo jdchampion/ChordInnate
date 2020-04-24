@@ -4,14 +4,18 @@ import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.util.nomenclature.GreekGrouping;
 import chordinnate.service.playback.sequence.SequenceGenerator;
+import chordinnate.service.playback.sequence.event.MidiEventGenerator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
 
 /**
  * Created by Joseph on 7/15/16.
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class VerticalIntervalSet extends InvertibleIntervalSet {
 
@@ -46,5 +50,14 @@ public class VerticalIntervalSet extends InvertibleIntervalSet {
     @Override
     public Sequence accept(SequenceGenerator sequenceGenerator) {
         return sequenceGenerator.getSequence(this);
+    }
+
+    @Override
+    public void accept(MidiEventGenerator midiEventGenerator) {
+        try {
+            midiEventGenerator.addEvents(this);
+        } catch (InvalidMidiDataException e) {
+            log.error("Error adding MIDI events", e);
+        }
     }
 }

@@ -78,8 +78,9 @@ public final class PlaybackService {
         try {
             if (!midiDevice.isOpen()) {
                 midiDevice.open();
+                Thread.sleep(1000); // allows the device to finish initialization before playing
             }
-        } catch (MidiUnavailableException ex) {
+        } catch (MidiUnavailableException | InterruptedException ex) {
             throw new MidiUnavailableException("Error preparing the MIDI device " + midiDevice.getDeviceInfo().getName());
         }
 
