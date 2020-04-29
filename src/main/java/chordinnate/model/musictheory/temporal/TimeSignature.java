@@ -1,11 +1,15 @@
 package chordinnate.model.musictheory.temporal;
 
 import chordinnate.model.musictheory.temporal.meter.MeterSubdivision;
+import chordinnate.model.musictheory.temporal.rhythm.Beat;
+import chordinnate.model.util.MathUtils;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.math.Fraction;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +53,7 @@ public class TimeSignature {
     }
 
     private void validate(Number numerator, Number denominator, List<MeterSubdivision> numeratorStressPattern) {
-        if (numeratorStressPattern != null && numeratorStressPattern.isEmpty()) {
+        if (numeratorStressPattern != null && CollectionUtils.isEmpty(numeratorStressPattern)) {
             throw new IllegalArgumentException("Stress pattern for this time signature cannot be empty");
         }
 
@@ -65,7 +69,7 @@ public class TimeSignature {
     public String getDisplayString() {
 
         String numeratorString;
-        if (stressPattern == null || stressPattern.isEmpty()) {
+        if (CollectionUtils.isEmpty(stressPattern)) {
 
             if (numerator instanceof Fraction) {
                 numeratorString = "(" + numerator.toString() + ")";
@@ -84,5 +88,14 @@ public class TimeSignature {
         }
 
         return numeratorString + " / " + denominator.toString();
+    }
+
+    @Nullable
+    public Beat getReferenceBeat() {
+        if (denominator.doubleValue() != denominator.intValue() || !MathUtils.isPowerOf(2, denominator.doubleValue())) {
+            return null; // time signature is irrational
+        }
+
+        return Beat.builder(Fraction.getFraction(1, denominator.intValue())).build();
     }
 }

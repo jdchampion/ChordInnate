@@ -53,7 +53,7 @@ public class PitchTest {
          * none of which should go beyond 127 as the highest pitch.
          */
         for (Pitch pitch : Pitch.STANDARD_PITCH_LOOKUP.values()) {
-            int base = pitch.pitchClass.basePitchClass.baseMidiValue;
+            int base = pitch.pitchClass.enharmonicSpelling.baseMidiValue;
             assertEquals("Pitch " + pitch.getName() + " failed to match the expected MIDI value.",
                     // Use a formula that handles edge cases (like Cb (base = -1), B# (base = 12)...)
                     (12 * pitch.octave.getNumber() + (base < 0 ? 12 + base : (base >= 12 ? base % 12 : base))),
@@ -83,13 +83,13 @@ public class PitchTest {
 
     @Test
     public void isDiatonicToIntervalSet() {
-        Scale cMajor = new Scale("C Major"),
-                dMajor = new Scale("D Major"),
-               fMajor = new Scale("Fx#bbb Major");
+        Scale cMajor = new Scale("C Major");
+        Scale dMajor = new Scale("D Major");
+        Scale fMajor = new Scale("Fx#bbb Major");
 
-        Chord cMaj = new Chord("Cmaj"),
-                dMaj = new Chord("Dmaj"),
-                fMaj = new Chord("Fx#bbbmaj");
+        Chord cMaj = new Chord("Cmaj");
+        Chord dMaj = new Chord("Dmaj");
+        Chord fMaj = new Chord("Fx#bbbmaj");
 
         Pitch c0 = Pitch.C_0, c10 = Pitch.C_10;
         Pitch f4 = Pitch.withName("Fx#bbb4");

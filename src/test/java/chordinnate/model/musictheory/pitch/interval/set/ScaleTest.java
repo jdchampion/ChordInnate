@@ -153,7 +153,7 @@ public class ScaleTest {
             int lastAbsolutePitch = Integer.MIN_VALUE;
             Pitch[] pitches = entry.getValue();
             for (int i = 0; i < pitches.length; i++) {
-                assertEquals("Octave " + entry.getKey().getNumber() + " for scale [" + scale.getName() + "] has the wrong values", expected[i].getBaseName(), pitches[i].pitchClass.getBaseName());
+                assertEquals("Octave " + entry.getKey().getNumber() + " for scale [" + scale.getName() + "] has the wrong values", expected[i].getSimplifiedName(), pitches[i].pitchClass.getSimplifiedName());
                 assertTrue("Scale is not ascending", lastAbsolutePitch < pitches[i].getMidiValue());
                 lastAbsolutePitch = pitches[i].getMidiValue();
             }

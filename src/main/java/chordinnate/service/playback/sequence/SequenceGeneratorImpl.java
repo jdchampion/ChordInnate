@@ -130,9 +130,14 @@ public class SequenceGeneratorImpl implements SequenceGenerator {
             MidiEventGeneratorImpl generator = new MidiEventGeneratorImpl(caller);
 
             // Always add these to the beginning of every MIDI sequence
-            generator.addSequenceNumberEvent(0, caller.getTrackNumber(), 0);
+            generator.addSequenceNumberEvent(caller.getTrackNumber(), 0);
             generator.addSetTempoEvent(0, caller.getTempo());
             generator.addProgramChangeEvent(0, caller.getTrackNumber(), caller.getChannel(), caller.getInstrument());
+            generator.addCopyrightNoticeEvent(caller.getTrackNumber(), "");
+            generator.addTrackNameEvent(caller.getTrackNumber(), "");
+//            generator.addSMPTEOffsetEvent(); // TODO: add only if necessary
+            generator.addTimeSignatureEvent(0, MidiConstants.DEFAULT_TIME_SIGNATURE); // TODO: add this here?
+            generator.addKeySignatureEvent(0, MidiConstants.DEFAULT_KEY_SIGNATURE); // TODO: add this here?
 
             // Pass the generator to the callable, and use the callable to add all custom MIDI events
             caller.setGenerator(generator);

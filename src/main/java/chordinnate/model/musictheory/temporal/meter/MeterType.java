@@ -3,6 +3,7 @@ package chordinnate.model.musictheory.temporal.meter;
 import chordinnate.model.musictheory.temporal.TimeSignature;
 import chordinnate.model.util.MathUtils;
 import org.apache.commons.lang3.math.Fraction;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -154,7 +155,7 @@ public enum MeterType {
         }
 
         // classify with respect to all TimeSignatures in the structure
-        if (list.isEmpty()) {
+        if (CollectionUtils.isEmpty(list)) {
             set.add(FREE);
         } else if (list.size() == 1) {
             set.add(FIXED);

@@ -7,6 +7,8 @@ import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.sound.midi.Sequence;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MidiConstants {
 
@@ -23,6 +25,7 @@ public class MidiConstants {
     public static final TimeSignature DEFAULT_TIME_SIGNATURE = TimeSignature.NONE;
     public static final KeySignature DEFAULT_KEY_SIGNATURE = KeySignature.NO_KEY_SIGNATURE;
 
+    public static final float DEFAULT_FRAMES = Sequence.SMPTE_24; // 24 frames per reference beat in SMPTE mode
     public static final int DEFAULT_TICK_RESOLUTION = 96; // number of ticks per reference beat of tempo
     public static final int DEFAULT_USEC_PER_PULSE = 500000; // microseconds
     public static final double DEFAULT_TEMPO_BPM = 120.0; // used for computing tempo ratios

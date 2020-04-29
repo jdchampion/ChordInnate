@@ -14,6 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
@@ -110,7 +111,7 @@ public class ScaleTypeServiceImpl implements ScaleTypeService {
 
     @Override
     public List<ScaleType> findAllByTags(Collection<Tag> tags) {
-        if (tags == null || tags.isEmpty()) {
+        if (CollectionUtils.isEmpty(tags)) {
             return Collections.emptyList();
         }
 

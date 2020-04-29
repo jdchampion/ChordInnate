@@ -9,6 +9,7 @@ import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Field;
@@ -203,14 +204,14 @@ public class KeySignature {
                 currentPC = currentPC.transpose(IntervalDirection.UP, isPureFlat ? Interval.PERFECT_4 : Interval.PERFECT_5);
             } else {
                 String temp = accs[j];
-                accs[j] = String.valueOf(temp.charAt(0))
+                accs[j] = temp.charAt(0)
                         + temp.substring(1, temp.length() - 1)
                         + Accidental.simplify(temp.substring(temp.length() - 1) + (isPureFlat ? Accidental.FLAT.utf8Symbol : Accidental.SHARP.utf8Symbol), false, true);
             }
         }
 
         return Arrays.stream(accs)
-                .filter(a -> a != null && !a.isEmpty())
+                .filter(StringUtils::isNotBlank)
                 .map(a -> PitchClass.withName(a, false))
                 .collect(Collectors.toList());
     }

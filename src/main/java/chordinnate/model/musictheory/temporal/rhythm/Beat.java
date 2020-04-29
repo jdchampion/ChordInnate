@@ -24,7 +24,7 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Beat {
+public final class Beat implements Comparable<Beat> {
 
     public static final Fraction VALUE_WHOLE = Fraction.ONE;
     public static final Fraction VALUE_HALF = Fraction.ONE_HALF;
@@ -115,6 +115,22 @@ public final class Beat {
             sum += Math.pow(0.5, i);
         }
         return sum;
+    }
+
+    @Override
+    public int compareTo(@NotNull Beat o) {
+        double thisDuration = this.getDuration();
+        double thatDuration = o.getDuration();
+
+        if (thisDuration < thatDuration) {
+            return -1;
+        }
+
+        if (thisDuration > thatDuration) {
+            return 1;
+        }
+
+        return 0;
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
