@@ -2,7 +2,7 @@ package chordinnate.model.musictheory.temporal;
 
 import chordinnate.model.musictheory.temporal.meter.MeterSubdivision;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.model.util.MathUtils;
+import chordinnate.util.MathUtils;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;

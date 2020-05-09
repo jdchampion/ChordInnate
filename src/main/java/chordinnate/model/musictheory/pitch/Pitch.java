@@ -648,4 +648,22 @@ public class Pitch
             );
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        }
+
+        Pitch comparison = (Pitch) other;
+
+        return pitchClass.equals(comparison.pitchClass)
+                && octave.equals(comparison.octave)
+                && midiValue == comparison.midiValue;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

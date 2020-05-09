@@ -1,4 +1,4 @@
-package chordinnate.model.util;
+package chordinnate.util;
 
 import com.ibm.icu.util.Region;
 import org.jetbrains.annotations.NotNull;

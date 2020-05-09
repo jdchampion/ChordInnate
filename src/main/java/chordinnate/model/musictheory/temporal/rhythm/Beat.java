@@ -1,7 +1,7 @@
 package chordinnate.model.musictheory.temporal.rhythm;
 
 
-import chordinnate.model.util.MathUtils;
+import chordinnate.util.MathUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -2,7 +2,7 @@ package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.model.util.nomenclature.GreekGrouping;
+import chordinnate.util.nomenclature.GreekGrouping;
 import chordinnate.service.playback.sequence.SequenceGenerator;
 import chordinnate.service.playback.sequence.event.MidiEventGenerator;
 import lombok.AccessLevel;

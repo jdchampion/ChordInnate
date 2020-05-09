@@ -141,6 +141,7 @@
 #### RHYTHM
   - Presets for all standard beat durations (128th note to double-whole note)
   - Support for any (valid) custom beat duration, including tuplets or dot modifications to the beat
+  - Notes can be tied together, and behave as they do with written music (i.e., sustaining sound for the total duration of all tied notes)
 
 ---
 

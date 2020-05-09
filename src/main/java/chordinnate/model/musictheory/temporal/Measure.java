@@ -4,14 +4,14 @@ import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.meter.MeterType;
 import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
-import chordinnate.model.playback.Note;
-import chordinnate.model.util.MathUtils;
+import chordinnate.model.playback.Rhythmic;
+import chordinnate.util.MathUtils;
 import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.SequenceGenerator;
 import chordinnate.service.playback.sequence.event.MidiEventGenerator;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.Sequence;
@@ -23,14 +23,13 @@ import java.util.Set;
 @Getter
 public class Measure implements Metered, Playable {
 
-    @Getter(AccessLevel.PRIVATE)
     private TimeSignature timeSignature;
     private KeySignature keySignature;
     private Tempo tempo;
-    private List<Note> rhythm;
+    private List<Rhythmic> rhythm;
     private double duration;
 
-    public Measure(TimeSignature timeSignature, KeySignature keySignature, List<Note> rhythm) {
+    public Measure(@NotNull TimeSignature timeSignature, @NotNull KeySignature keySignature, List<Rhythmic> rhythm) {
 
         this.timeSignature = timeSignature;
         this.keySignature = keySignature;
@@ -53,7 +52,7 @@ public class Measure implements Metered, Playable {
         return timeSignature.getNumerator().doubleValue() * MathUtils.invert(timeSignature.getDenominator().doubleValue());
     }
 
-    private boolean validate(TimeSignature timeSignature, List<Note> rhythm) {
+    private boolean validate(TimeSignature timeSignature, List<Rhythmic> rhythm) {
 
         this.duration = determineDuration(timeSignature, getMeterTypes());
 
@@ -68,7 +67,7 @@ public class Measure implements Metered, Playable {
 
     @Override
     public List<TimeSignature> getAllTimeSignatures() {
-        return Collections.singletonList(timeSignature);
+        return TimeSignature.NONE.equals(timeSignature) ? Collections.emptyList() : Collections.singletonList(timeSignature);
     }
 
     @Override

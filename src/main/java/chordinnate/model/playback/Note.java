@@ -29,13 +29,18 @@ import java.util.Set;
  */
 @Slf4j
 @Data
-@Builder
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Note implements Playable {
+public class Note implements Rhythmic, Playable {
 
     @NotNull
-    private Pitch pitch;
+    private Set<Pitch> pitches;
+
+    @Setter(AccessLevel.PRIVATE)
+    private Set<Pitch> sharedPitchesOnLeft = new HashSet<>();
+
+    @Setter(AccessLevel.PRIVATE)
+    private Set<Pitch> sharedPitchesOnRight = new HashSet<>();
 
     @NotNull
     private Beat beat;
@@ -57,9 +62,18 @@ public class Note implements Playable {
     @Setter(AccessLevel.PRIVATE)
     private Note tiedToRight;
 
-    public Note(@NotNull Pitch pitch, @NotNull Beat beat) {
-        this.pitch = pitch;
+    public Note(@NotNull Beat beat, @NotNull Pitch... pitches) {
+        this.pitches = new HashSet<>(Arrays.asList(pitches));
         this.beat = beat;
+    }
+
+    @Builder
+    private Note(@NotNull Beat beat, @Nullable Articulation articulation, @Nullable Dynamic dynamic, @Nullable Effect effect, @NotNull Pitch... pitches) {
+        this.beat = beat;
+        this.articulation = articulation;
+        this.dynamic = dynamic;
+        this.effect = effect;
+        this.pitches = new HashSet<>(Arrays.asList(pitches));
     }
 
     /**
@@ -67,13 +81,13 @@ public class Note implements Playable {
      * @param rhs the other note to tie to the current note
      * @throws ChordInnateIllegalArgumentException if:
      * <ul>
-     *     <li>{@code rhs} is the same {@link Note} as {@code this}</li>
+     *     <li>{@code rhs} is the same {@link Note} (in memory) as {@code this}</li>
      *     <li>either of the two {@link Note}s are already tied on their respective side that this method would modify</li>
-     *     <li>the two {@link Note}s do not share the same pitch</li>
+     *     <li>the two {@link Note}s do not share at least one pitch</li>
      * </ul>
      */
     public void tieTo(@NotNull Note rhs) throws ChordInnateIllegalArgumentException {
-        if (this.equals(rhs)) {
+        if (this == rhs) {
             throw new ChordInnateIllegalArgumentException("Cycle detected: cannot tie a note to itself");
         }
 
@@ -81,12 +95,75 @@ public class Note implements Playable {
             throw new ChordInnateIllegalArgumentException("Cannot tie a note twice on the same side");
         }
 
-        if (this.pitch.getMidiValue() != rhs.pitch.getMidiValue()) {
-            throw new ChordInnateIllegalArgumentException("Cannot tie notes with different pitch");
+        for (Pitch pitch : rhs.pitches) {
+            if (this.pitches.contains(pitch)) {
+                this.sharedPitchesOnRight.add(pitch);
+                rhs.sharedPitchesOnLeft.add(pitch);
+            }
+        }
+
+        if (this.sharedPitchesOnRight.isEmpty()) {
+            throw new ChordInnateIllegalArgumentException("Tied notes must contain at least one shared pitch");
         }
 
         this.tiedToRight = rhs;
         rhs.tiedToLeft = this;
+    }
+
+    public void untie(Note note) {
+        if (note == null) {
+            return;
+        }
+
+        if (note == this.tiedToLeft) {
+            this.sharedPitchesOnLeft.clear();
+            this.tiedToLeft = null;
+            note.sharedPitchesOnRight.clear();
+            note.tiedToRight = null;
+        } else if (note == this.tiedToRight) {
+            this.sharedPitchesOnRight.clear();
+            this.tiedToRight = null;
+            note.sharedPitchesOnLeft.clear();
+            note.tiedToLeft = null;
+        }
+    }
+
+    public void untieOnLeft(Pitch pitch) {
+        if (pitch == null || this.sharedPitchesOnLeft.isEmpty() || !this.sharedPitchesOnLeft.contains(pitch)) {
+            return;
+        }
+
+        Note lhs = this.tiedToLeft;
+
+        this.sharedPitchesOnLeft.remove(pitch);
+        lhs.sharedPitchesOnRight.remove(pitch);
+
+        if (this.sharedPitchesOnLeft.isEmpty()) {
+            this.tiedToLeft = null;
+        }
+
+        if (lhs.sharedPitchesOnRight.isEmpty()) {
+            lhs.tiedToRight = null;
+        }
+    }
+
+    public void untieOnRight(Pitch pitch) {
+        if (pitch == null || this.sharedPitchesOnRight.isEmpty() || !this.sharedPitchesOnRight.contains(pitch)) {
+            return;
+        }
+
+        Note rhs = this.tiedToRight;
+
+        this.sharedPitchesOnRight.remove(pitch);
+        rhs.sharedPitchesOnLeft.remove(pitch);
+
+        if (this.sharedPitchesOnRight.isEmpty()) {
+            this.tiedToRight = null;
+        }
+
+        if (rhs.sharedPitchesOnLeft.isEmpty()) {
+            rhs.tiedToLeft = null;
+        }
     }
 
     /**
@@ -95,9 +172,9 @@ public class Note implements Playable {
      * @throws ChordInnateIllegalArgumentException if:
      * <ul>
      *     <li>any {@link Note} is {@code null}</li>
-     *     <li>any two {@link Note}s are identical objects (to prevent cycles)</li>
+     *     <li>any two {@link Note}s are identical objects in memory (to prevent cycles)</li>
      *     <li>any of the {@link Note}s are already tied on their respective side that this method would modify</li>
-     *     <li>the {@link Note}s in the collection do not share the same pitch</li>
+     *     <li>the {@link Note}s in the collection do not share at least one pitch with each adjacent {@link Note}</li>
      * </ul>
      */
     public static void tieAll(@NotNull Note... notes) throws ChordInnateIllegalArgumentException {
@@ -112,8 +189,12 @@ public class Note implements Playable {
         }
 
         if (notes.length >= 2) {
-            for (int i1 = 0, i2 = 1; i2 < notes.length; i1++, i2++) {
-                notes[i1].tieTo(notes[i2]); // Note.tieTo(Note) covers the last two acceptance criteria
+            try {
+                for (int i1 = 0, i2 = 1; i2 < notes.length; i1++, i2++) {
+                    notes[i1].tieTo(notes[i2]); // Note.tieTo(Note) covers the last two acceptance criteria
+                }
+            } catch (ChordInnateIllegalArgumentException ex) {
+                throw new ChordInnateIllegalArgumentException("Adjacent notes in a tie must contain at least one shared pitch", ex);
             }
         }
     }
@@ -124,7 +205,7 @@ public class Note implements Playable {
      * @throws ChordInnateIllegalArgumentException if:
      * <ul>
      *     <li>any {@link Note} is {@code null}</li>
-     *     <li>any two {@link Note}s are identical objects (to prevent cycles)</li>
+     *     <li>any two {@link Note}s are identical objects in memory (to prevent cycles)</li>
      *     <li>any of the {@link Note}s are already tied on their respective side that this method would modify</li>
      *     <li>the {@link Note}s in the collection do not share the same pitch</li>
      * </ul>
@@ -142,8 +223,12 @@ public class Note implements Playable {
 
         if (notes.size() >= 2) {
             Note[] ns = notes.toArray(new Note[0]);
-            for (int i1 = 0, i2 = 1; i2 < ns.length; i1++, i2++) {
-                ns[i1].tieTo(ns[i2]); // Note.tieTo(Note) covers the last two acceptance criteria
+            try {
+                for (int i1 = 0, i2 = 1; i2 < ns.length; i1++, i2++) {
+                    ns[i1].tieTo(ns[i2]); // Note.tieTo(Note) covers the last two acceptance criteria
+                }
+            } catch (ChordInnateIllegalArgumentException ex) {
+                throw new ChordInnateIllegalArgumentException("Adjacent notes in a tie must contain at least one shared pitch", ex);
             }
         }
     }
@@ -160,8 +245,8 @@ public class Note implements Playable {
         return tiedToRight != null;
     }
 
-    public static NoteBuilder builder(@NotNull Pitch pitch, @NotNull Beat beat) {
-        return new NoteBuilder().pitch(pitch).beat(beat);
+    public static NoteBuilder builder(@NotNull Beat beat, @NotNull Pitch... pitches) {
+        return new NoteBuilder().pitches(pitches).beat(beat);
     }
 
     @Override
@@ -177,4 +262,15 @@ public class Note implements Playable {
             log.error("Error adding MIDI events", e);
         }
     }
+
+    @Override
+    public boolean equals(Object other) {
+        return this == other; // we only care about identical references
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
 }

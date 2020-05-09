@@ -1,4 +1,4 @@
-package chordinnate.model.util.nomenclature;
+package chordinnate.util.nomenclature;
 
 import com.ibm.icu.text.RuleBasedNumberFormat;
 import lombok.AccessLevel;

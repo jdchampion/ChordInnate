@@ -20,6 +20,8 @@ import chordinnate.model.musictheory.temporal.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Note;
+import chordinnate.model.playback.Rest;
+import chordinnate.model.playback.Rhythmic;
 import chordinnate.service.playback.sequence.MidiConstants;
 import chordinnate.service.playback.sequence.MidiType;
 import chordinnate.service.playback.sequence.SequenceGeneratorImpl;
@@ -101,7 +103,9 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      * @throws InvalidMidiDataException
      */
     public void addNoteOnEvent(long tick, int trackNumber, int channel, @NotNull Note note) throws InvalidMidiDataException {
-        addNoteOnEvent(tick, trackNumber, channel, note.getPitch().getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : MidiConstants.DEFAULT_VELOCITY);
+        for (Pitch pitch : note.getPitches()) {
+            addNoteOnEvent(tick, trackNumber, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : MidiConstants.DEFAULT_VELOCITY);
+        }
     }
 
     /**
@@ -130,7 +134,9 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      * @throws InvalidMidiDataException
      */
     public void addNoteOffEvent(long tick, int trackNumber, int channel, @NotNull Note note) throws InvalidMidiDataException {
-        addNoteOffEvent(tick, trackNumber, channel, note.getPitch().getMidiValue());
+        for (Pitch pitch : note.getPitches()) {
+            addNoteOffEvent(tick, trackNumber, channel, pitch.getMidiValue());
+        }
     }
 
     /**
@@ -505,6 +511,10 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      */
     public void addKeySignatureEvent(long tick, @NotNull KeySignature keySignature) throws InvalidMidiDataException {
 
+        if (KeySignature.NO_KEY_SIGNATURE.equals(keySignature)) {
+            return;
+        }
+
         /*
          * MIDI only supports a limited range of key signatures,
          * from 7 flats (-7) to 7 sharps (+7).
@@ -560,6 +570,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
         addNoteOnEvent(tick, callee.getTrackNumber(), callee.getChannel(), pitch.getMidiValue(), MidiConstants.DEFAULT_VELOCITY);
         tick += calculateTickCount(callee.getTempo().getReferenceBeat(), callee.getTempo(), true);
         addNoteOffEvent(tick, callee.getTrackNumber(), callee.getChannel(), pitch.getMidiValue());
+        callee.setTick(tick);
     }
 
     @Override
@@ -567,17 +578,18 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
         Pitch[] pitches = horizontalIntervalSet.getPitchesForOctave(Octave.OCTAVE_5);
         long tick = callee.getTick();
         for (Pitch p : pitches) {
-            Note note = Note.builder(p, Beat.QUARTER).build();
+            Note note = Note.builder(Beat.QUARTER, p).build();
             addNoteOnEvent(tick, callee.getTrackNumber(), callee.getChannel(), note);
             tick += calculateTickCount(note, callee.getTempo(), true);
             addNoteOffEvent(tick, callee.getTrackNumber(), callee.getChannel(), note);
         }
+        callee.setTick(tick);
     }
 
     @Override
     public void addEvents(VerticalIntervalSet verticalIntervalSet) throws InvalidMidiDataException {
         List<Note> notes = Arrays.stream(verticalIntervalSet.getPitchesForOctave(Octave.OCTAVE_5))
-                .map(p -> Note.builder(p, Beat.WHOLE).build())
+                .map(p -> Note.builder(Beat.WHOLE, p).build())
                 .collect(Collectors.toList());
 
         long startTick = callee.getTick();
@@ -586,6 +598,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
             addNoteOnEvent(startTick, callee.getTrackNumber(), callee.getChannel(), note);
             addNoteOffEvent(endTick, callee.getTrackNumber(), callee.getChannel(), note);
         }
+        callee.setTick(endTick);
     }
 
     @Override
@@ -594,45 +607,95 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
         addNoteOnEvent(tick, callee.getTrackNumber(), callee.getChannel(), note);
         tick += calculateTickCount(note, callee.getTempo(), true);
         addNoteOffEvent(tick, callee.getTrackNumber(), callee.getChannel(), note);
+        callee.setTick(tick);
     }
 
     @Override
     public void addEvents(Measure measure) throws InvalidMidiDataException {
-        // TODO
+
+        long tick = callee.getTick();
+
+        if (measure.getTempo() != null) {
+            addSetTempoEvent(tick, measure.getTempo());
+        }
+        if (!TimeSignature.NONE.equals(measure.getTimeSignature())) {
+            addTimeSignatureEvent(tick, measure.getTimeSignature());
+        }
+        if (!KeySignature.NO_KEY_SIGNATURE.equals(measure.getKeySignature())) {
+            addKeySignatureEvent(tick, measure.getKeySignature());
+        }
+
+        for (Rhythmic rhythmic : measure.getRhythm()) {
+
+            // Case: rests
+            if (rhythmic instanceof Rest) {
+                tick += calculateTickCount(rhythmic.getBeat(), callee.getTempo(), true);
+                continue;
+            }
+
+            // Case: sounded notes
+            Note note = (Note) rhythmic;
+
+            for (Pitch pitch : note.getPitches()) {
+                if (!note.getSharedPitchesOnLeft().contains(pitch)) {
+                    addNoteOnEvent(tick, callee.getTrackNumber(), callee.getChannel(), pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : MidiConstants.DEFAULT_VELOCITY);
+                }
+            }
+
+            tick += calculateTickCount(note, callee.getTempo(), true);
+
+            for (Pitch pitch : note.getPitches()) {
+                if (!note.getSharedPitchesOnRight().contains(pitch)) {
+                    addNoteOffEvent(tick, callee.getTrackNumber(), callee.getChannel(), pitch.getMidiValue());
+                }
+            }
+
+            callee.setTick(tick);
+        }
     }
 
     @Override
     public void addEvents(Cell cell) throws InvalidMidiDataException {
-        // TODO
+        addEvents(cell.getMeasure());
     }
 
     @Override
     public void addEvents(Motif motif) throws InvalidMidiDataException {
-        // TODO
+        for (Cell cell : motif.getCells()) {
+            addEvents(cell);
+        }
     }
 
     @Override
     public void addEvents(PhraseMember phraseMember) throws InvalidMidiDataException {
-        // TODO
+        for (Motif motif : phraseMember.getMotifs()) {
+            addEvents(motif);
+        }
     }
 
     @Override
     public void addEvents(Phrase phrase) throws InvalidMidiDataException {
-        // TODO
+        for (PhraseMember phraseMember : phrase.getPhraseMembers()) {
+            addEvents(phraseMember);
+        }
     }
 
     @Override
     public void addEvents(PhraseGroup phraseGroup) throws InvalidMidiDataException {
-        // TODO
+        for (Phrase phrase : phraseGroup.getPhrases()) {
+            addEvents(phrase);
+        }
     }
 
     @Override
     public void addEvents(Period period) throws InvalidMidiDataException {
-        // TODO
+        addEvents(period.getPhrase1());
+        addEvents(period.getPhrase2());
     }
 
     @Override
     public void addEvents(DoublePeriod doublePeriod) throws InvalidMidiDataException {
-        // TODO
+        addEvents(doublePeriod.getPeriod1());
+        addEvents(doublePeriod.getPeriod2());
     }
 }

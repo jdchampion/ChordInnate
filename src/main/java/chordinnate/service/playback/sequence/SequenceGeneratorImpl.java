@@ -56,7 +56,7 @@ public class SequenceGeneratorImpl implements SequenceGenerator {
     @Override
     public Sequence getSequence(Pitch pitch) {
         MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
-        callable.setPlayable(Note.builder(pitch, Beat.QUARTER).build());
+        callable.setPlayable(Note.builder(Beat.QUARTER, pitch).build());
         return buildSequence(callable);
     }
 
@@ -83,42 +83,58 @@ public class SequenceGeneratorImpl implements SequenceGenerator {
 
     @Override
     public Sequence getSequence(Measure measure) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(measure);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(Cell cell) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(cell);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(Motif motif) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(motif);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(PhraseMember phraseMember) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(phraseMember);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(Phrase phrase) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(phrase);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(PhraseGroup phraseGroup) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(phraseGroup);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(Period period) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(period);
+        return buildSequence(callable);
     }
 
     @Override
     public Sequence getSequence(DoublePeriod doublePeriod) {
-        return null;
+        MidiEventGeneratorCallable callable = new MidiEventGeneratorCallable();
+        callable.setPlayable(doublePeriod);
+        return buildSequence(callable);
     }
 
     private Sequence buildSequence(MidiEventGeneratorCallable caller) {
@@ -133,8 +149,8 @@ public class SequenceGeneratorImpl implements SequenceGenerator {
             generator.addSequenceNumberEvent(caller.getTrackNumber(), 0);
             generator.addSetTempoEvent(0, caller.getTempo());
             generator.addProgramChangeEvent(0, caller.getTrackNumber(), caller.getChannel(), caller.getInstrument());
-            generator.addCopyrightNoticeEvent(caller.getTrackNumber(), "");
-            generator.addTrackNameEvent(caller.getTrackNumber(), "");
+            generator.addCopyrightNoticeEvent(caller.getTrackNumber(), ""); // TODO: add only if necessary
+            generator.addTrackNameEvent(caller.getTrackNumber(), ""); // TODO: add only if necessary
 //            generator.addSMPTEOffsetEvent(); // TODO: add only if necessary
             generator.addTimeSignatureEvent(0, MidiConstants.DEFAULT_TIME_SIGNATURE); // TODO: add this here?
             generator.addKeySignatureEvent(0, MidiConstants.DEFAULT_KEY_SIGNATURE); // TODO: add this here?

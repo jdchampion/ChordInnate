@@ -27,7 +27,7 @@ public class MeterTypeTest {
 
     @Test
     public void classify_fixed() {
-        Metered measure = new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.WHOLE)));
+        Metered measure = new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Beat.WHOLE, Pitch.C_0)));
         assertTrue(measure.isMeterType(MeterType.FIXED));
     }
 
@@ -42,10 +42,10 @@ public class MeterTypeTest {
         Motif motif = new Motif();
 
         Cell cell1 = new Cell();
-        cell1.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.WHOLE))));
+        cell1.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Beat.WHOLE, Pitch.C_0))));
 
         Cell cell2 = new Cell();
-        cell2.setMeasure(new Measure(new TimeSignature(2, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.HALF))));
+        cell2.setMeasure(new Measure(new TimeSignature(2, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Beat.HALF, Pitch.C_0))));
 
         motif.setCells(Arrays.asList(cell1, cell2));
 
@@ -57,13 +57,13 @@ public class MeterTypeTest {
         Motif motif = new Motif();
 
         Cell cell1 = new Cell();
-        cell1.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.WHOLE))));
+        cell1.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Beat.WHOLE, Pitch.C_0))));
 
         Cell cell2 = new Cell();
-        cell2.setMeasure(new Measure(new TimeSignature(2, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.HALF))));
+        cell2.setMeasure(new Measure(new TimeSignature(2, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Beat.HALF, Pitch.C_0))));
 
         Cell cell3 = new Cell();
-        cell3.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Pitch.C_0, Beat.WHOLE))));
+        cell3.setMeasure(new Measure(new TimeSignature(4, 4), KeySignature.NO_KEY_SIGNATURE, Collections.singletonList(new Note(Beat.WHOLE, Pitch.C_0))));
 
         motif.setCells(Arrays.asList(cell1, cell2, cell3));
 

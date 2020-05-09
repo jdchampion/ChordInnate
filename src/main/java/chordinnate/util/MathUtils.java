@@ -1,4 +1,4 @@
-package chordinnate.model.util;
+package chordinnate.util;
 
 public class MathUtils {
 

@@ -6,7 +6,7 @@ import chordinnate.entity.validation.Phase1Validation;
 import chordinnate.entity.validation.Phase2Validation;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
-import chordinnate.model.util.IntervalConverter;
+import chordinnate.entity.converter.IntervalConverter;
 import lombok.Data;
 
 import javax.persistence.Cacheable;
