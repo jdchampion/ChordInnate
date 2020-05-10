@@ -1,7 +1,5 @@
 package chordinnate.model.musictheory.temporal.meter;
 
-import chordinnate.model.musictheory.temporal.TimeSignature;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

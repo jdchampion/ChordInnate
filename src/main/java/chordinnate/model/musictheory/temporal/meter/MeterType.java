@@ -1,6 +1,5 @@
 package chordinnate.model.musictheory.temporal.meter;
 
-import chordinnate.model.musictheory.temporal.TimeSignature;
 import chordinnate.util.MathUtils;
 import org.apache.commons.lang3.math.Fraction;
 import org.springframework.util.CollectionUtils;

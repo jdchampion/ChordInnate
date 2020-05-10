@@ -1,5 +1,6 @@
-package chordinnate.model.musictheory.temporal;
+package chordinnate.model.musictheory.melody.form;
 
+import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.SequenceGenerator;
@@ -18,14 +19,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Motif implements Metered, Playable {
+public class Period implements Metered, Playable {
 
-    private List<Cell> cells;
+    private Phrase phrase1;
+    private Phrase phrase2;
 
     @Override
     public List<TimeSignature> getAllTimeSignatures() {
         List<TimeSignature> list = new ArrayList<>();
-        cells.forEach(c -> list.addAll(c.getAllTimeSignatures()));
+        list.addAll(phrase1.getAllTimeSignatures());
+        list.addAll(phrase2.getAllTimeSignatures());
         return list;
     }
 

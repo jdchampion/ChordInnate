@@ -1,6 +1,7 @@
-package chordinnate.model.musictheory.temporal;
+package chordinnate.model.musictheory.melody.form;
 
 import chordinnate.model.musictheory.pitch.key.KeySignature;
+import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.meter.MeterType;
 import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;

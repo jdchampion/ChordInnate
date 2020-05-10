@@ -1,5 +1,6 @@
-package chordinnate.model.musictheory.temporal;
+package chordinnate.model.musictheory.melody.form;
 
+import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.SequenceGenerator;
@@ -18,14 +19,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhraseGroup implements Metered, Playable {
+public class DoublePeriod implements Metered, Playable {
 
-    private List<Phrase> phrases;
+    Period period1;
+    Period period2;
 
     @Override
     public List<TimeSignature> getAllTimeSignatures() {
         List<TimeSignature> list = new ArrayList<>();
-        phrases.forEach(p -> list.addAll(p.getAllTimeSignatures()));
+        list.addAll(period1.getAllTimeSignatures());
+        list.addAll(period2.getAllTimeSignatures());
         return list;
     }
 

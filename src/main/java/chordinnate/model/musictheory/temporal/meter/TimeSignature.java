@@ -1,6 +1,5 @@
-package chordinnate.model.musictheory.temporal;
+package chordinnate.model.musictheory.temporal.meter;
 
-import chordinnate.model.musictheory.temporal.meter.MeterSubdivision;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.util.MathUtils;
 import lombok.AccessLevel;

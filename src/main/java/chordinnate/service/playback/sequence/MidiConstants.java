@@ -1,7 +1,7 @@
 package chordinnate.service.playback.sequence;
 
 import chordinnate.model.musictheory.pitch.key.KeySignature;
-import chordinnate.model.musictheory.temporal.TimeSignature;
+import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import lombok.AccessLevel;

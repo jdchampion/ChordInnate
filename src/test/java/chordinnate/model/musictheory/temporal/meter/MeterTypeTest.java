@@ -1,10 +1,10 @@
-package chordinnate.model.musictheory.temporal;
+package chordinnate.model.musictheory.temporal.meter;
 
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
-import chordinnate.model.musictheory.temporal.meter.MeterSubdivision;
-import chordinnate.model.musictheory.temporal.meter.MeterType;
-import chordinnate.model.musictheory.temporal.meter.Metered;
+import chordinnate.model.musictheory.melody.form.Cell;
+import chordinnate.model.musictheory.melody.form.Measure;
+import chordinnate.model.musictheory.melody.form.Motif;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.playback.Note;
 import lombok.extern.slf4j.Slf4j;

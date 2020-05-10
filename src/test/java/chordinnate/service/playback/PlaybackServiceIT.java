@@ -5,7 +5,7 @@ import chordinnate.model.musictheory.pitch.interval.set.Chord;
 import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet;
-import chordinnate.model.musictheory.temporal.Measure;
+import chordinnate.model.musictheory.melody.form.Measure;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.playback.Note;
 import chordinnate.model.playback.Rest;
