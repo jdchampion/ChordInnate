@@ -166,22 +166,6 @@
       - free
 
 ---
-## TODO
-*This is an (ever-growing) list of features that are planned or currently in the works for ChordInnate:*
-- [x] ~~User-extensible chords and scales~~
-- [x] ~~Support for dyads, triads, tetrads, etc.~~
-- [ ] Interval ratios (Just Intonation, 12-Tone Equal Temperament)
-- [ ] Support for user-entered chord symbols for Roman Numeral ({Isus4}, etc.)
-- [ ] Theory behind Shoenberg's 12-tone technique (tone rows, retrograde inversion)
-- [ ] Borrowed chords
-- [ ] Chord inference based on scale and Roman Numeral
-- [ ] Nashville Numbering system
-- [x] ~~Support any beat duration~~
-- [ ] Cadence detection and classification
-- [ ] Support for polymeter
-- [ ] Support for microtones
-
----
 ## Project History and Motivation for Development
 ChordInnate has been an ongoing project since the completion of my freshman year of Computer Science (2013). As a student making a jump from the arts to the sciences, I sought a challenging engineering project that would allow me to hone both my musical and technical skills.
 
