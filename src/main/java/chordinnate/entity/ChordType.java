@@ -1,7 +1,7 @@
 package chordinnate.entity;
 
-import chordinnate.annotation.ValidateIntervalContour;
-import chordinnate.annotation.ValidateSize;
+import chordinnate.entity.validation.ValidateIntervalContour;
+import chordinnate.entity.validation.ValidateSize;
 import chordinnate.entity.validation.Phase1Validation;
 import chordinnate.entity.validation.Phase2Validation;
 import chordinnate.model.musictheory.pitch.interval.Interval;

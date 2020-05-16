@@ -1,103 +1,36 @@
 package chordinnate.service.playback.sequence;
 
 import chordinnate.model.musictheory.pitch.Pitch;
-import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
-import chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet;
-import chordinnate.model.musictheory.melody.form.Cell;
-import chordinnate.model.musictheory.melody.form.DoublePeriod;
-import chordinnate.model.musictheory.melody.form.Measure;
-import chordinnate.model.musictheory.melody.form.Motif;
-import chordinnate.model.musictheory.melody.form.Period;
-import chordinnate.model.musictheory.melody.form.Phrase;
-import chordinnate.model.musictheory.melody.form.PhraseGroup;
-import chordinnate.model.musictheory.melody.form.PhraseMember;
+import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.playback.Note;
+import chordinnate.service.playback.Playable;
+import org.springframework.context.ApplicationContext;
 
 import javax.sound.midi.Sequence;
 
-public interface SequenceGenerator {
+public class SequenceGenerator {
+
+    private final MidiEventGeneratorCallable callable;
+
+    public SequenceGenerator(ApplicationContext context) {
+        this.callable = new MidiEventGeneratorCallable(context);
+    }
 
     /**
      * Generates a playable MIDI Sequence for a single Pitch.
      * @param pitch
      * @return
      */
-    Sequence getSequence(Pitch pitch);
+    public Sequence getSequence(Pitch pitch) {
+        return callable.buildSequence(Note.builder(Beat.QUARTER, pitch).build());
+    }
 
     /**
-     * Generates a playable MIDI Sequence for a HorizontalIntervalSet.
-     * @param horizontalIntervalSet
+     * Generates a playable MIDI Sequence for a Playable object.
+     * @param playable
      * @return
      */
-    Sequence getSequence(HorizontalIntervalSet horizontalIntervalSet);
-
-    /**
-     * Generates a playable MIDI Sequence for a VerticalIntervalSet.
-     * @param verticalIntervalSet
-     * @return
-     */
-    Sequence getSequence(VerticalIntervalSet verticalIntervalSet);
-
-    /**
-     * Generates a playable MIDI Sequence for a single Note.
-     * @param note
-     * @return
-     */
-    Sequence getSequence(Note note);
-
-    /**
-     * Generates a playable MIDI Sequence for a single Measure.
-     * @param measure
-     * @return
-     */
-    Sequence getSequence(Measure measure);
-
-    /**
-     * Generates a playable MIDI Sequence for a single Cell.
-     * @param cell
-     * @return
-     */
-    Sequence getSequence(Cell cell);
-
-    /**
-     * Generates a playable MIDI Sequence for a Motif.
-     * @param motif
-     * @return
-     */
-    Sequence getSequence(Motif motif);
-
-    /**
-     * Generates a playable MIDI Sequence for a PhraseMember.
-     * @param phraseMember
-     * @return
-     */
-    Sequence getSequence(PhraseMember phraseMember);
-
-    /**
-     * Generates a playable MIDI Sequence for a Phrase.
-     * @param phrase
-     * @return
-     */
-    Sequence getSequence(Phrase phrase);
-
-    /**
-     * Generates a playable MIDI Sequence for a PhraseGroup.
-     * @param phraseGroup
-     * @return
-     */
-    Sequence getSequence(PhraseGroup phraseGroup);
-
-    /**
-     * Generates a playable MIDI Sequence for a Period.
-     * @param period
-     * @return
-     */
-    Sequence getSequence(Period period);
-
-    /**
-     * Generates a playable MIDI Sequence for a DoublePeriod.
-     * @param doublePeriod
-     * @return
-     */
-    Sequence getSequence(DoublePeriod doublePeriod);
+    public Sequence getSequence(Playable playable) {
+        return callable.buildSequence(playable);
+    }
 }

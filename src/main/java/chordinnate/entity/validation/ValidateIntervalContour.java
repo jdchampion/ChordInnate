@@ -1,4 +1,4 @@
-package chordinnate.annotation;
+package chordinnate.entity.validation;
 
 import chordinnate.entity.validation.IntervalContourValidator;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;

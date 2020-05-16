@@ -1,13 +1,6 @@
 package chordinnate.service.playback.sequence.event;
 
-import chordinnate.model.musictheory.notation.Accidental;
-import chordinnate.model.musictheory.pitch.Pitch;
-import chordinnate.model.musictheory.pitch.PitchClass;
-import chordinnate.model.musictheory.pitch.interval.Octave;
-import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
-import chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet;
-import chordinnate.model.musictheory.pitch.key.KeySignature;
-import chordinnate.model.musictheory.pitch.key.KeySignatureType;
+import chordinnate.config.MidiConfig;
 import chordinnate.model.musictheory.melody.form.Cell;
 import chordinnate.model.musictheory.melody.form.DoublePeriod;
 import chordinnate.model.musictheory.melody.form.Measure;
@@ -16,18 +9,23 @@ import chordinnate.model.musictheory.melody.form.Period;
 import chordinnate.model.musictheory.melody.form.Phrase;
 import chordinnate.model.musictheory.melody.form.PhraseGroup;
 import chordinnate.model.musictheory.melody.form.PhraseMember;
+import chordinnate.model.musictheory.notation.Accidental;
+import chordinnate.model.musictheory.pitch.Pitch;
+import chordinnate.model.musictheory.pitch.PitchClass;
+import chordinnate.model.musictheory.pitch.interval.Octave;
+import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
+import chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet;
+import chordinnate.model.musictheory.pitch.key.KeySignature;
+import chordinnate.model.musictheory.pitch.key.KeySignatureType;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Note;
 import chordinnate.model.playback.Rest;
 import chordinnate.model.playback.Rhythmic;
-import chordinnate.service.playback.sequence.MidiConstants;
-import chordinnate.service.playback.sequence.MidiType;
-import chordinnate.service.playback.sequence.SequenceGeneratorImpl;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import chordinnate.service.playback.sequence.MidiEventGeneratorCallable;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.Fraction;
 import org.jetbrains.annotations.NotNull;
@@ -46,11 +44,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Slf4j
+@RequiredArgsConstructor
 public class MidiEventGeneratorImpl implements MidiEventGenerator {
 
-    private SequenceGeneratorImpl.MidiEventGeneratorCallable callee;
+    private final Sequence sequence;
+    private final MidiEventGeneratorCallable callee;
 
     protected Track getTrack(Sequence sequence, int trackNumber) {
         Track[] tracks = sequence.getTracks();
@@ -66,21 +65,21 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
                                    int channel, int data1, int data2) throws InvalidMidiDataException {
 
         // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
-        assert !MidiType.TYPE_ZERO.equals(callee.getMidiType()) && !MidiType.TYPE_ONE.equals(callee.getMidiType()) || trackNumber == 0;
+        assert callee.getConfig().getMidiType() != 0 && callee.getConfig().getMidiType() != 1 || trackNumber == 0;
 
         ShortMessage sm = new ShortMessage();
         sm.setMessage(command, channel, data1, data2);
         MidiEvent event = new MidiEvent(sm, tick);
 
-        getTrack(callee.getSequence(), trackNumber).add(event);
+        getTrack(sequence, trackNumber).add(event);
     }
 
     private void addTextEventImpl(int command, long tick, int trackNumber, String text) throws InvalidMidiDataException {
 
-        // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
-        assert !MidiType.TYPE_ZERO.equals(callee.getMidiType()) && !MidiType.TYPE_ONE.equals(callee.getMidiType()) || trackNumber == 0;
-
         if (StringUtils.isNotBlank(text)) {
+
+            // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
+            assert callee.getConfig().getMidiType() != 0 && callee.getConfig().getMidiType() != 1 || trackNumber == 0;
 
             byte[] data = text.getBytes(StandardCharsets.US_ASCII);
 
@@ -88,7 +87,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
             mm.setMessage(command, data, data.length);
             MidiEvent event = new MidiEvent(mm, tick);
 
-            getTrack(callee.getSequence(), trackNumber).add(event);
+            getTrack(sequence, trackNumber).add(event);
         }
     }
 
@@ -104,7 +103,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      */
     public void addNoteOnEvent(long tick, int trackNumber, int channel, @NotNull Note note) throws InvalidMidiDataException {
         for (Pitch pitch : note.getPitches()) {
-            addNoteOnEvent(tick, trackNumber, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : MidiConstants.DEFAULT_VELOCITY);
+            addNoteOnEvent(tick, trackNumber, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : callee.getConfig().getVelocity());
         }
     }
 
@@ -120,6 +119,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      * @throws InvalidMidiDataException
      */
     public void addNoteOnEvent(long tick, int trackNumber, int channel, int noteValue, int noteVelocity) throws InvalidMidiDataException {
+        log.info("NOTE ON: {} {} {} {} {}", tick, trackNumber, channel, noteValue, noteVelocity);
         addVoiceEventImpl(ShortMessage.NOTE_ON, tick, trackNumber, channel, noteValue, noteVelocity);
     }
 
@@ -150,6 +150,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      * @throws InvalidMidiDataException
      */
     public void addNoteOffEvent(long tick, int trackNumber, int channel, int noteValue) throws InvalidMidiDataException {
+        log.info("NOTE OFF: {} {} {} {} {}", tick, trackNumber, channel, noteValue, 0);
         addVoiceEventImpl(ShortMessage.NOTE_OFF, tick, trackNumber, channel, noteValue, 0);
 
     }
@@ -238,9 +239,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
     public void addSequenceNumberEvent(int trackNumber, int sequenceNumber) throws InvalidMidiDataException {
 
         // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
-        if (MidiType.TYPE_ZERO.equals(callee.getMidiType()) || MidiType.TYPE_ONE.equals(callee.getMidiType())) {
-            assert trackNumber == 0;
-        }
+        assert callee.getConfig().getMidiType() != 0 && callee.getConfig().getMidiType() != 1 || trackNumber == 0;
 
         byte[] data = {
                 (byte) ((sequenceNumber & 0x00FF0000) >> 16),
@@ -262,7 +261,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
         mm.setMessage(0x00, data, data.length);
         MidiEvent event = new MidiEvent(mm, 0);
 
-        getTrack(callee.getSequence(), trackNumber).add(event);
+        getTrack(sequence, trackNumber).add(event);
     }
 
     /**
@@ -370,7 +369,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
         mm.setMessage(0x20, data, data.length);
         MidiEvent event = new MidiEvent(mm, tick);
 
-        getTrack(callee.getSequence(), trackNumber).add(event);
+        getTrack(sequence, trackNumber).add(event);
     }
 
     public void addEndOfTrackEvent() throws InvalidMidiDataException {
@@ -390,7 +389,10 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      * @throws InvalidMidiDataException
      */
     public void addSetTempoEvent(long tick, @NotNull Tempo tempo) throws InvalidMidiDataException {
-        long usecPerPulse =  Math.round(MidiConstants.DEFAULT_USEC_PER_PULSE / (tempo.getBeatsPerMinute() / MidiConstants.DEFAULT_TEMPO_BPM));
+
+        log.info("SET TEMPO: {} {}", tick, tempo.toString());
+
+        long usecPerPulse = Math.round( (double) MidiConfig.DEFAULT_USEC_PER_PULSE / tempo.getBeatsPerMinute());
 
         byte[] data = {
                 (byte) ((usecPerPulse & 0xFF000000) >> 24),
@@ -414,7 +416,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
         MidiEvent event = new MidiEvent(mm, tick);
 
         // ALL MIDI types (0, 1, 2) should place this event on Track 0.
-        getTrack(callee.getSequence(), 0).add(event);
+        getTrack(sequence, 0).add(event);
     }
 
     /**
@@ -427,7 +429,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      */
     public void addSMPTEOffsetEvent(LocalTime time, byte subFrame) throws InvalidMidiDataException {
 
-        float frames = MidiConstants.DEFAULT_FRAMES;
+        float frames = callee.getConfig().getFrames();
 
         int bit;
         if (frames == Sequence.PPQ || frames == Sequence.SMPTE_24) {
@@ -458,7 +460,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
          * Per specs, MIDI type 1 must "store this event with the tempo map."
          * Nothing mentioned for MIDI type 0 or 2, so we'll do the same for those.
          */
-        getTrack(callee.getSequence(), 0).add(event);
+        getTrack(sequence, 0).add(event);
     }
 
     /**
@@ -471,10 +473,13 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
      */
     public void addTimeSignatureEvent(long tick, @NotNull TimeSignature timeSignature) throws InvalidMidiDataException {
         if (timeSignature.getReferenceBeat() != null) {
+
+            log.info("ADD TIME SIGNATURE: {} {}", tick, timeSignature.toString());
+
             double denom = timeSignature.getDenominator().doubleValue();
 
             Fraction beatValue = timeSignature.getReferenceBeat().getBeatValue();
-            Fraction tickCountPerReferenceBeat = beatValue.multiplyBy(Fraction.getFraction(MidiConstants.DEFAULT_TICK_RESOLUTION / 4, 1));
+            Fraction tickCountPerReferenceBeat = beatValue.multiplyBy(Fraction.getFraction(callee.getConfig().getTickResolution() / 4, 1));
 
             int num32nds = beatValue.divideBy(Beat.THIRTY_SECOND.getBeatValue()).intValue();
 
@@ -495,7 +500,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
              * MIDI type 2 must add this event at the same time on every track.
              * Since MIDI type 0 and 1 have a single track, this also works for them.
              */
-            for (Track track : callee.getSequence().getTracks()) {
+            for (Track track : sequence.getTracks()) {
                 track.add(event);
             }
         }
@@ -544,32 +549,32 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
         mm.setMessage(0x59, data, data.length);
         MidiEvent event = new MidiEvent(mm, tick);
 
-        for (Track track : callee.getSequence().getTracks()) {
+        for (Track track : sequence.getTracks()) {
             track.add(event);
         }
     }
 
-    private static double calculateTickCount(@NotNull Note note, @NotNull Tempo tempo, boolean round) {
+    private static double calculateTickCount(@NotNull Note note, @NotNull MidiConfig config, boolean round) {
         double articulationDurationFactor = 1.0;
         if (note.getArticulation() != null) {
             articulationDurationFactor = note.getArticulation().getDurationFactor();
         }
-        double toReturn = articulationDurationFactor * calculateTickCount(note.getBeat(), tempo, false);
+        double toReturn = articulationDurationFactor * calculateTickCount(note.getBeat(), config, false);
         return round ? Math.round(toReturn) : toReturn;
     }
 
-    private static double calculateTickCount(@NotNull Beat beat, @NotNull Tempo tempo, boolean round) {
-        double ratio = tempo.getReferenceBeat().getDuration() / beat.getDuration();
-        double toReturn = MidiConstants.DEFAULT_TICK_RESOLUTION / ratio;
+    private static double calculateTickCount(@NotNull Beat beat, @NotNull MidiConfig config, boolean round) {
+        double ratio = config.getTempo().getReferenceBeat().getDuration() / beat.getDuration();
+        double toReturn = config.getTickResolution() / ratio;
         return round ? Math.round(toReturn) : toReturn;
     }
 
     @Override
     public void addEvents(Pitch pitch) throws InvalidMidiDataException {
         long tick = callee.getTick();
-        addNoteOnEvent(tick, callee.getTrackNumber(), callee.getChannel(), pitch.getMidiValue(), MidiConstants.DEFAULT_VELOCITY);
-        tick += calculateTickCount(callee.getTempo().getReferenceBeat(), callee.getTempo(), true);
-        addNoteOffEvent(tick, callee.getTrackNumber(), callee.getChannel(), pitch.getMidiValue());
+        addNoteOnEvent(tick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), pitch.getMidiValue(), callee.getConfig().getVelocity());
+        tick += calculateTickCount(callee.getConfig().getTempo().getReferenceBeat(), callee.getConfig(), true);
+        addNoteOffEvent(tick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), pitch.getMidiValue());
         callee.setTick(tick);
     }
 
@@ -579,11 +584,13 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
         long tick = callee.getTick();
         for (Pitch p : pitches) {
             Note note = Note.builder(Beat.QUARTER, p).build();
-            addNoteOnEvent(tick, callee.getTrackNumber(), callee.getChannel(), note);
-            tick += calculateTickCount(note, callee.getTempo(), true);
-            addNoteOffEvent(tick, callee.getTrackNumber(), callee.getChannel(), note);
+            addNoteOnEvent(tick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), note);
+            tick += calculateTickCount(note, callee.getConfig(), true);
+            addNoteOffEvent(tick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), note);
         }
         callee.setTick(tick);
+
+        log.info("RESOLUTION: {}", sequence.getResolution());
     }
 
     @Override
@@ -593,10 +600,10 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
                 .collect(Collectors.toList());
 
         long startTick = callee.getTick();
-        long endTick = startTick + (long) calculateTickCount(Beat.WHOLE, callee.getTempo(), true);
+        long endTick = startTick + (long) calculateTickCount(Beat.WHOLE, callee.getConfig(), true);
         for (Note note : notes) {
-            addNoteOnEvent(startTick, callee.getTrackNumber(), callee.getChannel(), note);
-            addNoteOffEvent(endTick, callee.getTrackNumber(), callee.getChannel(), note);
+            addNoteOnEvent(startTick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), note);
+            addNoteOffEvent(endTick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), note);
         }
         callee.setTick(endTick);
     }
@@ -604,9 +611,9 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
     @Override
     public void addEvents(Note note) throws InvalidMidiDataException {
         long tick = callee.getTick();
-        addNoteOnEvent(tick, callee.getTrackNumber(), callee.getChannel(), note);
-        tick += calculateTickCount(note, callee.getTempo(), true);
-        addNoteOffEvent(tick, callee.getTrackNumber(), callee.getChannel(), note);
+        addNoteOnEvent(tick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), note);
+        tick += calculateTickCount(note, callee.getConfig(), true);
+        addNoteOffEvent(tick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), note);
         callee.setTick(tick);
     }
 
@@ -629,7 +636,7 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
 
             // Case: rests
             if (rhythmic instanceof Rest) {
-                tick += calculateTickCount(rhythmic.getBeat(), callee.getTempo(), true);
+                tick += calculateTickCount(rhythmic.getBeat(), callee.getConfig(), true);
                 continue;
             }
 
@@ -638,15 +645,15 @@ public class MidiEventGeneratorImpl implements MidiEventGenerator {
 
             for (Pitch pitch : note.getPitches()) {
                 if (!note.getSharedPitchesOnLeft().contains(pitch)) {
-                    addNoteOnEvent(tick, callee.getTrackNumber(), callee.getChannel(), pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : MidiConstants.DEFAULT_VELOCITY);
+                    addNoteOnEvent(tick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : callee.getConfig().getVelocity());
                 }
             }
 
-            tick += calculateTickCount(note, callee.getTempo(), true);
+            tick += calculateTickCount(note, callee.getConfig(), true);
 
             for (Pitch pitch : note.getPitches()) {
                 if (!note.getSharedPitchesOnRight().contains(pitch)) {
-                    addNoteOffEvent(tick, callee.getTrackNumber(), callee.getChannel(), pitch.getMidiValue());
+                    addNoteOffEvent(tick, callee.getConfig().getTrack(), callee.getConfig().getChannel(), pitch.getMidiValue());
                 }
             }
 

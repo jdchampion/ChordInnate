@@ -1,8 +1,7 @@
 package chordinnate.service.playback;
 
-import chordinnate.service.playback.sequence.SequenceGeneratorImpl;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import chordinnate.service.playback.sequence.SequenceGenerator;
+import chordinnate.util.ContextProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,11 +18,12 @@ import javax.sound.midi.Synthesizer;
  * Created by Joseph on 6/16/16.
  */
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PlaybackService {
 
     private static final int SEQUENCER_DEVICE = 0;
     private static final int SYNTHESIZER_DEVICE = 1;
+
+    private static final SequenceGenerator SEQUENCE_GENERATOR = new SequenceGenerator(ContextProvider.getContext());
 
     private static Sequencer prepareSequencer() {
         MidiDevice midiDevice = null;
@@ -125,6 +125,6 @@ public final class PlaybackService {
      * @param playable data structure to generate MIDI with
      */
     public static void play(@NotNull Playable playable) {
-        playBackSequence(playable.accept(new SequenceGeneratorImpl()));
+        playBackSequence(playable.accept(SEQUENCE_GENERATOR));
     }
 }

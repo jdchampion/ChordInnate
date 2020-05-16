@@ -1,16 +1,17 @@
 package chordinnate.service.playback;
 
+import chordinnate.model.musictheory.melody.form.Measure;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
 import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet;
-import chordinnate.model.musictheory.melody.form.Measure;
+import chordinnate.model.musictheory.pitch.key.KeySignature;
+import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.playback.Note;
 import chordinnate.model.playback.Rest;
 import chordinnate.model.playback.Rhythmic;
-import chordinnate.service.playback.sequence.MidiConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -81,7 +82,7 @@ public class PlaybackServiceIT {
         // TODO
     }
 
-    @Ignore("Disabled for Travis CI and faster testing")
+//    @Ignore("Disabled for Travis CI and faster testing")
     @Test
     public void play_Measure() {
 
@@ -94,7 +95,7 @@ public class PlaybackServiceIT {
 
         List<Rhythmic> rhythm = Arrays.asList(q1, q2, halfRest);
 
-        Measure measure = new Measure(MidiConstants.DEFAULT_TIME_SIGNATURE, MidiConstants.DEFAULT_KEY_SIGNATURE, rhythm);
+        Measure measure = new Measure(TimeSignature.NONE, KeySignature.NO_KEY_SIGNATURE, rhythm);
 
         log.info("PLAYING: {}", measure.toString()); // TODO: better diagnostic string
         PlaybackService.play(measure);
