@@ -4,7 +4,7 @@ import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.SequenceGenerator;
-import chordinnate.service.playback.sequence.event.MidiEventGenerator;
+import chordinnate.service.playback.sequence.MidiEventGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

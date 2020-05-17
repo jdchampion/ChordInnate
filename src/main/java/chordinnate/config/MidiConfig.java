@@ -29,28 +29,32 @@ public class MidiConfig {
 
     @Min(0)
     @Value("${midi.defaults.track}")
-    private int track;
+    private int defaultTrack;
 
     @Min(0)
     @Max(15)
     @Value("${midi.defaults.channel}")
-    private int channel;
+    private int defaultChannel;
 
     @Min(0)
     @Max(127)
     @Value("${midi.defaults.instrument}")
-    private int instrument;
+    private int defaultInstrument;
 
     @Min(0)
     @Max(127)
     @Value("${midi.defaults.velocity}")
-    private int velocity;
+    private int defaultVelocity;
 
-    private Tempo tempo;
+    private Tempo defaultTempo;
 
-    private TimeSignature timeSignature;
+    private TimeSignature defaultTimeSignature;
 
-    private KeySignature keySignature;
+    private KeySignature defaultKeySignature;
+
+    @In(values={"true", "false"})
+    @Value("${midi.defaults.mtc_enabled}")
+    private boolean midiTimeCodeEnabled;
 
     @In(values={"0.0", "24.0", "25.0", "29.97", "30.0"})
     @Value("${midi.defaults.frames}")
@@ -60,27 +64,30 @@ public class MidiConfig {
     @Value("${midi.defaults.resolution}")
     private int tickResolution;
 
-    public Tempo getTempo() {
-        if (tempo == null) {
-            this.tempo = new Tempo(Beat.QUARTER, (int) DEFAULT_TEMPO_BPM);
+    @Value("${midi.defaults.copyright}")
+    private String copyrightNotice;
+
+    public Tempo getDefaultTempo() {
+        if (defaultTempo == null) {
+            this.defaultTempo = new Tempo(Beat.QUARTER, (int) DEFAULT_TEMPO_BPM);
         }
 
-        return tempo;
+        return defaultTempo;
     }
 
-    public TimeSignature getTimeSignature() {
-        if (timeSignature == null) {
-            this.timeSignature = TimeSignature.NONE;
+    public TimeSignature getDefaultTimeSignature() {
+        if (defaultTimeSignature == null) {
+            this.defaultTimeSignature = TimeSignature.NONE;
         }
 
-        return timeSignature;
+        return defaultTimeSignature;
     }
 
-    public KeySignature getKeySignature() {
-        if (keySignature == null) {
-            this.keySignature = KeySignature.NO_KEY_SIGNATURE;
+    public KeySignature getDefaultKeySignature() {
+        if (defaultKeySignature == null) {
+            this.defaultKeySignature = KeySignature.NO_KEY_SIGNATURE;
         }
 
-        return keySignature;
+        return defaultKeySignature;
     }
 }

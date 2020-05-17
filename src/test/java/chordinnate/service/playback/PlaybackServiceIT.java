@@ -1,6 +1,8 @@
 package chordinnate.service.playback;
 
+import chordinnate.model.musictheory.melody.form.Cell;
 import chordinnate.model.musictheory.melody.form.Measure;
+import chordinnate.model.musictheory.melody.form.Motif;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
 import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
@@ -82,7 +84,7 @@ public class PlaybackServiceIT {
         // TODO
     }
 
-//    @Ignore("Disabled for Travis CI and faster testing")
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
     public void play_Measure() {
 
@@ -106,9 +108,41 @@ public class PlaybackServiceIT {
 
     }
 
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
     public void play_Motif() {
+        Note a = Note.builder(Beat.QUARTER, Pitch.E_FLAT_5).build();
+        Note b = Note.builder(Beat.DOTTED_EIGHTH, Pitch.D_5).build();
+        Note c = Note.builder(Beat.SIXTEENTH, Pitch.E_FLAT_5).build();
+        Note d = Note.builder(Beat.EIGHTH, Pitch.C_5).build();
+        Note e = Note.builder(Beat.EIGHTH, Pitch.E_FLAT_5).build();
+        Note f = Note.builder(Beat.EIGHTH, Pitch.E_FLAT_5).build();
+        e.tieTo(f);
+        Note g = Note.builder(Beat.EIGHTH, Pitch.F_5).build();
 
+        List<Rhythmic> list1 = Arrays.asList(a,b,c,d,e,f,g);
+        Measure measure1 = new Measure(new TimeSignature(4, 4), KeySignature.E_FLAT_MAJOR, list1);
+        Cell cell1 = new Cell();
+        cell1.setMeasure(measure1);
+
+        Note h = Note.builder(Beat.EIGHTH, Pitch.G_FLAT_5).build();
+        Note i = Note.builder(Beat.EIGHTH, Pitch.G_5).build();
+        Note j = Note.builder(Beat.EIGHTH, Pitch.A_FLAT_5).build();
+        Note k = Note.builder(Beat.EIGHTH, Pitch.A_5).build();
+        Note l = Note.builder(Beat.EIGHTH, Pitch.B_FLAT_5).build();
+        Rest m = new Rest(Beat.EIGHTH);
+        Note n = Note.builder(Beat.QUARTER, Pitch.B_FLAT_5).build();
+
+        List<Rhythmic> list2 = Arrays.asList(h,i,j,k,l,m,n);
+        Measure measure2 = new Measure(TimeSignature.NONE, KeySignature.NO_KEY_SIGNATURE, list2);
+        Cell cell2 = new Cell();
+        cell2.setMeasure(measure2);
+
+        Motif motif = new Motif();
+        motif.setCells(Arrays.asList(cell1, cell2));
+
+        log.info("PLAYING: {}", motif.toString()); // TODO: better diagnostic string
+        PlaybackService.play(motif); // First two measures of 'The Stars and Stripes Forever'
     }
 
     @Test

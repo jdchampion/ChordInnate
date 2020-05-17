@@ -23,7 +23,7 @@ public final class PlaybackService {
     private static final int SEQUENCER_DEVICE = 0;
     private static final int SYNTHESIZER_DEVICE = 1;
 
-    private static final SequenceGenerator SEQUENCE_GENERATOR = new SequenceGenerator(ContextProvider.getContext());
+    private static final SequenceGenerator SEQUENCE_GENERATOR = new SequenceGenerator();
 
     private static Sequencer prepareSequencer() {
         MidiDevice midiDevice = null;

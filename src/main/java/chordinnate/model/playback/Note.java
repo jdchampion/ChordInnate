@@ -5,7 +5,7 @@ import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.SequenceGenerator;
-import chordinnate.service.playback.sequence.event.MidiEventGenerator;
+import chordinnate.service.playback.sequence.MidiEventGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

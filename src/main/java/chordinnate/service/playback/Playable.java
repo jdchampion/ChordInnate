@@ -1,7 +1,7 @@
 package chordinnate.service.playback;
 
 import chordinnate.service.playback.sequence.SequenceGenerator;
-import chordinnate.service.playback.sequence.event.MidiEventGenerator;
+import chordinnate.service.playback.sequence.MidiEventGenerator;
 
 import javax.sound.midi.Sequence;
 

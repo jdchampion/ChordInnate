@@ -9,7 +9,7 @@ import chordinnate.model.playback.Rhythmic;
 import chordinnate.util.MathUtils;
 import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.sequence.SequenceGenerator;
-import chordinnate.service.playback.sequence.event.MidiEventGenerator;
+import chordinnate.service.playback.sequence.MidiEventGenerator;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
