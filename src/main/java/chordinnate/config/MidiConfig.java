@@ -22,6 +22,8 @@ public class MidiConfig {
     public static final int DEFAULT_USEC_PER_PULSE = 60_000_000; // microseconds, used for computing ratios
     public static final double DEFAULT_TEMPO_BPM = 120.0; // used for computing ratios
 
+    private String activeMidiDevice;
+
     @Min(0)
     @Max(2)
     @Value("${midi.defaults.type}")

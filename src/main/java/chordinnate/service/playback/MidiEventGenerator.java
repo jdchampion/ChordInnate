@@ -1,4 +1,4 @@
-package chordinnate.service.playback.sequence;
+package chordinnate.service.playback;
 
 import chordinnate.config.MidiConfig;
 import chordinnate.model.musictheory.melody.form.Cell;
@@ -46,7 +46,9 @@ import java.util.stream.Collectors;
 public class MidiEventGenerator {
 
     private final Sequence sequence;
-    private final SequenceGenerator generator;
+    private final MidiConfig config;
+
+    private long tick = 0;
 
     protected final Track getTrack(Sequence sequence, int trackNumber) {
         Track[] tracks = sequence.getTracks();
@@ -62,7 +64,7 @@ public class MidiEventGenerator {
                                        int channel, int data1, int data2) throws InvalidMidiDataException {
 
         // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
-        assert generator.getConfig().getMidiType() != 0 && generator.getConfig().getMidiType() != 1 || trackNumber == 0;
+        assert config.getMidiType() != 0 && config.getMidiType() != 1 || trackNumber == 0;
 
         ShortMessage sm = new ShortMessage();
         sm.setMessage(command, channel, data1, data2);
@@ -76,7 +78,7 @@ public class MidiEventGenerator {
         if (StringUtils.isNotBlank(text)) {
 
             // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
-            assert generator.getConfig().getMidiType() != 0 && generator.getConfig().getMidiType() != 1 || trackNumber == 0;
+            assert config.getMidiType() != 0 && config.getMidiType() != 1 || trackNumber == 0;
 
             byte[] data = text.getBytes(StandardCharsets.US_ASCII);
 
@@ -100,7 +102,7 @@ public class MidiEventGenerator {
      */
     public final void addNoteOnEvent(long tick, int trackNumber, int channel, @NotNull Note note) throws InvalidMidiDataException {
         for (Pitch pitch : note.getPitches()) {
-            addNoteOnEvent(tick, trackNumber, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : generator.getConfig().getDefaultVelocity());
+            addNoteOnEvent(tick, trackNumber, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : config.getDefaultVelocity());
         }
     }
 
@@ -191,6 +193,20 @@ public class MidiEventGenerator {
      * @throws InvalidMidiDataException
      */
     public final void addProgramChangeEvent(long tick, int trackNumber, int channel, int instrument) throws InvalidMidiDataException {
+
+        /*
+            TODO: to support > 128 general MIDI sounds by using different MIDI sound banks,
+                  send Bank Select MSB and Bank Select LSB control change messages, followed by program change message:
+
+                  References: The Complete MIDI 1.0 Detailed Specification (pp. 45 - 46)
+                              https://stackoverflow.com/a/30726933
+
+                // command, channel, data1 , data2 (bank #)
+                ... = new ShortMessage(ShortMessage.CONTROL_CHANGE, channel, 0,  bank >> 7);   // shift 7 on MSB
+                ... = new ShortMessage(ShortMessage.CONTROL_CHANGE, channel, 32, bank & 0x7f); // clear 7 on LSB
+                ... = new ShortMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument, 0);
+         */
+
         internalAddVoiceEvent(ShortMessage.PROGRAM_CHANGE, tick, trackNumber, channel, instrument, 0);
     }
 
@@ -215,12 +231,11 @@ public class MidiEventGenerator {
      * @param tick
      * @param trackNumber
      * @param channel
-     * @param valueLSB
-     * @param valueMSB
+     * @param pitchBendValue (-8192 to 8191)
      * @throws InvalidMidiDataException
      */
-    public final void addPitchBendChangeEvent(long tick, int trackNumber, int channel, int valueLSB, int valueMSB) throws InvalidMidiDataException {
-        internalAddVoiceEvent(ShortMessage.PITCH_BEND, tick, trackNumber, channel, valueLSB, valueMSB);
+    public final void addPitchBendChangeEvent(long tick, int trackNumber, int channel, int pitchBendValue) throws InvalidMidiDataException {
+        internalAddVoiceEvent(ShortMessage.PITCH_BEND, tick, trackNumber, channel, toLSB(pitchBendValue), toMSB(pitchBendValue));
     }
 
     /**
@@ -234,7 +249,7 @@ public class MidiEventGenerator {
     public final void addSequenceNumberEvent(int trackNumber, int sequenceNumber) throws InvalidMidiDataException {
 
         // MIDI 0 and MIDI 1 will only contain Track 0, so this message must go there in those cases
-        assert generator.getConfig().getMidiType() != 0 && generator.getConfig().getMidiType() != 1 || trackNumber == 0;
+        assert config.getMidiType() != 0 && config.getMidiType() != 1 || trackNumber == 0;
 
         byte[] data = {
                 (byte) ((sequenceNumber & 0x00FF0000) >> 16),
@@ -420,11 +435,11 @@ public class MidiEventGenerator {
      * @param subFrame (0 - 99)
      * @throws InvalidMidiDataException
      */
-    public final void addSMPTEOffsetEvent(LocalTime time, byte subFrame) throws InvalidMidiDataException {
+    public final void addSMPTEOffsetEvent(LocalTime time, int subFrame) throws InvalidMidiDataException {
 
-        if (generator.getConfig().isMidiTimeCodeEnabled()) {
+        if (config.isMidiTimeCodeEnabled()) {
 
-            float frames = generator.getConfig().getFrames();
+            float frames = config.getFrames();
 
             int bit;
             if (frames == Sequence.PPQ || frames == Sequence.SMPTE_24) {
@@ -444,7 +459,7 @@ public class MidiEventGenerator {
                     (byte) time.getMinute(),
                     (byte) time.getSecond(),
                     (byte) frames,
-                    subFrame
+                    (byte) (subFrame % 100)
             };
 
             MetaMessage mm = new MetaMessage();
@@ -473,7 +488,7 @@ public class MidiEventGenerator {
             double denom = timeSignature.getDenominator().doubleValue();
 
             Fraction beatValue = timeSignature.getReferenceBeat().getBeatValue();
-            Fraction tickCountPerReferenceBeat = beatValue.multiplyBy(Fraction.getFraction(generator.getConfig().getTickResolution() / 4, 1));
+            Fraction tickCountPerReferenceBeat = beatValue.multiplyBy(Fraction.getFraction(config.getTickResolution() / 4, 1));
 
             int num32nds = beatValue.divideBy(Beat.THIRTY_SECOND.getBeatValue()).intValue();
 
@@ -563,24 +578,28 @@ public class MidiEventGenerator {
         return round ? Math.round(toReturn) : toReturn;
     }
 
+    private static byte toLSB(int value) {
+        return (byte)(value & 0x7F);
+    }
+
+    private static byte toMSB(int value) {
+        return (byte)((value >> 7) & 0x7F);
+    }
+
     public final void addEvents(Pitch pitch) throws InvalidMidiDataException {
-        long tick = generator.getTick();
-        addNoteOnEvent(tick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), pitch.getMidiValue(), generator.getConfig().getDefaultVelocity());
-        tick += calculateTickCount(generator.getConfig().getDefaultTempo().getReferenceBeat(), generator.getConfig(), true);
-        addNoteOffEvent(tick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), pitch.getMidiValue());
-        generator.setTick(tick);
+        addNoteOnEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), pitch.getMidiValue(), config.getDefaultVelocity());
+        tick += calculateTickCount(config.getDefaultTempo().getReferenceBeat(), config, true);
+        addNoteOffEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), pitch.getMidiValue());
     }
 
     public final void addEvents(HorizontalIntervalSet horizontalIntervalSet) throws InvalidMidiDataException {
         Pitch[] pitches = horizontalIntervalSet.getPitchesForOctave(Octave.OCTAVE_5);
-        long tick = generator.getTick();
         for (Pitch p : pitches) {
             Note note = Note.builder(Beat.QUARTER, p).build();
-            addNoteOnEvent(tick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), note);
-            tick += calculateTickCount(note, generator.getConfig(), true);
-            addNoteOffEvent(tick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), note);
+            addNoteOnEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), note);
+            tick += calculateTickCount(note, config, true);
+            addNoteOffEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), note);
         }
-        generator.setTick(tick);
     }
 
     public final void addEvents(VerticalIntervalSet verticalIntervalSet) throws InvalidMidiDataException {
@@ -588,26 +607,21 @@ public class MidiEventGenerator {
                 .map(p -> Note.builder(Beat.WHOLE, p).build())
                 .collect(Collectors.toList());
 
-        long startTick = generator.getTick();
-        long endTick = startTick + (long) calculateTickCount(Beat.WHOLE, generator.getConfig(), true);
+        long endTick = tick + (long) calculateTickCount(Beat.WHOLE, config, true);
         for (Note note : notes) {
-            addNoteOnEvent(startTick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), note);
-            addNoteOffEvent(endTick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), note);
+            addNoteOnEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), note);
+            addNoteOffEvent(endTick, config.getDefaultTrack(), config.getDefaultChannel(), note);
         }
-        generator.setTick(endTick);
+        tick = endTick;
     }
 
     public final void addEvents(Note note) throws InvalidMidiDataException {
-        long tick = generator.getTick();
-        addNoteOnEvent(tick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), note);
-        tick += calculateTickCount(note, generator.getConfig(), true);
-        addNoteOffEvent(tick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), note);
-        generator.setTick(tick);
+        addNoteOnEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), note);
+        tick += calculateTickCount(note, config, true);
+        addNoteOffEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), note);
     }
 
     public final void addEvents(Measure measure) throws InvalidMidiDataException {
-
-        long tick = generator.getTick();
 
         if (measure.getTempo() != null) {
             addSetTempoEvent(tick, measure.getTempo());
@@ -623,7 +637,7 @@ public class MidiEventGenerator {
 
             // Case: rests
             if (rhythmic instanceof Rest) {
-                tick += calculateTickCount(rhythmic.getBeat(), generator.getConfig(), true);
+                tick += calculateTickCount(rhythmic.getBeat(), config, true);
                 continue;
             }
 
@@ -632,19 +646,18 @@ public class MidiEventGenerator {
 
             for (Pitch pitch : note.getPitches()) {
                 if (!note.getSharedPitchesOnLeft().contains(pitch)) {
-                    addNoteOnEvent(tick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : generator.getConfig().getDefaultVelocity());
+                    addNoteOnEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : config.getDefaultVelocity());
                 }
             }
 
-            tick += calculateTickCount(note, generator.getConfig(), true);
+            tick += calculateTickCount(note, config, true);
 
             for (Pitch pitch : note.getPitches()) {
                 if (!note.getSharedPitchesOnRight().contains(pitch)) {
-                    addNoteOffEvent(tick, generator.getConfig().getDefaultTrack(), generator.getConfig().getDefaultChannel(), pitch.getMidiValue());
+                    addNoteOffEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), pitch.getMidiValue());
                 }
             }
 
-            generator.setTick(tick);
         }
     }
 
