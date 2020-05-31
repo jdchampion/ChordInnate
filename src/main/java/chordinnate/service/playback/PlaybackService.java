@@ -49,8 +49,8 @@ public final class PlaybackService {
     }
 
     private static void stop(final MidiDevice midiDevice) {
-        sleep(1000); // prevents sound clipping at end of sequence
         if (midiDevice instanceof Synthesizer) {
+            sleep(1000); // prevents sound clipping at end of sequence
             MidiChannel[] channels = ((Synthesizer) midiDevice).getChannels();
             for (MidiChannel midiChannel : channels) {
                 midiChannel.allSoundOff();
@@ -86,8 +86,8 @@ public final class PlaybackService {
                 sleep(500);
             }
 
-            stop(sequencer);
             stop(synthesizer);
+            stop(sequencer);
         } catch (IllegalStateException ex) {
             log.error("Error starting the MIDI sequencer '{}': device is closed", sequencer.getDeviceInfo().getName(), ex);
         } catch (InvalidMidiDataException ex) {
