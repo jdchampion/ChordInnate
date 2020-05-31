@@ -70,7 +70,7 @@ public final class PlaybackService {
             // Wire the sequencer to send MIDI events to the specified synthesizer(s) for playback
             sequencer.getTransmitter().setReceiver(synthesizer.getReceiver());
         } catch (MidiUnavailableException ex) {
-            log.error("Failed to initialize MIDI sequencer", ex);
+            log.error("Failed to initialize and wire MIDI devices", ex);
             return;
         }
 
@@ -87,6 +87,7 @@ public final class PlaybackService {
             }
 
             stop(sequencer);
+            stop(synthesizer);
         } catch (IllegalStateException ex) {
             log.error("Error starting the MIDI sequencer '{}': device is closed", sequencer.getDeviceInfo().getName(), ex);
         } catch (InvalidMidiDataException ex) {
