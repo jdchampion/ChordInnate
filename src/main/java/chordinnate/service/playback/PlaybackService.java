@@ -3,7 +3,6 @@ package chordinnate.service.playback;
 import chordinnate.config.MidiConfig;
 import chordinnate.util.ContextProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -14,8 +13,6 @@ import javax.sound.midi.MidiUnavailableException;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.Synthesizer;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Joseph on 6/16/16.
@@ -23,48 +20,19 @@ import java.util.Map;
 @Slf4j
 public final class PlaybackService {
 
-    private static final int SEQUENCER_DEVICE = 0;
-    private static final int SYNTHESIZER_DEVICE = 1;
-
     private static final MidiConfig CONFIG = ContextProvider.getContext().getBean(MidiConfig.class);
     private static final SequenceGenerator SEQUENCE_GENERATOR = new SequenceGenerator(CONFIG);
 
-    private static final Map<String, MidiDevice.Info> MIDI_DEVICES = new HashMap<>();
-
-    private static void refreshDevices() {
-        MIDI_DEVICES.clear();
-        MidiDevice.Info[] devices = MidiSystem.getMidiDeviceInfo();
-        for (MidiDevice.Info device : devices) {
-            MIDI_DEVICES.put(device.getName(), device);
-        }
+    private static Sequencer getSequencer() throws MidiUnavailableException {
+        return CONFIG.getActiveMidiSequencer() == null
+                ? MidiSystem.getSequencer()
+                : CONFIG.getActiveMidiSequencer();
     }
 
-    private static MidiDevice initialize(int deviceType) throws MidiUnavailableException {
-
-        refreshDevices();
-
-        MidiDevice midiDevice;
-
-        try {
-            if (StringUtils.isBlank(CONFIG.getActiveMidiDevice())) {
-                if (deviceType == SEQUENCER_DEVICE) {
-                    midiDevice = MidiSystem.getSequencer();
-                } else if (deviceType == SYNTHESIZER_DEVICE) {
-                    midiDevice = MidiSystem.getSynthesizer();
-                } else {
-                    // TODO: cases for transmitters / receivers ?
-                    log.warn("MIDI device is null");
-                    return null;
-                }
-            } else {
-                MidiDevice.Info info = MIDI_DEVICES.get(CONFIG.getActiveMidiDevice());
-                midiDevice = MidiSystem.getMidiDevice(info);
-            }
-        } catch (MidiUnavailableException ex) {
-            throw new MidiUnavailableException("Error initializing the MIDI device");
-        }
-
-        return midiDevice;
+    private static Synthesizer getSynthesizer() throws MidiUnavailableException {
+        return CONFIG.getActiveMidiSynthesizer() == null
+                ? MidiSystem.getSynthesizer()
+                : CONFIG.getActiveMidiSynthesizer();
     }
 
     private static void open(final MidiDevice midiDevice) {
@@ -74,9 +42,9 @@ public final class PlaybackService {
                 sleep(1000); // allows the device to finish initialization before playing
             }
         } catch (MidiUnavailableException ex) {
-            log.error("Could not open MIDI device {}: resource restrictions", midiDevice.getDeviceInfo().getName(), ex);
+            log.error("Could not open MIDI device '{}': resource restrictions", midiDevice.getDeviceInfo().getName(), ex);
         } catch (SecurityException ex) {
-            log.error("Could not open MIDI device {}: security restrictions", midiDevice.getDeviceInfo().getName(), ex);
+            log.error("Could not open MIDI device '{}': security restrictions", midiDevice.getDeviceInfo().getName(), ex);
         }
     }
 
@@ -93,31 +61,36 @@ public final class PlaybackService {
 
     private static void playBackSequence(Sequence sequence) {
         Sequencer sequencer;
+        Synthesizer synthesizer;
+
         try {
-            sequencer = (Sequencer) initialize(SEQUENCER_DEVICE);
+            sequencer = getSequencer();
+            synthesizer = getSynthesizer();
+
+            // Wire the sequencer to send MIDI events to the specified synthesizer(s) for playback
+            sequencer.getTransmitter().setReceiver(synthesizer.getReceiver());
         } catch (MidiUnavailableException ex) {
             log.error("Failed to initialize MIDI sequencer", ex);
             return;
         }
 
-        if (sequencer != null) {
+        try {
+            open(sequencer);
+            open(synthesizer);
 
-            try {
-                open(sequencer);
-                sequencer.setSequence(sequence);
-                sequencer.start();
+            sequencer.setSequence(sequence);
+            sequencer.start();
 
-                // FIXME: listen for a signal rather than using a spinlock?
-                while (sequencer.isRunning()) {
-                    sleep(500);
-                }
-
-                stop(sequencer);
-            } catch (IllegalStateException ex) {
-                log.error("Error starting the MIDI sequencer '{}': device is closed", sequencer.getDeviceInfo().getName(), ex);
-            } catch (InvalidMidiDataException ex) {
-                log.error("Invalid or unsupported MIDI sequence", ex);
+            // FIXME: listen for a signal rather than using a spinlock?
+            while (sequencer.isRunning()) {
+                sleep(500);
             }
+
+            stop(sequencer);
+        } catch (IllegalStateException ex) {
+            log.error("Error starting the MIDI sequencer '{}': device is closed", sequencer.getDeviceInfo().getName(), ex);
+        } catch (InvalidMidiDataException ex) {
+            log.error("Invalid or unsupported MIDI sequence", ex);
         }
     }
 
@@ -136,6 +109,14 @@ public final class PlaybackService {
      */
     public static void play(@NotNull Playable playable) {
         playBackSequence(playable.accept(SEQUENCE_GENERATOR));
+    }
+
+    public static void setActiveSequencer(Sequencer sequencer) {
+        CONFIG.setActiveMidiSequencer(sequencer);
+    }
+
+    public static void setActiveSynthesizer(Synthesizer synthesizer) {
+        CONFIG.setActiveMidiSynthesizer(synthesizer);
     }
 
 }

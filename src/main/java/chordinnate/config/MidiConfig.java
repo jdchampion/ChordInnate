@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.validation.annotation.Validated;
 
+import javax.sound.midi.Sequencer;
+import javax.sound.midi.Synthesizer;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -22,7 +24,9 @@ public class MidiConfig {
     public static final int DEFAULT_USEC_PER_PULSE = 60_000_000; // microseconds, used for computing ratios
     public static final double DEFAULT_TEMPO_BPM = 120.0; // used for computing ratios
 
-    private String activeMidiDevice;
+    private Sequencer activeMidiSequencer;
+
+    private Synthesizer activeMidiSynthesizer;
 
     @Min(0)
     @Max(2)
