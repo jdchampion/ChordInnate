@@ -23,11 +23,14 @@ import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Note;
 import chordinnate.model.playback.Rest;
 import chordinnate.model.playback.Rhythmic;
+import chordinnate.model.playback.Score;
+import chordinnate.model.playback.Staff;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.Fraction;
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiEvent;
@@ -39,6 +42,7 @@ import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -169,7 +173,7 @@ public class MidiEventGenerator {
 
     /**
      * Generates a MIDI CONTROL_CHANGE message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 41; 102 - 103)
      *
      * @param tick
      * @param trackNumber
@@ -183,8 +187,22 @@ public class MidiEventGenerator {
     }
 
     /**
-     * Generates a MIDI PROGRAM_CHANGE message.
+     * Generates a MIDI PROGRAM_CHANGE message. Assumes the currently-loaded sound bank is to be used with this event.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @param tick
+     * @param trackNumber
+     * @param channel
+     * @param programNumber
+     * @throws InvalidMidiDataException
+     */
+    public final void addProgramChangeEvent(long tick, int trackNumber, int channel, int programNumber) throws InvalidMidiDataException {
+        internalAddVoiceEvent(ShortMessage.PROGRAM_CHANGE, tick, trackNumber, channel, programNumber, 0);
+    }
+
+    /**
+     * Generates a MIDI PROGRAM_CHANGE message, using the bank and program number provided by {@code instrument}.
+     * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 41; 45 - 46)
      *
      * @param tick
      * @param trackNumber
@@ -192,22 +210,10 @@ public class MidiEventGenerator {
      * @param instrument
      * @throws InvalidMidiDataException
      */
-    public final void addProgramChangeEvent(long tick, int trackNumber, int channel, int instrument) throws InvalidMidiDataException {
-
-        /*
-            TODO: to support > 128 general MIDI sounds by using different MIDI sound banks,
-                  send Bank Select MSB and Bank Select LSB control change messages, followed by program change message:
-
-                  References: The Complete MIDI 1.0 Detailed Specification (pp. 45 - 46)
-                              https://stackoverflow.com/a/30726933
-
-                // command, channel, data1 , data2 (bank #)
-                ... = new ShortMessage(ShortMessage.CONTROL_CHANGE, channel, 0,  bank >> 7);   // shift 7 on MSB
-                ... = new ShortMessage(ShortMessage.CONTROL_CHANGE, channel, 32, bank & 0x7f); // clear 7 on LSB
-                ... = new ShortMessage(ShortMessage.PROGRAM_CHANGE, channel, instrument, 0);
-         */
-
-        internalAddVoiceEvent(ShortMessage.PROGRAM_CHANGE, tick, trackNumber, channel, instrument, 0);
+    public final void addProgramChangeEvent(long tick, int trackNumber, int channel, Instrument instrument) throws InvalidMidiDataException {
+        internalAddVoiceEvent(ShortMessage.CONTROL_CHANGE, tick, trackNumber, channel, ControllerChange.BANK_SELECT_MSB, toMSB(instrument.getPatch().getBank()));
+        internalAddVoiceEvent(ShortMessage.CONTROL_CHANGE, tick, trackNumber, channel, ControllerChange.BANK_SELECT_LSB, toLSB(instrument.getPatch().getBank()));
+        internalAddVoiceEvent(ShortMessage.PROGRAM_CHANGE, tick, trackNumber, channel, instrument.getPatch().getProgram(), 0);
     }
 
     /**
@@ -586,13 +592,13 @@ public class MidiEventGenerator {
         return (byte)((value >> 7) & 0x7F);
     }
 
-    public final void addEvents(Pitch pitch) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull Pitch pitch) throws InvalidMidiDataException {
         addNoteOnEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), pitch.getMidiValue(), config.getDefaultVelocity());
         tick += calculateTickCount(config.getDefaultTempo().getReferenceBeat(), config, true);
         addNoteOffEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), pitch.getMidiValue());
     }
 
-    public final void addEvents(HorizontalIntervalSet horizontalIntervalSet) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull HorizontalIntervalSet horizontalIntervalSet) throws InvalidMidiDataException {
         Pitch[] pitches = horizontalIntervalSet.getPitchesForOctave(Octave.OCTAVE_5);
         for (Pitch p : pitches) {
             Note note = Note.builder(Beat.QUARTER, p).build();
@@ -602,7 +608,7 @@ public class MidiEventGenerator {
         }
     }
 
-    public final void addEvents(VerticalIntervalSet verticalIntervalSet) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull VerticalIntervalSet verticalIntervalSet) throws InvalidMidiDataException {
         List<Note> notes = Arrays.stream(verticalIntervalSet.getPitchesForOctave(Octave.OCTAVE_5))
                 .map(p -> Note.builder(Beat.WHOLE, p).build())
                 .collect(Collectors.toList());
@@ -621,7 +627,7 @@ public class MidiEventGenerator {
         addNoteOffEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), note);
     }
 
-    public final void addEvents(Measure measure) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull Measure measure) throws InvalidMidiDataException {
 
         if (measure.getTempo() != null) {
             addSetTempoEvent(tick, measure.getTempo());
@@ -661,41 +667,59 @@ public class MidiEventGenerator {
         }
     }
 
-    public final void addEvents(Cell cell) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull Cell cell) throws InvalidMidiDataException {
         addEvents(cell.getMeasure());
     }
 
-    public final void addEvents(Motif motif) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull Motif motif) throws InvalidMidiDataException {
         for (Cell cell : motif.getCells()) {
             addEvents(cell);
         }
     }
 
-    public final void addEvents(PhraseMember phraseMember) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull PhraseMember phraseMember) throws InvalidMidiDataException {
         for (Motif motif : phraseMember.getMotifs()) {
             addEvents(motif);
         }
     }
 
-    public final void addEvents(Phrase phrase) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull Phrase phrase) throws InvalidMidiDataException {
         for (PhraseMember phraseMember : phrase.getPhraseMembers()) {
             addEvents(phraseMember);
         }
     }
 
-    public final void addEvents(PhraseGroup phraseGroup) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull PhraseGroup phraseGroup) throws InvalidMidiDataException {
         for (Phrase phrase : phraseGroup.getPhrases()) {
             addEvents(phrase);
         }
     }
 
-    public final void addEvents(Period period) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull Period period) throws InvalidMidiDataException {
         addEvents(period.getPhrase1());
         addEvents(period.getPhrase2());
     }
 
-    public final void addEvents(DoublePeriod doublePeriod) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull DoublePeriod doublePeriod) throws InvalidMidiDataException {
         addEvents(doublePeriod.getPeriod1());
         addEvents(doublePeriod.getPeriod2());
+    }
+
+    public final void addEvents(Staff staff) throws InvalidMidiDataException {
+        addEvents(staff, config.getDefaultTrack());
+    }
+
+    private void addEvents(@NotNull Staff staff, int trackNumber) throws InvalidMidiDataException {
+        for (Map.Entry<Long, Instrument> entry : staff.getTickInstrumentMap().entrySet()) {
+            addProgramChangeEvent(entry.getKey(), trackNumber, config.getDefaultChannel(), entry.getValue());
+        }
+        staff.getPlayable().accept(this);
+    }
+
+    public final void addEvents(@NotNull Score score) throws InvalidMidiDataException {
+        List<Staff> staves = score.getStaves();
+        for (int track = 0; track < staves.size(); track++) {
+            addEvents(staves.get(track), track);
+        }
     }
 }

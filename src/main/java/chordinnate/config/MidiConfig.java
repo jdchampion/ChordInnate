@@ -23,6 +23,11 @@ public class MidiConfig {
 
     public static final int DEFAULT_USEC_PER_PULSE = 60_000_000; // microseconds, used for computing ratios
     public static final double DEFAULT_TEMPO_BPM = 120.0; // used for computing ratios
+    public static final int MAX_CHANNELS_PER_TRACK = 16; // limit per MIDI spec
+    public static final int PERCUSSION_CHANNEL = 9; // designated per MIDI spec
+    public static final int MAX_INSTRUMENTS_PER_BANK = 128; // limit per MIDI spec
+    public static final int MAX_BANKS_PER_DEVICE = 16384; // limit per MIDI spec
+
 
     private Sequencer activeMidiSequencer;
 

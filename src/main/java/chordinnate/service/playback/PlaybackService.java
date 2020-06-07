@@ -1,10 +1,13 @@
 package chordinnate.service.playback;
 
 import chordinnate.config.MidiConfig;
+import chordinnate.model.playback.Playable;
+import chordinnate.model.playback.StaffPlayable;
 import chordinnate.util.ContextProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiDevice;
@@ -35,31 +38,14 @@ public final class PlaybackService {
                 : CONFIG.getActiveMidiSynthesizer();
     }
 
-    private static void open(final MidiDevice midiDevice) {
-        try {
-            if (!midiDevice.isOpen()) {
-                midiDevice.open();
-                sleep(1000); // allows the device to finish initialization before playing
-            }
-        } catch (MidiUnavailableException ex) {
-            log.error("Could not open MIDI device '{}': resource restrictions", midiDevice.getDeviceInfo().getName(), ex);
-        } catch (SecurityException ex) {
-            log.error("Could not open MIDI device '{}': security restrictions", midiDevice.getDeviceInfo().getName(), ex);
+    private static void open(final @NotNull MidiDevice midiDevice) throws MidiUnavailableException, SecurityException {
+        if (!midiDevice.isOpen()) {
+            midiDevice.open();
+            sleep(1000); // allows the device to finish initialization before playing
         }
     }
 
-    private static void stop(final MidiDevice midiDevice) {
-        if (midiDevice instanceof Synthesizer) {
-            sleep(1000); // prevents sound clipping at end of sequence
-            MidiChannel[] channels = ((Synthesizer) midiDevice).getChannels();
-            for (MidiChannel midiChannel : channels) {
-                midiChannel.allSoundOff();
-            }
-        }
-        midiDevice.close();
-    }
-
-    private static void playBackSequence(Sequence sequence) {
+    private static void playBackSequence(Playable playable, Sequence sequence) {
         Sequencer sequencer;
         Synthesizer synthesizer;
 
@@ -76,22 +62,74 @@ public final class PlaybackService {
 
         try {
             open(sequencer);
-            open(synthesizer);
+        } catch (MidiUnavailableException ex) {
+            log.error("Could not open MIDI sequencer '{}': resource restrictions", sequencer.getDeviceInfo().getName(), ex);
+        } catch (SecurityException ex) {
+            log.error("Could not open MIDI sequencer '{}': security restrictions", sequencer.getDeviceInfo().getName(), ex);
+        }
 
+        if (!sequencer.isOpen()) {
+            return;
+        }
+
+        try {
+            open(synthesizer);
+        } catch (MidiUnavailableException ex) {
+            log.error("Could not open MIDI synthesizer '{}': resource restrictions", synthesizer.getDeviceInfo().getName(), ex);
+        } catch (SecurityException ex) {
+            log.error("Could not open MIDI synthesizer '{}': security restrictions", synthesizer.getDeviceInfo().getName(), ex);
+        }
+
+        if (!synthesizer.isOpen()) {
+            sequencer.close();
+            return;
+        }
+
+        try {
+            if (StaffPlayable.class.isAssignableFrom(playable.getClass())) {
+                for (Instrument instrument : ((StaffPlayable) playable).getAllInstruments()) {
+                    synthesizer.loadInstrument(instrument);
+                }
+            }
+        } catch (IllegalArgumentException ex) {
+            log.error("Unsupported instrument(s) supplied to MIDI synthesizer '{}", synthesizer.getDeviceInfo().getName(), ex);
+            sequencer.close();
+            synthesizer.close();
+            return;
+        }
+
+        try {
             sequencer.setSequence(sequence);
-            sequencer.start();
+            sequencer.start(); // begins streaming to synth
+        } catch (IllegalStateException ex) {
+            log.error("Error starting the MIDI sequencer '{}': device is closed", sequencer.getDeviceInfo().getName(), ex);
+        } catch (InvalidMidiDataException ex) {
+            log.error("Invalid or unsupported MIDI sequence", ex);
+        } finally {
 
             // FIXME: listen for a signal rather than using a spinlock?
             while (sequencer.isRunning()) {
                 sleep(500);
             }
 
-            stop(synthesizer);
-            stop(sequencer);
-        } catch (IllegalStateException ex) {
-            log.error("Error starting the MIDI sequencer '{}': device is closed", sequencer.getDeviceInfo().getName(), ex);
-        } catch (InvalidMidiDataException ex) {
-            log.error("Invalid or unsupported MIDI sequence", ex);
+            boolean didRun = sequencer.getTickLength() > 0;
+
+            if (didRun) {
+                sleep(1000); // prevents sound clipping at end of sequence
+            }
+
+            MidiChannel[] channels = synthesizer.getChannels();
+            for (MidiChannel midiChannel : channels) {
+                midiChannel.allSoundOff();
+            }
+
+            Instrument[] instruments = synthesizer.getLoadedInstruments();
+            for (Instrument instrument : instruments) {
+                synthesizer.unloadInstrument(instrument);
+            }
+
+            synthesizer.close();
+            sequencer.close();
         }
     }
 
@@ -109,7 +147,7 @@ public final class PlaybackService {
      * @param playable data structure to generate MIDI with
      */
     public static void play(@NotNull Playable playable) {
-        playBackSequence(playable.accept(SEQUENCE_GENERATOR));
+        playBackSequence(playable, playable.accept(SEQUENCE_GENERATOR));
     }
 
     public static void setActiveSequencer(Sequencer sequencer) {

@@ -1,10 +1,10 @@
 package chordinnate.model.musictheory.melody.form;
 
-import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.meter.Metered;
-import chordinnate.service.playback.Playable;
-import chordinnate.service.playback.SequenceGenerator;
+import chordinnate.model.musictheory.temporal.meter.TimeSignature;
+import chordinnate.model.playback.FormPlayable;
 import chordinnate.service.playback.MidiEventGenerator;
+import chordinnate.service.playback.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Phrase implements Metered, Playable {
+public class Phrase implements Metered, FormPlayable {
 
     private List<PhraseMember> phraseMembers;
 

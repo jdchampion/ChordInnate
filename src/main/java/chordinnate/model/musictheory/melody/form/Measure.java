@@ -6,7 +6,7 @@ import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Rhythmic;
-import chordinnate.service.playback.Playable;
+import chordinnate.model.playback.FormPlayable;
 import chordinnate.service.playback.MidiEventGenerator;
 import chordinnate.service.playback.SequenceGenerator;
 import chordinnate.util.MathUtils;
@@ -24,7 +24,7 @@ import java.util.Set;
 
 @Slf4j
 @Getter
-public class Measure implements Metered, Playable {
+public class Measure implements Metered, FormPlayable {
 
     @NotNull
     private TimeSignature timeSignature;

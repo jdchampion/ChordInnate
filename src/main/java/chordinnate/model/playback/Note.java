@@ -4,7 +4,6 @@ import chordinnate.exception.ChordInnateIllegalArgumentException;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.service.playback.MidiEventGenerator;
-import chordinnate.service.playback.Playable;
 import chordinnate.service.playback.SequenceGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

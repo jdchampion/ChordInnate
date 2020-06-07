@@ -4,8 +4,10 @@ import chordinnate.config.MidiConfig;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.playback.Note;
+import chordinnate.model.playback.Playable;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.Nullable;
 
 import javax.sound.midi.Sequence;
 import java.time.LocalTime;
@@ -33,12 +35,19 @@ public class SequenceGenerator {
         return buildSequence(playable);
     }
 
+    @Nullable
     private Sequence buildSequence(Playable playable) {
         Sequence sequence;
         try {
             sequence = new Sequence(config.getFrames(), config.getTickResolution());
 
             MidiEventGenerator generator = new MidiEventGenerator(sequence, config);
+
+            /*
+             * TODO: add a method Playable.hasMidiDataFor(MidiDataType:: enum):: boolean
+             *  that can be used here to determine whether to add the default "setup" events below.
+             *  Doing so will eliminate superfluous MIDI messages that could potentially confuse or break MIDI playback / interpretation.
+             */
 
             // Always add these to the beginning of every MIDI sequence
             generator.addSequenceNumberEvent(config.getDefaultTrack(), 0);
