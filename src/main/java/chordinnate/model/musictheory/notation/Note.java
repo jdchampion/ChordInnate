@@ -54,7 +54,7 @@ public class Note implements Rhythmic, Playable {
     private Dynamic dynamic;
 
     @Nullable
-    private InstrumentEffect effect;
+    private InstrumentEffect effect; // TODO: change to EnumSet<InstrumentEffect>
 
     @Nullable
     @Setter(AccessLevel.PRIVATE)

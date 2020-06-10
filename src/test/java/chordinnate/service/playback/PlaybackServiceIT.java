@@ -1,5 +1,7 @@
 package chordinnate.service.playback;
 
+import chordinnate.config.MidiConfig;
+import chordinnate.model.musictheory.expression.InstrumentEffect;
 import chordinnate.model.musictheory.melody.form.Cell;
 import chordinnate.model.musictheory.melody.form.Measure;
 import chordinnate.model.musictheory.melody.form.Motif;
@@ -13,7 +15,9 @@ import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.notation.Note;
 import chordinnate.model.musictheory.notation.Rest;
+import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Rhythmic;
+import chordinnate.util.ContextProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -79,9 +83,28 @@ public class PlaybackServiceIT {
         // TODO
     }
 
+    @Ignore("Disabled for Travis CI and faster testing")
     @Test
     public void play_Note_pitchBendChange() {
-        // TODO
+
+        Note normalNote = Note.builder(Beat.QUARTER, Pitch.C_5).build();
+
+        Rest quarterRest1 = new Rest(Beat.QUARTER);
+
+        Note pitchBendNote = Note.builder(Beat.QUARTER, Pitch.C_5)
+                .effect(InstrumentEffect.BEND)
+                .build();
+
+        Rest quarterRest2 = new Rest(Beat.QUARTER);
+
+        List<Rhythmic> rhythm = Arrays.asList(normalNote, quarterRest1, pitchBendNote, quarterRest2);
+
+        Measure measure = new Measure(TimeSignature.NONE, KeySignature.NO_KEY_SIGNATURE, rhythm);
+
+        ContextProvider.getContext().getBean(MidiConfig.class).setDefaultTempo(new Tempo(Beat.QUARTER, 60));
+
+        log.info("PLAYING: {}", measure.toString()); // TODO: better diagnostic string
+        PlaybackService.play(measure);
     }
 
     @Ignore("Disabled for Travis CI and faster testing")

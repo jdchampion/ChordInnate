@@ -1,6 +1,7 @@
 package chordinnate.midi.producer;
 
 import chordinnate.config.MidiConfig;
+import chordinnate.midi.ControllerChange;
 import chordinnate.model.musictheory.melody.form.Cell;
 import chordinnate.model.musictheory.melody.form.DoublePeriod;
 import chordinnate.model.musictheory.melody.form.Measure;
@@ -10,6 +11,10 @@ import chordinnate.model.musictheory.melody.form.Phrase;
 import chordinnate.model.musictheory.melody.form.PhraseGroup;
 import chordinnate.model.musictheory.melody.form.PhraseMember;
 import chordinnate.model.musictheory.notation.Accidental;
+import chordinnate.model.musictheory.notation.Note;
+import chordinnate.model.musictheory.notation.Rest;
+import chordinnate.model.musictheory.notation.Score;
+import chordinnate.model.musictheory.notation.Staff;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Octave;
@@ -20,12 +25,7 @@ import chordinnate.model.musictheory.pitch.key.KeySignatureType;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
-import chordinnate.model.musictheory.notation.Note;
-import chordinnate.model.musictheory.notation.Rest;
 import chordinnate.model.playback.Rhythmic;
-import chordinnate.model.musictheory.notation.Score;
-import chordinnate.model.musictheory.notation.Staff;
-import chordinnate.midi.ControllerChange;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.Fraction;
@@ -622,10 +622,23 @@ public class MidiEventProducer {
         tick = endTick;
     }
 
-    public final void addEvents(Note note) throws InvalidMidiDataException {
+    public final void addEvents(@NotNull Note note) throws InvalidMidiDataException {
         addNoteOnEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), note);
-        tick += calculateTickCount(note, config, true);
+        long totalTick = tick + (long) calculateTickCount(note, config, true);
+
+        // TODO: apply effects. Also take into consideration the effects on tied notes
+//        if (InstrumentEffect.BEND.equals(note.getEffect())) {
+//            for (long i = tick; i < totalTick; i += 4) {
+//                addPitchBendChangeEvent(i, config.getDefaultTrack(), config.getDefaultChannel(), (int) (i * 45));
+//            }
+//        }
+
+        tick = totalTick;
         addNoteOffEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), note);
+    }
+
+    public final void addEvents(@NotNull Rest rest) throws InvalidMidiDataException {
+        tick += calculateTickCount(rest.getBeat(), config, true);
     }
 
     public final void addEvents(@NotNull Measure measure) throws InvalidMidiDataException {
@@ -641,30 +654,7 @@ public class MidiEventProducer {
         }
 
         for (Rhythmic rhythmic : measure.getRhythm()) {
-
-            // Case: rests
-            if (rhythmic instanceof Rest) {
-                tick += calculateTickCount(rhythmic.getBeat(), config, true);
-                continue;
-            }
-
-            // Case: sounded notes
-            Note note = (Note) rhythmic;
-
-            for (Pitch pitch : note.getPitches()) {
-                if (!note.getSharedPitchesOnLeft().contains(pitch)) {
-                    addNoteOnEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : config.getDefaultVelocity());
-                }
-            }
-
-            tick += calculateTickCount(note, config, true);
-
-            for (Pitch pitch : note.getPitches()) {
-                if (!note.getSharedPitchesOnRight().contains(pitch)) {
-                    addNoteOffEvent(tick, config.getDefaultTrack(), config.getDefaultChannel(), pitch.getMidiValue());
-                }
-            }
-
+            rhythmic.accept(this);
         }
     }
 
