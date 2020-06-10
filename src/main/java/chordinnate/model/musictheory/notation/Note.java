@@ -1,10 +1,14 @@
-package chordinnate.model.playback;
+package chordinnate.model.musictheory.notation;
 
 import chordinnate.exception.ChordInnateIllegalArgumentException;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.service.playback.MidiEventGenerator;
-import chordinnate.service.playback.SequenceGenerator;
+import chordinnate.model.musictheory.expression.Articulation;
+import chordinnate.model.musictheory.expression.Dynamic;
+import chordinnate.model.musictheory.expression.InstrumentEffect;
+import chordinnate.model.playback.Playable;
+import chordinnate.model.playback.Rhythmic;
+import chordinnate.midi.producer.MidiEventProducer;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Sequence;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -51,7 +54,7 @@ public class Note implements Rhythmic, Playable {
     private Dynamic dynamic;
 
     @Nullable
-    private Effect effect;
+    private InstrumentEffect effect;
 
     @Nullable
     @Setter(AccessLevel.PRIVATE)
@@ -67,7 +70,7 @@ public class Note implements Rhythmic, Playable {
     }
 
     @Builder
-    private Note(@NotNull Beat beat, @Nullable Articulation articulation, @Nullable Dynamic dynamic, @Nullable Effect effect, @NotNull Pitch... pitches) {
+    private Note(@NotNull Beat beat, @Nullable Articulation articulation, @Nullable Dynamic dynamic, @Nullable InstrumentEffect effect, @NotNull Pitch... pitches) {
         this.beat = beat;
         this.articulation = articulation;
         this.dynamic = dynamic;
@@ -249,14 +252,9 @@ public class Note implements Rhythmic, Playable {
     }
 
     @Override
-    public Sequence accept(SequenceGenerator sequenceGenerator) {
-        return sequenceGenerator.getSequence(this);
-    }
-
-    @Override
-    public void accept(MidiEventGenerator midiEventGenerator) {
+    public void accept(MidiEventProducer midiEventProducer) {
         try {
-            midiEventGenerator.addEvents(this);
+            midiEventProducer.addEvents(this);
         } catch (InvalidMidiDataException e) {
             log.error("Error adding MIDI events", e);
         }

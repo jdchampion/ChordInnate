@@ -1,6 +1,7 @@
-package chordinnate.model.playback;
+package chordinnate.model.musictheory.notation;
 
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
+import chordinnate.model.playback.Rhythmic;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;

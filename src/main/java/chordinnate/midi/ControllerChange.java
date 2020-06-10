@@ -1,4 +1,4 @@
-package chordinnate.service.playback;
+package chordinnate.midi;
 
 /**
  * Constants to specify the supported values and types of MIDI CONTROL_CHANGE events.

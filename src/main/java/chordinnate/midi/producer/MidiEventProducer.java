@@ -1,4 +1,4 @@
-package chordinnate.service.playback;
+package chordinnate.midi.producer;
 
 import chordinnate.config.MidiConfig;
 import chordinnate.model.musictheory.melody.form.Cell;
@@ -20,11 +20,12 @@ import chordinnate.model.musictheory.pitch.key.KeySignatureType;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
-import chordinnate.model.playback.Note;
-import chordinnate.model.playback.Rest;
+import chordinnate.model.musictheory.notation.Note;
+import chordinnate.model.musictheory.notation.Rest;
 import chordinnate.model.playback.Rhythmic;
-import chordinnate.model.playback.Score;
-import chordinnate.model.playback.Staff;
+import chordinnate.model.musictheory.notation.Score;
+import chordinnate.model.musictheory.notation.Staff;
+import chordinnate.midi.ControllerChange;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.Fraction;
@@ -47,7 +48,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class MidiEventGenerator {
+public class MidiEventProducer {
 
     private final Sequence sequence;
     private final MidiConfig config;

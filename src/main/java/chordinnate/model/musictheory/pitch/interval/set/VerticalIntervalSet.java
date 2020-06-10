@@ -2,15 +2,13 @@ package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.util.nomenclature.GreekGrouping;
-import chordinnate.service.playback.SequenceGenerator;
-import chordinnate.service.playback.MidiEventGenerator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Sequence;
 
 /**
  * Created by Joseph on 7/15/16.
@@ -48,14 +46,9 @@ public class VerticalIntervalSet extends InvertibleIntervalSet {
     }
 
     @Override
-    public Sequence accept(SequenceGenerator sequenceGenerator) {
-        return sequenceGenerator.getSequence(this);
-    }
-
-    @Override
-    public void accept(MidiEventGenerator midiEventGenerator) {
+    public void accept(MidiEventProducer midiEventProducer) {
         try {
-            midiEventGenerator.addEvents(this);
+            midiEventProducer.addEvents(this);
         } catch (InvalidMidiDataException e) {
             log.error("Error adding MIDI events", e);
         }

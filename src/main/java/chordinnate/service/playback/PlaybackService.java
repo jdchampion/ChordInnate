@@ -1,6 +1,7 @@
 package chordinnate.service.playback;
 
 import chordinnate.config.MidiConfig;
+import chordinnate.midi.producer.SequenceProducer;
 import chordinnate.model.playback.Playable;
 import chordinnate.model.playback.StaffPlayable;
 import chordinnate.util.ContextProvider;
@@ -24,7 +25,7 @@ import javax.sound.midi.Synthesizer;
 public final class PlaybackService {
 
     private static final MidiConfig CONFIG = ContextProvider.getContext().getBean(MidiConfig.class);
-    private static final SequenceGenerator SEQUENCE_GENERATOR = new SequenceGenerator(CONFIG);
+    private static final SequenceProducer SEQUENCE_PRODUCER = new SequenceProducer(CONFIG);
 
     private static Sequencer getSequencer() throws MidiUnavailableException {
         return CONFIG.getActiveMidiSequencer() == null
@@ -147,7 +148,7 @@ public final class PlaybackService {
      * @param playable data structure to generate MIDI with
      */
     public static void play(@NotNull Playable playable) {
-        playBackSequence(playable, playable.accept(SEQUENCE_GENERATOR));
+        playBackSequence(playable, SEQUENCE_PRODUCER.getSequence(playable));
     }
 
     public static void setActiveSequencer(Sequencer sequencer) {

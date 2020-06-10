@@ -1,4 +1,4 @@
-package chordinnate.model.playback;
+package chordinnate.model.musictheory.notation;
 
 import org.junit.Rule;
 

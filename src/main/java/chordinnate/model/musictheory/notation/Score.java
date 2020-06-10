@@ -1,10 +1,10 @@
-package chordinnate.model.playback;
+package chordinnate.model.musictheory.notation;
 
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
-import chordinnate.service.playback.MidiEventGenerator;
-import chordinnate.service.playback.SequenceGenerator;
+import chordinnate.model.playback.StaffPlayable;
+import chordinnate.midi.producer.MidiEventProducer;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Sequence;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,14 +56,9 @@ public class Score implements StaffPlayable {
     }
 
     @Override
-    public Sequence accept(@NotNull SequenceGenerator sequenceGenerator) {
-        return sequenceGenerator.getSequence(this);
-    }
-
-    @Override
-    public void accept(@NotNull MidiEventGenerator midiEventGenerator) {
+    public void accept(@NotNull MidiEventProducer midiEventProducer) {
         try {
-            midiEventGenerator.addEvents(this);
+            midiEventProducer.addEvents(this);
         } catch (InvalidMidiDataException e) {
             log.error("Error adding MIDI events", e);
         }

@@ -1,4 +1,4 @@
-package chordinnate.model.playback;
+package chordinnate.model.musictheory.expression;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
