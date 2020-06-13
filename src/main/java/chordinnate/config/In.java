@@ -20,4 +20,6 @@ public @interface In {
     Class<? extends Payload>[] payload() default {};
 
     String[] values();
+
+    boolean allowNull() default false;
 }

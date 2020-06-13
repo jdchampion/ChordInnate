@@ -1,10 +1,7 @@
 package chordinnate.model.musictheory.notation;
 
-import chordinnate.model.musictheory.pitch.key.KeySignature;
-import chordinnate.model.musictheory.temporal.meter.TimeSignature;
-import chordinnate.model.musictheory.temporal.tempo.Tempo;
-import chordinnate.model.playback.StaffPlayable;
 import chordinnate.midi.producer.MidiEventProducer;
+import chordinnate.model.playback.StaffPlayable;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -13,11 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Slf4j
@@ -25,33 +19,38 @@ import java.util.Set;
 public class Score implements StaffPlayable {
 
     @Setter(AccessLevel.NONE)
-    private final List<Staff> staves = new ArrayList<>(); // index is track number
+    private final Set<StaffGroup> staffGroups = new LinkedHashSet<>();
 
-    @Setter(AccessLevel.NONE)
-    private final Map<Long, TimeSignature> timeSignatureAtTick = new HashMap<>();
-
-    @Setter(AccessLevel.NONE)
-    private final Map<Long, KeySignature> keySignatureAtTick = new HashMap<>();
-
-    @Setter(AccessLevel.NONE)
-    private final Map<Long, Tempo> tempoChangeAtTick = new HashMap<>();
+    /*
+     * TODO: set each of these as new StaffGroups are added.
+     *  Adjust the structure of each item in StaffGroup as necessary.
+     *
+     * FIXME: no validation exists yet to prevent different TimeSignatures / KeySignatures / Tempos
+     *  in each StaffGroup, leading to a contradictory (incompatible) music score.
+     */
+//    @Setter(AccessLevel.NONE)
+//    private final Map<Long, TimeSignature> timeSignatureAtTick = new HashMap<>();
+//
+//    @Setter(AccessLevel.NONE)
+//    private final Map<Long, KeySignature> keySignatureAtTick = new HashMap<>();
+//
+//    @Setter(AccessLevel.NONE)
+//    private final Map<Long, Tempo> tempoChangeAtTick = new HashMap<>();
 
     private String title;
     private String copyright;
     private String author;
 
-    public void addStaff(@NotNull Staff staff) {
-        staves.add(staff);
-    }
-
-    public void addStaff(@NotNull Staff staff, int track) {
-        staves.add(track, staff);
+    public void add(StaffGroup staffGroup) {
+        if (staffGroup != null) {
+            staffGroups.add(staffGroup);
+        }
     }
 
     @Override
     public Set<Instrument> getAllInstruments() {
         Set<Instrument> set = new HashSet<>();
-        staves.forEach(staff -> set.addAll(staff.getAllInstruments()));
+        staffGroups.forEach(sg -> set.addAll(sg.getAllInstruments()));
         return set;
     }
 

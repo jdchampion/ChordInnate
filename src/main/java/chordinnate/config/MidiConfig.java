@@ -23,7 +23,9 @@ public class MidiConfig {
 
     public static final int DEFAULT_USEC_PER_PULSE = 60_000_000; // microseconds, used for computing ratios
     public static final double DEFAULT_TEMPO_BPM = 120.0; // used for computing ratios
-    public static final int MAX_CHANNELS_PER_TRACK = 16; // limit per MIDI spec
+    public static final int DEFAULT_TRACK_NUMBER = 0;
+    public static final int MAX_CHANNELS_PER_MIDI_PORT = 16; // limit per MIDI spec
+    public static final int DEFAULT_CHANNEL = 0;
     public static final int PERCUSSION_CHANNEL = 9; // designated per MIDI spec
     public static final int MAX_INSTRUMENTS_PER_BANK = 128; // limit per MIDI spec
     public static final int MAX_BANKS_PER_DEVICE = 16384; // limit per MIDI spec
@@ -36,16 +38,7 @@ public class MidiConfig {
     @Min(0)
     @Max(2)
     @Value("${midi.defaults.type}")
-    private int midiType;
-
-    @Min(0)
-    @Value("${midi.defaults.track}")
-    private int defaultTrack;
-
-    @Min(0)
-    @Max(15)
-    @Value("${midi.defaults.channel}")
-    private int defaultChannel;
+    private int midiType; // TODO: current implementation probably can't support MIDI 0 or MIDI 1
 
     @Min(0)
     @Max(127)

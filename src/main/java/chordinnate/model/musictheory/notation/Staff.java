@@ -1,8 +1,9 @@
 package chordinnate.model.musictheory.notation;
 
+import chordinnate.config.MidiConfig;
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.model.playback.FormPlayable;
 import chordinnate.model.playback.StaffPlayable;
-import chordinnate.midi.producer.MidiEventProducer;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -11,33 +12,43 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.Collections;
 import java.util.Set;
-import java.util.TreeMap;
 
 @Slf4j
 @Data
 public class Staff implements StaffPlayable {
 
+    protected Instrument instrument;
+    protected String staffName;
+
     @Setter(AccessLevel.NONE)
-    private final Map<Long, Instrument> tickInstrumentMap = new TreeMap<>();
+    protected int midiChannel;
 
-    private final Instrument primaryInstrument;
-    private final String staffName;
+    protected FormPlayable playable;
 
-    private FormPlayable playable;
+    public Staff() {
+        this(MidiConfig.DEFAULT_CHANNEL);
+    }
 
-    public Staff(Instrument primaryInstrument, String staffName) {
-        this.primaryInstrument = primaryInstrument;
+    protected Staff(int midiChannel) {
+        this.midiChannel = midiChannel;
+    }
+
+    public Staff(Instrument instrument, String staffName) {
+        this(MidiConfig.DEFAULT_CHANNEL);
+        this.instrument = instrument;
         this.staffName = staffName;
+    }
 
-        tickInstrumentMap.put(0L, primaryInstrument);
+    protected Staff(Instrument instrument, String staffName, int midiChannel) {
+        this(instrument, staffName);
+        this.midiChannel = midiChannel;
     }
 
     @Override
     public Set<Instrument> getAllInstruments() {
-        return new HashSet<>(tickInstrumentMap.values());
+        return instrument == null ? Collections.emptySet() : Collections.singleton(instrument);
     }
 
     @Override

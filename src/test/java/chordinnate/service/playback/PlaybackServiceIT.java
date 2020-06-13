@@ -5,6 +5,10 @@ import chordinnate.model.musictheory.expression.InstrumentEffect;
 import chordinnate.model.musictheory.melody.form.Cell;
 import chordinnate.model.musictheory.melody.form.Measure;
 import chordinnate.model.musictheory.melody.form.Motif;
+import chordinnate.model.musictheory.notation.Note;
+import chordinnate.model.musictheory.notation.Rest;
+import chordinnate.model.musictheory.notation.Staff;
+import chordinnate.model.musictheory.notation.StaffGroup;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.interval.set.Chord;
 import chordinnate.model.musictheory.pitch.interval.set.HorizontalIntervalSet;
@@ -13,8 +17,6 @@ import chordinnate.model.musictheory.pitch.interval.set.VerticalIntervalSet;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.model.musictheory.notation.Note;
-import chordinnate.model.musictheory.notation.Rest;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.Rhythmic;
 import chordinnate.util.ContextProvider;
@@ -22,6 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import javax.sound.midi.Instrument;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.Synthesizer;
 import java.util.Arrays;
 import java.util.List;
 
@@ -191,6 +196,53 @@ public class PlaybackServiceIT {
     @Test
     public void play_DoublePeriod() {
 
+    }
+
+    @Ignore("Disabled for Travis CI and faster testing")
+    @Test
+    public void play_StaffGroup() throws Exception {
+        Note a = Note.builder(Beat.QUARTER, Pitch.G_5).build();
+        Note b = Note.builder(Beat.QUARTER, Pitch.C_6).build();
+        Note c = Note.builder(Beat.QUARTER, Pitch.A_5).build();
+        Note d = Note.builder(Beat.QUARTER, Pitch.F_5).build();
+        Measure measureA1 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(a,b,c,d));
+        Note e = Note.builder(Beat.QUARTER, Pitch.D_5).build();
+        Note f = Note.builder(Beat.QUARTER, Pitch.G_5).build();
+        Note g = Note.builder(Beat.QUARTER, Pitch.E_5).build();
+        Note h = Note.builder(Beat.QUARTER, Pitch.C_5).build();
+        Measure measureA2 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(e,f,g,h));
+        Motif motifA = new Motif(Arrays.asList(new Cell(measureA1), new Cell(measureA2)));
+
+        Note i = Note.builder(Beat.HALF, Pitch.G_3).build();
+        Note j = Note.builder(Beat.HALF, Pitch.A_3).build();
+        Measure measureB1 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(i, j));
+        Note k = Note.builder(Beat.HALF, Pitch.B_3).build();
+        Note l = Note.builder(Beat.HALF, Pitch.C_4).build();
+        Measure measureB2 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(k, l));
+        Motif motifB = new Motif(Arrays.asList(new Cell(measureB1), new Cell(measureB2)));
+
+        Synthesizer synth = MidiSystem.getSynthesizer();
+        Instrument trumpet = synth.getAvailableInstruments()[56];
+        Instrument trombone = synth.getAvailableInstruments()[57];
+
+        Staff staffA = new Staff();
+        staffA.setInstrument(trumpet);
+        staffA.setStaffName(trumpet.getName());
+        staffA.setPlayable(motifA);
+
+        Staff staffB = new Staff();
+        staffB.setInstrument(trombone);
+        staffB.setStaffName(trombone.getName());
+        staffB.setPlayable(motifB);
+
+        StaffGroup staffGroup = new StaffGroup();
+        staffGroup.add(staffA);
+        staffGroup.add(staffB);
+
+        PlaybackService.setActiveSynthesizer(synth);
+
+        log.info("PLAYING: {}", staffGroup.toString()); // TODO: better diagnostic string
+        PlaybackService.play(staffGroup);
     }
 
 }

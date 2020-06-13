@@ -6,7 +6,6 @@ import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.expression.Articulation;
 import chordinnate.model.musictheory.expression.Dynamic;
 import chordinnate.model.musictheory.expression.InstrumentEffect;
-import chordinnate.model.playback.Playable;
 import chordinnate.model.playback.Rhythmic;
 import chordinnate.midi.producer.MidiEventProducer;
 import lombok.AccessLevel;
@@ -33,7 +32,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Note implements Rhythmic, Playable {
+public class Note implements Rhythmic {
 
     @NotNull
     private Set<Pitch> pitches;
