@@ -11,6 +11,15 @@ public final class ControllerChange {
     public static final int VALUE_CONTROLLER_OFF = 0;
     public static final int VALUE_CONTROLLER_DEFAULT = 64;
 
+    /*
+     * TODO: implement CC handlers to support both GM 1 and GM 2 standards
+     *
+     * References: https://en.wikipedia.org/wiki/General_MIDI
+     *             https://www.midi.org/specifications-old/item/general-midi
+     *             https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2
+     *             https://en.wikipedia.org/wiki/General_MIDI_Level_2
+     */
+
 
 
     public static final int BANK_SELECT_MSB = 0;
