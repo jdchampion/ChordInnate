@@ -1,23 +1,23 @@
 package chordinnate.model.musictheory.notation;
 
 import chordinnate.midi.producer.MidiEventProducer;
-import chordinnate.model.playback.StaffPlayable;
+import chordinnate.model.playback.Playable;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
 @NoArgsConstructor
-public class StaffGroup implements StaffPlayable {
+public class StaffGroup implements Playable {
 
+    @Setter(AccessLevel.NONE)
     private final Set<Staff> staves = new LinkedHashSet<>();
 
     public void add(Staff staff) {
@@ -34,11 +34,6 @@ public class StaffGroup implements StaffPlayable {
 
     public void clearAllStaves() {
         staves.clear();
-    }
-
-    @Override
-    public Set<Instrument> getAllInstruments() {
-        return new HashSet<>(staves.stream().distinct().map(Staff::getInstrument).collect(Collectors.toList()));
     }
 
     @Override

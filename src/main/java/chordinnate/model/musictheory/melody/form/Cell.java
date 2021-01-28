@@ -1,11 +1,12 @@
 package chordinnate.model.musictheory.melody.form;
 
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.playback.FormPlayable;
-import chordinnate.midi.producer.MidiEventProducer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,9 +15,10 @@ import java.util.List;
 
 @Slf4j
 @Data
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Cell implements Metered, FormPlayable {
+public class Cell extends FormPlayable implements Metered {
 
     private Measure measure;
 

@@ -6,6 +6,7 @@ import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.expression.Articulation;
 import chordinnate.model.musictheory.expression.Dynamic;
 import chordinnate.model.musictheory.expression.InstrumentEffect;
+import chordinnate.model.playback.InstrumentCapablePlayable;
 import chordinnate.model.playback.Rhythmic;
 import chordinnate.midi.producer.MidiEventProducer;
 import lombok.AccessLevel;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.sound.midi.InvalidMidiDataException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +34,7 @@ import java.util.Set;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Note implements Rhythmic {
+public class Note extends InstrumentCapablePlayable implements Rhythmic {
 
     @NotNull
     private Set<Pitch> pitches;
@@ -251,7 +253,7 @@ public class Note implements Rhythmic {
     }
 
     @Override
-    public void accept(MidiEventProducer midiEventProducer) {
+    public void accept(@NotNull MidiEventProducer midiEventProducer) {
         try {
             midiEventProducer.addEvents(this);
         } catch (InvalidMidiDataException e) {

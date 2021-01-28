@@ -25,7 +25,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.sound.midi.Instrument;
-import javax.sound.midi.MidiSystem;
 import javax.sound.midi.Synthesizer;
 import java.util.Arrays;
 import java.util.List;
@@ -201,45 +200,45 @@ public class PlaybackServiceIT {
     @Ignore("Disabled for Travis CI and faster testing")
     @Test
     public void play_StaffGroup() throws Exception {
-        Note a = Note.builder(Beat.QUARTER, Pitch.G_5).build();
-        Note b = Note.builder(Beat.QUARTER, Pitch.C_6).build();
-        Note c = Note.builder(Beat.QUARTER, Pitch.A_5).build();
-        Note d = Note.builder(Beat.QUARTER, Pitch.F_5).build();
-        Measure measureA1 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(a,b,c,d));
-        Note e = Note.builder(Beat.QUARTER, Pitch.D_5).build();
-        Note f = Note.builder(Beat.QUARTER, Pitch.G_5).build();
-        Note g = Note.builder(Beat.QUARTER, Pitch.E_5).build();
-        Note h = Note.builder(Beat.QUARTER, Pitch.C_5).build();
-        Measure measureA2 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(e,f,g,h));
-        Motif motifA = new Motif(Arrays.asList(new Cell(measureA1), new Cell(measureA2)));
 
-        Note i = Note.builder(Beat.HALF, Pitch.G_3).build();
-        Note j = Note.builder(Beat.HALF, Pitch.A_3).build();
-        Measure measureB1 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(i, j));
-        Note k = Note.builder(Beat.HALF, Pitch.B_3).build();
-        Note l = Note.builder(Beat.HALF, Pitch.C_4).build();
-        Measure measureB2 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(k, l));
-        Motif motifB = new Motif(Arrays.asList(new Cell(measureB1), new Cell(measureB2)));
+        Synthesizer synth = PlaybackService.getActiveSynthesizer();
+        PlaybackService.registerDevice(synth);
 
-        Synthesizer synth = MidiSystem.getSynthesizer();
         Instrument trumpet = synth.getAvailableInstruments()[56];
+
+        PlaybackService.registerInstrument(trumpet, 0, synth);
+
+        Note a1 = Note.builder(Beat.QUARTER, Pitch.G_5).build();
+        Note a2 = Note.builder(Beat.QUARTER, Pitch.C_6).build();
+        Note a3 = Note.builder(Beat.QUARTER, Pitch.A_5).build();
+        Note a4 = Note.builder(Beat.QUARTER, Pitch.F_5).build();
+        Measure measureA1 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(a1,a2,a3,a4));
+        Note a5 = Note.builder(Beat.QUARTER, Pitch.D_5).build();
+        Note a6 = Note.builder(Beat.QUARTER, Pitch.G_5).build();
+        Note a7 = Note.builder(Beat.QUARTER, Pitch.E_5).build();
+        Note a8 = Note.builder(Beat.QUARTER, Pitch.C_5).build();
+        Measure measureA2 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(a5,a6,a7,a8));
+        Motif motifA = new Motif(Arrays.asList(new Cell(measureA1), new Cell(measureA2)));
+        Staff staffA = new Staff(trumpet.getName(), motifA);
+        staffA.setInstrument(trumpet);
+
         Instrument trombone = synth.getAvailableInstruments()[57];
 
-        Staff staffA = new Staff();
-        staffA.setInstrument(trumpet);
-        staffA.setStaffName(trumpet.getName());
-        staffA.setPlayable(motifA);
+        PlaybackService.registerInstrument(trombone, 1, synth);
 
-        Staff staffB = new Staff();
+        Note b1 = Note.builder(Beat.HALF, Pitch.G_3).build();
+        Note b2 = Note.builder(Beat.HALF, Pitch.A_3).build();
+        Measure measureB1 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(b1, b2));
+        Note b3 = Note.builder(Beat.HALF, Pitch.B_3).build();
+        Note b4 = Note.builder(Beat.HALF, Pitch.C_4).build();
+        Measure measureB2 = new Measure(new TimeSignature(4, 4), KeySignature.C_MAJOR, Arrays.asList(b3, b4));
+        Motif motifB = new Motif(Arrays.asList(new Cell(measureB1), new Cell(measureB2)));
+        Staff staffB = new Staff(trombone.getName(), motifB);
         staffB.setInstrument(trombone);
-        staffB.setStaffName(trombone.getName());
-        staffB.setPlayable(motifB);
 
         StaffGroup staffGroup = new StaffGroup();
         staffGroup.add(staffA);
         staffGroup.add(staffB);
-
-        PlaybackService.setActiveSynthesizer(synth);
 
         log.info("PLAYING: {}", staffGroup.toString()); // TODO: better diagnostic string
         PlaybackService.play(staffGroup);

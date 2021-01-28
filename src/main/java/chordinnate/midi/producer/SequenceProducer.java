@@ -1,21 +1,20 @@
 package chordinnate.midi.producer;
 
 import chordinnate.config.MidiConfig;
+import chordinnate.model.musictheory.notation.Note;
 import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
-import chordinnate.model.musictheory.notation.Note;
 import chordinnate.model.playback.Playable;
-import lombok.RequiredArgsConstructor;
+import chordinnate.util.ContextProvider;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.sound.midi.Sequence;
 import java.time.LocalTime;
 
-@RequiredArgsConstructor
 public class SequenceProducer {
 
-    private final MidiConfig config;
+    private final MidiConfig config = ContextProvider.getContext().getBean(MidiConfig.class);
 
     /**
      * Generates a playable MIDI {@link Sequence} for a single {@link Pitch}.
@@ -41,7 +40,7 @@ public class SequenceProducer {
         try {
             sequence = new Sequence(config.getFrames(), config.getTickResolution());
 
-            MidiEventProducer producer = new MidiEventProducer(sequence, config);
+            MidiEventProducer producer = new MidiEventProducer(sequence);
 
             /*
              * TODO: add a method Playable.hasMidiDataFor(MidiDataType:: enum):: boolean
@@ -62,9 +61,6 @@ public class SequenceProducer {
 
             // add all custom MIDI events
             playable.accept(producer);
-
-            producer.addEndOfTrackEvent();
-
         } catch (Exception ex) {
             return null;
         }

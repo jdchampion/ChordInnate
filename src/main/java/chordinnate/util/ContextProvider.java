@@ -2,6 +2,8 @@ package chordinnate.util;
 
 import chordinnate.config.DatabaseConfig;
 import chordinnate.config.MidiConfig;
+import chordinnate.midi.MidiDeviceManager;
+import chordinnate.midi.MidiOutputRouter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -14,7 +16,7 @@ public final class ContextProvider {
     public static AnnotationConfigApplicationContext getContext() {
         if (context == null) {
             context = new AnnotationConfigApplicationContext();
-            context.register(DatabaseConfig.class, MidiConfig.class);
+            context.register(DatabaseConfig.class, MidiConfig.class, MidiDeviceManager.class, MidiOutputRouter.class);
             context.refresh();
         }
 

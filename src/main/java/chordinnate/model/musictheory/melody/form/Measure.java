@@ -1,5 +1,6 @@
 package chordinnate.model.musictheory.melody.form;
 
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.meter.MeterType;
 import chordinnate.model.musictheory.temporal.meter.Metered;
@@ -7,7 +8,6 @@ import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.FormPlayable;
 import chordinnate.model.playback.Rhythmic;
-import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.util.MathUtils;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Slf4j
 @Getter
-public class Measure implements Metered, FormPlayable {
+public class Measure extends FormPlayable implements Metered {
 
     @NotNull
     private TimeSignature timeSignature;
