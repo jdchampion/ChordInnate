@@ -9,7 +9,6 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 
 import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
@@ -24,7 +23,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
-@Component
 public class MidiDeviceManager {
 
     private static final SequenceProducer SEQUENCE_PRODUCER = new SequenceProducer();
