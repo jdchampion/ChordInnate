@@ -1,6 +1,7 @@
 package chordinnate.midi;
 
 import chordinnate.config.MidiConfig;
+import chordinnate.exception.ChordInnateException;
 import chordinnate.model.playback.InstrumentCapablePlayable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +27,7 @@ public class MidiOutputRouter {
 
     public void registerInstrument(@NotNull Instrument instrument, int channel, @NotNull Receiver receiver) {
         if (channel < MidiConfig.MIN_CHANNEL_VALUE || channel > MidiConfig.MAX_CHANNEL_VALUE) {
-            // TODO: throw exception (invalid channel)
+            throw new ChordInnateException("Channel must be between " + MidiConfig.MIN_CHANNEL_VALUE + " - " + MidiConfig.MAX_CHANNEL_VALUE + " (inclusive)");
         }
 
         INSTRUMENT_TO_RECEIVER.putIfAbsent(instrument, receiver);
@@ -53,7 +54,7 @@ public class MidiOutputRouter {
      */
     public void registerProgramChange(@NotNull InstrumentCapablePlayable playable, @NotNull Instrument instrument) {
         if (!INSTRUMENT_TO_RECEIVER.containsKey(instrument)) {
-            // TODO: throw exception (instrument not registered to receiver)
+            throw new ChordInnateException("Instrument must first be registered via MidiOutputRouter::registerInstrument()");
         }
 
         PLAYABLE_TO_MANAGER.compute(playable, (k, v) -> {

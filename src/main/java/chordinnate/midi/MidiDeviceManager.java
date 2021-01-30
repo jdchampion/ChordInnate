@@ -10,7 +10,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
-import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiDevice;
@@ -30,7 +29,6 @@ public class MidiDeviceManager {
 
     private static final Set<MidiDevice> ACTIVE_DEVICES = new HashSet<>();
     private static final Set<Receiver> ACTIVE_RECEIVERS = new HashSet<>();
-//    private static final Set<Transmitter> ACTIVE_TRANSMITTERS = new HashSet<>();
 
     @Getter
     @Setter
@@ -57,12 +55,6 @@ public class MidiDeviceManager {
         ACTIVE_DEVICES.add(midiDevice);
     }
 
-//    public static boolean registerReceiver(@NotNull Receiver receiver) throws MidiUnavailableException {
-//        if (RECEIVER_TO_DEVICE.containsKey(receiver)) {
-//            return false;
-//        }
-//    }
-
     private static void sleep(long millis) {
         try {
             Thread.sleep(millis);
@@ -74,31 +66,20 @@ public class MidiDeviceManager {
     @SneakyThrows
     public static void runSequence(Playable playable) {
 
-//        if (ACTIVE_TRANSMITTERS.isEmpty()) {
-            if (!sequencer.isOpen()) {
-                try {
-                    sequencer.open();
-                } catch (MidiUnavailableException ex) {
-                    log.error("Failed to open sequencer", ex);
-                    return;
-                }
-//            }
-
-//            try {
-//                ACTIVE_TRANSMITTERS.add(sequencer.getTransmitter());
-//            } catch (MidiUnavailableException ex) {
-//                log.error("Transmitter unavailable for sequencer: resource restrictions", ex);
-//            }
+        if (!sequencer.isOpen()) {
+            try {
+                sequencer.open();
+            } catch (MidiUnavailableException ex) {
+                log.error("Failed to open sequencer", ex);
+                return;
+            }
         }
 
         if (ACTIVE_RECEIVERS.isEmpty()) {
             if (!synthesizer.isOpen()) {
                 try {
                     synthesizer.open();
-                    Set<Instrument> instrumentsToLoad = ROUTER.getRegisteredInstruments();
-                    for (Instrument instrument : instrumentsToLoad) {
-                        synthesizer.loadInstrument(instrument);
-                    }
+                    ROUTER.getRegisteredInstruments().forEach(instrument -> synthesizer.loadInstrument(instrument));
                 } catch (MidiUnavailableException ex) {
                     log.error("Failed to open synthesizer. No other MIDI receivers have been made available.", ex);
                     sequencer.close();
@@ -163,14 +144,11 @@ public class MidiDeviceManager {
                 }
             }
 
-            for (Instrument instrument : ROUTER.getRegisteredInstruments()) {
-                synthesizer.unloadInstrument(instrument);
-            }
+            ROUTER.getRegisteredInstruments().forEach(instrument -> synthesizer.unloadInstrument(instrument));
 
             sequencer.close(); // closes all receivers and transmitters tied to the sequencer
             ACTIVE_DEVICES.clear();
             ACTIVE_RECEIVERS.clear();
-//            ACTIVE_TRANSMITTERS.clear();
         }
     }
 

@@ -57,7 +57,7 @@ public final class PlaybackService {
             Receiver receiver = midiDevice.getReceiver();
             ROUTER.registerInstrument(instrument, channel, receiver);
         } catch (MidiUnavailableException ex) {
-            // TODO
+            log.error("Receiver unavailable for device: resource restrictions", ex);
         }
     }
 
