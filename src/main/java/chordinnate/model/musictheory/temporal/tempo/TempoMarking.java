@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 /**
  * Created by Joseph on 6/22/16.
  * References: https://en.wikipedia.org/wiki/Tempo
+ *
+ * TODO: determine the value of keeping this class,
+ *  and consider either a config-based approach,
+ *  or some abstract class (and individual implementations) that can handle all expressive nomenclature like this,
+ *  or removing this class entirely.
  */
 @AllArgsConstructor
 public enum TempoMarking {

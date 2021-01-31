@@ -76,7 +76,7 @@ public class MidiConfig {
     @Value("${midi.defaults.max_bpm}")
     private int maxBpm;
 
-    private void setMinBpm(int minBpm) {
+    public void setMinBpm(int minBpm) {
         if (minBpm < 1) {
             throw new ChordInnateException("Tempo BPM must be >= 1.");
         }
@@ -86,7 +86,7 @@ public class MidiConfig {
         this.minBpm = minBpm;
     }
 
-    private void setMaxBpm(int maxBpm) {
+    public void setMaxBpm(int maxBpm) {
         if (maxBpm < minBpm) {
             throw new ChordInnateException("Tempo max BPM must be >= min BPM.");
         }

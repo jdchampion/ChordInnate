@@ -41,9 +41,7 @@ public class TempoTest {
     @Test
     public void invalidBPM() throws Exception {
         expectedException.expect(IllegalArgumentException.class);
-        expectedException.expectMessage("Tempo must be between "
-                + TempoMarking.slowest().minBpm + " and "
-                + TempoMarking.fastest().maxBpm + " BPM (inclusive).");
+        expectedException.expectMessage("Tempo must be between 20 and 240 BPM (inclusive).");
 
         new Tempo(Beat.QUARTER, 0);
     }
