@@ -62,6 +62,15 @@ public class MidiEventProducer {
     private long currentTick = 0;
     private int currentTrack = MidiConfig.DEFAULT_TRACK_NUMBER;
 
+    /**
+     * Gets the specified {@link Track} from the {@link Sequence}, if it exists.
+     * If it does not exist, then it will continue to create tracks
+     * until {@code trackNumber} tracks have been be created, and then
+     * return that {@link Track}.
+     * @param sequence the sequence containing the track to get
+     * @param trackNumber zero-based index for which track to get from the sequence
+     * @return the nth track in the sequence, where {@code n == trackNumber}
+     */
     protected final Track getTrack(Sequence sequence, int trackNumber) {
         Track[] tracks = sequence.getTracks();
         int length = tracks.length - 1;
@@ -106,11 +115,11 @@ public class MidiEventProducer {
      * Generates a MIDI NOTE_ON message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param note
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param note a {@link Note} representing MIDI data to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addNoteOnEvent(long tick, int trackNumber, int channel, @NotNull Note note) throws InvalidMidiDataException {
         for (Pitch pitch : note.getPitches()) {
@@ -122,12 +131,12 @@ public class MidiEventProducer {
      * Generates a MIDI NOTE_ON message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param noteValue
-     * @param noteVelocity
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param noteValue the MIDI note value to apply in the event
+     * @param noteVelocity the MIDI note velocity to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addNoteOnEvent(long tick, int trackNumber, int channel, int noteValue, int noteVelocity) throws InvalidMidiDataException {
         internalAddVoiceEvent(ShortMessage.NOTE_ON, tick, trackNumber, channel, noteValue, noteVelocity);
@@ -137,11 +146,11 @@ public class MidiEventProducer {
      * Generates a MIDI NOTE_OFF message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param note
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param note a {@link Note} representing MIDI data to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addNoteOffEvent(long tick, int trackNumber, int channel, @NotNull Note note) throws InvalidMidiDataException {
         for (Pitch pitch : note.getPitches()) {
@@ -153,11 +162,11 @@ public class MidiEventProducer {
      * Generates a MIDI NOTE_OFF message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param noteValue
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param noteValue the MIDI note value to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addNoteOffEvent(long tick, int trackNumber, int channel, int noteValue) throws InvalidMidiDataException {
         internalAddVoiceEvent(ShortMessage.NOTE_OFF, tick, trackNumber, channel, noteValue, 0);
@@ -168,12 +177,12 @@ public class MidiEventProducer {
      * Generates a MIDI POLY_KEY_PRESSURE_CHANGE message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param noteValue
-     * @param pressureAmount
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param noteValue the MIDI note value to apply in the event
+     * @param pressureAmount the MIDI pressure amount to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addPolyKeyPressureChangeEvent(long tick, int trackNumber, int channel, int noteValue, int pressureAmount) throws InvalidMidiDataException {
         internalAddVoiceEvent(ShortMessage.POLY_PRESSURE, tick, trackNumber, channel, noteValue, pressureAmount);
@@ -183,12 +192,12 @@ public class MidiEventProducer {
      * Generates a MIDI CONTROL_CHANGE message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 41; 102 - 103)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param controllerType
-     * @param value
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param controllerType the MIDI controller type to apply in the event
+     * @param value the value for the MIDI controller type to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addControlChangeEvent(long tick, int trackNumber, int channel, int controllerType, int value) throws InvalidMidiDataException {
         internalAddVoiceEvent(ShortMessage.CONTROL_CHANGE, tick, trackNumber, channel, controllerType, value);
@@ -198,11 +207,11 @@ public class MidiEventProducer {
      * Generates a MIDI PROGRAM_CHANGE message. Assumes the currently-loaded sound bank is to be used with this event.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param programNumber
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param programNumber the MIDI program number (instrument) to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addProgramChangeEvent(long tick, int trackNumber, int channel, int programNumber) throws InvalidMidiDataException {
         internalAddVoiceEvent(ShortMessage.PROGRAM_CHANGE, tick, trackNumber, channel, programNumber, 0);
@@ -212,11 +221,11 @@ public class MidiEventProducer {
      * Generates a MIDI PROGRAM_CHANGE message, using the bank and program number provided by {@code instrument}.
      * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 41; 45 - 46)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param instrument
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param instrument a {@link Instrument} representing MIDI instrument data to apply to the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addProgramChangeEvent(long tick, int trackNumber, int channel, Instrument instrument) throws InvalidMidiDataException {
         if (instrument != null) {
@@ -230,11 +239,11 @@ public class MidiEventProducer {
      * Generates a MIDI CHANNEL_PRESSURE_CHANGE message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param pressureAmount
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param pressureAmount the MIDI pressure amount to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addChannelPressureChangeEvent(long tick, int trackNumber, int channel, int pressureAmount) throws InvalidMidiDataException {
         internalAddVoiceEvent(ShortMessage.CHANNEL_PRESSURE, tick, trackNumber, channel, pressureAmount, 0);
@@ -244,11 +253,11 @@ public class MidiEventProducer {
      * Generates a MIDI PITCH_BEND message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @param pitchBendValue (-8192 to 8191)
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @param pitchBendValue the MIDI pitch bend value to apply in the event (-8192 to 8191)
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addPitchBendChangeEvent(long tick, int trackNumber, int channel, int pitchBendValue) throws InvalidMidiDataException {
         internalAddVoiceEvent(ShortMessage.PITCH_BEND, tick, trackNumber, channel, toLSB(pitchBendValue), toMSB(pitchBendValue));
@@ -258,9 +267,9 @@ public class MidiEventProducer {
      * Generates a MIDI SEQUENCE_NUMBER message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 137)
      *
-     * @param trackNumber
-     * @param sequenceNumber
-     * @throws InvalidMidiDataException
+     * @param trackNumber the sequence track to apply the event
+     * @param sequenceNumber the MIDI sequence number to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addSequenceNumberEvent(int trackNumber, int sequenceNumber) throws InvalidMidiDataException {
 
@@ -294,10 +303,10 @@ public class MidiEventProducer {
      * Generates a MIDI TEXT_EVENT message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 137)
      *
-     * @param tick
-     * @param trackNumber
-     * @param text
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param text the text to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addTextEvent(long tick, int trackNumber, String text) throws InvalidMidiDataException {
         internalAddTextEvent(0x01, tick, trackNumber, text);
@@ -307,9 +316,9 @@ public class MidiEventProducer {
      * Generates a MIDI COPYRIGHT_NOTICE message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 137)
      *
-     * @param trackNumber
-     * @param text
-     * @throws InvalidMidiDataException
+     * @param trackNumber the sequence track to apply in the event
+     * @param text the text to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addCopyrightNoticeEvent(int trackNumber, String text) throws InvalidMidiDataException {
         internalAddTextEvent(0x02, 0, trackNumber, text);
@@ -319,9 +328,9 @@ public class MidiEventProducer {
      * Generates a MIDI TRACK_NAME message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
      *
-     * @param trackNumber
-     * @param text
-     * @throws InvalidMidiDataException
+     * @param trackNumber the sequence track to apply in the event
+     * @param text the text to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addTrackNameEvent(int trackNumber, String text) throws InvalidMidiDataException {
         internalAddTextEvent(0x03, 0, trackNumber, text);
@@ -331,10 +340,10 @@ public class MidiEventProducer {
      * Generates a MIDI INSTRUMENT_NAME message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
      *
-     * @param tick
-     * @param trackNumber
-     * @param text
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param text the text to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addInstrumentNameEvent(long tick, int trackNumber, String text) throws InvalidMidiDataException {
         internalAddTextEvent(0x04, tick, trackNumber, text);
@@ -344,10 +353,10 @@ public class MidiEventProducer {
      * Generates a MIDI LYRIC message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
      *
-     * @param tick
-     * @param trackNumber
-     * @param text
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param text the text to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addLyricEvent(long tick, int trackNumber, String text) throws InvalidMidiDataException {
         internalAddTextEvent(0x05, tick, trackNumber, text);
@@ -357,10 +366,10 @@ public class MidiEventProducer {
      * Generates a MIDI MARKER message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
      *
-     * @param tick
-     * @param trackNumber
-     * @param text
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param text the text to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addMarkerEvent(long tick, int trackNumber, String text) throws InvalidMidiDataException {
         internalAddTextEvent(0x06, tick, trackNumber, text);
@@ -370,10 +379,10 @@ public class MidiEventProducer {
      * Generates a MIDI CUE_POINT message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
      *
-     * @param tick
-     * @param trackNumber
-     * @param text
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param text the text to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addCuePointEvent(long tick, int trackNumber, String text) throws InvalidMidiDataException {
         internalAddTextEvent(0x07, tick, trackNumber, text);
@@ -383,10 +392,10 @@ public class MidiEventProducer {
      * Generates a MIDI CHANNEL_PREFIX message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
      *
-     * @param tick
-     * @param trackNumber
-     * @param channel
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param trackNumber the sequence track to apply the event
+     * @param channel the MIDI channel to apply the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addChannelPrefixEvent(long tick, int trackNumber, int channel) throws InvalidMidiDataException {
         byte[] data = {(byte) channel};
@@ -402,9 +411,9 @@ public class MidiEventProducer {
      * Generates a MIDI SET_TEMPO message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
      *
-     * @param tick
-     * @param tempo
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param tempo a {@link Tempo} object representing MIDI tempo data to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addSetTempoEvent(long tick, @NotNull Tempo tempo) throws InvalidMidiDataException {
 
@@ -441,7 +450,7 @@ public class MidiEventProducer {
      *
      * @param time
      * @param subFrame (0 - 99)
-     * @throws InvalidMidiDataException
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addSMPTEOffsetEvent(LocalTime time, int subFrame) throws InvalidMidiDataException {
 
@@ -486,9 +495,9 @@ public class MidiEventProducer {
      * Generates a MIDI TIME_SIGNATURE message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 139)
      *
-     * @param tick
-     * @param timeSignature
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param timeSignature a {@link TimeSignature} representing MIDI time signature data to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addTimeSignatureEvent(long tick, @NotNull TimeSignature timeSignature) throws InvalidMidiDataException {
         if (timeSignature.getReferenceBeat() != null) {
@@ -527,9 +536,9 @@ public class MidiEventProducer {
      * Generates a MIDI KEY_SIGNATURE message.
      * Reference: The Complete MIDI 1.0 Detailed Specification (p. 139)
      *
-     * @param tick
-     * @param keySignature
-     * @throws InvalidMidiDataException
+     * @param tick the starting MIDI tick for the event
+     * @param keySignature a {@link KeySignature} representing MIDI key signature data to apply in the event
+     * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
     public final void addKeySignatureEvent(long tick, @NotNull KeySignature keySignature) throws InvalidMidiDataException {
 
