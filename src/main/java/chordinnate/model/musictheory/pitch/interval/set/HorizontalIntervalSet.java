@@ -3,7 +3,7 @@ package chordinnate.model.musictheory.pitch.interval.set;
 import chordinnate.entity.ChordType;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
+import chordinnate.model.musictheory.notation.RomanNumeral;
 import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.util.nomenclature.GreekGrouping;
 import lombok.AccessLevel;

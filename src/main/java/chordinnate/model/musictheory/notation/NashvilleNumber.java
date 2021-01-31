@@ -1,4 +1,4 @@
-package chordinnate.model.musictheory.pitch.interval;
+package chordinnate.model.musictheory.notation;
 
 
 import static chordinnate.model.musictheory.notation.Accidental.*;

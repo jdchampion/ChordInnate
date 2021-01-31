@@ -1,7 +1,9 @@
-package chordinnate.model.musictheory.pitch.interval;
+package chordinnate.model.musictheory.notation;
 
 import static org.junit.Assert.*;
 
+import chordinnate.model.musictheory.notation.RomanNumeral;
+import chordinnate.model.musictheory.pitch.interval.Interval;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 

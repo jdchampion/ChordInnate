@@ -1,6 +1,6 @@
 package chordinnate.model.musictheory.progression;
 
-import chordinnate.model.musictheory.pitch.interval.NashvilleNumber;
+import chordinnate.model.musictheory.notation.NashvilleNumber;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedPseudograph;
 

@@ -1,15 +1,14 @@
 package chordinnate.model.musictheory.progression;
 
-import static chordinnate.model.musictheory.pitch.interval.NashvilleNumber.FIVE;
-import static chordinnate.model.musictheory.pitch.interval.NashvilleNumber.FOUR;
-import static chordinnate.model.musictheory.pitch.interval.NashvilleNumber.ONE;
-import static chordinnate.model.musictheory.pitch.interval.NashvilleNumber.SEVEN;
-import static chordinnate.model.musictheory.pitch.interval.NashvilleNumber.SIX;
-import static chordinnate.model.musictheory.pitch.interval.NashvilleNumber.THREE;
-import static chordinnate.model.musictheory.pitch.interval.NashvilleNumber.TWO;
+import static chordinnate.model.musictheory.notation.NashvilleNumber.FIVE;
+import static chordinnate.model.musictheory.notation.NashvilleNumber.FOUR;
+import static chordinnate.model.musictheory.notation.NashvilleNumber.ONE;
+import static chordinnate.model.musictheory.notation.NashvilleNumber.SEVEN;
+import static chordinnate.model.musictheory.notation.NashvilleNumber.SIX;
+import static chordinnate.model.musictheory.notation.NashvilleNumber.THREE;
+import static chordinnate.model.musictheory.notation.NashvilleNumber.TWO;
 
-import chordinnate.model.musictheory.pitch.interval.NashvilleNumber;
-import chordinnate.model.musictheory.progression.ChordProgression;
+import chordinnate.model.musictheory.notation.NashvilleNumber;
 
 /**
  * Created by Joseph on 1/12/16.
