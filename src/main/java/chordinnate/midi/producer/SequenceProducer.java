@@ -40,7 +40,7 @@ public class SequenceProducer {
         try {
             sequence = new Sequence(config.getFrames(), config.getTickResolution());
 
-            MidiEventProducer producer = new MidiEventProducer(sequence);
+            MidiEventProducer producer = new MidiEventProducer(sequence, config);
 
             /*
              * TODO: add a method Playable.hasMidiDataFor(MidiDataType:: enum):: boolean

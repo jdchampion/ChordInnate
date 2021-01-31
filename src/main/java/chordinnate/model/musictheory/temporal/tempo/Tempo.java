@@ -12,19 +12,18 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class Tempo {
 
-    private static final MidiConfig CONFIG = ContextProvider.getContext().getBean(MidiConfig.class);
-
     @NotNull
     private final Beat referenceBeat;
 
     private final int beatsPerMinute;
 
     public Tempo(@NotNull Beat subdivision, int beatsPerMinute) {
-        if (beatsPerMinute >= CONFIG.getMinBpm() && beatsPerMinute <= CONFIG.getMaxBpm()) {
+        MidiConfig config = ContextProvider.getContext().getBean(MidiConfig.class);
+        if (beatsPerMinute >= config.getMinBpm() && beatsPerMinute <= config.getMaxBpm()) {
             this.beatsPerMinute = beatsPerMinute;
             this.referenceBeat = subdivision;
         } else {
-            throw new IllegalArgumentException("Tempo must be between " + CONFIG.getMinBpm() + " and " + CONFIG.getMaxBpm() + " BPM (inclusive).");
+            throw new IllegalArgumentException("Tempo must be between " + config.getMinBpm() + " and " + config.getMaxBpm() + " BPM (inclusive).");
         }
     }
 }

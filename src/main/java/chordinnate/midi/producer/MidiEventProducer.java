@@ -54,10 +54,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class MidiEventProducer {
 
-    private static final MidiConfig CONFIG = ContextProvider.getContext().getBean(MidiConfig.class);
     private static final MidiOutputRouter ROUTER = ContextProvider.getContext().getBean(MidiOutputRouter.class);
 
     private final Sequence sequence;
+    private final MidiConfig config;
 
     private long currentTick = 0;
     private int currentTrack = MidiConfig.DEFAULT_TRACK_NUMBER;
@@ -114,7 +114,7 @@ public class MidiEventProducer {
      */
     public final void addNoteOnEvent(long tick, int trackNumber, int channel, @NotNull Note note) throws InvalidMidiDataException {
         for (Pitch pitch : note.getPitches()) {
-            addNoteOnEvent(tick, trackNumber, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : CONFIG.getDefaultVelocity());
+            addNoteOnEvent(tick, trackNumber, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : config.getDefaultVelocity());
         }
     }
 
@@ -445,9 +445,9 @@ public class MidiEventProducer {
      */
     public final void addSMPTEOffsetEvent(LocalTime time, int subFrame) throws InvalidMidiDataException {
 
-        if (CONFIG.isMidiTimeCodeEnabled()) {
+        if (config.isMidiTimeCodeEnabled()) {
 
-            float frames = CONFIG.getFrames();
+            float frames = config.getFrames();
 
             int bit;
             if (frames == Sequence.PPQ || frames == Sequence.SMPTE_24) {
@@ -496,7 +496,7 @@ public class MidiEventProducer {
             double denom = timeSignature.getDenominator().doubleValue();
 
             Fraction beatValue = timeSignature.getReferenceBeat().getBeatValue();
-            Fraction tickCountPerReferenceBeat = beatValue.multiplyBy(Fraction.getFraction(CONFIG.getTickResolution() / 4, 1));
+            Fraction tickCountPerReferenceBeat = beatValue.multiplyBy(Fraction.getFraction(config.getTickResolution() / 4, 1));
 
             int num32nds = beatValue.divideBy(Beat.THIRTY_SECOND.getBeatValue()).intValue();
 
@@ -571,7 +571,7 @@ public class MidiEventProducer {
         }
     }
 
-    private static double calculateTickCount(@NotNull Note note, boolean round) {
+    private double calculateTickCount(@NotNull Note note, boolean round) {
         double articulationDurationFactor = 1.0;
         if (note.getArticulation() != null) {
             articulationDurationFactor = note.getArticulation().getDurationFactor();
@@ -580,9 +580,9 @@ public class MidiEventProducer {
         return round ? Math.round(toReturn) : toReturn;
     }
 
-    private static double calculateTickCount(@NotNull Beat beat, boolean round) {
-        double ratio = CONFIG.getDefaultTempo().getReferenceBeat().getDuration() / beat.getDuration();
-        double toReturn = CONFIG.getTickResolution() / ratio;
+    private  double calculateTickCount(@NotNull Beat beat, boolean round) {
+        double ratio = config.getDefaultTempo().getReferenceBeat().getDuration() / beat.getDuration();
+        double toReturn = config.getTickResolution() / ratio;
         return round ? Math.round(toReturn) : toReturn;
     }
 
@@ -595,8 +595,8 @@ public class MidiEventProducer {
     }
 
     public final void addEvents(@NotNull Pitch pitch) throws InvalidMidiDataException {
-        addNoteOnEvent(currentTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, pitch.getMidiValue(), CONFIG.getDefaultVelocity());
-        currentTick += calculateTickCount(CONFIG.getDefaultTempo().getReferenceBeat(), true);
+        addNoteOnEvent(currentTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, pitch.getMidiValue(), config.getDefaultVelocity());
+        currentTick += calculateTickCount(config.getDefaultTempo().getReferenceBeat(), true);
         addNoteOffEvent(currentTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, pitch.getMidiValue());
     }
 
@@ -632,7 +632,7 @@ public class MidiEventProducer {
         // Begin any new, non-tied notes
         for (Pitch pitch : note.getPitches()) {
             if (!note.getSharedPitchesOnLeft().contains(pitch)) {
-                addNoteOnEvent(currentTick, track, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : CONFIG.getDefaultVelocity());
+                addNoteOnEvent(currentTick, track, channel, pitch.getMidiValue(), note.getDynamic() != null ? note.getDynamic().getVelocity() : config.getDefaultVelocity());
             }
         }
 
