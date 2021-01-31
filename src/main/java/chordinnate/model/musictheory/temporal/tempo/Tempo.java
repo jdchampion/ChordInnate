@@ -1,6 +1,8 @@
 package chordinnate.model.musictheory.temporal.tempo;
 
+import chordinnate.config.MidiConfig;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
+import chordinnate.util.ContextProvider;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,9 +12,7 @@ import org.jetbrains.annotations.NotNull;
 @Getter
 public class Tempo {
 
-    // TODO: make configurable? (MIN_BPM should always be >= 1)
-    private static final int MIN_BPM = 20;
-    private static final int MAX_BPM = 240;
+    private static final MidiConfig CONFIG = ContextProvider.getContext().getBean(MidiConfig.class);
 
     @NotNull
     private final Beat referenceBeat;
@@ -20,11 +20,11 @@ public class Tempo {
     private final int beatsPerMinute;
 
     public Tempo(@NotNull Beat subdivision, int beatsPerMinute) {
-        if (beatsPerMinute >= MIN_BPM && beatsPerMinute <= MAX_BPM) {
+        if (beatsPerMinute >= CONFIG.getMinBpm() && beatsPerMinute <= CONFIG.getMaxBpm()) {
             this.beatsPerMinute = beatsPerMinute;
             this.referenceBeat = subdivision;
         } else {
-            throw new IllegalArgumentException("Tempo must be between " + MIN_BPM + " and " + MAX_BPM + " BPM.");
+            throw new IllegalArgumentException("Tempo must be between " + CONFIG.getMinBpm() + " and " + CONFIG.getMaxBpm() + " BPM (inclusive).");
         }
     }
 }

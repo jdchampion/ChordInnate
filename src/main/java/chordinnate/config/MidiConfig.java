@@ -66,6 +66,14 @@ public class MidiConfig {
     @Value("${midi.defaults.copyright}")
     private String copyrightNotice;
 
+    @Min(1)
+    @Value("${midi.defaults.min_bpm}")
+    private int minBpm;
+
+    @Min(1)
+    @Value("${midi.defaults.max_bpm}")
+    private int maxBpm;
+
     public Tempo getDefaultTempo() {
         if (defaultTempo == null) {
             this.defaultTempo = new Tempo(Beat.QUARTER, (int) DEFAULT_TEMPO_BPM);
