@@ -25,13 +25,13 @@ import java.util.Set;
 public class Measure extends FormPlayable implements Metered {
 
     @NotNull
-    private TimeSignature timeSignature;
+    private final TimeSignature timeSignature;
 
     @NotNull
-    private KeySignature keySignature;
+    private final KeySignature keySignature;
 
     @NotNull
-    private List<Rhythmic> rhythm;
+    private final List<Rhythmic> rhythm;
 
     @Nullable
     private Tempo tempo;
@@ -42,7 +42,7 @@ public class Measure extends FormPlayable implements Metered {
     @Nullable
     private String comment;
 
-    private double duration;
+    private final double duration;
 
     public Measure(@NotNull TimeSignature timeSignature, @NotNull KeySignature keySignature, @NotNull List<Rhythmic> rhythm) {
         this.timeSignature = timeSignature;
