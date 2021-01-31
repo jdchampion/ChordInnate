@@ -1,4 +1,4 @@
-package chordinnate.service.generator;
+package chordinnate.util.algorithm;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

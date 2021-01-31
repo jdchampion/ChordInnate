@@ -1,4 +1,4 @@
-package chordinnate.service.generator;
+package chordinnate.util.algorithm;
 
 /**
  * Created by Joseph on 1/9/16.
