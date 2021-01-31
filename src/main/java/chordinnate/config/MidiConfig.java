@@ -1,5 +1,7 @@
 package chordinnate.config;
 
+import chordinnate.exception.ChordInnateException;
+import chordinnate.exception.ChordInnateIllegalArgumentException;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
@@ -73,6 +75,23 @@ public class MidiConfig {
     @Min(1)
     @Value("${midi.defaults.max_bpm}")
     private int maxBpm;
+
+    private void setMinBpm(int minBpm) {
+        if (minBpm < 1) {
+            throw new ChordInnateException("Tempo BPM must be >= 1.");
+        }
+        if (minBpm > maxBpm) {
+            throw new ChordInnateException("Tempo min BPM must be <= max BPM.");
+        }
+        this.minBpm = minBpm;
+    }
+
+    private void setMaxBpm(int maxBpm) {
+        if (maxBpm < minBpm) {
+            throw new ChordInnateException("Tempo max BPM must be >= min BPM.");
+        }
+        this.maxBpm = maxBpm;
+    }
 
     public Tempo getDefaultTempo() {
         if (defaultTempo == null) {
