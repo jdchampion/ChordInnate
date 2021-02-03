@@ -9,7 +9,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class LetterTest {
     @Test
-    public void getLetterByVectorTraversal() throws Exception {
+    public void getLetterByVectorTraversal() {
         // Left edge case: C (forwards)
         assertEquals(Letter.C, Letter.C.getLetterByVectorTraversal(0));
         assertEquals(Letter.D, Letter.C.getLetterByVectorTraversal(1));

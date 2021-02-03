@@ -199,7 +199,7 @@ public class PlaybackServiceIT {
 
     @Ignore("Disabled for Travis CI and faster testing")
     @Test
-    public void play_StaffGroup() throws Exception {
+    public void play_StaffGroup() {
 
         Synthesizer synth = PlaybackService.getActiveSynthesizer();
         PlaybackService.registerDevice(synth);

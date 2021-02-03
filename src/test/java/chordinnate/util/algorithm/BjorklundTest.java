@@ -9,7 +9,7 @@ import org.junit.Test;
 @Slf4j
 public class BjorklundTest {
     @Test
-    public void sandbox() throws Exception {
+    public void sandbox() {
         for (int i = 2; i < 10; i++) {
             for (int j = 2; j < i; j++) {
                 printBitmap(i, j);

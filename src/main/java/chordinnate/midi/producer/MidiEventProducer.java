@@ -604,30 +604,30 @@ public class MidiEventProducer {
     }
 
     public final void addEvents(@NotNull Pitch pitch) throws InvalidMidiDataException {
-        addNoteOnEvent(currentTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, pitch.getMidiValue(), config.getDefaultVelocity());
+        addNoteOnEvent(currentTick, currentTrack, ROUTER.getChannel(pitch), pitch.getMidiValue(), config.getDefaultVelocity());
         currentTick += calculateTickCount(config.getDefaultTempo().getReferenceBeat(), true);
-        addNoteOffEvent(currentTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, pitch.getMidiValue());
+        addNoteOffEvent(currentTick, currentTrack, ROUTER.getChannel(pitch), pitch.getMidiValue());
     }
 
     public final void addEvents(@NotNull HorizontalIntervalSet horizontalIntervalSet) throws InvalidMidiDataException {
         Pitch[] pitches = horizontalIntervalSet.getPitchesForOctave(Octave.OCTAVE_5);
         for (Pitch p : pitches) {
-            Note note = Note.builder(Beat.QUARTER, p).build();
-            addNoteOnEvent(currentTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, note);
+            Note note = Note.builder(config.getDefaultTempo().getReferenceBeat(), p).build();
+            addNoteOnEvent(currentTick, currentTrack, ROUTER.getChannel(note), note);
             currentTick += calculateTickCount(note, true);
-            addNoteOffEvent(currentTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, note);
+            addNoteOffEvent(currentTick, currentTrack, ROUTER.getChannel(note), note);
         }
     }
 
     public final void addEvents(@NotNull VerticalIntervalSet verticalIntervalSet) throws InvalidMidiDataException {
         List<Note> notes = Arrays.stream(verticalIntervalSet.getPitchesForOctave(Octave.OCTAVE_5))
-                .map(p -> Note.builder(Beat.WHOLE, p).build())
+                .map(p -> Note.builder(config.getDefaultTempo().getReferenceBeat(), p).build())
                 .collect(Collectors.toList());
 
-        long endTick = currentTick + (long) calculateTickCount(Beat.WHOLE, true);
+        long endTick = currentTick + (long) calculateTickCount(config.getDefaultTempo().getReferenceBeat(), true);
         for (Note note : notes) {
-            addNoteOnEvent(currentTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, note);
-            addNoteOffEvent(endTick, MidiConfig.DEFAULT_TRACK_NUMBER, MidiConfig.DEFAULT_CHANNEL, note);
+            addNoteOnEvent(currentTick, currentTrack, ROUTER.getChannel(note), note);
+            addNoteOffEvent(endTick, currentTrack, ROUTER.getChannel(note), note);
         }
         currentTick = endTick;
     }
@@ -725,7 +725,7 @@ public class MidiEventProducer {
     }
 
     public void addEvents(@NotNull Staff staff) throws InvalidMidiDataException {
-        addEvents(staff, MidiConfig.DEFAULT_TRACK_NUMBER);
+        addEvents(staff, currentTrack);
     }
 
     private void addEvents(@NotNull Staff staff, int trackNumber) throws InvalidMidiDataException {

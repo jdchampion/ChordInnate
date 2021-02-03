@@ -39,7 +39,7 @@ public class TempoTest {
     }
 
     @Test
-    public void invalidBPM() throws Exception {
+    public void invalidBPM() {
         expectedException.expect(IllegalArgumentException.class);
         expectedException.expectMessage("Tempo must be between 20 and 240 BPM (inclusive).");
 

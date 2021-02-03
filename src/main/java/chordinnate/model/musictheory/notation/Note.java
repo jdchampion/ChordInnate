@@ -132,7 +132,7 @@ public class Note extends InstrumentCapablePlayable implements Rhythmic {
     }
 
     public void untieOnLeft(Pitch pitch) {
-        if (pitch == null || this.sharedPitchesOnLeft.isEmpty() || !this.sharedPitchesOnLeft.contains(pitch)) {
+        if (pitch == null || this.tiedToLeft == null || this.sharedPitchesOnLeft.isEmpty() || !this.sharedPitchesOnLeft.contains(pitch)) {
             return;
         }
 
@@ -151,7 +151,7 @@ public class Note extends InstrumentCapablePlayable implements Rhythmic {
     }
 
     public void untieOnRight(Pitch pitch) {
-        if (pitch == null || this.sharedPitchesOnRight.isEmpty() || !this.sharedPitchesOnRight.contains(pitch)) {
+        if (pitch == null || this.tiedToRight == null || this.sharedPitchesOnRight.isEmpty() || !this.sharedPitchesOnRight.contains(pitch)) {
             return;
         }
 
