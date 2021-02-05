@@ -19,13 +19,13 @@ import java.util.concurrent.atomic.AtomicReference;
  * A wrapper object containing synchronized time / sound information for MIDI OUT.
  */
 @Component
-public class MidiOutputRouter {
+public final class MidiOutputRouter {
 
     private static final Map<Instrument, Receiver> INSTRUMENT_TO_RECEIVER = new HashMap<>();
     private static final Map<Receiver, ReceiverChannelManager> RECEIVER_TO_MANAGER = new HashMap<>();
     private static final Map<InstrumentCapablePlayable, ReceiverChannelManager> PLAYABLE_TO_MANAGER = new HashMap<>();
 
-    public void registerInstrument(@NotNull Instrument instrument, int channel, @NotNull Receiver receiver) {
+    public final void registerInstrument(@NotNull Instrument instrument, int channel, @NotNull Receiver receiver) {
         if (channel < MidiConfig.MIN_CHANNEL_VALUE || channel > MidiConfig.MAX_CHANNEL_VALUE) {
             throw new ChordInnateException("Channel must be between " + MidiConfig.MIN_CHANNEL_VALUE + " - " + MidiConfig.MAX_CHANNEL_VALUE + " (inclusive)");
         }
@@ -40,11 +40,11 @@ public class MidiOutputRouter {
         });
     }
 
-    public Set<Instrument> getRegisteredInstruments() {
+    public final Set<Instrument> getRegisteredInstruments() {
         return INSTRUMENT_TO_RECEIVER.keySet();
     }
 
-    public Set<Receiver> getRegisteredReceivers() {
+    public final Set<Receiver> getRegisteredReceivers() {
         return RECEIVER_TO_MANAGER.keySet();
     }
 
@@ -52,7 +52,7 @@ public class MidiOutputRouter {
      * @param playable
      * @param instrument
      */
-    public void registerProgramChange(@NotNull InstrumentCapablePlayable playable, @NotNull Instrument instrument) {
+    public final void registerProgramChange(@NotNull InstrumentCapablePlayable playable, @NotNull Instrument instrument) {
         if (!INSTRUMENT_TO_RECEIVER.containsKey(instrument)) {
             throw new ChordInnateException("Instrument must first be registered via MidiOutputRouter::registerInstrument()");
         }
@@ -67,7 +67,7 @@ public class MidiOutputRouter {
     }
 
     @Nullable
-    public Instrument getInstrument(@NotNull InstrumentCapablePlayable playable) {
+    public final Instrument getInstrument(@NotNull InstrumentCapablePlayable playable) {
         AtomicReference<Instrument> instrument = new AtomicReference<>();
         PLAYABLE_TO_MANAGER.compute(playable, (k, v) -> {
             if (v != null) {
@@ -78,7 +78,7 @@ public class MidiOutputRouter {
         return instrument.get();
     }
 
-    public int getChannel(@NotNull InstrumentCapablePlayable playable) {
+    public final int getChannel(@NotNull InstrumentCapablePlayable playable) {
         if (!PLAYABLE_TO_MANAGER.containsKey(playable)) { // FIXME: also check if contains any InstrumentCapablePlayable that is the parent (holding) class
             return MidiConfig.DEFAULT_CHANNEL;
         }
@@ -86,7 +86,7 @@ public class MidiOutputRouter {
         return manager.instrumentToChannel.getOrDefault(manager.playableToInstrument.get(playable), MidiConfig.DEFAULT_CHANNEL);
     }
 
-    private static class ReceiverChannelManager {
+    private static final class ReceiverChannelManager {
         private final Map<InstrumentCapablePlayable, Instrument> playableToInstrument = new LinkedHashMap<>();
         private final Map<Instrument, Integer> instrumentToChannel = new HashMap<>();
     }
