@@ -3,7 +3,7 @@ package chordinnate.model.musictheory.pitch.interval.set;
 import chordinnate.entity.ScaleType;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.pitch.PitchClass;
-import chordinnate.model.util.RegionLocaleMapper;
+import chordinnate.util.RegionLocaleMapper;
 import chordinnate.service.Services;
 import chordinnate.service.ScaleTypeService;
 import com.ibm.icu.util.Region;

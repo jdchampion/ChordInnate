@@ -53,43 +53,43 @@ public class PitchTest {
          * none of which should go beyond 127 as the highest pitch.
          */
         for (Pitch pitch : Pitch.STANDARD_PITCH_LOOKUP.values()) {
-            int base = pitch.pitchClass.basePitchClass.baseMidiValue;
+            int base = pitch.pitchClass.enharmonicSpelling.baseMidiValue;
             assertEquals("Pitch " + pitch.getName() + " failed to match the expected MIDI value.",
                     // Use a formula that handles edge cases (like Cb (base = -1), B# (base = 12)...)
                     (12 * pitch.octave.getNumber() + (base < 0 ? 12 + base : (base >= 12 ? base % 12 : base))),
-                    pitch.absolutePitch
+                    pitch.getMidiValue()
             );
 
             assertTrue("Pitch " + pitch.getName() + " is not within playable MIDI range.",
-                    pitch.absolutePitch >= 0 && pitch.absolutePitch < 128);
+                    pitch.getMidiValue() >= 0 && pitch.getMidiValue() < 128);
         }
 
         // Also test for non-standard pitches
-        assertEquals(Pitch.F_4.absolutePitch, Pitch.withName("Fx#bbb4").absolutePitch);
-        assertEquals(Pitch.C_1.absolutePitch, Pitch.withName("B#1").absolutePitch);
-        assertEquals(Pitch.C_SHARP_1.absolutePitch, Pitch.withName("Bx1").absolutePitch);
-        assertEquals(Pitch.C_1.absolutePitch, Pitch.withName("B#bxbb#1").absolutePitch);
-        assertEquals(Pitch.C_SHARP_1.absolutePitch, Pitch.withName("B#bxbbx1").absolutePitch);
+        assertEquals(Pitch.F_4.getMidiValue(), Pitch.withName("Fx#bbb4").getMidiValue());
+        assertEquals(Pitch.C_1.getMidiValue(), Pitch.withName("B#1").getMidiValue());
+        assertEquals(Pitch.C_SHARP_1.getMidiValue(), Pitch.withName("Bx1").getMidiValue());
+        assertEquals(Pitch.C_1.getMidiValue(), Pitch.withName("B#bxbb#1").getMidiValue());
+        assertEquals(Pitch.C_SHARP_1.getMidiValue(), Pitch.withName("B#bxbbx1").getMidiValue());
 
-        assertEquals(Pitch.C_2.absolutePitch, Pitch.withName("A#x2").absolutePitch);
-        assertEquals(Pitch.C_2.absolutePitch, Pitch.withName("G#xx2").absolutePitch);
-        assertEquals(Pitch.C_2.absolutePitch, Pitch.withName("F#xxx2").absolutePitch);
-        assertEquals(Pitch.C_2.absolutePitch, Pitch.withName("Exxxx2").absolutePitch);
-        assertEquals(Pitch.C_2.absolutePitch, Pitch.withName("Dxxxxx2").absolutePitch);
-        assertEquals(Pitch.C_2.absolutePitch, Pitch.withName("Cxxxxxx2").absolutePitch);
+        assertEquals(Pitch.C_2.getMidiValue(), Pitch.withName("A#x2").getMidiValue());
+        assertEquals(Pitch.C_2.getMidiValue(), Pitch.withName("G#xx2").getMidiValue());
+        assertEquals(Pitch.C_2.getMidiValue(), Pitch.withName("F#xxx2").getMidiValue());
+        assertEquals(Pitch.C_2.getMidiValue(), Pitch.withName("Exxxx2").getMidiValue());
+        assertEquals(Pitch.C_2.getMidiValue(), Pitch.withName("Dxxxxx2").getMidiValue());
+        assertEquals(Pitch.C_2.getMidiValue(), Pitch.withName("Cxxxxxx2").getMidiValue());
 
 
     }
 
     @Test
     public void isDiatonicToIntervalSet() {
-        Scale cMajor = new Scale("C Major"),
-                dMajor = new Scale("D Major"),
-               fMajor = new Scale("Fx#bbb Major");
+        Scale cMajor = new Scale("C Major");
+        Scale dMajor = new Scale("D Major");
+        Scale fMajor = new Scale("Fx#bbb Major");
 
-        Chord cMaj = new Chord("Cmaj"),
-                dMaj = new Chord("Dmaj"),
-                fMaj = new Chord("Fx#bbbmaj");
+        Chord cMaj = new Chord("Cmaj");
+        Chord dMaj = new Chord("Dmaj");
+        Chord fMaj = new Chord("Fx#bbbmaj");
 
         Pitch c0 = Pitch.C_0, c10 = Pitch.C_10;
         Pitch f4 = Pitch.withName("Fx#bbb4");
@@ -195,38 +195,38 @@ public class PitchTest {
         assertEquals(Pitch.C_FLAT_0, Pitch.C_1.transpose(IntervalDirection.DOWN, AUGMENTED_1));
         assertEquals(Pitch.C_FLAT_0, Pitch.C_2.transpose(IntervalDirection.DOWN, AUGMENTED_8));
 
-        assertEquals(Pitch.withName("Dbbbb4").absolutePitch, Pitch.C_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Dbbb4").absolutePitch, Pitch.C_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Dbbbb4").getMidiValue(), Pitch.C_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
+        assertEquals(Pitch.withName("Dbbb4").getMidiValue(), Pitch.C_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
         assertEquals(Pitch.D_DOUBLE_FLAT_4, Pitch.C_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.D_FLAT_4, Pitch.C_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.D_4, Pitch.C_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Ebbbb4").absolutePitch, Pitch.D_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Ebbb4").absolutePitch, Pitch.D_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Ebbbb4").getMidiValue(), Pitch.D_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
+        assertEquals(Pitch.withName("Ebbb4").getMidiValue(), Pitch.D_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
         assertEquals(Pitch.E_DOUBLE_FLAT_4, Pitch.D_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.E_FLAT_4, Pitch.D_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.E_4, Pitch.D_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Fbbb4").absolutePitch, Pitch.E_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Fbbb4").getMidiValue(), Pitch.E_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
         assertEquals(Pitch.F_DOUBLE_FLAT_4, Pitch.E_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.F_FLAT_4, Pitch.E_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.F_4, Pitch.E_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.F_SHARP_4, Pitch.E_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Gbbbb4").absolutePitch, Pitch.F_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Gbbb4").absolutePitch, Pitch.F_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Gbbbb4").getMidiValue(), Pitch.F_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
+        assertEquals(Pitch.withName("Gbbb4").getMidiValue(), Pitch.F_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
         assertEquals(Pitch.G_DOUBLE_FLAT_4, Pitch.F_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.G_FLAT_4, Pitch.F_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.G_4, Pitch.F_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Abbbb4").absolutePitch, Pitch.G_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Abbb4").absolutePitch, Pitch.G_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Abbbb4").getMidiValue(), Pitch.G_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
+        assertEquals(Pitch.withName("Abbb4").getMidiValue(), Pitch.G_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
         assertEquals(Pitch.A_DOUBLE_FLAT_4, Pitch.G_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.A_FLAT_4, Pitch.G_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.A_4, Pitch.G_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
 
-        assertEquals(Pitch.withName("Bbbbb4").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
-        assertEquals(Pitch.withName("Bbbb4").absolutePitch, Pitch.A_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).absolutePitch);
+        assertEquals(Pitch.withName("Bbbbb4").getMidiValue(), Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
+        assertEquals(Pitch.withName("Bbbb4").getMidiValue(), Pitch.A_FLAT_4.transpose(IntervalDirection.UP, DIMINISHED_2).getMidiValue());
         assertEquals(Pitch.B_DOUBLE_FLAT_4, Pitch.A_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.B_FLAT_4, Pitch.A_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
         assertEquals(Pitch.B_4, Pitch.A_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, DIMINISHED_2));
@@ -241,12 +241,12 @@ public class PitchTest {
         assertEquals(Pitch.B_FLAT_0, Pitch.C_1.transpose(IntervalDirection.DOWN, MAJOR_2));
         assertEquals(Pitch.B_FLAT_0, Pitch.C_2.transpose(IntervalDirection.DOWN, MAJOR_9));
 
-        assertEquals(Pitch.withName("Bx#5").absolutePitch, Pitch.A_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, AUGMENTED_2).absolutePitch);
-        assertEquals(Pitch.withName("Bx#6").absolutePitch, Pitch.A_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, AUGMENTED_9).absolutePitch);
+        assertEquals(Pitch.withName("Bx#5").getMidiValue(), Pitch.A_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, AUGMENTED_2).getMidiValue());
+        assertEquals(Pitch.withName("Bx#6").getMidiValue(), Pitch.A_DOUBLE_SHARP_4.transpose(IntervalDirection.UP, AUGMENTED_9).getMidiValue());
         assertEquals(Pitch.B_FLAT_4, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, AUGMENTED_2));
         assertEquals(Pitch.B_FLAT_5, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.UP, AUGMENTED_9));
-        assertEquals(Pitch.withName("Gbbb4").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.DOWN, AUGMENTED_2).absolutePitch);
-        assertEquals(Pitch.withName("Gbbb3").absolutePitch, Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.DOWN, AUGMENTED_9).absolutePitch);
+        assertEquals(Pitch.withName("Gbbb4").getMidiValue(), Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.DOWN, AUGMENTED_2).getMidiValue());
+        assertEquals(Pitch.withName("Gbbb3").getMidiValue(), Pitch.A_DOUBLE_FLAT_4.transpose(IntervalDirection.DOWN, AUGMENTED_9).getMidiValue());
 
         assertEquals(Pitch.E_4, Pitch.C_4.transpose(IntervalDirection.UP, MAJOR_3));
         assertEquals(Pitch.E_5, Pitch.C_4.transpose(IntervalDirection.UP, MAJOR_10));
@@ -307,9 +307,9 @@ public class PitchTest {
         assertEquals(Pitch.A_SHARP_2, Pitch.F_SHARP_4.transpose(IntervalDirection.DOWN, MINOR_13));
 
         // Also test for non-standard pitches
-        assertEquals(Pitch.withName("Bxbbx#bb1").absolutePitch, Pitch.withName("Fxbbx#b0").transpose(IntervalDirection.UP, PERFECT_4).absolutePitch);
-        assertEquals(Pitch.withName("B#1").absolutePitch, Pitch.withName("Fx0").transpose(IntervalDirection.UP, PERFECT_4).absolutePitch);
-        assertEquals(Pitch.withName("Abbbbx4").absolutePitch, Pitch.withName("Fbbbbx4").transpose(IntervalDirection.UP, MAJOR_3).absolutePitch);
+        assertEquals(Pitch.withName("Bxbbx#bb1").getMidiValue(), Pitch.withName("Fxbbx#b0").transpose(IntervalDirection.UP, PERFECT_4).getMidiValue());
+        assertEquals(Pitch.withName("B#1").getMidiValue(), Pitch.withName("Fx0").transpose(IntervalDirection.UP, PERFECT_4).getMidiValue());
+        assertEquals(Pitch.withName("Abbbbx4").getMidiValue(), Pitch.withName("Fbbbbx4").transpose(IntervalDirection.UP, MAJOR_3).getMidiValue());
     }
 
     @Test

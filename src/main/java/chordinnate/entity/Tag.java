@@ -57,4 +57,9 @@ public final class Tag {
         return id.equals(comparison.id) && name.equals(comparison.name);
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
 }

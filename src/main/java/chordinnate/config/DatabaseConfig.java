@@ -47,14 +47,15 @@ public class DatabaseConfig {
     @Value("${hibernate.dialect}")
     private String dialect;
 
+    @In(values = {"true", "false"})
     @Value("${hibernate.show_sql}")
-    private String showSql;
+    private boolean showSql;
 
-    @Value("${entitymanager.packagesToScan}")
+    @Value("${entitymanager.packages_to_scan}")
     private String packagesToScan;
 
     @Bean
-    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+    public static PropertySourcesPlaceholderConfigurer propertyConfig() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 

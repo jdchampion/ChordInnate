@@ -1,9 +1,11 @@
 package chordinnate.model.playback;
 
-import javax.sound.midi.Sequence;
+import chordinnate.midi.producer.MidiEventProducer;
+import chordinnate.service.playback.PlaybackService;
 
+/**
+ * Musical components that can be played by the {@link PlaybackService}.
+ */
 public interface Playable {
-
-    // Sequence getMidiSequence() throws Exception;
-
+    void accept(MidiEventProducer midiEventProducer);
 }

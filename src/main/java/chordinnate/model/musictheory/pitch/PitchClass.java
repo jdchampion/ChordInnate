@@ -1,9 +1,7 @@
 package chordinnate.model.musictheory.pitch;
 
 import chordinnate.exception.ChordInnateException;
-import chordinnate.model.musictheory.Aliased;
 import chordinnate.model.musictheory.notation.Accidental;
-import chordinnate.model.musictheory.notation.BaseEnharmonicSpelling;
 import chordinnate.model.musictheory.notation.EnharmonicSpelling;
 import chordinnate.model.musictheory.notation.Letter;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -11,9 +9,13 @@ import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalSet;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,56 +23,56 @@ import java.util.Map;
  * Reference: https://en.wikipedia.org/wiki/Pitch_class
  */
 public class PitchClass
-        implements IntervalTransposable<PitchClass>, Enharmonic<PitchClass>, Diatonic, Aliased {
+        implements IntervalTransposable<PitchClass>, Enharmonic<PitchClass>, Diatonic {
 
-    public static final PitchClass C_DOUBLE_FLAT = new PitchClass(BasePitchClass.C_DOUBLE_FLAT);
-    public static final PitchClass C_FLAT = new PitchClass(BasePitchClass.C_FLAT);
-    public static final PitchClass C = new PitchClass(BasePitchClass.C);
-    public static final PitchClass C_NATURAL = new PitchClass(BasePitchClass.C_NATURAL);
-    public static final PitchClass C_SHARP = new PitchClass(BasePitchClass.C_SHARP);
-    public static final PitchClass C_DOUBLE_SHARP = new PitchClass(BasePitchClass.C_DOUBLE_SHARP);
+    public static final PitchClass C_DOUBLE_FLAT = new PitchClass(EnharmonicSpelling.C_DOUBLE_FLAT, -2);
+    public static final PitchClass C_FLAT = new PitchClass(EnharmonicSpelling.C_FLAT, -1);
+    public static final PitchClass C = new PitchClass(EnharmonicSpelling.C, 0);
+    public static final PitchClass C_NATURAL = new PitchClass(EnharmonicSpelling.C_NATURAL, 0);
+    public static final PitchClass C_SHARP = new PitchClass(EnharmonicSpelling.C_SHARP, 1);
+    public static final PitchClass C_DOUBLE_SHARP = new PitchClass(EnharmonicSpelling.C_DOUBLE_SHARP, 2);
 
-    public static final PitchClass D_DOUBLE_FLAT = new PitchClass(BasePitchClass.D_DOUBLE_FLAT);
-    public static final PitchClass D_FLAT = new PitchClass(BasePitchClass.D_FLAT);
-    public static final PitchClass D = new PitchClass(BasePitchClass.D);
-    public static final PitchClass D_NATURAL = new PitchClass(BasePitchClass.D_NATURAL);
-    public static final PitchClass D_SHARP = new PitchClass(BasePitchClass.D_SHARP);
-    public static final PitchClass D_DOUBLE_SHARP = new PitchClass(BasePitchClass.D_DOUBLE_SHARP);
+    public static final PitchClass D_DOUBLE_FLAT = new PitchClass(EnharmonicSpelling.D_DOUBLE_FLAT, 0);
+    public static final PitchClass D_FLAT = new PitchClass(EnharmonicSpelling.D_FLAT, 1);
+    public static final PitchClass D = new PitchClass(EnharmonicSpelling.D, 2);
+    public static final PitchClass D_NATURAL = new PitchClass(EnharmonicSpelling.D_NATURAL, 2);
+    public static final PitchClass D_SHARP = new PitchClass(EnharmonicSpelling.D_SHARP, 3);
+    public static final PitchClass D_DOUBLE_SHARP = new PitchClass(EnharmonicSpelling.D_DOUBLE_SHARP, 4);
 
-    public static final PitchClass E_DOUBLE_FLAT = new PitchClass(BasePitchClass.E_DOUBLE_FLAT);
-    public static final PitchClass E_FLAT = new PitchClass(BasePitchClass.E_FLAT);
-    public static final PitchClass E = new PitchClass(BasePitchClass.E);
-    public static final PitchClass E_NATURAL = new PitchClass(BasePitchClass.E_NATURAL);
-    public static final PitchClass E_SHARP = new PitchClass(BasePitchClass.E_SHARP);
-    public static final PitchClass E_DOUBLE_SHARP = new PitchClass(BasePitchClass.E_DOUBLE_SHARP);
+    public static final PitchClass E_DOUBLE_FLAT = new PitchClass(EnharmonicSpelling.E_DOUBLE_FLAT, 2);
+    public static final PitchClass E_FLAT = new PitchClass(EnharmonicSpelling.E_FLAT, 3);
+    public static final PitchClass E = new PitchClass(EnharmonicSpelling.E, 4);
+    public static final PitchClass E_NATURAL = new PitchClass(EnharmonicSpelling.E_NATURAL, 4);
+    public static final PitchClass E_SHARP = new PitchClass(EnharmonicSpelling.E_SHARP, 5);
+    public static final PitchClass E_DOUBLE_SHARP = new PitchClass(EnharmonicSpelling.E_DOUBLE_SHARP, 6);
 
-    public static final PitchClass F_DOUBLE_FLAT = new PitchClass(BasePitchClass.F_DOUBLE_FLAT);
-    public static final PitchClass F_FLAT = new PitchClass(BasePitchClass.F_FLAT);
-    public static final PitchClass F = new PitchClass(BasePitchClass.F);
-    public static final PitchClass F_NATURAL = new PitchClass(BasePitchClass.F_NATURAL);
-    public static final PitchClass F_SHARP = new PitchClass(BasePitchClass.F_SHARP);
-    public static final PitchClass F_DOUBLE_SHARP = new PitchClass(BasePitchClass.F_DOUBLE_SHARP);
+    public static final PitchClass F_DOUBLE_FLAT = new PitchClass(EnharmonicSpelling.F_DOUBLE_FLAT, 3);
+    public static final PitchClass F_FLAT = new PitchClass(EnharmonicSpelling.F_FLAT, 4);
+    public static final PitchClass F = new PitchClass(EnharmonicSpelling.F, 5);
+    public static final PitchClass F_NATURAL = new PitchClass(EnharmonicSpelling.F_NATURAL, 5);
+    public static final PitchClass F_SHARP = new PitchClass(EnharmonicSpelling.F_SHARP, 6);
+    public static final PitchClass F_DOUBLE_SHARP = new PitchClass(EnharmonicSpelling.F_DOUBLE_SHARP, 7);
 
-    public static final PitchClass G_DOUBLE_FLAT = new PitchClass(BasePitchClass.G_DOUBLE_FLAT);
-    public static final PitchClass G_FLAT = new PitchClass(BasePitchClass.G_FLAT);
-    public static final PitchClass G = new PitchClass(BasePitchClass.G);
-    public static final PitchClass G_NATURAL = new PitchClass(BasePitchClass.G_NATURAL);
-    public static final PitchClass G_SHARP = new PitchClass(BasePitchClass.G_SHARP);
-    public static final PitchClass G_DOUBLE_SHARP = new PitchClass(BasePitchClass.G_DOUBLE_SHARP);
+    public static final PitchClass G_DOUBLE_FLAT = new PitchClass(EnharmonicSpelling.G_DOUBLE_FLAT, 5);
+    public static final PitchClass G_FLAT = new PitchClass(EnharmonicSpelling.G_FLAT, 6);
+    public static final PitchClass G = new PitchClass(EnharmonicSpelling.G, 7);
+    public static final PitchClass G_NATURAL = new PitchClass(EnharmonicSpelling.G_NATURAL, 7);
+    public static final PitchClass G_SHARP = new PitchClass(EnharmonicSpelling.G_SHARP, 8);
+    public static final PitchClass G_DOUBLE_SHARP = new PitchClass(EnharmonicSpelling.G_DOUBLE_SHARP, 9);
 
-    public static final PitchClass A_DOUBLE_FLAT = new PitchClass(BasePitchClass.A_DOUBLE_FLAT);
-    public static final PitchClass A_FLAT = new PitchClass(BasePitchClass.A_FLAT);
-    public static final PitchClass A = new PitchClass(BasePitchClass.A);
-    public static final PitchClass A_NATURAL = new PitchClass(BasePitchClass.A_NATURAL);
-    public static final PitchClass A_SHARP = new PitchClass(BasePitchClass.A_SHARP);
-    public static final PitchClass A_DOUBLE_SHARP = new PitchClass(BasePitchClass.A_DOUBLE_SHARP);
+    public static final PitchClass A_DOUBLE_FLAT = new PitchClass(EnharmonicSpelling.A_DOUBLE_FLAT, 7);
+    public static final PitchClass A_FLAT = new PitchClass(EnharmonicSpelling.A_FLAT, 8);
+    public static final PitchClass A = new PitchClass(EnharmonicSpelling.A, 9);
+    public static final PitchClass A_NATURAL = new PitchClass(EnharmonicSpelling.A_NATURAL, 9);
+    public static final PitchClass A_SHARP = new PitchClass(EnharmonicSpelling.A_SHARP, 10);
+    public static final PitchClass A_DOUBLE_SHARP = new PitchClass(EnharmonicSpelling.A_DOUBLE_SHARP, 11);
 
-    public static final PitchClass B_DOUBLE_FLAT = new PitchClass(BasePitchClass.B_DOUBLE_FLAT);
-    public static final PitchClass B_FLAT = new PitchClass(BasePitchClass.B_FLAT);
-    public static final PitchClass B = new PitchClass(BasePitchClass.B);
-    public static final PitchClass B_NATURAL = new PitchClass(BasePitchClass.B_NATURAL);
-    public static final PitchClass B_SHARP = new PitchClass(BasePitchClass.B_SHARP);
-    public static final PitchClass B_DOUBLE_SHARP = new PitchClass(BasePitchClass.B_DOUBLE_SHARP);
+    public static final PitchClass B_DOUBLE_FLAT = new PitchClass(EnharmonicSpelling.B_DOUBLE_FLAT, 9);
+    public static final PitchClass B_FLAT = new PitchClass(EnharmonicSpelling.B_FLAT, 10);
+    public static final PitchClass B = new PitchClass(EnharmonicSpelling.B, 11);
+    public static final PitchClass B_NATURAL = new PitchClass(EnharmonicSpelling.B_NATURAL, 11);
+    public static final PitchClass B_SHARP = new PitchClass(EnharmonicSpelling.B_SHARP, 12);
+    public static final PitchClass B_DOUBLE_SHARP = new PitchClass(EnharmonicSpelling.B_DOUBLE_SHARP, 13);
 
     static final Map<String, PitchClass> STANDARD_PITCH_CLASSES = new HashMap<>();
 
@@ -125,34 +127,46 @@ public class PitchClass
         STANDARD_PITCH_CLASSES.put("Bx", PitchClass.B_DOUBLE_SHARP);
     }
 
-    final BasePitchClass basePitchClass;
+    final EnharmonicSpelling enharmonicSpelling; // the simplified spelling of this pitch class
+    final Letter aliasLetter;   // the 'true' letter for the way this pitch class is being spelled
+    final List<Accidental> aliasAccidentals; // the 'true' accidentals for the way this pitch class is being spelled
+    final int aliasBaseMidiValue; // lowest MIDI value for the given pitch class
+    final boolean isAliasSimplified; // whether the accidentals for this pitch class are simplified
     final Octave octaveRange;
-    final String aliasLetter;
-    final String aliasAccidentals;
-    final int baseMidiValue;
-    final int aliasBaseMidiValue;
-    final boolean isAliasSimplified;
 
-    private PitchClass(BasePitchClass basePitchClass) {
-        this.basePitchClass = basePitchClass;
-        this.octaveRange = basePitchClass.octaveRange;
-        this.aliasLetter = basePitchClass.baseEnharmonicSpelling.letter.name();
-        this.aliasAccidentals = basePitchClass.baseEnharmonicSpelling.accidental.symbol;
-        this.baseMidiValue = basePitchClass.baseMidiValue;
+    private PitchClass(EnharmonicSpelling enharmonicSpelling, int baseMidiValue) {
+        this.enharmonicSpelling = enharmonicSpelling;
+        this.aliasLetter = enharmonicSpelling.letter;
+        this.aliasAccidentals = Accidental.NONE.equals(enharmonicSpelling.accidental) ? Collections.emptyList() : Collections.singletonList(enharmonicSpelling.accidental);
         this.aliasBaseMidiValue = (12 + baseMidiValue) % 12;
         this.isAliasSimplified = true;
+
+        /*
+         * The playable MIDI range is 0 (C0) to 127 (G10).
+         * Since each Octave spans 12 semitones, only ten can fit completely.
+         * The eleventh (highest) Octave is cut off at G10 (highest possible note),
+         * so anything higher than G10 must be prevented.
+         */
+        this.octaveRange = baseMidiValue < 8 ? Octave.OCTAVE_10 : Octave.OCTAVE_9;
     }
 
-    private PitchClass(BasePitchClass basePitchClass, String alias) {
-        this.basePitchClass = basePitchClass;
-        this.octaveRange = basePitchClass.octaveRange;
-        this.aliasLetter = String.valueOf(alias.charAt(0));
-        this.aliasAccidentals = alias.length() > 1 ? Accidental.convertToDisplaySymbols(alias.substring(1), alias.contains(Accidental.NATURAL.utf8Symbol)) : "";
-        this.baseMidiValue = basePitchClass.baseMidiValue;
-        this.aliasBaseMidiValue = (12 + Letter.valueOf(aliasLetter).baseMidiValue + Accidental.sumAccidentalsToSemitoneModifier(aliasAccidentals)) % 12;
-        String a = Accidental.convertToUTF8Symbols(aliasAccidentals);
-        String simplified = Accidental.simplify(a, a.contains(Accidental.NATURAL.utf8Symbol), true);
-        this.isAliasSimplified = a.equals(simplified);
+    private PitchClass(EnharmonicSpelling enharmonicSpelling, String alias) {
+        this.enharmonicSpelling = enharmonicSpelling;
+        String letter = alias.substring(0, 1).toUpperCase();
+        String originalAccs = Accidental.convertToUTF8Symbols(alias.substring(1));
+        this.aliasLetter = Letter.valueOf(letter);
+        this.aliasAccidentals = originalAccs.isBlank() ? Collections.emptyList() : Accidental.convert(originalAccs);
+        this.aliasBaseMidiValue = (12 + aliasLetter.baseMidiValue + Accidental.sumAccidentalsToSemitoneModifier(aliasAccidentals)) % 12;
+        String simplifiedAccs = Accidental.simplify(originalAccs, originalAccs.contains(Accidental.NATURAL.utf8Symbol), true);
+        this.isAliasSimplified = originalAccs.equals(simplifiedAccs);
+
+        /*
+         * The playable MIDI range is 0 (C0) to 127 (G10).
+         * Since each Octave spans 12 semitones, only ten can fit completely.
+         * The eleventh (highest) Octave is cut off at G10 (highest possible note),
+         * so anything higher than G10 must be prevented.
+         */
+        this.octaveRange = aliasBaseMidiValue < 8 ? Octave.OCTAVE_10 : Octave.OCTAVE_9;
     }
 
     /**
@@ -183,7 +197,7 @@ public class PitchClass
 
             // Create a new (non-standard) PitchClass
             try {
-                return new PitchClass(determineBasePitchClass(letter, simplifiedAccidentals), Accidental.convertToUTF8Symbols(name));
+                return new PitchClass(determineEnharmonicSpelling(letter, simplifiedAccidentals), Accidental.convertToUTF8Symbols(name));
             } catch (Exception e) {
                 throw new ChordInnateException("Could not create pitch class with name: " + name, e);
             }
@@ -197,8 +211,8 @@ public class PitchClass
      * @param simplifiedAccidentals
      * @return
      */
-    private static BasePitchClass determineBasePitchClass(String letter, String simplifiedAccidentals) {
-        return BasePitchClass.valueOf(determineBasePitchClassName(letter, simplifiedAccidentals));
+    private static EnharmonicSpelling determineEnharmonicSpelling(String letter, String simplifiedAccidentals) {
+        return EnharmonicSpelling.valueOf(determineEnharmonicSpellingEnumName(letter, simplifiedAccidentals));
     }
 
     /**
@@ -206,25 +220,22 @@ public class PitchClass
      * @param simplifiedAccidentals
      * @return
      */
-    private static String determineBasePitchClassName(String startingLetter, String simplifiedAccidentals) {
+    private static String determineEnharmonicSpellingEnumName(String startingLetter, String simplifiedAccidentals) {
 
-        if (simplifiedAccidentals.isEmpty()) {
+        if (StringUtils.isBlank(simplifiedAccidentals)) {
             return startingLetter;
         } else if (simplifiedAccidentals.length() == 1) {
             // bb, b, natural, #, or x
             return startingLetter + "_" + Accidental.getBySymbol(simplifiedAccidentals).name();
         } else {
             // Figure out an enharmonically-equivalent BasePitchClass would be. This may require changing the letter.
-            BasePitchClass startingPoint = BasePitchClass.valueOf(startingLetter);
-
-            BaseEnharmonicSpelling baseEnharmonicSpelling = startingPoint.baseEnharmonicSpelling;
-
+            EnharmonicSpelling enharmonicSpelling = EnharmonicSpelling.valueOf(startingLetter);
             for (char c : simplifiedAccidentals.toCharArray()) {
                 String token = String.valueOf(c);
-                baseEnharmonicSpelling = baseEnharmonicSpelling.apply(Accidental.getBySymbol(token));
+                enharmonicSpelling = enharmonicSpelling.apply(Accidental.getBySymbol(token));
             }
 
-            return baseEnharmonicSpelling.name();
+            return enharmonicSpelling.name();
         }
 
     }
@@ -236,8 +247,8 @@ public class PitchClass
      * @return the difference in semitones between lhs and rhs
      */
     public static int getSemitoneDistanceBetween(@NotNull PitchClass lhs, @NotNull PitchClass rhs) {
-        int r = (rhs.basePitchClass.baseMidiValue < 0 ? 12 + rhs.basePitchClass.baseMidiValue : rhs.basePitchClass.baseMidiValue) % 12;
-        int l = (lhs.basePitchClass.baseMidiValue < 0 ? 12 + lhs.basePitchClass.baseMidiValue : lhs.basePitchClass.baseMidiValue) % 12;
+        int r = (rhs.enharmonicSpelling.baseMidiValue < 0 ? 12 + rhs.enharmonicSpelling.baseMidiValue : rhs.enharmonicSpelling.baseMidiValue) % 12;
+        int l = (lhs.enharmonicSpelling.baseMidiValue < 0 ? 12 + lhs.enharmonicSpelling.baseMidiValue : lhs.enharmonicSpelling.baseMidiValue) % 12;
         int semitoneDistance = r - l;
         return semitoneDistance >= 0 ? semitoneDistance : 12 + semitoneDistance;
     }
@@ -252,7 +263,7 @@ public class PitchClass
                     : Interval.withShortName(interval.getSimpleShortName()).invert();
 
             // 2. Determine the expected letter of the candidate Pitch.
-            Letter beginLetter = Letter.valueOf(aliasLetter);
+            Letter beginLetter = aliasLetter;
             int idx = beginLetter.ordinal();
             int expectedLetterIndex = direction.getCompareTo() == 1
                     ? (idx + (interval.getSimpleDiatonic() - 1)) % 7
@@ -288,12 +299,19 @@ public class PitchClass
                 semitonesBetweenLetters--;
             }
         }
-        String partition1 = Accidental.convertToUTF8Symbols(aliasAccidentals);
+
+        String partition1 = accsToSymbols(aliasAccidentals);
         String partition2 = Accidental.simplify(sb.toString(), false, true);
         return expectedLetter.name()
                 + (isAliasSimplified
                 ? mergeAccidentals(partition1, partition2)
                 : (partition1 + sb.toString()));
+    }
+
+    private static String accsToSymbols(List<Accidental> accidentals) {
+        StringBuilder accsToSymbol = new StringBuilder();
+        accidentals.forEach(acc -> accsToSymbol.append(acc.utf8Symbol));
+        return accsToSymbol.toString();
     }
 
     /**
@@ -302,7 +320,7 @@ public class PitchClass
      * @param rhs
      * @return the union string of both accidentals (intersection is simplified)
      */
-    private String mergeAccidentals(String lhs, String rhs) {
+    private static String mergeAccidentals(String lhs, String rhs) {
         String lastOfLHS = extractAccidental(lhs, false);
         String firstOfRHS = extractAccidental(rhs, true);
         String a1 = lhs.substring(0, lhs.length() - lastOfLHS.length());
@@ -321,8 +339,8 @@ public class PitchClass
      * @param firstOrLast whether to extract the first ({@code true}) or last ({@code false}) accidental in the string
      * @return the first or last accidental from the string
      */
-    private String extractAccidental(String allAccidentals, boolean firstOrLast) {
-        if (allAccidentals == null || allAccidentals.isEmpty()) {
+    private static String extractAccidental(String allAccidentals, boolean firstOrLast) {
+        if (StringUtils.isBlank(allAccidentals)) {
             return "";
         }
         if (allAccidentals.length() < 2) {
@@ -357,7 +375,7 @@ public class PitchClass
          * but the enharmonic spelling contains an accidental,
          * it can't be diatonic to this key signature.
          */
-        if (keySignature.getKey().aliasAccidentals.isEmpty() && keySignature.getSignature().isEmpty() && accidentalIsFlatOrSharp) {
+        if (CollectionUtils.isEmpty(keySignature.getKey().aliasAccidentals) && CollectionUtils.isEmpty(keySignature.getSignature()) && accidentalIsFlatOrSharp) {
             return false;
         }
 
@@ -407,14 +425,12 @@ public class PitchClass
         return r == l;
     }
 
-    @Override
     public String getName() {
-        return this.aliasLetter + this.aliasAccidentals;
+        return this.aliasLetter.name() + accsToSymbols(this.aliasAccidentals);
     }
 
-    @Override
-    public String getBaseName() {
-        return this.basePitchClass.baseEnharmonicSpelling.baseName;
+    public String getSimplifiedName() {
+        return this.enharmonicSpelling.name;
     }
 
     public Octave getOctaveRange() {
@@ -425,8 +441,8 @@ public class PitchClass
         return aliasBaseMidiValue;
     }
 
-    public int getBaseMidiValue() {
-        return baseMidiValue;
+    public List<Accidental> getAccidentals() {
+        return aliasAccidentals;
     }
 
     @Override
@@ -437,7 +453,7 @@ public class PitchClass
 
         PitchClass comparison = (PitchClass) other;
 
-        return basePitchClass.equals(comparison.basePitchClass)
+        return enharmonicSpelling.equals(comparison.enharmonicSpelling)
                 && aliasLetter.equals(comparison.aliasLetter)
                 && aliasAccidentals.equals(comparison.aliasAccidentals)
                 && aliasBaseMidiValue == comparison.aliasBaseMidiValue;

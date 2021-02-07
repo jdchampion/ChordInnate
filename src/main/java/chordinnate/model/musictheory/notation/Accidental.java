@@ -1,9 +1,11 @@
 package chordinnate.model.musictheory.notation;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -45,11 +47,69 @@ public enum Accidental {
         return utf8Symbol.length() == 1 && utf8Symbol.charAt(0) == c;
     }
 
+    public boolean isWithinString(String accidentals) {
+
+        // Edge case for no accidental
+        if (StringUtils.isBlank(accidentals) && Accidental.NONE.equals(this)) {
+            return true;
+        }
+
+        // Edge case for flat accidental
+        if (Accidental.FLAT.equals(this)) {
+
+            // Find the first substring with a single 'b'
+            char[] chars = accidentals.toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                if (chars[i] == 'b') {
+                    if (i + 1 >= chars.length) {
+                        return true; // located at the very end of the string
+                    } else if (chars[i + 1] != 'b') {
+                        return true; // located anywhere else in the string
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        return accidentals.contains(this.utf8Symbol);
+    }
+
+    public static String simplify(String allAccidentals, boolean wantNaturalSymbol, boolean returnUTF8) {
+        int semitoneModifier = sumAccidentalsToSemitoneModifier(allAccidentals);
+
+        if (semitoneModifier == 0) {
+            Accidental accidental = wantNaturalSymbol ? NATURAL : NONE;
+            return returnUTF8 ? accidental.utf8Symbol : accidental.symbol;
+        }
+
+        return convertSemitoneModifierToAccidentals(semitoneModifier, wantNaturalSymbol, returnUTF8);
+
+    }
+
+    public static List<Accidental> simplify(List<Accidental> allAccidentals, boolean wantNaturalSymbol) {
+        int semitoneModifier = sumAccidentalsToSemitoneModifier(allAccidentals);
+
+        List<Accidental> simplified = new ArrayList<>();
+
+        if (semitoneModifier < 0) {
+            simplifyHelper(simplified, semitoneModifier, DOUBLE_FLAT, FLAT);
+        } else if (semitoneModifier > 0) {
+            simplifyHelper(simplified, semitoneModifier, DOUBLE_SHARP, SHARP);
+        } else {
+            if (wantNaturalSymbol) {
+                simplified.add(NATURAL);
+            }
+        }
+
+        return simplified;
+    }
+
     public static int sumAccidentalsToSemitoneModifier(String allAccidentals) {
 
         String acc = convertToUTF8Symbols(allAccidentals);
 
-        if (acc.isEmpty()) {
+        if (StringUtils.isBlank(acc)) {
             return 0;
         }
 
@@ -66,25 +126,18 @@ public enum Accidental {
         return total;
     }
 
-    public static String simplify(String allAccidentals, boolean wantNaturalSymbol, boolean returnUTF8) {
-
-        if (allAccidentals.isEmpty() || NATURAL.matchesSymbol(allAccidentals)) {
-            return convertNaturals(returnUTF8, wantNaturalSymbol);
-        }
-
-        int semitoneModifier = sumAccidentalsToSemitoneModifier(allAccidentals);
-
-        return convertSemitoneModifierToAccidentals(semitoneModifier, wantNaturalSymbol, returnUTF8);
-
+    public static int sumAccidentalsToSemitoneModifier(List<Accidental> allAccidentals) {
+        return allAccidentals.stream().mapToInt(a -> a.semitoneModifier).sum();
     }
 
-    public static String convertSemitoneModifierToAccidentals(int semitoneModifier, boolean wantNaturalSymbol, boolean returnUTF8) {
+    private static String convertSemitoneModifierToAccidentals(int semitoneModifier, boolean wantNaturalSymbol, boolean returnUTF8) {
         if (semitoneModifier < 0) {
             return convertFlatsOrSharps(semitoneModifier, -2, -1, returnUTF8, DOUBLE_FLAT, FLAT);
         } else if (semitoneModifier > 0) {
             return convertFlatsOrSharps(semitoneModifier, 2, 1, returnUTF8, DOUBLE_SHARP, SHARP);
         } else {
-            return convertNaturals(returnUTF8, wantNaturalSymbol);
+            Accidental accidental = wantNaturalSymbol ? NATURAL : NONE;
+            return returnUTF8 ? accidental.utf8Symbol : accidental.symbol;
         }
     }
 
@@ -116,35 +169,10 @@ public enum Accidental {
         return simplifiedAccidental.toString();
     }
 
-    private static String convertNaturals(boolean returnUTF8, boolean wantNaturalSymbol) {
-        if (returnUTF8) {
-            return wantNaturalSymbol ? NATURAL.utf8Symbol : NONE.utf8Symbol;
-        } else {
-            return wantNaturalSymbol ? NATURAL.symbol : NONE.symbol;
-        }
-    }
-
-    public static List<Accidental> simplify(List<Accidental> allAccidentals, boolean wantNaturalSymbol) {
-
-        int semitoneModifier = allAccidentals.stream().mapToInt(a -> a.semitoneModifier).sum();
-
-        List<Accidental> simplified = new ArrayList<>();
-
-        if (semitoneModifier < 0) {
-            simplifyHelper(simplified, semitoneModifier, -2, -1, DOUBLE_FLAT, FLAT);
-        } else if (semitoneModifier > 0) {
-            simplifyHelper(simplified, semitoneModifier, 2, 1, DOUBLE_SHARP, SHARP);
-        } else {
-            simplified.add(wantNaturalSymbol ? NATURAL : NONE);
-        }
-
-        return simplified;
-    }
-
-    private static void simplifyHelper(List<Accidental> simplified, int semitoneModifier, int doubleSM, int singleSM, Accidental doubleAcc, Accidental singleAcc) {
-        if (semitoneModifier == doubleSM) {
+    private static void simplifyHelper(List<Accidental> simplified, int semitoneModifier, Accidental doubleAcc, Accidental singleAcc) {
+        if (semitoneModifier == doubleAcc.semitoneModifier) {
             simplified.add(doubleAcc);
-        } else if (semitoneModifier == singleSM) {
+        } else if (semitoneModifier == singleAcc.semitoneModifier) {
             simplified.add(singleAcc);
         } else {
             int numDoubleAccs = Math.abs(semitoneModifier) / 2;
@@ -168,8 +196,56 @@ public enum Accidental {
         return UTF8_SYMBOL_TO_ACCIDENTAL.get(convertToUTF8Symbols(symbol));
     }
 
+    public static List<Accidental> convert(String allAccidentals) {
+        if (StringUtils.isBlank(allAccidentals)) {
+            return Collections.emptyList();
+        }
+
+        List<Accidental> list = new ArrayList<>();
+
+        char[] chars = allAccidentals.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+
+            if (chars[i] != 'b' && chars[i] != '_' && chars[i] != '#' && chars[i] != 'x') {
+                continue;
+            }
+
+            if (chars[i] == 'x') {
+                list.add(DOUBLE_SHARP);
+                continue;
+            }
+
+            if (i > 0 && chars[i - 1] == chars[i]) {
+                // special handling for double accidentals
+                int previous = list.size() - 1;
+                if (chars[i - 1] == 'b') {
+                    if (DOUBLE_FLAT.equals(list.get(previous))) {
+                        list.add(FLAT);
+                    } else {
+                        list.set(previous, DOUBLE_FLAT);
+                    }
+                } else {
+                    if (DOUBLE_SHARP.equals(list.get(previous))) {
+                        list.add(SHARP);
+                    } else {
+                        list.set(previous, DOUBLE_SHARP);
+                    }
+                }
+            } else {
+                if (chars[i] == 'b') {
+                    list.add(FLAT);
+                } else {
+                    list.add(SHARP);
+                }
+            }
+
+        }
+
+        return list;
+    }
+
     public static String convertToUTF8Symbols(String allAccidentals) {
-        if (allAccidentals == null || allAccidentals.isEmpty()) {
+        if (StringUtils.isBlank(allAccidentals)) {
             return "";
         }
 
@@ -181,7 +257,7 @@ public enum Accidental {
     }
 
     public static String convertToDisplaySymbols(String allAccidentals, boolean wantNaturalSymbol) {
-        if (allAccidentals.isEmpty() && wantNaturalSymbol) {
+        if (StringUtils.isBlank(allAccidentals) && wantNaturalSymbol) {
             return NATURAL.symbol;
         }
 

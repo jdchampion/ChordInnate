@@ -1,12 +1,12 @@
 package chordinnate.entity;
 
-import chordinnate.annotation.ValidateIntervalContour;
-import chordinnate.annotation.ValidateSize;
+import chordinnate.entity.validation.ValidateIntervalContour;
+import chordinnate.entity.validation.ValidateSize;
 import chordinnate.entity.validation.Phase1Validation;
 import chordinnate.entity.validation.Phase2Validation;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
-import chordinnate.model.util.IntervalConverter;
+import chordinnate.entity.converter.IntervalConverter;
 import lombok.Data;
 
 import javax.persistence.Cacheable;
@@ -95,6 +95,11 @@ public final class ChordType implements Serializable {
                 && Arrays.deepEquals(intervals, comparison.intervals)
                 && size.equals(comparison.size)
                 && preset.equals(comparison.preset);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
     }
 
 }

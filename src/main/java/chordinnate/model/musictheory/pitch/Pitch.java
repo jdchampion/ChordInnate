@@ -1,6 +1,7 @@
 package chordinnate.model.musictheory.pitch;
 
 import chordinnate.exception.ChordInnateException;
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.Letter;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -8,10 +9,12 @@ import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalSet;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
-import chordinnate.model.playback.Playable;
+import chordinnate.model.playback.InstrumentCapablePlayable;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.midi.InvalidMidiDataException;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,8 +26,8 @@ import java.util.regex.Pattern;
  * Created by Joseph on 4/18/16.
  */
 @Slf4j
-public class Pitch
-        implements Transposable<Pitch>, Enharmonic<Pitch>, Diatonic, Playable {
+public class Pitch extends InstrumentCapablePlayable
+        implements Transposable<Pitch>, Enharmonic<Pitch>, Diatonic {
 
     // Cbb10 is out of playable MIDI range, so it has been removed
     public static final Pitch C_DOUBLE_FLAT_0 = new Pitch(PitchClass.C_DOUBLE_FLAT, Octave.OCTAVE_0);
@@ -454,7 +457,9 @@ public class Pitch
 
     public final PitchClass pitchClass;
     public final Octave octave;
-    public final int absolutePitch;
+
+    @Getter
+    private final int midiValue;
 
     private static final String FIRST_PASS_PITCH_REGEX = "^([A-Ga-g])([b#x]*)?([0-9]|10)$";
     private static final Pattern FIRST_PASS_PITCH_PATTERN = Pattern.compile(FIRST_PASS_PITCH_REGEX);
@@ -482,7 +487,7 @@ public class Pitch
     Pitch(PitchClass pitchClass, Octave octave) {
         this.pitchClass = pitchClass;
         this.octave = octave;
-        this.absolutePitch = octave.getMidiStart() + pitchClass.aliasBaseMidiValue;
+        this.midiValue = octave.getMidiStart() + pitchClass.aliasBaseMidiValue;
     }
 
     public static Pitch withName(String name) {
@@ -544,15 +549,15 @@ public class Pitch
     @Override
     public boolean isTransposable(@NotNull IntervalDirection direction, @NotNull Interval interval) {
         return direction.getCompareTo() == 1
-                ? absolutePitch + interval.getSemitones() <= 127
-                : absolutePitch - interval.getSemitones() >= 0;
+                ? midiValue + interval.getSemitones() <= 127
+                : midiValue - interval.getSemitones() >= 0;
     }
 
     @Override
     public boolean isTransposable(@NotNull IntervalDirection direction, @NotNull PitchClass pitchClass) {
         return direction.getCompareTo() == 1
-                ? absolutePitch + pitchClass.aliasBaseMidiValue <= 127
-                : absolutePitch - pitchClass.aliasBaseMidiValue >= 0;
+                ? midiValue + pitchClass.aliasBaseMidiValue <= 127
+                : midiValue - pitchClass.aliasBaseMidiValue >= 0;
     }
 
     @Override
@@ -610,9 +615,9 @@ public class Pitch
                     : Pitch.withName(pitchClass.getName() + (this.octave.getNumber() - 1));
 
             if (direction.getCompareTo() == 1) {
-                return candidate1.absolutePitch > this.absolutePitch ? candidate1 : candidate2;
+                return candidate1.midiValue > this.midiValue ? candidate1 : candidate2;
             } else {
-                return candidate1.absolutePitch < this.absolutePitch ? candidate1 : candidate2;
+                return candidate1.midiValue < this.midiValue ? candidate1 : candidate2;
             }
         }
         return this;
@@ -621,7 +626,7 @@ public class Pitch
     @Override
     public Pitch transpose(@NotNull Pitch pitch) {
         /*
-         * We're transposing on the same enumerated type,
+         * We're transposing on the same type,
          * which is basically apples to apples.
          * No need for any special logic -- just return the requested pitch.
          */
@@ -644,6 +649,33 @@ public class Pitch
                             + "]",
                     ex2
             );
+        }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || this.getClass() != other.getClass()) {
+            return false;
+        }
+
+        Pitch comparison = (Pitch) other;
+
+        return pitchClass.equals(comparison.pitchClass)
+                && octave.equals(comparison.octave)
+                && midiValue == comparison.midiValue;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public void accept(MidiEventProducer midiEventProducer) {
+        try {
+            midiEventProducer.addEvents(this);
+        } catch (InvalidMidiDataException e) {
+            log.error("Error adding MIDI events", e);
         }
     }
 }

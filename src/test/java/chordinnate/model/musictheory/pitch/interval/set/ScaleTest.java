@@ -4,7 +4,7 @@ import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
-import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
+import chordinnate.model.musictheory.notation.RomanNumeral;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -153,9 +153,9 @@ public class ScaleTest {
             int lastAbsolutePitch = Integer.MIN_VALUE;
             Pitch[] pitches = entry.getValue();
             for (int i = 0; i < pitches.length; i++) {
-                assertEquals("Octave " + entry.getKey().getNumber() + " for scale [" + scale.getName() + "] has the wrong values", expected[i].getBaseName(), pitches[i].pitchClass.getBaseName());
-                assertTrue("Scale is not ascending", lastAbsolutePitch < pitches[i].absolutePitch);
-                lastAbsolutePitch = pitches[i].absolutePitch;
+                assertEquals("Octave " + entry.getKey().getNumber() + " for scale [" + scale.getName() + "] has the wrong values", expected[i].getSimplifiedName(), pitches[i].pitchClass.getSimplifiedName());
+                assertTrue("Scale is not ascending", lastAbsolutePitch < pitches[i].getMidiValue());
+                lastAbsolutePitch = pitches[i].getMidiValue();
             }
         }
 

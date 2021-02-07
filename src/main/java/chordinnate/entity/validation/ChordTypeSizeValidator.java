@@ -1,6 +1,5 @@
 package chordinnate.entity.validation;
 
-import chordinnate.annotation.ValidateSize;
 import chordinnate.entity.ChordType;
 
 import javax.validation.ConstraintValidator;

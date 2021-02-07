@@ -7,7 +7,7 @@ import org.junit.Test;
 public class AccidentalTest {
 
     @Test
-    public void matchesSymbol() throws Exception {
+    public void matchesSymbol() {
         for (Accidental accidental : Accidental.values()) {
             assertTrue(accidental.matchesSymbol(accidental.symbol));
             assertTrue(accidental.matchesSymbol(accidental.utf8Symbol));
@@ -15,7 +15,7 @@ public class AccidentalTest {
     }
 
     @Test
-    public void simplify() throws Exception {
+    public void simplify() {
         String acc = "";
 
         assertEquals("", Accidental.simplify(acc, false, true));

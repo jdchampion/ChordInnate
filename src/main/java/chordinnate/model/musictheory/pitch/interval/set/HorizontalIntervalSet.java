@@ -1,13 +1,16 @@
 package chordinnate.model.musictheory.pitch.interval.set;
 
 import chordinnate.entity.ChordType;
-import chordinnate.model.musictheory.nomenclature.GreekGrouping;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
+import chordinnate.model.musictheory.notation.RomanNumeral;
+import chordinnate.midi.producer.MidiEventProducer;
+import chordinnate.util.nomenclature.GreekGrouping;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import javax.sound.midi.InvalidMidiDataException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,7 @@ import java.util.Map;
 /**
  * Created by Joseph on 7/15/16.
  */
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HorizontalIntervalSet extends IntervalSet {
 
@@ -46,6 +50,15 @@ public class HorizontalIntervalSet extends IntervalSet {
             default: return GreekGrouping.grouping(size) + "achord";
         }
 
+    }
+
+    @Override
+    public void accept(MidiEventProducer midiEventProducer) {
+        try {
+            midiEventProducer.addEvents(this);
+        } catch (InvalidMidiDataException e) {
+            log.error("Error adding MIDI events", e);
+        }
     }
 
     public RomanNumeral[] getRomanNumeralAnalysis() {

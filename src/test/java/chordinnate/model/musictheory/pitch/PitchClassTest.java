@@ -10,6 +10,7 @@ import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.musictheory.pitch.interval.set.Scale;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -212,11 +213,11 @@ public class PitchClassTest {
 
     @Test
     public void isDiatonicToIntervalSet() {
-        Scale cMajor = new Scale("C Major"),
-                dMajor = new Scale("D Major");
+        Scale cMajor = new Scale("C Major");
+        Scale dMajor = new Scale("D Major");
 
-        Chord cMaj = new Chord("Cmaj"),
-                dMaj = new Chord("Dmaj");
+        Chord cMaj = new Chord("Cmaj");
+        Chord dMaj = new Chord("Dmaj");
 
         assertTrue(C.isDiatonicTo(cMajor));
         assertTrue(C.isDiatonicTo(cMaj));
@@ -296,7 +297,7 @@ public class PitchClassTest {
             classSuffix = "_SHARP";
         } else if ("x".equals(accidentals)) {
             classSuffix = "_DOUBLE_SHARP";
-        } else if (accidentals.isEmpty()) {
+        } else if (StringUtils.isBlank(accidentals)) {
             classSuffix = wantNaturalSymbol ? "_NATURAL" : "";
         } else {
             classSuffix = accidentals;
@@ -322,7 +323,7 @@ public class PitchClassTest {
             assertEquals(toTest.aliasAccidentals, toCompare.aliasAccidentals);
             assertEquals(toTest.aliasBaseMidiValue, toCompare.aliasBaseMidiValue);
             assertEquals(toTest.aliasLetter, toCompare.aliasLetter);
-            assertEquals(toTest.basePitchClass, toCompare.basePitchClass);
+            assertEquals(toTest.enharmonicSpelling, toCompare.enharmonicSpelling);
         }
 
     }
