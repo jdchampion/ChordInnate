@@ -4,7 +4,7 @@ import chordinnate.model.musictheory.pitch.Pitch;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
-import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
+import chordinnate.model.musictheory.notation.RomanNumeral;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

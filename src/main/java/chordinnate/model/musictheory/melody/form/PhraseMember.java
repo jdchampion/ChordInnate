@@ -1,27 +1,38 @@
 package chordinnate.model.musictheory.melody.form;
 
-import chordinnate.model.musictheory.temporal.meter.TimeSignature;
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.model.musictheory.temporal.meter.Metered;
-import chordinnate.service.playback.Playable;
-import chordinnate.service.playback.sequence.SequenceGenerator;
-import chordinnate.service.playback.sequence.event.MidiEventGenerator;
-import lombok.AllArgsConstructor;
+import chordinnate.model.musictheory.temporal.meter.TimeSignature;
+import chordinnate.model.playback.FormPlayable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.CollectionUtils;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Sequence;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class PhraseMember implements Metered, Playable {
+public class PhraseMember extends FormPlayable implements Metered {
 
     private List<Motif> motifs;
+
+    public PhraseMember(List<Motif> motifs) {
+        setMotifs(motifs);
+    }
+
+    public void setMotifs(List<Motif> motifs) {
+        if (!CollectionUtils.isEmpty(this.motifs)) {
+            this.motifs.forEach(c -> c.setParent(null));
+        }
+        motifs.forEach(m -> m.setParent(this));
+        this.motifs = motifs;
+    }
 
     @Override
     public List<TimeSignature> getAllTimeSignatures() {
@@ -31,14 +42,9 @@ public class PhraseMember implements Metered, Playable {
     }
 
     @Override
-    public Sequence accept(SequenceGenerator sequenceGenerator) {
-        return sequenceGenerator.getSequence(this);
-    }
-
-    @Override
-    public void accept(MidiEventGenerator midiEventGenerator) {
+    public void accept(MidiEventProducer midiEventProducer) {
         try {
-            midiEventGenerator.addEvents(this);
+            midiEventProducer.addEvents(this);
         } catch (InvalidMidiDataException e) {
             log.error("Error adding MIDI events", e);
         }

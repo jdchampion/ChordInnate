@@ -3,16 +3,14 @@ package chordinnate.model.musictheory.pitch.interval.set;
 import chordinnate.entity.ChordType;
 import chordinnate.model.musictheory.pitch.PitchClass;
 import chordinnate.model.musictheory.pitch.interval.Interval;
-import chordinnate.model.musictheory.pitch.interval.RomanNumeral;
+import chordinnate.model.musictheory.notation.RomanNumeral;
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.util.nomenclature.GreekGrouping;
-import chordinnate.service.playback.sequence.SequenceGenerator;
-import chordinnate.service.playback.sequence.event.MidiEventGenerator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Sequence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -55,14 +53,9 @@ public class HorizontalIntervalSet extends IntervalSet {
     }
 
     @Override
-    public Sequence accept(SequenceGenerator sequenceGenerator) {
-        return sequenceGenerator.getSequence(this);
-    }
-
-    @Override
-    public void accept(MidiEventGenerator midiEventGenerator) {
+    public void accept(MidiEventProducer midiEventProducer) {
         try {
-            midiEventGenerator.addEvents(this);
+            midiEventProducer.addEvents(this);
         } catch (InvalidMidiDataException e) {
             log.error("Error adding MIDI events", e);
         }

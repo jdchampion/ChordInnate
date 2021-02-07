@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class EnharmonicSpellingTest {
     @Test
-    public void testField_LETTER() throws Exception {
+    public void testField_LETTER() {
         assertEquals(Letter.A, A.letter);
         assertEquals(Letter.A, A_DOUBLE_FLAT.letter);
         assertEquals(Letter.A, A_DOUBLE_SHARP.letter);
@@ -63,7 +63,7 @@ public class EnharmonicSpellingTest {
     }
 
     @Test
-    public void testField_ACCIDENTAL() throws Exception {
+    public void testField_ACCIDENTAL() {
         assertEquals(NONE, A.accidental);
         assertEquals(DOUBLE_FLAT, A_DOUBLE_FLAT.accidental);
         assertEquals(DOUBLE_SHARP, A_DOUBLE_SHARP.accidental);
@@ -115,7 +115,7 @@ public class EnharmonicSpellingTest {
     }
 
     @Test
-    public void testField_NAME() throws Exception {
+    public void testField_NAME() {
         assertEquals("A", A.name);
         assertEquals("A𝄫", A_DOUBLE_FLAT.name);
         assertEquals("A𝄪", A_DOUBLE_SHARP.name);
@@ -167,7 +167,7 @@ public class EnharmonicSpellingTest {
     }
 
     @Test
-    public void getEnharmonicTransitions() throws Exception {
+    public void getEnharmonicTransitions() {
         // All edge cases (8)
         EnharmonicSpelling[]
                 expectedForFDoubleFlat = {D_FLAT, E_DOUBLE_FLAT, F_DOUBLE_FLAT, F_DOUBLE_FLAT, F_FLAT, F_NATURAL},
@@ -199,7 +199,7 @@ public class EnharmonicSpellingTest {
     }
 
     @Test
-    public void testApply() throws Exception {
+    public void testApply() {
         // Testing all for Fbb (edge case 1 of 8)
         assertEquals(D_FLAT, F_DOUBLE_FLAT.apply(DOUBLE_FLAT));
         assertEquals(E_DOUBLE_FLAT, F_DOUBLE_FLAT.apply(FLAT));

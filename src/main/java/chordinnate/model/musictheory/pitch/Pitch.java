@@ -1,6 +1,7 @@
 package chordinnate.model.musictheory.pitch;
 
 import chordinnate.exception.ChordInnateException;
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.model.musictheory.notation.Accidental;
 import chordinnate.model.musictheory.notation.Letter;
 import chordinnate.model.musictheory.pitch.interval.Interval;
@@ -8,10 +9,12 @@ import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalSet;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
+import chordinnate.model.playback.InstrumentCapablePlayable;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 
+import javax.sound.midi.InvalidMidiDataException;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +26,7 @@ import java.util.regex.Pattern;
  * Created by Joseph on 4/18/16.
  */
 @Slf4j
-public class Pitch
+public class Pitch extends InstrumentCapablePlayable
         implements Transposable<Pitch>, Enharmonic<Pitch>, Diatonic {
 
     // Cbb10 is out of playable MIDI range, so it has been removed
@@ -665,5 +668,14 @@ public class Pitch
     @Override
     public int hashCode() {
         return super.hashCode();
+    }
+
+    @Override
+    public void accept(MidiEventProducer midiEventProducer) {
+        try {
+            midiEventProducer.addEvents(this);
+        } catch (InvalidMidiDataException e) {
+            log.error("Error adding MIDI events", e);
+        }
     }
 }

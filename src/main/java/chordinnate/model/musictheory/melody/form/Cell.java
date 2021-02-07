@@ -1,26 +1,36 @@
 package chordinnate.model.musictheory.melody.form;
 
-import chordinnate.model.musictheory.temporal.meter.TimeSignature;
+import chordinnate.midi.producer.MidiEventProducer;
 import chordinnate.model.musictheory.temporal.meter.Metered;
-import chordinnate.service.playback.Playable;
-import chordinnate.service.playback.sequence.SequenceGenerator;
-import chordinnate.service.playback.sequence.event.MidiEventGenerator;
-import lombok.AllArgsConstructor;
+import chordinnate.model.musictheory.temporal.meter.TimeSignature;
+import chordinnate.model.playback.FormPlayable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.Sequence;
 import java.util.List;
 
 @Slf4j
 @Data
-@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class Cell implements Metered, Playable {
+public class Cell extends FormPlayable implements Metered {
 
     private Measure measure;
+
+    public Cell(Measure measure) {
+        setMeasure(measure);
+    }
+
+    public void setMeasure(Measure measure) {
+        if (this.measure != null) {
+            this.measure.setParent(null);
+        }
+        measure.setParent(this);
+        this.measure = measure;
+    }
 
     @Override
     public List<TimeSignature> getAllTimeSignatures() {
@@ -28,14 +38,9 @@ public class Cell implements Metered, Playable {
     }
 
     @Override
-    public Sequence accept(SequenceGenerator sequenceGenerator) {
-        return sequenceGenerator.getSequence(this);
-    }
-
-    @Override
-    public void accept(MidiEventGenerator midiEventGenerator) {
+    public void accept(MidiEventProducer midiEventProducer) {
         try {
-            midiEventGenerator.addEvents(this);
+            midiEventProducer.addEvents(this);
         } catch (InvalidMidiDataException e) {
             log.error("Error adding MIDI events", e);
         }

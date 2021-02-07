@@ -8,7 +8,7 @@ import chordinnate.model.musictheory.pitch.Transposable;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.Octave;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
-import chordinnate.service.playback.Playable;
+import chordinnate.model.playback.Playable;
 import chordinnate.service.Services;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
