@@ -222,16 +222,16 @@ public class MidiEventProducer {
      * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 41; 45 - 46)
      *
      * @param tick the starting MIDI tick for the event
-     * @param trackNumber the sequence track to apply the event
      * @param channel the MIDI channel to apply the event
      * @param instrument a {@link Instrument} representing MIDI instrument data to apply to the event
      * @throws InvalidMidiDataException if MIDI data would be invalid upon creation of the event
      */
-    public final void addProgramChangeEvent(long tick, int trackNumber, int channel, Instrument instrument) throws InvalidMidiDataException {
+    public final void addProgramChangeEvent(long tick, int channel, Instrument instrument) throws InvalidMidiDataException {
         if (instrument != null) {
-            internalAddVoiceEvent(ShortMessage.CONTROL_CHANGE, tick, trackNumber, channel, ControllerChange.BANK_SELECT_MSB, toMSB(instrument.getPatch().getBank()));
-            internalAddVoiceEvent(ShortMessage.CONTROL_CHANGE, tick, trackNumber, channel, ControllerChange.BANK_SELECT_LSB, toLSB(instrument.getPatch().getBank()));
-            internalAddVoiceEvent(ShortMessage.PROGRAM_CHANGE, tick, trackNumber, channel, instrument.getPatch().getProgram(), 0);
+//            log.info("PROGRAM CHANGE EVENT. TRACK: {} CHANNEL: {} INSTRUMENT: {}", currentTrack, channel, instrument.getName());
+            internalAddVoiceEvent(ShortMessage.CONTROL_CHANGE, tick, currentTrack, channel, ControllerChange.BANK_SELECT_MSB, toMSB(instrument.getPatch().getBank()));
+            internalAddVoiceEvent(ShortMessage.CONTROL_CHANGE, tick, currentTrack, channel, ControllerChange.BANK_SELECT_LSB, toLSB(instrument.getPatch().getBank()));
+            internalAddVoiceEvent(ShortMessage.PROGRAM_CHANGE, tick, currentTrack, channel, instrument.getPatch().getProgram(), 0);
         }
     }
 
@@ -580,13 +580,13 @@ public class MidiEventProducer {
         }
     }
 
-    private double calculateTickCount(@NotNull Note note, boolean round) {
+    private double calculateTickCount(@NotNull Note note) {
         double articulationDurationFactor = 1.0;
         if (note.getArticulation() != null) {
             articulationDurationFactor = note.getArticulation().getDurationFactor();
         }
         double toReturn = articulationDurationFactor * calculateTickCount(note.getBeat(), false);
-        return round ? Math.round(toReturn) : toReturn;
+        return Math.round(toReturn);
     }
 
     private  double calculateTickCount(@NotNull Beat beat, boolean round) {
@@ -613,9 +613,10 @@ public class MidiEventProducer {
         Pitch[] pitches = horizontalIntervalSet.getPitchesForOctave(Octave.OCTAVE_5);
         for (Pitch p : pitches) {
             Note note = Note.builder(config.getDefaultTempo().getReferenceBeat(), p).build();
-            addNoteOnEvent(currentTick, currentTrack, ROUTER.getChannel(note), note);
-            currentTick += calculateTickCount(note, true);
-            addNoteOffEvent(currentTick, currentTrack, ROUTER.getChannel(note), note);
+            int channel = ROUTER.getChannel(note);
+            addNoteOnEvent(currentTick, currentTrack, channel, note);
+            currentTick += calculateTickCount(note);
+            addNoteOffEvent(currentTick, currentTrack, channel, note);
         }
     }
 
@@ -626,17 +627,19 @@ public class MidiEventProducer {
 
         long endTick = currentTick + (long) calculateTickCount(config.getDefaultTempo().getReferenceBeat(), true);
         for (Note note : notes) {
-            addNoteOnEvent(currentTick, currentTrack, ROUTER.getChannel(note), note);
-            addNoteOffEvent(endTick, currentTrack, ROUTER.getChannel(note), note);
+            int channel = ROUTER.getChannel(note);
+            addNoteOnEvent(currentTick, currentTrack, channel, note);
+            addNoteOffEvent(endTick, currentTrack, channel, note);
         }
         currentTick = endTick;
     }
 
     public final void addEvents(@NotNull Note note) throws InvalidMidiDataException {
-        addEvents(note, currentTrack, ROUTER.getChannel(note));
+//        log.info("NOTE EVENTS. TRACK: {} CHANNEL: {}", currentTrack, ROUTER.getChannel(note));
+        internalAddEvents(note, currentTrack, ROUTER.getChannel(note));
     }
 
-    private void addEvents(@NotNull Note note, int track, int channel) throws InvalidMidiDataException {
+    private void internalAddEvents(@NotNull Note note, int track, int channel) throws InvalidMidiDataException {
 
         // Begin any new, non-tied notes
         for (Pitch pitch : note.getPitches()) {
@@ -645,7 +648,7 @@ public class MidiEventProducer {
             }
         }
 
-        long totalTick = currentTick + (long) calculateTickCount(note, true);
+        long totalTick = currentTick + (long) calculateTickCount(note);
 
         // TODO: apply instrument effects. Also take into consideration the effects on tied notes
 //        if (InstrumentEffect.BEND.equals(note.getEffect())) {
@@ -670,6 +673,7 @@ public class MidiEventProducer {
     }
 
     public final void addEvents(@NotNull Measure measure) throws InvalidMidiDataException {
+//        log.info("MEASURE EVENTS. TRACK: {} CHANNEL: {}", currentTrack, ROUTER.getChannel(measure));
 
         if (measure.getTempo() != null) {
             addSetTempoEvent(currentTick, measure.getTempo());
@@ -725,13 +729,13 @@ public class MidiEventProducer {
     }
 
     public void addEvents(@NotNull Staff staff) throws InvalidMidiDataException {
-        addEvents(staff, currentTrack);
+        internalAddEvents(staff);
     }
 
-    private void addEvents(@NotNull Staff staff, int trackNumber) throws InvalidMidiDataException {
-//        addSequenceNumberEvent(trackNumber, trackNumber); TODO
-        addTrackNameEvent(trackNumber, staff.getStaffName());
-        addProgramChangeEvent(currentTick, trackNumber, ROUTER.getChannel(staff), ROUTER.getInstrument(staff));
+    private void internalAddEvents(@NotNull Staff staff) throws InvalidMidiDataException {
+//        addSequenceNumberEvent(trackNumber, currentTrack); TODO
+        addTrackNameEvent(currentTrack, staff.getStaffName());
+        addProgramChangeEvent(currentTick, ROUTER.getChannel(staff), ROUTER.getInstrument(staff));
 
         // add all the events for the current Staff. Mutates this.currentTick as a side-effect
         staff.getPlayable().accept(this);
@@ -742,15 +746,14 @@ public class MidiEventProducer {
 
     public void addEvents(@NotNull StaffGroup staffGroup) throws InvalidMidiDataException {
         for (Staff staff : staffGroup.getStaves()) {
-            addEvents(staff, currentTrack++);
+            internalAddEvents(staff);
+            currentTrack++;
         }
     }
 
     public final void addEvents(@NotNull Score score) throws InvalidMidiDataException {
         for (StaffGroup staffGroup : score.getStaffGroups()) {
-            for (Staff staff : staffGroup.getStaves()) {
-                addEvents(staff, currentTrack++);
-            }
+            addEvents(staffGroup);
         }
     }
 }

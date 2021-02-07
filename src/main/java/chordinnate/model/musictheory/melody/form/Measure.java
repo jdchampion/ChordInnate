@@ -7,6 +7,7 @@ import chordinnate.model.musictheory.temporal.meter.Metered;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
 import chordinnate.model.playback.FormPlayable;
+import chordinnate.model.playback.InstrumentCapablePlayable;
 import chordinnate.model.playback.Rhythmic;
 import chordinnate.util.MathUtils;
 import lombok.Builder;
@@ -14,6 +15,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.util.CollectionUtils;
 
 import javax.sound.midi.InvalidMidiDataException;
 import java.util.Collections;
@@ -25,13 +27,13 @@ import java.util.Set;
 public class Measure extends FormPlayable implements Metered {
 
     @NotNull
-    private final TimeSignature timeSignature;
+    private TimeSignature timeSignature;
 
     @NotNull
-    private final KeySignature keySignature;
+    private KeySignature keySignature;
 
     @NotNull
-    private final List<Rhythmic> rhythm;
+    private List<Rhythmic> rhythm;
 
     @Nullable
     private Tempo tempo;
@@ -47,7 +49,7 @@ public class Measure extends FormPlayable implements Metered {
     public Measure(@NotNull TimeSignature timeSignature, @NotNull KeySignature keySignature, @NotNull List<Rhythmic> rhythm) {
         this.timeSignature = timeSignature;
         this.keySignature = keySignature;
-        this.rhythm = rhythm;
+        setRhythm(rhythm);
 
         this.duration = determineDuration(timeSignature, getMeterTypes());
 
@@ -88,6 +90,16 @@ public class Measure extends FormPlayable implements Metered {
         double total = rhythm.stream().mapToDouble(r -> r.getBeat().getDuration()).sum();
 
         return total == duration;
+    }
+
+    public void setRhythm(List<Rhythmic> rhythm) {
+        if (!CollectionUtils.isEmpty(this.rhythm)) {
+            this.rhythm.stream().filter(r -> InstrumentCapablePlayable.class.isAssignableFrom(r.getClass()))
+                    .forEach(r -> ((InstrumentCapablePlayable) r).setParent(null));
+        }
+        rhythm.stream().filter(r -> InstrumentCapablePlayable.class.isAssignableFrom(r.getClass()))
+                .forEach(r -> ((InstrumentCapablePlayable) r).setParent(this));
+        this.rhythm = rhythm;
     }
 
     @Override

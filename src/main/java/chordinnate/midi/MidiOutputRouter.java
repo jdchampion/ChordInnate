@@ -3,6 +3,7 @@ package chordinnate.midi;
 import chordinnate.config.MidiConfig;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.playback.InstrumentCapablePlayable;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * A wrapper object containing synchronized time / sound information for MIDI OUT.
  */
+@Slf4j
 @Component
 public final class MidiOutputRouter {
 
@@ -38,6 +40,8 @@ public final class MidiOutputRouter {
             rcm.instrumentToChannel.putIfAbsent(instrument, channel);
             return rcm;
         });
+
+//        log.info("REGISTER INSTRUMENT: {} CHANNEL: {}", instrument.getName(), channel);
     }
 
     public final Set<Instrument> getRegisteredInstruments() {
@@ -61,9 +65,11 @@ public final class MidiOutputRouter {
             if (v == null) {
                 v = RECEIVER_TO_MANAGER.get(INSTRUMENT_TO_RECEIVER.get(instrument));
             }
-            v.playableToInstrument.put(playable, instrument);
+            v.playableToInstrument.put(k, instrument);
             return v;
         });
+
+//        log.info("REGISTER PROGRAM CHANGE. PLAYABLE: {} INSTRUMENT: {}", playable.getClass().getName(), instrument.getName());
     }
 
     @Nullable
@@ -71,7 +77,15 @@ public final class MidiOutputRouter {
         AtomicReference<Instrument> instrument = new AtomicReference<>();
         PLAYABLE_TO_MANAGER.compute(playable, (k, v) -> {
             if (v != null) {
-                instrument.set(v.playableToInstrument.get(playable)); // FIXME: also check if contains any InstrumentCapablePlayable that is the parent (holding) class
+                Instrument toUse = v.playableToInstrument.get(k);
+                if (toUse == null) {
+                    InstrumentCapablePlayable icp = k.getParent();
+                    while (toUse == null && icp != null) {
+                        toUse = v.playableToInstrument.get(icp);
+                        icp = icp.getParent();
+                    }
+                }
+                instrument.set(toUse);
             }
             return v;
         });
@@ -79,11 +93,18 @@ public final class MidiOutputRouter {
     }
 
     public final int getChannel(@NotNull InstrumentCapablePlayable playable) {
-        if (!PLAYABLE_TO_MANAGER.containsKey(playable)) { // FIXME: also check if contains any InstrumentCapablePlayable that is the parent (holding) class
-            return MidiConfig.DEFAULT_CHANNEL;
+        InstrumentCapablePlayable icp = playable;
+        ReceiverChannelManager manager = PLAYABLE_TO_MANAGER.get(icp);
+
+        if (manager == null) {
+            while (manager == null && icp.getParent() != null) {
+                manager = PLAYABLE_TO_MANAGER.get(icp.getParent());
+                icp = icp.getParent();
+            }
+            if (manager == null) return MidiConfig.DEFAULT_CHANNEL;
         }
-        ReceiverChannelManager manager = PLAYABLE_TO_MANAGER.get(playable);
-        return manager.instrumentToChannel.getOrDefault(manager.playableToInstrument.get(playable), MidiConfig.DEFAULT_CHANNEL);
+
+        return manager.instrumentToChannel.getOrDefault(manager.playableToInstrument.get(icp), MidiConfig.DEFAULT_CHANNEL);
     }
 
     private static final class ReceiverChannelManager {
