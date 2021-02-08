@@ -18,9 +18,9 @@ import chordinnate.model.musictheory.notation.NashvilleNumber;
  *             by Thomas Benjamin, Michael Horvit, Timothy Koozin, Robert Nelson
  *             (p. 254)
  */
-public final class MajorProgressionGraph1 extends ChordProgression {
+public final class MajorProgression extends ChordProgression {
 
-    private MajorProgressionGraph1() {
+    private MajorProgression() {
         NashvilleNumber[] intervals = {ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN};
 
         for (NashvilleNumber i : intervals) {

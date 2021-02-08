@@ -25,7 +25,7 @@ import java.util.stream.IntStream;
 @Slf4j
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class RomanNumeral {
+public class RomanNumeral implements IntervalNotation {
     private static final String[] EMPTY_AUX_SYMBOLS = {};
     private static final int[] EMPTY_AUX_NUMERALS = {};
 
@@ -132,16 +132,16 @@ public class RomanNumeral {
         ROMAN_TO_INT.put("I", 1);
     }
 
-    private String symbol;
-    private String primarySymbol;
-    private String[] auxiliarySymbols;
-    private int primaryNumeral;
-    private int[] auxiliaryNumerals;
+    private final String symbol;
+    private final String primarySymbol;
+    private final String[] auxiliarySymbols;
+    private final int primaryNumeral;
+    private final int[] auxiliaryNumerals;
 
     /**
-     *
-     * @param symbol
-     * @return
+     * Creates or returns a cached Roman Numeral matching the provided symbol.
+     * @param symbol the descriptor for the Roman Numeral to be returned
+     * @return a Roman Numeral matching the provided symbol
      */
     public static RomanNumeral withSymbol(String symbol) {
         Matcher matcher = PATTERN.matcher(symbol);
@@ -179,10 +179,10 @@ public class RomanNumeral {
     /**
      * Creates an auxiliary Roman Numeral,
      * with specified degree and slash-annotated auxiliary dominants.
-     * @param primaryDegree
-     * @param intervals
-     * @param auxiliaryDominants
-     * @return
+     * @param primaryDegree an integer representing the degree of the primary Roman Numeral
+     * @param intervals the intervals to be considered when constructing the primary Roman Numeral
+     * @param auxiliaryDominants the auxiliary Roman Numerals to be considered as dominants of the primary
+     * @return a Roman Numeral with primary and auxiliary components. e.g., V7/V
      */
     public static RomanNumeral from(int primaryDegree, @NotNull Interval[] intervals, RomanNumeral... auxiliaryDominants) {
         String primary = fromHelper(primaryDegree, intervals);
@@ -201,9 +201,9 @@ public class RomanNumeral {
 
     /**
      * Creates a Roman Numeral based on the specified degree and intervals.
-     * @param degree
-     * @param intervals
-     * @return
+     * @param degree an integer representing the degree of the Roman Numeral
+     * @param intervals the intervals to be considered when constructing the Roman Numeral
+     * @return a Roman Numeral based on the specified degree and intervals
      */
     public static RomanNumeral from(int degree, @NotNull Interval... intervals) {
         return withSymbol(fromHelper(degree, intervals));

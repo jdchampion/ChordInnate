@@ -1,6 +1,6 @@
 package chordinnate.model.musictheory.progression;
 
-import chordinnate.model.musictheory.notation.NashvilleNumber;
+import chordinnate.model.musictheory.notation.IntervalNotation;
 import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedPseudograph;
 
@@ -12,6 +12,6 @@ import org.jgrapht.graph.DirectedPseudograph;
  */
 public abstract class ChordProgression {
 
-    protected final DirectedPseudograph<NashvilleNumber, DefaultWeightedEdge> progression = new DirectedPseudograph<>(DefaultWeightedEdge.class);
+    protected final DirectedPseudograph<IntervalNotation, DefaultWeightedEdge> progression = new DirectedPseudograph<>(DefaultWeightedEdge.class);
 
 }
