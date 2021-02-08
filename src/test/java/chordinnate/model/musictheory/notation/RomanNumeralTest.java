@@ -47,7 +47,7 @@ public class RomanNumeralTest {
     }
 
     @Test
-    public void fromDegreeAndIntervals() {
+    public void from_degree_Intervals() {
         final Interval[] TEST_INTERVALS = {Interval.PERFECT_1, Interval.MAJOR_3, Interval.PERFECT_5};
         final int TEST_DEGREE = 1;
 
@@ -58,7 +58,7 @@ public class RomanNumeralTest {
     }
 
     @Test
-    public void fromDegreeIntervalsAuxiliaries() {
+    public void from_degree_Intervals_RomanNumerals() {
         final Interval[] TEST_INTERVALS = {Interval.PERFECT_1, Interval.MAJOR_3, Interval.PERFECT_5, Interval.MINOR_7};
         final int TEST_DEGREE = 5;
         final RomanNumeral[] TEST_AUXILIARIES = {RomanNumeral.MAJOR_FIVE};

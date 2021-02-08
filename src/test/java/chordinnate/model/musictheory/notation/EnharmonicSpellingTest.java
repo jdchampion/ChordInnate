@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  */
 public class EnharmonicSpellingTest {
     @Test
-    public void testField_LETTER() {
+    public void sanity_checkField_letter() {
         assertEquals(Letter.A, A.letter);
         assertEquals(Letter.A, A_DOUBLE_FLAT.letter);
         assertEquals(Letter.A, A_DOUBLE_SHARP.letter);
@@ -63,7 +63,7 @@ public class EnharmonicSpellingTest {
     }
 
     @Test
-    public void testField_ACCIDENTAL() {
+    public void sanity_checkField_accidental() {
         assertEquals(NONE, A.accidental);
         assertEquals(DOUBLE_FLAT, A_DOUBLE_FLAT.accidental);
         assertEquals(DOUBLE_SHARP, A_DOUBLE_SHARP.accidental);
@@ -115,7 +115,7 @@ public class EnharmonicSpellingTest {
     }
 
     @Test
-    public void testField_NAME() {
+    public void sanity_checkField_name() {
         assertEquals("A", A.name);
         assertEquals("A𝄫", A_DOUBLE_FLAT.name);
         assertEquals("A𝄪", A_DOUBLE_SHARP.name);
@@ -199,7 +199,7 @@ public class EnharmonicSpellingTest {
     }
 
     @Test
-    public void testApply() {
+    public void apply() {
         // Testing all for Fbb (edge case 1 of 8)
         assertEquals(D_FLAT, F_DOUBLE_FLAT.apply(DOUBLE_FLAT));
         assertEquals(E_DOUBLE_FLAT, F_DOUBLE_FLAT.apply(FLAT));

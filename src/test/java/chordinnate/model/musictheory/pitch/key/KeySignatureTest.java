@@ -11,7 +11,7 @@ import static chordinnate.model.musictheory.pitch.key.KeySignature.*;
  */
 public class KeySignatureTest {
     @Test
-    public void testfield_SIGNATURE() {
+    public void sanity_checkField_signature() {
         KeySignature dMinor = KeySignature.D_MINOR;
         Object[] actual = dMinor.getSignature().toArray();
         PitchClass[] expected = {PitchClass.B_FLAT};

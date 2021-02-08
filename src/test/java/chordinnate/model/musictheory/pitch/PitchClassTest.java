@@ -20,24 +20,24 @@ import java.util.StringJoiner;
 public class PitchClassTest {
 
     @Test
-    public void testWithName() {
+    public void sanity_verify_constructor_withName() {
 
         String[] letters = {"A", "B", "C", "D", "E", "F", "G"};
 
         for (String letter : letters) {
             // Basic cases: standard accidentals
-            testGeneratedPitchClass(letter + "bb", true);
-            testGeneratedPitchClass(letter + "b", true);
-            testGeneratedPitchClass(letter + "", true);
-            testGeneratedPitchClass(letter + "", false);
-            testGeneratedPitchClass(letter + "#", true);
-            testGeneratedPitchClass(letter + "x", true);
+            verifyPitchClass(letter + "bb", true);
+            verifyPitchClass(letter + "b", true);
+            verifyPitchClass(letter + "", true);
+            verifyPitchClass(letter + "", false);
+            verifyPitchClass(letter + "#", true);
+            verifyPitchClass(letter + "x", true);
 
             // Edge cases: non-standard accidentals
-            testGeneratedPitchClass(letter + "b#", false);
-            testGeneratedPitchClass(letter + "b#", true);
-            testGeneratedPitchClass(letter + "b#xxb#bb#", false);
-            testGeneratedPitchClass(letter + "b#xxb#bb#", true);
+            verifyPitchClass(letter + "b#", false);
+            verifyPitchClass(letter + "b#", true);
+            verifyPitchClass(letter + "b#xxb#bb#", false);
+            verifyPitchClass(letter + "b#xxb#bb#", true);
         }
 
     }
@@ -57,7 +57,7 @@ public class PitchClassTest {
 
 
     @Test
-    public void testTransposeInterval() {
+    public void transpose_Interval() {
         Accidental a = Accidental.FLAT;
         Interval i = Interval.DIMINISHED_8;
         String[] prefixes = {"C", "D", "E", "F", "G", "A", "B"};
@@ -72,7 +72,7 @@ public class PitchClassTest {
     }
 
     @Test
-    public void testIsDiatonic() {
+    public void isDiatonicTo() {
         PitchClass pitchClass = C;
         assertTrue(pitchClass.isDiatonicTo(KeySignature.C_MAJOR));
         assertTrue(pitchClass.isDiatonicTo(KeySignature.A_MINOR));
@@ -101,7 +101,7 @@ public class PitchClassTest {
     }
 
     @Test
-    public void isDiatonicToKeySignature() {
+    public void isDiatonicTo_KeySignature() {
         for (PitchClass p : STANDARD_PITCH_CLASSES.values()) assertTrue(p.isDiatonicTo(KeySignature.NO_KEY_SIGNATURE));
 
         PitchClass[]
@@ -212,7 +212,7 @@ public class PitchClassTest {
     }
 
     @Test
-    public void isDiatonicToIntervalSet() {
+    public void isDiatonicTo_IntervalSet() {
         Scale cMajor = new Scale("C Major");
         Scale dMajor = new Scale("D Major");
 
@@ -282,7 +282,7 @@ public class PitchClassTest {
         assertTrue(C_DOUBLE_FLAT.isEnharmonicTo(B_FLAT));
     }
 
-    private void testGeneratedPitchClass(String s, boolean wantNaturalSymbol) {
+    private void verifyPitchClass(String s, boolean wantNaturalSymbol) {
 
         boolean directTest = true;
         PitchClass toTest = PitchClass.withName(s, wantNaturalSymbol);

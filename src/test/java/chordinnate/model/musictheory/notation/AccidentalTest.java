@@ -7,9 +7,15 @@ import org.junit.Test;
 public class AccidentalTest {
 
     @Test
-    public void matchesSymbol() {
+    public void sanity_checkField_symbol() {
         for (Accidental accidental : Accidental.values()) {
             assertTrue(accidental.matchesSymbol(accidental.symbol));
+        }
+    }
+
+    @Test
+    public void sanity_checkField_utf8symbol() {
+        for (Accidental accidental : Accidental.values()) {
             assertTrue(accidental.matchesSymbol(accidental.utf8Symbol));
         }
     }

@@ -21,7 +21,7 @@ import java.util.StringJoiner;
 @Slf4j
 public class ScaleTest {
     @Test
-    public void sanityCheck() {
+    public void sanity_verify_constructor() {
         // Basic arbitrary testing
         verifyScale(new Scale("C Major"), C, D, E, F, G, A, B);
         verifyScale(new Scale("F# Major"), F_SHARP, G_SHARP, A_SHARP, B, C_SHARP, D_SHARP, E_SHARP);
@@ -60,12 +60,12 @@ public class ScaleTest {
     }
 
     @Test
-    public void testCaseInsensitiveConstruction() {
+    public void sanity_verify_constructor_case_insensitive() {
         verifyScale(new Scale("c major"), C, D, E, F, G, A, B);
     }
 
     @Test
-    public void transposeToInterval() {
+    public void transposeTo_Interval() {
         Scale transposed = new Scale("C Major");
         transposed.transpose(IntervalDirection.UP, Interval.withShortName("M2"));
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
@@ -74,7 +74,7 @@ public class ScaleTest {
     }
 
     @Test
-    public void transposeToPitchClass() {
+    public void transposeTo_PitchClass() {
         Scale transposed = new Scale("C Major");
         transposed.transpose(IntervalDirection.UP, PitchClass.D);
         verifyScale(transposed, D, E, F_SHARP, G, A, B, C_SHARP);
@@ -83,7 +83,7 @@ public class ScaleTest {
     }
 
     @Test
-    public void isDiatonicToKeySignature() {
+    public void isDiatonicTo_KeySignature() {
         Scale s = new Scale("C Major");
 
         assertTrue(s.isDiatonicTo(KeySignature.C_MAJOR));
@@ -93,7 +93,7 @@ public class ScaleTest {
     }
 
     @Test
-    public void isDiatonicToIntervalSet() {
+    public void isDiatonicTo_IntervalSet() {
         Scale s = new Scale("C Major");
         Chord c = new Chord("Cmaj");
         Scale aNaturalMinor = new Scale("A Melodic Minor descending");
@@ -104,7 +104,7 @@ public class ScaleTest {
     }
 
     @Test
-    public void romanNumeralAnalysis() {
+    public void getRomanNumeralAnalysis() {
         Scale s = new Scale("C Major");
 
         RomanNumeral[] expected = {
@@ -138,11 +138,6 @@ public class ScaleTest {
         assertNotNull(withoutOrigin.getOrigin());
     }
 
-    /**
-     * Helper method for testing the returned Pitch values for a given Scale.
-     * @param scale
-     * @param expected
-     */
     private static void verifyScale(Scale scale, PitchClass... expected) {
 
         assertEquals("Scale length for scale [" + scale.getName() + "] is not the expected length (bad SCALE_TYPE.INTERVALS column value?)", scale.getHorizontalSize(), expected.length);
