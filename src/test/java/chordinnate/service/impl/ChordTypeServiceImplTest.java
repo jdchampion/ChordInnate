@@ -13,6 +13,8 @@ import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.repository.ChordTypeRepository;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -23,8 +25,6 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.util.Optional;
 
 @Slf4j

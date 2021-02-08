@@ -1,19 +1,17 @@
 package chordinnate.config;
 
 import chordinnate.exception.ChordInnateException;
-import chordinnate.exception.ChordInnateIllegalArgumentException;
 import chordinnate.model.musictheory.pitch.key.KeySignature;
 import chordinnate.model.musictheory.temporal.meter.TimeSignature;
 import chordinnate.model.musictheory.temporal.rhythm.Beat;
 import chordinnate.model.musictheory.temporal.tempo.Tempo;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.validation.annotation.Validated;
-
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 @Data
 @Validated

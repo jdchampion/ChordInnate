@@ -1,9 +1,8 @@
 package chordinnate.entity.validation;
 
 import chordinnate.entity.ChordType;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class ChordTypeSizeValidator implements ConstraintValidator<ValidateSize, ChordType> {
 

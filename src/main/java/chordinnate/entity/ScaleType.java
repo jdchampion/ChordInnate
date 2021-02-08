@@ -1,12 +1,16 @@
 package chordinnate.entity;
 
-import chordinnate.entity.validation.ValidateIntervalContour;
-import chordinnate.entity.validation.ValidateSize;
+import chordinnate.entity.converter.IntervalConverter;
 import chordinnate.entity.validation.Phase1Validation;
 import chordinnate.entity.validation.Phase2Validation;
+import chordinnate.entity.validation.ValidateIntervalContour;
+import chordinnate.entity.validation.ValidateSize;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
-import chordinnate.entity.converter.IntervalConverter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -20,10 +24,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Set;

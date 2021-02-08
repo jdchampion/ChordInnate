@@ -1,6 +1,8 @@
 package chordinnate.entity;
 
 import chordinnate.entity.validation.Phase1Validation;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -14,8 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 /**
  * An intermediary object representing the relation between a {@link ChordType}

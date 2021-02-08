@@ -8,13 +8,13 @@ import chordinnate.exception.ChordInnateConstraintViolation;
 import chordinnate.exception.ChordInnateException;
 import chordinnate.repository.ChordTypeTagRelationRepository;
 import chordinnate.service.ChordTypeTagRelationService;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;

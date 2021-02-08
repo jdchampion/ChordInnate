@@ -1,6 +1,7 @@
 package chordinnate.entity;
 
 import chordinnate.entity.validation.Phase1Validation;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 /**
