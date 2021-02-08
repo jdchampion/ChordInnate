@@ -14,6 +14,9 @@ public class ValidationConfig {
 
     @Bean
     public Validator validator() {
+
+        // https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-gettingstarted
+
         return Validation.byDefaultProvider()
                 .configure()
                 .messageInterpolator(
