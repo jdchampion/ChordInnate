@@ -17,8 +17,9 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Joseph on 7/15/16.
- * References: http://pianoencyclopedia.com/scales/
- * http://www.earmaster.com/music-theory-online/ch04/chapter-4-8.html
+ *
+ * @see <a href=http://pianoencyclopedia.com/scales>Piano Encyclopedia - Scales</a>
+ * @see <a href=http://www.earmaster.com/music-theory-online/ch04/chapter-4-8.html>Ear Master: Music Theory Online (chapters 4 - 8)</a>
  */
 public class Scale extends HorizontalIntervalSet {
 

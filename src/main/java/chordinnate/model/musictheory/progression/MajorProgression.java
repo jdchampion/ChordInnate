@@ -13,10 +13,8 @@ import chordinnate.model.musictheory.notation.NashvilleNumber;
 /**
  * Created by Joseph on 1/12/16.
  *
- * References: http://www.people.vcu.edu/~bhammel/theory/resources/flash/interactive_chord_chart.swf
- *             "Chord Chart" from Techniques and Materials of Music (2013),
- *             by Thomas Benjamin, Michael Horvit, Timothy Koozin, Robert Nelson
- *             (p. 254)
+ * @see <a href=http://www.people.vcu.edu/~bhammel/theory/resources/flash/interactive_chord_chart.swf>Interactive Chord Chart from VCU</a>
+ * @see <a href=https://www.amazon.com/Techniques-Materials-Music-Practice-Twentieth/dp/1285446178>"Chord Chart" from Techniques and Materials of Music (2013), by Thomas Benjamin, Michael Horvit, Timothy Koozin, Robert Nelson (p. 254)</a>
  */
 public final class MajorProgression extends ChordProgression {
 

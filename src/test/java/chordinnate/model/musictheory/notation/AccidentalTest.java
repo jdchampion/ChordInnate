@@ -7,14 +7,14 @@ import org.junit.Test;
 public class AccidentalTest {
 
     @Test
-    public void sanity_checkField_symbol() {
+    public void matchesSymbol() {
         for (Accidental accidental : Accidental.values()) {
             assertTrue(accidental.matchesSymbol(accidental.symbol));
         }
     }
 
     @Test
-    public void sanity_checkField_utf8symbol() {
+    public void matchesSymbol_utf8Symbol() {
         for (Accidental accidental : Accidental.values()) {
             assertTrue(accidental.matchesSymbol(accidental.utf8Symbol));
         }
@@ -214,6 +214,5 @@ public class AccidentalTest {
         acc = "bbx";
         assertEquals("", Accidental.simplify(acc, false, true));
         assertEquals("_", Accidental.simplify(acc, true, true));
-
     }
 }

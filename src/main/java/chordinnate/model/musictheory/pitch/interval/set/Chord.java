@@ -25,7 +25,7 @@ public class Chord extends VerticalIntervalSet {
     private static final String CHORD_REGEX = "^([A-Ga-g])((\uD834\uDD2B|\u266d|\u266e|\u266f|\uD834\uDD2A|[b#x])*)([^b#x].*)$";
     private static final Pattern PATTERN = Pattern.compile(CHORD_REGEX);
 
-    private static ChordTypeService service = Services.getChordTypeService();
+    private static final ChordTypeService service = Services.getChordTypeService();
 
     public Chord(@NotNull String name) {
 

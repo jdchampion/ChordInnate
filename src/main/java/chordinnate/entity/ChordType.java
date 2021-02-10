@@ -30,8 +30,8 @@ import java.util.Set;
 /**
  * Created by Joseph on 1/8/16.
  *
- * References: http://www.all-guitar-chords.com/index.php
- *             https://en.wikipedia.org/wiki/List_of_chords
+ * @see <a href=http://www.all-guitar-chords.com/index.php>1</a>
+ * @see <a href=https://en.wikipedia.org/wiki/List_of_chords>2</a>
  */
 @Data
 @Entity

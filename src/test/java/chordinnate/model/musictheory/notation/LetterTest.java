@@ -8,6 +8,7 @@ import static org.junit.Assert.assertEquals;
  * Created by Joseph on 5/21/16.
  */
 public class LetterTest {
+
     @Test
     public void getLetterByVectorTraversal() {
         // Left edge case: C (forwards)
@@ -66,6 +67,11 @@ public class LetterTest {
         assertEquals(Letter.A, Letter.F.getLetterByVectorTraversal(-5));
         assertEquals(Letter.G, Letter.F.getLetterByVectorTraversal(-6));
         assertEquals(Letter.F, Letter.F.getLetterByVectorTraversal(-7));
+    }
+
+    @Test
+    public void getVectorDistanceBetween() {
+        // TODO
     }
 
 }

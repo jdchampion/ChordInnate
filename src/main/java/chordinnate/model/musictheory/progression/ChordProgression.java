@@ -8,7 +8,7 @@ import org.jgrapht.graph.DirectedPseudograph;
 /**
  * Created by Joseph on 1/12/16.
  *
- * References: http://web.as.uky.edu/statistics/users/pbreheny/764-F11/notes/9-1.pdf
+ * @see <a href=http://web.as.uky.edu/statistics/users/pbreheny/764-F11/notes/9-1.pdf>1</a>
  */
 public abstract class ChordProgression {
 

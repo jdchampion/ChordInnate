@@ -12,9 +12,9 @@ import java.util.Set;
 /**
  * Created by Joseph on 7/1/16.
  *
- * References: http://www.midnightmusic.net/MusicTheory/advanced/UnusualTimeSigs.html
- *             https://en.wikipedia.org/wiki/Time_signature
- *             http://donrathjr.com/compound-time-signatures/
+ * @see <a href=http://www.midnightmusic.net/MusicTheory/advanced/UnusualTimeSigs.html>1</a>
+ * @see <a href=https://en.wikipedia.org/wiki/Time_signature>2</a>
+ * @see <a href=http://donrathjr.com/compound-time-signatures>3</a>
  */
 public enum MeterType {
 

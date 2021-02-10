@@ -2,7 +2,8 @@ package chordinnate.model.musictheory.general;
 
 /**
  * Created by Joseph on 6/16/16.
- * References: https://en.wikipedia.org/wiki/Texture_(music)
+ *
+ * @see <a href=https://en.wikipedia.org/wiki/Texture_(music)>1</a>
  */
 public enum Texture {
     MONOPHONIC,

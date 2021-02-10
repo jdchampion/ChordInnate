@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 
 /**
  * Created by Joseph on 6/22/16.
- * References: https://en.wikipedia.org/wiki/Tempo
+ *
+ * @see <a href=https://en.wikipedia.org/wiki/Tempo>1</a>
  *
  * TODO: determine the value of keeping this class,
  *  and consider either a config-based approach,

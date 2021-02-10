@@ -45,8 +45,9 @@ public class PlaybackServiceIT {
     public void play_HorizontalIntervalSet() {
         HorizontalIntervalSet scale = new Scale("Db Major");
 
-        log.info("PLAYING: Db Major Scale");
+        log.info("BEGIN PLAYBACK: Db Major Scale");
         PlaybackService.play(scale);
+        log.info("END PLAYBACK: Db Major Scale");
     }
 
     @Ignore("Disabled for Travis CI and faster testing")
@@ -54,8 +55,9 @@ public class PlaybackServiceIT {
     public void play_VerticalIntervalSet() {
         VerticalIntervalSet chord = new Chord("Gm");
 
-        log.info("PLAYING: Gm");
+        log.info("BEGIN PLAYBACK: Gm");
         PlaybackService.play(chord);
+        log.info("END PLAYBACK: Gm");
     }
 
     @Ignore("Disabled for Travis CI and faster testing")
@@ -63,8 +65,9 @@ public class PlaybackServiceIT {
     public void play_Note() {
         Note note = Note.builder(Beat.WHOLE, Pitch.C_5).build();
 
-        log.info("PLAYING: {}", note.toString()); // TODO: better diagnostic string
+        log.info("BEGIN PLAYBACK: {}", note.toString()); // TODO: better diagnostic string
         PlaybackService.play(note);
+        log.info("END PLAYBACK: {}", note.toString());
     }
 
     @Test
@@ -107,8 +110,9 @@ public class PlaybackServiceIT {
 
         ContextProvider.getContext().getBean(MidiConfig.class).setDefaultTempo(new Tempo(Beat.QUARTER, 60));
 
-        log.info("PLAYING: {}", measure.toString()); // TODO: better diagnostic string
+        log.info("BEGIN PLAYBACK: {}", measure.toString()); // TODO: better diagnostic string
         PlaybackService.play(measure);
+        log.info("END PLAYBACK: {}", measure.toString());
     }
 
     @Ignore("Disabled for Travis CI and faster testing")
@@ -126,8 +130,9 @@ public class PlaybackServiceIT {
 
         Measure measure = new Measure(TimeSignature.NONE, KeySignature.NO_KEY_SIGNATURE, rhythm);
 
-        log.info("PLAYING: {}", measure.toString()); // TODO: better diagnostic string
+        log.info("BEGIN PLAYBACK: {}", measure.toString()); // TODO: better diagnostic string
         PlaybackService.play(measure);
+        log.info("END PLAYBACK: {}", measure.toString());
     }
 
     @Test
@@ -168,8 +173,9 @@ public class PlaybackServiceIT {
         Motif motif = new Motif();
         motif.setCells(Arrays.asList(cell1, cell2));
 
-        log.info("PLAYING: {}", motif.toString()); // TODO: better diagnostic string
+        log.info("BEGIN PLAYBACK: {}", motif.toString()); // TODO: better diagnostic string
         PlaybackService.play(motif); // First two measures of 'The Stars and Stripes Forever'
+        log.info("END PLAYBACK: {}", motif.toString());
     }
 
     @Test
@@ -240,8 +246,9 @@ public class PlaybackServiceIT {
         staffGroup.add(staffA);
         staffGroup.add(staffB);
 
-        log.info("PLAYING: {}", staffGroup.toString()); // TODO: better diagnostic string
+        log.info("BEGIN PLAYBACK: {}", staffGroup.toString()); // TODO: better diagnostic string
         PlaybackService.play(staffGroup);
+        log.info("END PLAYBACK: {}", staffGroup.toString());
     }
 
 }
