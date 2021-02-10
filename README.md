@@ -1,4 +1,4 @@
-# [ChordInnate](https://chordinnate.herokuapp.com) [![Build Status](https://travis-ci.org/jdchampion/ChordInnate.svg?branch=master)](https://travis-ci.org/jdchampion/ChordInnate) [![Release](https://jitpack.io/v/jdchampion/ChordInnate.svg)](https://jitpack.io/#jdchampion/ChordInnate) ![Deployment](http://heroku-badge.herokuapp.com/?app=chordinnate)
+# [ChordInnate](https://chordinnate.herokuapp.com) [![Build Status](https://travis-ci.com/jdchampion/ChordInnate.svg?branch=master)](https://travis-ci.com/jdchampion/ChordInnate) [![Release](https://jitpack.io/v/jdchampion/ChordInnate.svg)](https://jitpack.io/#jdchampion/ChordInnate) ![Deployment](http://heroku-badge.herokuapp.com/?app=chordinnate)
 
 
 #### PHENOMENAL MUSIC POWER...
