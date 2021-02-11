@@ -113,7 +113,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI NOTE_ON message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 41)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -129,7 +130,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI NOTE_ON message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 41)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -144,7 +146,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI NOTE_OFF message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 41)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -160,7 +163,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI NOTE_OFF message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 41)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -175,7 +179,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI POLY_KEY_PRESSURE_CHANGE message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 41)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -190,7 +195,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI CONTROL_CHANGE message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 41; 102 - 103)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (pp. 41; 102 - 103)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -205,7 +211,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI PROGRAM_CHANGE message. Assumes the currently-loaded sound bank is to be used with this event.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 41)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -219,7 +226,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI PROGRAM_CHANGE message, using the bank and program number provided by {@code instrument}.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 41; 45 - 46)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (pp. 41; 45 - 46)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param channel the MIDI channel to apply the event
@@ -237,7 +245,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI CHANNEL_PRESSURE_CHANGE message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 41)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -251,7 +260,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI PITCH_BEND message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 41)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 41)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -265,7 +275,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI SEQUENCE_NUMBER message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 137)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 137)</a>
      *
      * @param trackNumber the sequence track to apply the event
      * @param sequenceNumber the MIDI sequence number to apply in the event
@@ -301,7 +312,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI TEXT_EVENT message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 137)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 137)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -314,7 +326,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI COPYRIGHT_NOTICE message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 137)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 137)</a>
      *
      * @param trackNumber the sequence track to apply in the event
      * @param text the text to apply in the event
@@ -326,7 +339,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI TRACK_NAME message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 138)</a>
      *
      * @param trackNumber the sequence track to apply in the event
      * @param text the text to apply in the event
@@ -338,7 +352,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI INSTRUMENT_NAME message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 138)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -351,7 +366,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI LYRIC message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 138)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -364,7 +380,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI MARKER message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 138)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -377,7 +394,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI CUE_POINT message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 138)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -390,7 +408,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI CHANNEL_PREFIX message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 138)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param trackNumber the sequence track to apply the event
@@ -409,7 +428,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI SET_TEMPO message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 138)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 138)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param tempo a {@link Tempo} object representing MIDI tempo data to apply in the event
@@ -417,13 +437,13 @@ public class MidiEventProducer {
      */
     public final void addSetTempoEvent(long tick, @NotNull Tempo tempo) throws InvalidMidiDataException {
 
-        long usecPerPulse = Math.round((double) MidiConfig.DEFAULT_USEC_PER_PULSE / tempo.getBeatsPerMinute());
+        long usPerPulse = Math.round((double) MidiConfig.DEFAULT_MICROSECONDS_PER_PULSE / tempo.getBeatsPerMinute());
 
         byte[] data = {
-                (byte) ((usecPerPulse & 0xFF000000) >> 24),
-                (byte) ((usecPerPulse & 0x00FF0000) >> 16),
-                (byte) ((usecPerPulse & 0x0000FF00) >> 8),
-                (byte) (usecPerPulse & 0x000000FF)
+                (byte) ((usPerPulse & 0xFF000000) >> 24),
+                (byte) ((usPerPulse & 0x00FF0000) >> 16),
+                (byte) ((usPerPulse & 0x0000FF00) >> 8),
+                (byte) (usPerPulse & 0x000000FF)
         };
 
         // Remove empty data bytes by right-shifting the start index
@@ -446,7 +466,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI SMPTE_OFFSET message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 138 - 139)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (pp. 138 - 139)</a>
      *
      * @param time
      * @param subFrame (0 - 99)
@@ -493,7 +514,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI TIME_SIGNATURE message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 139)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 139)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param timeSignature a {@link TimeSignature} representing MIDI time signature data to apply in the event
@@ -534,7 +556,8 @@ public class MidiEventProducer {
 
     /**
      * Generates a MIDI KEY_SIGNATURE message.
-     * Reference: The Complete MIDI 1.0 Detailed Specification (p. 139)
+     *
+     * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (p. 139)</a>
      *
      * @param tick the starting MIDI tick for the event
      * @param keySignature a {@link KeySignature} representing MIDI key signature data to apply in the event

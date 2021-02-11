@@ -26,8 +26,9 @@ import java.util.stream.Collectors;
 
 /**
  * Created by Joseph on 4/14/16.
- * Reference: https://en.wikipedia.org/wiki/Relative_key
- *            https://en.wikipedia.org/wiki/Theoretical_key
+ *
+ * @see <a href=https://en.wikipedia.org/wiki/Relative_key>1</a>
+ * @see <a href=https://en.wikipedia.org/wiki/Theoretical_key>2</a>
  */
 @Slf4j
 public class KeySignature {

@@ -3,7 +3,11 @@ package chordinnate.midi;
 /**
  * Constants to specify the supported values and types of MIDI CONTROL_CHANGE events.
  *
- * Reference: The Complete MIDI 1.0 Detailed Specification (pp. 43 - 58; 102 - 104)
+ * @see <a href=https://www.midi.org/specifications-old/item/the-midi-1-0-specification>The Complete MIDI 1.0 Detailed Specification (pp. 43 - 58; 102 - 104)</a>
+ * @see <a href=https://en.wikipedia.org/wiki/General_MIDI>1</a>
+ * @see <a href=https://www.midi.org/specifications-old/item/general-midi>2</a>
+ * @see <a href=https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2>3</a>
+ * @see <a href=https://en.wikipedia.org/wiki/General_MIDI_Level_2>4</a>
  */
 public final class ControllerChange {
 
@@ -13,11 +17,6 @@ public final class ControllerChange {
 
     /*
      * TODO: implement CC handlers to support both GM 1 and GM 2 standards
-     *
-     * References: https://en.wikipedia.org/wiki/General_MIDI
-     *             https://www.midi.org/specifications-old/item/general-midi
-     *             https://www.midi.org/specifications-old/item/table-3-control-change-messages-data-bytes-2
-     *             https://en.wikipedia.org/wiki/General_MIDI_Level_2
      */
 
 

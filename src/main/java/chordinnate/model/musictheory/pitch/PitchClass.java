@@ -20,7 +20,8 @@ import java.util.Map;
 
 /**
  * Created by Joseph on 5/13/18.
- * Reference: https://en.wikipedia.org/wiki/Pitch_class
+ *
+ * @see <a href=https://en.wikipedia.org/wiki/Pitch_class>1</a>
  */
 public class PitchClass
         implements IntervalTransposable<PitchClass>, Enharmonic<PitchClass>, Diatonic {

@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 public class ChordTest {
 
     @Test
-    public void sanityCheck() {
+    public void sanity_verify_constructor() {
         // Basic arbitrary testing
         verifyChord(new Chord("Cmaj"), C, E, G);
         verifyChord(new Chord("Fmaj"), F, A, C);
@@ -36,7 +36,7 @@ public class ChordTest {
     }
 
     @Test
-    public void transposeToInterval() {
+    public void transpose_Interval() {
         Chord transposed = new Chord("Cmaj");
         transposed.transpose(IntervalDirection.UP, Interval.withShortName("M2"));
         verifyChord(transposed, D, F_SHARP, A);
@@ -51,7 +51,7 @@ public class ChordTest {
     }
 
     @Test
-    public void transposeToPitchClass() {
+    public void transpose_PitchClass() {
         Chord transposed = new Chord("Cmaj");
         transposed.transpose(IntervalDirection.UP, PitchClass.D);
         verifyChord(transposed, D, F_SHARP, A);
@@ -102,7 +102,7 @@ public class ChordTest {
     }
 
     @Test
-    public void isDiatonicToKeySignature() {
+    public void isDiatonicTo_KeySignature() {
         Chord c = new Chord("Cmaj");
 
         assertTrue(c.isDiatonicTo(KeySignature.C_MAJOR));
@@ -112,7 +112,7 @@ public class ChordTest {
     }
 
     @Test
-    public void isDiatonicToIntervalSet() {
+    public void isDiatonicTo_IntervalSet() {
         Chord c = new Chord("Cmaj");
         Scale cMajorScale = new Scale("C Major");
         Scale aNatualMinor = new Scale("A Melodic Minor descending");
@@ -145,12 +145,6 @@ public class ChordTest {
         assertTrue(weird.isDiatonicTo(weirdScale));
     }
 
-    /**
-     * Helper method for testing the returned Pitch values for a given ChordType.
-     *
-     * @param chord
-     * @param expected
-     */
     private static void verifyChord(Chord chord, PitchClass... expected) {
         Pitch[]
                 lowPitches = chord.getPitchesForOctave(Octave.OCTAVE_0),

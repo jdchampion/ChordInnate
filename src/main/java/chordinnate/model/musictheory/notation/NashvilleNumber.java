@@ -3,19 +3,18 @@ package chordinnate.model.musictheory.notation;
 
 import static chordinnate.model.musictheory.notation.Accidental.*;
 
-import chordinnate.model.musictheory.notation.Accidental;
-
 /**
  * Created by Joseph on 5/20/16.
- * References: https://en.wikipedia.org/wiki/Nashville_number_system
- *             https://en.wikibooks.org/wiki/Music_Theory/Scales_and_Intervals
- *             http://musictheoryblog.blogspot.com/2007/02/roman-numeral-chord-notation.html
- *             https://en.wikipedia.org/wiki/Interval_(music)
- *             http://method-behind-the-music.com/theory/intervals/
- *             http://www.musictheory.net/lessons/31
- *             http://musictheory.alcorn.edu/Version2/theory1/interval.htm
+ *
+ * @see <a href=https://en.wikipedia.org/wiki/Nashville_number_system>1</a>
+ * @see <a href=https://en.wikibooks.org/wiki/Music_Theory/Scales_and_Intervals>2</a>
+ * @see <a href=http://musictheoryblog.blogspot.com/2007/02/roman-numeral-chord-notation.html>3</a>
+ * @see <a href=https://en.wikipedia.org/wiki/Interval_(music)>4</a>
+ * @see <a href=http://method-behind-the-music.com/theory/intervals>5</a>
+ * @see <a href=http://www.musictheory.net/lessons/31>6</a>
+ * @see <a href=http://musictheory.alcorn.edu/Version2/theory1/interval.htm>7</a>
  */
-public enum NashvilleNumber {
+public enum NashvilleNumber implements IntervalNotation {
     // Base one relative pitch from Major = 0
     DOUBLE_FLAT_ONE(10, DOUBLE_FLAT, 1),
     FLAT_ONE(11, FLAT, 1),
@@ -111,13 +110,16 @@ public enum NashvilleNumber {
     public final int semitoneDistance;
     public final Accidental accidental;
     public final int number;
-    public final String shortName;
 
     NashvilleNumber(int semitoneDistance, Accidental quality, int number) {
         this.semitoneDistance = semitoneDistance;
         this.accidental = quality;
         this.number = number;
-        this.shortName = accidental.symbol + this.number;
+    }
+
+    @Override
+    public String getSymbol() {
+        return accidental.symbol + number;
     }
 }
 

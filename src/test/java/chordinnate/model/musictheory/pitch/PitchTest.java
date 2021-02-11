@@ -29,7 +29,7 @@ public class PitchTest {
     }
 
     @Test
-    public void testField_OCTAVE() {
+    public void sanity_checkField_octave() {
         /*
          * The Octave for each Pitch should match the number indicated in the name of the Pitch.
          * Example: the Pitch "F_SHARP_5" should contain OCTAVE_5
@@ -47,7 +47,7 @@ public class PitchTest {
     }
 
     @Test
-    public void testField_ABSOLUTE_PITCH() {
+    public void sanity_checkField_midiValue() {
         /*
          * All Pitches should have an absolute pitch (MIDI value) = (12 * octave) + base,
          * none of which should go beyond 127 as the highest pitch.
@@ -82,7 +82,7 @@ public class PitchTest {
     }
 
     @Test
-    public void isDiatonicToIntervalSet() {
+    public void isDiatonicTo_IntervalSet() {
         Scale cMajor = new Scale("C Major");
         Scale dMajor = new Scale("D Major");
         Scale fMajor = new Scale("Fx#bbb Major");
@@ -171,7 +171,7 @@ public class PitchTest {
     }
 
     @Test
-    public void transposeInterval() {
+    public void transpose_Interval() {
         // (expected values verified by http://www.musictheory.net/calculators/interval)
         assertEquals(Pitch.C_1, Pitch.C_1.transpose(IntervalDirection.UP, PERFECT_1));
         assertEquals(Pitch.C_2, Pitch.C_1.transpose(IntervalDirection.UP, PERFECT_8));
@@ -313,7 +313,7 @@ public class PitchTest {
     }
 
     @Test
-    public void isTransposablePitchClass() {
+    public void isTransposable_PitchClass() {
         // Items out of MIDI range should not be transposable
         assertFalse(Pitch.A_0.isTransposable(PitchClass.A, Octave.OCTAVE_10));
         assertFalse(Pitch.withName("Fx#0").isTransposable(PitchClass.withName("Fx#", false), Octave.OCTAVE_10));
@@ -324,7 +324,7 @@ public class PitchTest {
     }
 
     @Test
-    public void transposePitchClass() {
+    public void transpose_PitchClass() {
         // Cannot transpose to Pitches that don't exist
         expectedException.expect(RuntimeException.class);
         assertNull(Pitch.C_0.transpose(PitchClass.B, Octave.OCTAVE_10));
@@ -352,7 +352,7 @@ public class PitchTest {
     }
 
     @Test
-    public void isTransposablePitch() {
+    public void isTransposable_Pitch() {
         // Pitches should always be transposable to another Pitch
         for (Pitch p1 : Pitch.STANDARD_PITCH_LOOKUP.values()) {
             for (Pitch p2 : Pitch.STANDARD_PITCH_LOOKUP.values()) assertTrue(p1.isTransposable(p2));
@@ -360,7 +360,7 @@ public class PitchTest {
     }
 
     @Test
-    public void transposePitch() {
+    public void transpose_Pitch() {
         for (Pitch p1 : Pitch.STANDARD_PITCH_LOOKUP.values()) {
             for (Pitch p2 : Pitch.STANDARD_PITCH_LOOKUP.values()) assertEquals(p2, p1.transpose(p2));
         }

@@ -1,22 +1,22 @@
 package chordinnate.config;
 
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
 import org.hibernate.validator.messageinterpolation.ResourceBundleMessageInterpolator;
 import org.hibernate.validator.resourceloading.PlatformResourceBundleLocator;
-import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory;
-
-import javax.validation.Validation;
-import javax.validation.Validator;
 
 @Configuration
 @ComponentScan(basePackages = {"chordinnate.*"})
 public class ValidationConfig {
 
     @Bean
-    public Validator validator(final AutowireCapableBeanFactory autowireCapableBeanFactory) {
+    public Validator validator() {
+
+        // https://docs.jboss.org/hibernate/stable/validator/reference/en-US/html_single/#validator-gettingstarted
+
         return Validation.byDefaultProvider()
                 .configure()
                 .messageInterpolator(
@@ -24,7 +24,6 @@ public class ValidationConfig {
                                 new PlatformResourceBundleLocator( "ValidationMessages" )
                         )
                 )
-                .constraintValidatorFactory(new SpringConstraintValidatorFactory(autowireCapableBeanFactory))
                 .buildValidatorFactory()
                 .getValidator();
     }

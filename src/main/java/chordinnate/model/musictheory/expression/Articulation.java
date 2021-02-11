@@ -6,9 +6,9 @@ import lombok.Getter;
 /**
  * Created by Joseph on 6/1/16.
  *
- * References: https://en.wikipedia.org/wiki/Articulation_(music)
- *             https://en.wikipedia.org/wiki/Accent_(music)
- *             http://www.timusic.net/2014/01/jazz-notation/
+ * @see <a href=https://en.wikipedia.org/wiki/Articulation_(music)>1</a>
+ * @see <a href=https://en.wikipedia.org/wiki/Accent_(music)>2</a>
+ * @see <a href=http://www.timusic.net/2014/01/jazz-notation>3</a>
  */
 @Getter
 @AllArgsConstructor

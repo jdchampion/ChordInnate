@@ -9,6 +9,8 @@ import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.repository.ScaleTypeRepository;
 import chordinnate.service.ScaleTypeService;
 import com.ibm.icu.util.Region;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validator;
 import org.apache.commons.lang3.BooleanUtils;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;

@@ -3,12 +3,12 @@ package chordinnate.util.algorithm;
 /**
  * Created by Joseph on 1/9/16.
  *
- * References: https://ics-web.sns.ornl.gov/timing/Rep-Rate%20Tech%20Note.pdf
- *             http://erikdemaine.org/papers/DeepRhythms_CGTA/paper.pdf
- *             http://student.ulb.ac.be/~ptaslaki/publications/phdThesis-Perouz.pdf
- *             http://www.noisylittlebugger.net/diy/bjorklund/Bjorklund_Working_Final/Bjorklund_algorithm_arduino.txt
+ * @see <a href=https://ics-web.sns.ornl.gov/timing/Rep-Rate%20Tech%20Note.pdf>1</a>
+ * @see <a href=http://erikdemaine.org/papers/DeepRhythms_CGTA/paper.pdf>2</a>
+ * @see <a href=http://student.ulb.ac.be/~ptaslaki/publications/phdThesis-Perouz.pdf>3</a>
+ * @see <a href=http://www.noisylittlebugger.net/diy/bjorklund/Bjorklund_Working_Final/Bjorklund_algorithm_arduino.txt>4</a>
  */
-final class Bjorklund {
+public final class Bjorklund {
 
     private static int[] remainder;
     private static int[] count;

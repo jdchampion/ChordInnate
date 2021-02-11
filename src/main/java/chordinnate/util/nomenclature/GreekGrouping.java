@@ -9,8 +9,8 @@ import java.text.ParseException;
 
 /**
  *
- * References: http://phrontistery.info/numbers.html
- *             https://www.georgehart.com/virtual-polyhedra/naming.html
+ * @see <a href=http://phrontistery.info/numbers.html>1</a>
+ * @see <a href=https://www.georgehart.com/virtual-polyhedra/naming.html>2</a>
  *
  */
 @NoArgsConstructor(access = AccessLevel.NONE)

@@ -19,13 +19,14 @@ import java.util.regex.Pattern;
 
 /**
  * Created by Joseph on 8/16/16.
- * References: https://en.wikibooks.org/wiki/Music_Theory/Scales_and_Intervals
- * http://musictheoryblog.blogspot.com/2007/02/roman-numeral-chord-notation.html
- * https://en.wikipedia.org/wiki/Interval_(music)
- * http://method-behind-the-music.com/theory/intervals/
- * http://www.musictheory.net/lessons/31
- * http://musictheory.alcorn.edu/Version2/theory1/interval.htm
- * http://music.tutsplus.com/tutorials/music-theory-intervals-and-how-to-derive-them--audio-4559
+ *
+ * @see <a href=https://en.wikibooks.org/wiki/Music_Theory/Scales_and_Intervals>1</a>
+ * @see <a href=http://musictheoryblog.blogspot.com/2007/02/roman-numeral-chord-notation.html>2</a>
+ * @see <a href=https://en.wikipedia.org/wiki/Interval_(music)>3</a>
+ * @see <a href=http://method-behind-the-music.com/theory/intervals>4</a>
+ * @see <a href=http://www.musictheory.net/lessons/31>5</a>
+ * @see <a href=http://musictheory.alcorn.edu/Version2/theory1/interval.htm>6</a>
+ * @see <a href=http://music.tutsplus.com/tutorials/music-theory-intervals-and-how-to-derive-them--audio-4559>7</a>
  */
 @Slf4j
 @Getter

@@ -1,12 +1,16 @@
 package chordinnate.entity;
 
-import chordinnate.entity.validation.ValidateIntervalContour;
-import chordinnate.entity.validation.ValidateSize;
+import chordinnate.entity.converter.IntervalConverter;
 import chordinnate.entity.validation.Phase1Validation;
 import chordinnate.entity.validation.Phase2Validation;
+import chordinnate.entity.validation.ValidateIntervalContour;
+import chordinnate.entity.validation.ValidateSize;
 import chordinnate.model.musictheory.pitch.interval.Interval;
 import chordinnate.model.musictheory.pitch.interval.set.IntervalDirection;
-import chordinnate.entity.converter.IntervalConverter;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import javax.persistence.Cacheable;
@@ -19,10 +23,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Set;
@@ -30,8 +30,8 @@ import java.util.Set;
 /**
  * Created by Joseph on 1/8/16.
  *
- * References: http://www.all-guitar-chords.com/index.php
- *             https://en.wikipedia.org/wiki/List_of_chords
+ * @see <a href=http://www.all-guitar-chords.com/index.php>1</a>
+ * @see <a href=https://en.wikipedia.org/wiki/List_of_chords>2</a>
  */
 @Data
 @Entity

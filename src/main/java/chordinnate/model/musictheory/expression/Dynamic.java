@@ -6,8 +6,8 @@ import lombok.Getter;
 /**
  * Created by Joseph on 6/1/16.
  *
- * References: https://en.wikipedia.org/wiki/Dynamics_%28music%29
- *             https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html
+ * @see <a href=https://en.wikipedia.org/wiki/Dynamics_%28music%29>1</a>
+ * @see <a href=https://www.cs.cmu.edu/~music/cmsip/readings/MIDI%20tutorial%20for%20programmers.html>2</a>
  */
 @Getter
 @AllArgsConstructor
